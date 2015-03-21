@@ -14,7 +14,11 @@
                     <div class="row padding-bottom">
                         <div class="col-md-12">
                             <div class="post-summary">      
-                                <h3 class="h_h3" style="margin-top: 0px;"><a href="premium-blog-item.html"><?php echo $value['title']; ?></a></h3>
+                                <h3 class="h_h3" style="margin-top: 0px;">
+                                    <a href="<?php echo route('home', ['class' => 'index', 'action' => 'detail', 'id' => $value['id']]); ?>">
+                                        <?php echo $value['title']; ?>
+                                    </a>
+                                </h3>
                                 <p class="text-sm p_h_info">
                                   <span class="span_h_info">分类：</span><?php echo $value['classnames']; ?> &nbsp&nbsp&nbsp
                                   <span class="span_h_info">标签：</span><?php echo $value['tagsnames']; ?> &nbsp&nbsp&nbsp

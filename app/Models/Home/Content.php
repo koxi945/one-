@@ -80,9 +80,15 @@ class Content extends Model
     public function getContentDetailByArticleId($articleId)
     {
         $articleId = (int) $articleId;
-        $currentQuery = $this->select(array('article_main.*','article_detail.content'))
-                ->leftJoin('article_detail', 'article_main.id', '=', 'article_detail.article_id')
-                ->where('article_main.id', $articleId)->first();
+        $this->prefix = \DB:: getTablePrefix();
+        $currentQuery = $this->select(\DB::raw($this->prefix.'article_main.*, '.$this->prefix.'article_detail.content, group_concat(DISTINCT '.$this->prefix.'article_classify.name) as classnames, group_concat(DISTINCT '.$this->prefix.'article_tags.name) as tagsnames'))
+                        ->leftJoin('article_detail', 'article_main.id', '=', 'article_detail.article_id')
+                        ->leftJoin('article_classify_relation', 'article_classify_relation.article_id', '=', 'article_main.id')
+                        ->leftJoin('article_classify', 'article_classify_relation.classify_id', '=', 'article_classify.id')
+                        ->leftJoin('article_tag_relation', 'article_tag_relation.article_id', '=', 'article_main.id')
+                        ->leftJoin('article_tags', 'article_tag_relation.tag_id', '=', 'article_tags.id')
+                        ->where('article_main.is_delete', self::IS_DELETE_NO)->where('article_main.status', self::STATUS_YES)
+                        ->where('article_main.id', $articleId)->first();
         $info = $currentQuery->toArray();
         return $info;
     }

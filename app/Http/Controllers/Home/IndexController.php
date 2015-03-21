@@ -24,4 +24,15 @@ class IndexController extends Controller
         return view('home.index.index', compact('articleList', 'page', 'object'));
     }
 
+    /**
+     * 文章内页
+     */
+    public function detail()
+    {
+        $articleId = (int) Request::input('id');
+        $contentModel = new ContentModel();
+        $info = $contentModel->getContentDetailByArticleId($articleId);
+        return view('home.index.detail', compact('info'));
+    }
+
 }
