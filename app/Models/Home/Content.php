@@ -40,7 +40,7 @@ class Content extends Model
      * 
      * @return array
      */
-    public function activeArticleInfo()
+    public function activeArticleInfo($object)
     {
         //\DB::connection()->enableQueryLog();
         $this->prefix = \DB:: getTablePrefix();
@@ -52,6 +52,10 @@ class Content extends Model
                         ->where('article_main.is_delete', self::IS_DELETE_NO)->where('article_main.status', self::STATUS_YES)
                         ->groupBy('article_main.id')
                         ->orderBy('article_main.id', 'desc');
+        if(isset($object->category) and is_numeric($object->category) and ! empty($object->category))
+            $currentQuery->where('article_classify.id', $object->category);
+        if(isset($object->tag) and is_numeric($object->tag) and ! empty($object->tag))
+            $currentQuery->where('article_tags.id', $object->tag);
         $total = $currentQuery->get()->count();
         $currentQuery->forPage(
             $page = Paginator::resolveCurrentPage(),

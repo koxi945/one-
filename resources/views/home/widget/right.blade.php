@@ -4,7 +4,7 @@
         <div class="widget-body">
             <ul class="icons list-unstyled">
                 <?php foreach($classifyInfo as $key => $value): ?>
-                    <li><a href="#"><i class="icon-angle-right"></i> <?php echo $value['name']; ?></a></li>
+                    <li><a href="<?php echo route('home', ['class' => 'index', 'action' => 'index', 'category' => $value['id']]); ?>"><i class="icon-angle-right"></i> <?php echo $value['name']; ?></a></li>
                 <?php endforeach; ?>
             </ul>
         </div>
@@ -14,7 +14,7 @@
         <h3>标签</h3>
         <p class="widget-body">
             <?php foreach($tagsInfo as $key => $value): ?>
-                <a href="#"><span class="large label tag label-info"><?php echo $value['name']; ?></span></a>
+                <a href="<?php echo route('home', ['class' => 'index', 'action' => 'index', 'tag' => $value['id']]); ?>"><span class="large label tag label-info"><?php echo $value['name']; ?></span></a>
             <?php endforeach; ?>
         </p>
 

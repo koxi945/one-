@@ -1,3 +1,4 @@
+body {background-color:#21598A;}
 div.header {height:70px;}
 div.content {margin:0 auto; width: 1024px;border-left:none;}
 #blog-posts div.row {padding-top: 10px; padding-bottom: 10px; border-bottom: 1px dashed #ccc;}
