@@ -1,0 +1,297 @@
+<?php namespace App\Services\Admin\Content;
+
+use Lang;
+use App\Models\Admin\Content as ContentModel;
+use App\Models\Admin\TagsRelation as TagsRelationModel;
+use App\Models\Admin\Tags as TagsModel;
+use App\Models\Admin\ClassifyRelation as ClassifyRelationModel;
+use App\Models\Admin\ContentDetail as ContentDetailModel;
+use App\Services\Admin\Content\Validate\Content as ContentValidate;
+use App\Services\Admin\SC;
+
+/**
+ * 文章处理
+ *
+ * @author jiang <mylampblog@163.com>
+ */
+class Process
+{
+    /**
+     * 文章模型
+     * 
+     * @var object
+     */
+    private $contentModel;
+
+    /**
+     * 文章副表模型
+     * 
+     * @var object
+     */
+    private $contentDetailModel;
+
+    /**
+     * 文章表单验证对象
+     * 
+     * @var object
+     */
+    private $contentValidate;
+
+    /**
+     * 错误的信息
+     * 
+     * @var string
+     */
+    private $errorMsg;
+
+    /**
+     * 初始化
+     *
+     * @access public
+     */
+    public function __construct()
+    {
+        if( ! $this->contentModel) $this->contentModel = new ContentModel();
+        if( ! $this->contentDetailModel) $this->contentDetailModel = new ContentDetailModel();
+        if( ! $this->contentValidate) $this->contentValidate = new ContentValidate();
+    }
+
+    /**
+     * 增加新的文章
+     *
+     * @param string $data
+     * @access public
+     * @return boolean true|false
+     */
+    public function addContent($data)
+    {
+        if( ! $this->contentValidate->add($data))
+        {
+            $this->errorMsg = $this->contentValidate->getMsg();
+            return false;
+        }
+        $object = new \stdClass();
+        $object->time = time();
+        $object->userId = SC::getLoginSession()->id;
+        try
+        {
+            $result = \DB::transaction(function() use ($data, $object)
+            {
+                //主表数据
+                $object->contentAutoId = $this->saveContent($data, $object);
+                //副表数据
+                $this->saveContentDetail($data, $object);
+                //文章分类
+                $this->saveArticleTags($object, $data['tags']);
+                //标签
+                $this->saveArticleClassify($object, $data['classify']);
+                return true;
+            });
+        }
+        catch (\Exception $e)
+        {
+            $result = false;
+        }
+        if($result) return true;
+        $this->errorMsg = Lang::get('common.action_error');
+        return false;
+    }
+
+    /**
+     * 保存文章的分类
+     * 
+     * @param int $articleId 文章的ID
+     * @param array $classify 分类
+     */
+    private function saveArticleClassify($object, $classify)
+    {
+        $articleId = $object->contentAutoId;
+        $result = $this->deleteArticleClassifyById($articleId);
+        if($result === false) throw new \Exception("delete article classify error.");
+        foreach($classify as $key => $classifyId)
+        {
+            $result = (new ClassifyRelationModel())->addClassifyArticleRelation($articleId, $classifyId);
+            if( ! $result) throw new \Exception("add classify article relation error.");
+        }
+    }
+
+    /**
+     * 根据文章的ID删除它的分类
+     * 
+     * @return boolean true|false
+     */
+    public function deleteArticleClassifyById($articleId)
+    {
+        if( ! is_numeric($articleId)) throw new \Exception("article id is not num.");
+        $articleId = array($articleId);
+        return (new ClassifyRelationModel())->deleteClassifyRelation($articleId);
+    }
+
+    /**
+     * 保存文章的标签
+     *
+     * @param int $articleId 文章的ID
+     * @param array $tags 标签
+     */
+    private function saveArticleTags($object, $tags)
+    {
+        $articleId = $object->contentAutoId;
+        //先删除旧的标签
+        $result = $this->deleteArticleTagsById($articleId);
+        if($result === false) throw new \Exception("delete article tags error.");
+        foreach($tags as $tagName)
+        {
+            //没有这个标签的话，先增加
+            $tagInfo = (new TagsModel())->addTagsIfNotExistsByName($tagName);
+            if( ! $tagInfo->id) throw new \Exception("add tags if not exists by name error.");
+            $result = (new TagsRelationModel())->addTagsArticleRelation($articleId, $tagInfo->id);
+            if( ! $result) throw new \Exception("add tags article relation error.");
+        }
+    }
+
+    /**
+     * 根据文章的ID删除它的标签
+     * 
+     * @return boolean true|false
+     */
+    public function deleteArticleTagsById($articleId)
+    {
+        if( ! is_numeric($articleId)) throw new \Exception("article id is not num.");
+        $articleId = array($articleId);
+        return (new TagsRelationModel())->deleteTagsRelation($articleId);
+    }
+
+    /**
+     * 保存到主表
+     * 
+     * @param  array $data
+     * @return int 自增的ID
+     */
+    private function saveContent($data, $object)
+    {
+        $dataContet['is_delete'] = ContentModel::IS_DELETE_NO;
+        $dataContet['write_time'] = $object->time;
+        $dataContet['user_id'] = $object->userId;
+        $dataContet['title'] = $data['title'];
+        $dataContet['status'] = $data['status'];
+        $dataContet['summary'] = $data['summary'];
+        $insertObject = $this->contentModel->addContent($dataContet);
+        if( ! $insertObject->id) throw new \Exception("save content error");
+        return $insertObject->id;
+    }
+
+    /**
+     * 保存到副表
+     * 
+     * @param  array $data
+     * @return object
+     */
+    private function saveContentDetail($data, $object)
+    {
+        $detailData['content'] = $data['content'];
+        $detailData['user_id'] = $object->userId;
+        $detailData['time'] = $object->time;
+        $detailData['article_id'] = $object->contentAutoId;
+        $insertObject = $this->contentDetailModel->addContentDetail($detailData);
+        if( ! $insertObject) throw new \Exception("save content detail error");
+        return $insertObject;
+    }
+
+    /**
+     * 删除文章
+     * 
+     * @param array $ids
+     * @access public
+     * @return boolean true|false
+     */
+    public function detele($ids)
+    {
+        if( ! is_array($ids)) return false;
+        $data['is_delete'] = ContentModel::IS_DELETE_YES;
+        if($this->contentModel->solfDeleteContent($data, $ids) !== false) return true;
+        $this->errorMsg = Lang::get('common.action_error');
+        return false;
+    }
+
+    /**
+     * 编辑文章
+     *
+     * @param string $data
+     * @access public
+     * @return boolean true|false
+     */
+    public function editContent($data, $id)
+    {
+        if( ! $this->contentValidate->edit($data))
+        {
+            $this->errorMsg = $this->contentValidate->getMsg();
+            return false;
+        }
+        $object = new \stdClass();
+        $object->contentAutoId = $id;
+        try
+        {
+            $result = \DB::transaction(function() use ($data, $id, $object)
+            {
+                //主表数据
+                $this->updateContent($data, $id);
+                //副表数据
+                $this->updateContentDetail($data, $id);
+                //文章分类
+                $this->saveArticleTags($object, $data['tags']);
+                //标签
+                $this->saveArticleClassify($object, $data['classify']);
+                return true;
+            });
+        }
+        catch (\Exception $e)
+        {
+            $result = false;
+        }
+        if($result) return true;
+        $this->errorMsg = Lang::get('common.action_error');
+        return false;
+    }
+
+    /**
+     * 保存到主表
+     * 
+     * @param  array $data
+     * @return int 自增的ID
+     */
+    private function updateContent($data, $id)
+    {
+        $dataContet['title'] = $data['title'];
+        $dataContet['status'] = $data['status'];
+        $dataContet['summary'] = $data['summary'];
+        $result = $this->contentModel->editContent($dataContet, $id);
+        if($result === false) throw new \Exception("save content error");
+        return $result;
+    }
+
+    /**
+     * 保存到副表
+     * 
+     * @param  array $data
+     * @return object
+     */
+    private function updateContentDetail($data, $id)
+    {
+        $detailData['content'] = $data['content'];
+        $result = $this->contentDetailModel->editContentDetail($detailData, $id);
+        if($result === false) throw new \Exception("save content detail error");
+        return $result;
+    }
+
+    /**
+     * 取得错误的信息
+     *
+     * @access public
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->errorMsg;
+    }
+
+}
