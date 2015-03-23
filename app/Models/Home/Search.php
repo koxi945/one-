@@ -57,7 +57,7 @@ class Search extends Model
      */
     public function activeArticleInfoBySearch($object)
     {
-        //\DB::connection()->enableQueryLog();
+        \DB::connection()->enableQueryLog();
 
         $this->prefix = \DB:: getTablePrefix();
         $searchIndexColumn = "{$this->prefix}search_index.title as title,{$this->prefix}search_index.summary as summary,{$this->prefix}search_index.content as content, ";
@@ -88,108 +88,14 @@ class Search extends Model
             $record->title   = str_replace('</span> ', '</span>', $this->decode($markWord));
             $record->summary = $this->getSummary($record->summary, $object->words);
         }
-        //$queries = \DB::getQueryLog();
-        //dd($total, $queries);
+        $queries = \DB::getQueryLog();
+        dd($total, $queries);
 
         return new LengthAwarePaginator($data, $total, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath()
         ]);
     }
 
-    /**
-     * 把unicode解码为正常的字
-     *
-     * notic: this function is from chanzhi. modified by me at 2015.3.23
-     * 
-     * @param  string    $string 
-     * @access public
-     * @return void
-     */
-    public function decode($string)
-    {
-        if(strpos($string, ' ') === false and !is_numeric($string)) return $string;
-        if( ! $this->dictModelObject)
-        {
-            $this->dictModelObject = new SearchDictModel();
-            $this->dictDataCache = $this->dictModelObject->getDict();
-        }
-        $dict   = $this->dictDataCache;
-        $dict['|'] = '';
-        return str_replace(array_keys($dict), array_values($dict), $string . ' ');
-    }
-
-    /**
-     * 把简介或内容查询到的内容标成红色.
-     * 
-     * notic: this function is from chanzhi
-     * 
-     * @param  string    $content 
-     * @param  string    $words 
-     * @access public
-     * @return string
-     */
-    public function getSummary($content, $words)
-    {
-        $length = 130000;
-        if(strlen($content) <= $length) return $this->decode($this->markKeywords($content, $words));
-
-        $content = $this->markKeywords($content, $words);
-        preg_match_all("/\<span class='text-danger'\>.*?\<\/span\>/", $content, $matches);
-
-        if(empty($matches[0])) return $this->decode($this->markKeywords(substr($content, 0, $length), $words));
-
-        $matches = $matches[0];
-        $score   = 0;
-        $needle  = '';
-        foreach($matches as $matched) 
-        {
-            if(strlen($matched) > $score) 
-            {
-                $content = str_replace($needle, strip_tags($needle), $content);
-                $needle  = $matched;
-                $score   = strlen($matched);
-            }
-        }
-
-        $content = str_replace('<span class', ' <spanclass', $content);
-        $content = explode(' ', $content);
-
-        $pos     = array_search(str_replace('<span class', '<spanclass', $needle), $content);
-
-        $start   = max(0, $pos - ($length / 2));
-        $summary = join(' ', array_slice($content, $start, $length));
-        $summary = str_replace('<spanclass', '<span class', $summary);
- 
-        $summary = $this->decode($summary);
-        $summary = str_replace('</span> ', '</span>', $summary);
-        return $summary;
-    }
-
-    /**
-     * 把查到的字标成红色
-     *
-     * notic: this function is from chanzhi
-     * 
-     * @param  string    $content 
-     * @param  string    $keywords 
-     * @access public
-     * @return void
-     */
-    public function markKeywords($content, $keywords)
-    {
-        $words = explode(' ', trim($keywords, ' '));
-        $markedWords = array();
-        foreach($words as $key => $word)
-        {
-            if(is_numeric($words)) $words[$key] = $word . ' ';
-            if(!is_numeric($words)) $words[$key] = $word;
-            $markedWords[] = "<span class='text-danger'>" . $this->decode($word) . "</span > ";
-        }
-        $content = str_replace($words, $markedWords, $content . ' ');
-        $content = str_replace("</span > <span class='text-danger'>", '', $content);
-        $content = str_replace("</span >", '</span>', $content);
-        return $content;
-    }
 
 
 }

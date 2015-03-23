@@ -27,10 +27,10 @@ Route::group(['domain' => 'admin.xx.net'], function() {
 //博客首页
 if( ! function_exists('homeRouteCommon'))
 {
-	function homeRouteCommon()
+	function homeRouteCommon($type)
 	{
 		Route::get('/', 'Home\IndexController@index');
-		Route::any('{class}/{action}.html', ['as' => 'home', function($class, $action) {
+		Route::any('{class}/{action}.html', ['as' => $type, function($class, $action) {
 			$class = 'App\\Http\\Controllers\\Home\\'.ucfirst(strtolower($class)).'Controller';
 			if(class_exists($class)) {
 				$classObject = new $class();
@@ -41,11 +41,11 @@ if( ! function_exists('homeRouteCommon'))
 	}
 }
 
-$homeDoaminArray = ['xx.net', 'www.xx.net', 'test.xx.net'];
-foreach($homeDoaminArray as $value)
+$homeDoaminArray = ['home' => 'xx.net', 'home' => 'www.xx.net', 'test' => 'test.xx.net'];
+foreach($homeDoaminArray as $key => $value)
 {
-	Route::group(['domain' => $value], function() {
-		homeRouteCommon();
+	Route::group(['domain' => $value], function() use ($key) {
+		homeRouteCommon($key);
 	});
 }
 
