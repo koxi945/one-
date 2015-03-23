@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-03-20 16:28:19
+Date: 2015-03-23 16:46:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -116,7 +116,7 @@ CREATE TABLE `bk_article_classify_relation` (
   PRIMARY KEY (`id`),
   KEY `classify_id` (`classify_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8 COMMENT='文章所属分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8 COMMENT='文章所属分类表';
 
 -- ----------------------------
 -- Records of bk_article_classify_relation
@@ -147,8 +147,6 @@ INSERT INTO `bk_article_classify_relation` VALUES ('58', '16', '1', '1422418172'
 INSERT INTO `bk_article_classify_relation` VALUES ('59', '16', '2', '1422418172');
 INSERT INTO `bk_article_classify_relation` VALUES ('60', '49', '4', '1426756312');
 INSERT INTO `bk_article_classify_relation` VALUES ('61', '49', '3', '1426756312');
-INSERT INTO `bk_article_classify_relation` VALUES ('62', '50', '4', '1426756397');
-INSERT INTO `bk_article_classify_relation` VALUES ('63', '50', '3', '1426756397');
 INSERT INTO `bk_article_classify_relation` VALUES ('69', '51', '4', '1426819574');
 INSERT INTO `bk_article_classify_relation` VALUES ('70', '51', '3', '1426819574');
 INSERT INTO `bk_article_classify_relation` VALUES ('71', '51', '2', '1426819574');
@@ -156,6 +154,15 @@ INSERT INTO `bk_article_classify_relation` VALUES ('83', '52', '5', '1426823650'
 INSERT INTO `bk_article_classify_relation` VALUES ('84', '52', '4', '1426823650');
 INSERT INTO `bk_article_classify_relation` VALUES ('85', '52', '3', '1426823650');
 INSERT INTO `bk_article_classify_relation` VALUES ('86', '52', '2', '1426823650');
+INSERT INTO `bk_article_classify_relation` VALUES ('89', '54', '3', '1427081986');
+INSERT INTO `bk_article_classify_relation` VALUES ('104', '55', '5', '1427083759');
+INSERT INTO `bk_article_classify_relation` VALUES ('105', '56', '5', '1427083941');
+INSERT INTO `bk_article_classify_relation` VALUES ('108', '57', '4', '1427084054');
+INSERT INTO `bk_article_classify_relation` VALUES ('109', '58', '5', '1427087682');
+INSERT INTO `bk_article_classify_relation` VALUES ('112', '53', '5', '1427088728');
+INSERT INTO `bk_article_classify_relation` VALUES ('113', '53', '3', '1427088728');
+INSERT INTO `bk_article_classify_relation` VALUES ('114', '50', '4', '1427092234');
+INSERT INTO `bk_article_classify_relation` VALUES ('115', '50', '3', '1427092234');
 
 -- ----------------------------
 -- Table structure for `bk_article_detail`
@@ -170,7 +177,7 @@ CREATE TABLE `bk_article_detail` (
   PRIMARY KEY (`id`),
   KEY `article_id` (`article_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COMMENT='文章副表';
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COMMENT='文章副表';
 
 -- ----------------------------
 -- Records of bk_article_detail
@@ -209,6 +216,12 @@ INSERT INTO `bk_article_detail` VALUES ('36', '1', '49', '<p>测试啦测试啦�
 INSERT INTO `bk_article_detail` VALUES ('37', '1', '50', '<p>测试一下啦</p>', '1426756397');
 INSERT INTO `bk_article_detail` VALUES ('38', '1', '51', '<p>测试一下增加文章a</p>', '1426814855');
 INSERT INTO `bk_article_detail` VALUES ('39', '1', '52', '<p>测试增加文章2</p>', '1426819991');
+INSERT INTO `bk_article_detail` VALUES ('40', '1', '53', '<p>测试一下分词</p>', '1427081907');
+INSERT INTO `bk_article_detail` VALUES ('41', '1', '54', '<p>哈哈槈要不枯人</p>', '1427081985');
+INSERT INTO `bk_article_detail` VALUES ('42', '1', '55', '<p>1、在php源码的ext目录下有tidy的源码，进到这个目录</p><p>2、编译</p><p><a href=\"http://my.oschina.net/u/1777357/blog/367555#\" class=\"toolbar_item command_help help\">?</a></p><table cellpadding=\"0\" cellspacing=\"0\"><tbody><tr class=\"firstRow\"><td class=\"gutter\"><div class=\"line number1 index0 alt2\">1</div><div class=\"line number2 index1 alt1\">2</div></td><td class=\"code\"><div class=\"line number1 index0 alt2\"><code class=\"shell plain\">/usr/local/php/bin/phpize</code>&nbsp;</div><div class=\"line number2 index1 alt1\"><code class=\"shell plain\">.</code><code class=\"shell plain\">/configure</code>&nbsp;<code class=\"shell plain\">--with-php-config=</code><code class=\"shell plain\">/usr/local/php/bin/php-config</code></div></td></tr></tbody></table><p>如果报错：</p><p><a href=\"http://my.oschina.net/u/1777357/blog/367555#\" class=\"toolbar_item command_help help\">?</a></p><table cellpadding=\"0\" cellspacing=\"0\"><tbody><tr class=\"firstRow\"><td class=\"gutter\"><div class=\"line number1 index0 alt2\">1</div></td><td class=\"code\"><div class=\"line number1 index0 alt2\"><code class=\"shell plain\">configure:&nbsp;error:&nbsp;Cannot&nbsp;</code><code class=\"shell functions\">find</code>&nbsp;<code class=\"shell plain\">libtidy</code></div></td></tr></tbody></table><p>那么：</p><p><a href=\"http://my.oschina.net/u/1777357/blog/367555#\" class=\"toolbar_item command_help help\">?</a></p><table cellpadding=\"0\" cellspacing=\"0\"><tbody><tr class=\"firstRow\"><td class=\"gutter\"><div class=\"line number1 index0 alt2\">1</div></td><td class=\"code\"><div class=\"line number1 index0 alt2\"><code class=\"shell plain\">yum&nbsp;</code><code class=\"shell functions\">install</code>&nbsp;<code class=\"shell plain\">libtidy-devel</code></div></td></tr></tbody></table><p>如果报错</p><p><a href=\"http://my.oschina.net/u/1777357/blog/367555#\" class=\"toolbar_item command_help help\">?</a></p><table cellpadding=\"0\" cellspacing=\"0\"><tbody><tr class=\"firstRow\"><td class=\"gutter\"><div class=\"line number1 index0 alt2\">1</div></td><td class=\"code\"><div class=\"line number1 index0 alt2\"><code class=\"shell plain\">re2c&nbsp;not&nbsp;found</code></div></td></tr></tbody></table><p>那么</p><p><a href=\"http://my.oschina.net/u/1777357/blog/367555#\" class=\"toolbar_item command_help help\">?</a></p><table cellpadding=\"0\" cellspacing=\"0\"><tbody><tr class=\"firstRow\"><td class=\"gutter\"><div class=\"line number1 index0 alt2\">1</div><div class=\"line number2 index1 alt1\">2</div><div class=\"line number3 index2 alt2\">3</div><div class=\"line number4 index3 alt1\">4</div><div class=\"line number5 index4 alt2\">5</div></td><td class=\"code\"><div class=\"line number1 index0 alt2\"><code class=\"shell plain\">wget&nbsp;http:</code><code class=\"shell plain\">//downloads</code><code class=\"shell plain\">.sourceforge.net</code><code class=\"shell plain\">/project/re2c/re2c/0</code><code class=\"shell plain\">.13.7.5</code><code class=\"shell plain\">/re2c-0</code><code class=\"shell plain\">.13.7.5.</code><code class=\"shell functions\">tar</code><code class=\"shell plain\">.gz</code></div><div class=\"line number2 index1 alt1\"><code class=\"shell functions\">tar</code>&nbsp;<code class=\"shell plain\">xzf&nbsp;re2c-0.13.7.5.</code><code class=\"shell functions\">tar</code><code class=\"shell plain\">.gz</code></div><div class=\"line number3 index2 alt2\"><code class=\"shell functions\">cd</code>&nbsp;<code class=\"shell plain\">re2c-0.13.7.5</code></div><div class=\"line number4 index3 alt1\"><code class=\"shell plain\">.</code><code class=\"shell plain\">/configure</code></div><div class=\"line number5 index4 alt2\"><code class=\"shell functions\">make</code>&nbsp;<code class=\"shell plain\">&amp;&amp;&nbsp;</code><code class=\"shell functions\">make</code>&nbsp;<code class=\"shell functions\">install</code></div></td></tr></tbody></table><p>通过后</p><p><a href=\"http://my.oschina.net/u/1777357/blog/367555#\" class=\"toolbar_item command_help help\">?</a></p><table cellpadding=\"0\" cellspacing=\"0\"><tbody><tr class=\"firstRow\"><td class=\"gutter\"><div class=\"line number1 index0 alt2\">1</div></td><td class=\"code\"><div class=\"line number1 index0 alt2\"><code class=\"shell functions\">make</code>&nbsp;<code class=\"shell plain\">&amp;&amp;&nbsp;</code><code class=\"shell functions\">make</code>&nbsp;<code class=\"shell functions\">install</code></div></td></tr></tbody></table><p><br/></p>', '1427082071');
+INSERT INTO `bk_article_detail` VALUES ('43', '1', '56', '<p>&nbsp;&nbsp;&nbsp;&nbsp; 后台首页&nbsp;&nbsp;&nbsp;&nbsp; 内容管理&nbsp;&nbsp;&nbsp;&nbsp; 文章列表</p>', '1427083941');
+INSERT INTO `bk_article_detail` VALUES ('44', '1', '57', '<p>介简介简介简介简介简介简介 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>', '1427084033');
+INSERT INTO `bk_article_detail` VALUES ('45', '1', '58', '<p>q我<br/></p>', '1427087682');
 
 -- ----------------------------
 -- Table structure for `bk_article_main`
@@ -235,7 +248,7 @@ CREATE TABLE `bk_article_main` (
   KEY `conunt_comment` (`count_comment`) USING BTREE,
   KEY `is_delete` (`is_delete`) USING BTREE,
   KEY `status` (`status`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='文章主表';
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COMMENT='文章主表';
 
 -- ----------------------------
 -- Records of bk_article_main
@@ -282,16 +295,22 @@ INSERT INTO `bk_article_main` VALUES ('39', '1', '简介简介简介简介简介
 INSERT INTO `bk_article_main` VALUES ('40', '1', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '', '', '1426750736', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('41', '1', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '', '', '1426750760', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('42', '1', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '', '', '1426751115', '0', '0', '0', '0', '1', '1');
-INSERT INTO `bk_article_main` VALUES ('43', '1', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '', '', '1426751153', '0', '0', '0', '0', '1', '1');
+INSERT INTO `bk_article_main` VALUES ('43', '1', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '', '', '1426751153', '0', '0', '0', '0', '0', '1');
 INSERT INTO `bk_article_main` VALUES ('44', '1', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '', '', '1426751196', '0', '0', '0', '0', '0', '1');
 INSERT INTO `bk_article_main` VALUES ('45', '1', '123', '123', '', '', '1426751226', '0', '0', '0', '0', '0', '1');
 INSERT INTO `bk_article_main` VALUES ('46', '1', '1231', '123', '', '', '1426752015', '0', '0', '0', '0', '0', '1');
 INSERT INTO `bk_article_main` VALUES ('47', '1', '测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦', '测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦', '', '', '1426756181', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('48', '1', '测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦', '测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦', '', '', '1426756264', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('49', '1', '测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦', '测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦测试啦', '', '', '1426756312', '0', '0', '0', '0', '1', '1');
-INSERT INTO `bk_article_main` VALUES ('50', '1', '测试一下啦', '测试一下啦', '', '', '1426756397', '0', '0', '0', '0', '1', '1');
+INSERT INTO `bk_article_main` VALUES ('50', '1', '测试一下啦', '测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦测试一下啦', '', '', '1426756397', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('51', '1', '测试一下增加文章测试一下增加文章测试一下增加文章a13', '测试一下增加文章测试一下增加文章测试一下增加文章测试一下增加文章测试一下增加文章测试一下增加文章a', '', '', '1426814855', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('52', '1', '测试增加文章2', '测试增加文章2', '', '', '1426819991', '0', '0', '0', '0', '1', '1');
+INSERT INTO `bk_article_main` VALUES ('53', '1', '测试一下分词我', '测试一下分词', '', '', '1427081907', '0', '0', '0', '0', '1', '1');
+INSERT INTO `bk_article_main` VALUES ('54', '1', '哈哈哈哈', '哈哈', '', '', '1427081985', '0', '0', '0', '0', '1', '1');
+INSERT INTO `bk_article_main` VALUES ('55', '1', 'asdf我你', 'asdf', '', '', '1427082071', '0', '0', '0', '0', '1', '1');
+INSERT INTO `bk_article_main` VALUES ('56', '1', '     后台首页     内容管理     文章列表', '     后台首页     内容管理     文章列表ad', '', '', '1427083941', '0', '0', '0', '0', '1', '1');
+INSERT INTO `bk_article_main` VALUES ('57', '1', '1asdjflakjsdflkj介简介简介简介简介简介简介 1', '介简介简介简介简介简介简介 ', '', '', '1427084033', '0', '0', '0', '0', '1', '1');
+INSERT INTO `bk_article_main` VALUES ('58', '1', '我', '1123', '', '', '1427087682', '0', '0', '0', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for `bk_article_position`
@@ -379,7 +398,7 @@ CREATE TABLE `bk_article_tags` (
   KEY `is_delete` (`is_delete`) USING BTREE,
   KEY `sort` (`sort`) USING BTREE,
   KEY `name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='文章标签配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COMMENT='文章标签配置表';
 
 -- ----------------------------
 -- Records of bk_article_tags
@@ -416,6 +435,9 @@ INSERT INTO `bk_article_tags` VALUES ('35', '标签a', '0', '1', '1', '142681926
 INSERT INTO `bk_article_tags` VALUES ('36', '我是标签a', '0', '1', '1', '1426819268');
 INSERT INTO `bk_article_tags` VALUES ('37', 'd', '0', '1', '1', '1426819991');
 INSERT INTO `bk_article_tags` VALUES ('38', 'f', '0', '1', '1', '1426819991');
+INSERT INTO `bk_article_tags` VALUES ('39', '测试', '0', '1', '1', '1427081907');
+INSERT INTO `bk_article_tags` VALUES ('40', 'asdf', '0', '1', '1', '1427082071');
+INSERT INTO `bk_article_tags` VALUES ('41', '123', '0', '1', '1', '1427087682');
 
 -- ----------------------------
 -- Table structure for `bk_article_tag_relation`
@@ -429,7 +451,7 @@ CREATE TABLE `bk_article_tag_relation` (
   PRIMARY KEY (`id`),
   KEY `article_id` (`article_id`) USING BTREE,
   KEY `tag_id` (`tag_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 COMMENT='文章所属标签表';
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8 COMMENT='文章所属标签表';
 
 -- ----------------------------
 -- Records of bk_article_tag_relation
@@ -477,13 +499,19 @@ INSERT INTO `bk_article_tag_relation` VALUES ('86', '48', '30', '1426756264');
 INSERT INTO `bk_article_tag_relation` VALUES ('87', '48', '31', '1426756264');
 INSERT INTO `bk_article_tag_relation` VALUES ('88', '49', '30', '1426756312');
 INSERT INTO `bk_article_tag_relation` VALUES ('89', '49', '31', '1426756312');
-INSERT INTO `bk_article_tag_relation` VALUES ('90', '50', '32', '1426756397');
-INSERT INTO `bk_article_tag_relation` VALUES ('91', '50', '33', '1426756397');
 INSERT INTO `bk_article_tag_relation` VALUES ('96', '51', '35', '1426819574');
 INSERT INTO `bk_article_tag_relation` VALUES ('97', '51', '36', '1426819574');
 INSERT INTO `bk_article_tag_relation` VALUES ('108', '52', '37', '1426823650');
 INSERT INTO `bk_article_tag_relation` VALUES ('109', '52', '38', '1426823650');
 INSERT INTO `bk_article_tag_relation` VALUES ('110', '52', '38', '1426823650');
+INSERT INTO `bk_article_tag_relation` VALUES ('112', '54', '10', '1427081986');
+INSERT INTO `bk_article_tag_relation` VALUES ('127', '55', '40', '1427083759');
+INSERT INTO `bk_article_tag_relation` VALUES ('128', '56', '38', '1427083941');
+INSERT INTO `bk_article_tag_relation` VALUES ('131', '57', '37', '1427084054');
+INSERT INTO `bk_article_tag_relation` VALUES ('132', '58', '41', '1427087682');
+INSERT INTO `bk_article_tag_relation` VALUES ('134', '53', '39', '1427088728');
+INSERT INTO `bk_article_tag_relation` VALUES ('135', '50', '32', '1427092234');
+INSERT INTO `bk_article_tag_relation` VALUES ('136', '50', '33', '1427092234');
 
 -- ----------------------------
 -- Table structure for `bk_attachment`
@@ -528,7 +556,7 @@ CREATE TABLE `bk_group` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否禁用',
   `level` int(11) NOT NULL DEFAULT '0' COMMENT '用户组等级，低等级的不能对高等级的用户做修改',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_group
@@ -575,7 +603,7 @@ CREATE TABLE `bk_permission` (
   KEY `module` (`module`) USING BTREE,
   KEY `class` (`class`) USING BTREE,
   KEY `action` (`action`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_permission
@@ -604,6 +632,52 @@ INSERT INTO `bk_permission` VALUES ('37', '灯光管理', 'category', 'index', '
 INSERT INTO `bk_permission` VALUES ('42', '', 'position', 'index', '推荐位管理', '1', '34', '0', '2', '推荐位管理', '1426735289');
 
 -- ----------------------------
+-- Table structure for `bk_search_dict`
+-- ----------------------------
+DROP TABLE IF EXISTS `bk_search_dict`;
+CREATE TABLE `bk_search_dict` (
+  `key` smallint(5) unsigned NOT NULL,
+  `value` char(3) NOT NULL,
+  PRIMARY KEY (`key`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of bk_search_dict
+-- ----------------------------
+INSERT INTO `bk_search_dict` VALUES ('19968', '一');
+INSERT INTO `bk_search_dict` VALUES ('19979', '下');
+INSERT INTO `bk_search_dict` VALUES ('20998', '分');
+INSERT INTO `bk_search_dict` VALUES ('27979', '测');
+INSERT INTO `bk_search_dict` VALUES ('35789', '词');
+INSERT INTO `bk_search_dict` VALUES ('35797', '试');
+INSERT INTO `bk_search_dict` VALUES ('25105', '我');
+INSERT INTO `bk_search_dict` VALUES ('21862', '啦');
+
+-- ----------------------------
+-- Table structure for `bk_search_index`
+-- ----------------------------
+DROP TABLE IF EXISTS `bk_search_index`;
+CREATE TABLE `bk_search_index` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `article_id` int(11) NOT NULL COMMENT '文章的ID',
+  `title` text NOT NULL COMMENT '文章的标题',
+  `summary` text NOT NULL,
+  `content` text NOT NULL COMMENT '文章的内容',
+  `added_date` int(11) NOT NULL,
+  `edited_date` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `article_id` (`article_id`) USING BTREE,
+  KEY `added_date` (`added_date`) USING BTREE,
+  FULLTEXT KEY `content` (`title`,`summary`,`content`)
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of bk_search_index
+-- ----------------------------
+INSERT INTO `bk_search_index` VALUES ('19', '53', ' 27979 35797 19968 19979 20998 35789 25105', ' 27979 35797 19968 19979 20998 35789', ' 27979 35797 19968 19979 20998 35789', '1427088728', '1427088728');
+INSERT INTO `bk_search_index` VALUES ('20', '50', ' 27979 35797 19968 19979 21862', ' 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862 27979 35797 19968 19979 21862', ' 27979 35797 19968 19979 21862', '1427092234', '1427092234');
+
+-- ----------------------------
 -- Table structure for `bk_users`
 -- ----------------------------
 DROP TABLE IF EXISTS `bk_users`;
@@ -625,7 +699,7 @@ CREATE TABLE `bk_users` (
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `password` (`password`) USING BTREE,
   KEY `group_id` (`group_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='用户表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_users
