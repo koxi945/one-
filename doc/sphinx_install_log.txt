@@ -1,0 +1,35 @@
+wget http://sphinxsearch.com/files/sphinx-2.2.8-1.rhel7.x86_64.rpm
+yum install postgresql-libs unixODBC
+rpm -qpl sphinx-2.2.8-1.rhel7.x86_64.rpm #查看文件安装在哪
+rpm -Uhv sphinx-2.2.8-1.rhel7.x86_64.rpm
+
+Sphinx installed!
+Now create a full-text index, start the search daemon, and you're all set.
+
+To manage indexes:
+    editor /etc/sphinx/sphinx.conf
+
+To rebuild all disk indexes:
+    sudo -u sphinx indexer --all --rotate
+
+To start/stop search daemon:
+    service searchd start/stop
+
+To query search daemon using MySQL client:
+    mysql -h 0 -P 9306
+    mysql> SELECT * FROM test1 WHERE MATCH('test');
+
+See the manual at /usr/share/doc/sphinx-2.2.8 for details.
+
+For commercial support please contact Sphinx Technologies Inc at
+http://sphinxsearch.com/contacts.html
+
+把sphinx.example.sql导入到mysql.test库中。
+
+然后安装php的sphinx扩展
+wget http://pecl.php.net/get/sphinx-1.3.2.tgz
+tar xzf sphinx-1.3.2.tgz 
+phpize
+./configure --with-php-config=/usr/local/php5_nginx/bin/php-config --with-sphinx=/usr/local/sphinxclient
+make
+make install
