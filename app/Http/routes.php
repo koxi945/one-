@@ -1,7 +1,7 @@
 <?php
 
 //系统后台路由
-Route::group(['domain' => 'blog.laravel.com'], function() {
+Route::group(['domain' => 'admin.xx.net'], function() {
 	//登录界面
 	Route::get('/', 'Admin\LoginController@index');
 	Route::controller('login', 'Admin\LoginController', ['getOut' => 'login.out']);
@@ -25,14 +25,26 @@ Route::group(['domain' => 'blog.laravel.com'], function() {
 });
 
 //博客首页
-Route::group(['domain' => 'www.laravel.net'], function() {
-	Route::get('/', 'Home\IndexController@index');
-	Route::any('{class}/{action}.html', ['as' => 'home', function($class, $action) {
-		$class = 'App\\Http\\Controllers\\Home\\'.ucfirst(strtolower($class)).'Controller';
-		if(class_exists($class)) {
-			$classObject = new $class();
-			if(method_exists($classObject, $action)) return call_user_func(array($classObject, $action));
-		}
-		return abort(404);			
-	}])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
+if( ! function_exists('homeRouteCommon'))
+{
+	function homeRouteCommon()
+	{
+		Route::get('/', 'Home\IndexController@index');
+		Route::any('{class}/{action}.html', ['as' => 'home', function($class, $action) {
+			$class = 'App\\Http\\Controllers\\Home\\'.ucfirst(strtolower($class)).'Controller';
+			if(class_exists($class)) {
+				$classObject = new $class();
+				if(method_exists($classObject, $action)) return call_user_func(array($classObject, $action));
+			}
+			return abort(404);			
+		}])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
+	}
+}
+
+//博客首页
+Route::group(['domain' => 'xx.net'], function() {
+	homeRouteCommon();
+});
+Route::group(['domain' => '{www}.xx.net'], function() {
+	homeRouteCommon();
 });
