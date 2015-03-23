@@ -20,7 +20,7 @@ class IndexController extends Controller
         $object->tag = (int) Request::input('tag');
     	$contentModel = new ContentModel();
     	$articleList = $contentModel->activeArticleInfo($object);
-    	$page = $articleList->render();
+    	$page = $articleList->appends(Request::all())->render();
         return view('home.index.index', compact('articleList', 'page', 'object'));
     }
 

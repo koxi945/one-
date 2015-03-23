@@ -30,7 +30,7 @@ class AclController extends Controller
     {
         $permissionModel = new PermissionModel();
         $list = $permissionModel->getAllAccessPermissionByPage();
-        $page = $list->render();
+        $page = $list->appends(Request::all())->render();
         return view('admin.acl.index', compact('list', 'page'));
     }
 

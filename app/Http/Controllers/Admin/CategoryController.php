@@ -18,7 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
     	$list = (new CategoryModel())->unDeleteCategory();
-    	$page = $list->render();
+    	$page = $list->appends(Request::all())->render();
         return view('admin.content.classify', compact('list', 'page'));
     }
 

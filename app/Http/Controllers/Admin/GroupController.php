@@ -25,7 +25,7 @@ class GroupController extends Controller
     {
         $groupModel = new GroupModel();
         $grouplist = $groupModel->getAllGroupByPage();
-        $page = $grouplist->render();
+        $page = $grouplist->appends(Request::all())->render();
         return view('admin.group.index', compact('grouplist', 'page'));
     }
     

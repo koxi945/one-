@@ -6,8 +6,11 @@ use App\Models\Admin\TagsRelation as TagsRelationModel;
 use App\Models\Admin\Tags as TagsModel;
 use App\Models\Admin\ClassifyRelation as ClassifyRelationModel;
 use App\Models\Admin\ContentDetail as ContentDetailModel;
+use App\Models\Admin\SearchDict as SearchDictModel;
+use App\Models\Admin\SearchIndex as SearchIndexModel;
 use App\Services\Admin\Content\Validate\Content as ContentValidate;
 use App\Services\Admin\SC;
+use App\Libraries\Spliter;
 
 /**
  * 文章处理
@@ -77,14 +80,11 @@ class Process
         {
             $result = \DB::transaction(function() use ($data, $object)
             {
-                //主表数据
                 $object->contentAutoId = $this->saveContent($data, $object);
-                //副表数据
                 $this->saveContentDetail($data, $object);
-                //文章分类
                 $this->saveArticleTags($object, $data['tags']);
-                //标签
                 $this->saveArticleClassify($object, $data['classify']);
+                $this->saveSeachFullText($object, $data);
                 return true;
             });
         }
@@ -136,12 +136,10 @@ class Process
     private function saveArticleTags($object, $tags)
     {
         $articleId = $object->contentAutoId;
-        //先删除旧的标签
         $result = $this->deleteArticleTagsById($articleId);
         if($result === false) throw new \Exception("delete article tags error.");
         foreach($tags as $tagName)
         {
-            //没有这个标签的话，先增加
             $tagInfo = (new TagsModel())->addTagsIfNotExistsByName($tagName);
             if( ! $tagInfo->id) throw new \Exception("add tags if not exists by name error.");
             $result = (new TagsRelationModel())->addTagsArticleRelation($articleId, $tagInfo->id);
@@ -233,19 +231,17 @@ class Process
         {
             $result = \DB::transaction(function() use ($data, $id, $object)
             {
-                //主表数据
                 $this->updateContent($data, $id);
-                //副表数据
                 $this->updateContentDetail($data, $id);
-                //文章分类
                 $this->saveArticleTags($object, $data['tags']);
-                //标签
                 $this->saveArticleClassify($object, $data['classify']);
+                $this->saveSeachFullText($object, $data);
                 return true;
             });
         }
         catch (\Exception $e)
         {
+            //dd($e->getMessage());
             $result = false;
         }
         if($result) return true;
@@ -281,6 +277,52 @@ class Process
         $result = $this->contentDetailModel->editContentDetail($detailData, $id);
         if($result === false) throw new \Exception("save content detail error");
         return $result;
+    }
+
+    /**
+     * 更新查询索引表
+     * 
+     * @param  object $object
+     * @param  array $data
+     * @param boolean $isEdit false的时候为增加，true的时候为edit
+     * @return boolean
+     */
+    private function saveSeachFullText($object, $data, $isEdit = false)
+    {
+        $spliterObject = new Spliter();
+        $titleSplited   = $spliterObject->utf8Split($data['title']);
+        $index['title']   = $titleSplited['words'];
+        $contentSplited = $spliterObject->utf8Split(strip_tags($data['content']));
+        $index['content'] = $contentSplited['words'];
+        $summarySplited = $spliterObject->utf8Split(strip_tags($data['summary']));
+        $index['summary'] = $summarySplited['words'];
+        $index['article_id'] = $checkIndex['article_id'] = $object->contentAutoId;
+        
+        if($isEdit === false) $index['added_date'] = $index['edited_date'] = time();
+        if($isEdit === true) $index['edited_date'] = time();
+
+        $this->saveDict($titleSplited['dict'] + $contentSplited['dict']);
+        $indexModel = new SearchIndexModel();
+        $result = $indexModel->saveIndex($checkIndex, $index);
+        if($result === false) throw new Exception("save article dict index error.");
+    }
+
+    /**
+     * 保存到词典中
+     * 
+     * @param  array $dict 要新加的词
+     * @return void
+     */
+    private function saveDict($dict)
+    {
+        $dictModel = new SearchDictModel();
+        foreach($dict as $key => $value)
+        {
+            if( ! is_numeric($key) or empty($value) or strlen($key) != 5) continue;
+            $checkDict = $data = array('key' => $key, 'value' => $value);
+            $result = $dictModel->saveDict($checkDict, $data);
+            if($result === false) throw new Exception("save article dict error.");
+        }
     }
 
     /**

@@ -19,7 +19,7 @@ class ContentController extends Controller
     public function index()
     {
         $list = (new ContentModel())->AllContents();
-        $page = $list->render();
+        $page = $list->appends(Request::all())->render();
         return view('admin.content.index', compact('list', 'page'));
     }
 
