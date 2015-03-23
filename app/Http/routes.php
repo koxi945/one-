@@ -41,10 +41,11 @@ if( ! function_exists('homeRouteCommon'))
 	}
 }
 
-//博客首页
-Route::group(['domain' => 'xx.net'], function() {
-	homeRouteCommon();
-});
-Route::group(['domain' => '{www}.xx.net'], function() {
-	homeRouteCommon();
-});
+$homeDoaminArray = ['xx.net', 'www.xx.net', 'test.xx.net'];
+foreach($homeDoaminArray as $value)
+{
+	Route::group(['domain' => $value], function() {
+		homeRouteCommon();
+	});
+}
+
