@@ -1,7 +1,7 @@
 <?php
 
 //系统后台路由
-Route::group(['domain' => 'admin.xx.net'], function() {
+Route::group(['domain' => 'admin.opcache.net'], function() {
 	//登录界面
 	Route::get('/', 'Admin\LoginController@index');
 	Route::controller('login', 'Admin\LoginController', ['getOut' => 'login.out']);
@@ -41,7 +41,7 @@ if( ! function_exists('homeRouteCommon'))
 	}
 }
 
-$homeDoaminArray = ['home' => 'xx.net', 'home' => 'www.xx.net', 'test' => 'test.xx.net'];
+$homeDoaminArray = ['home_empty_prefix' => 'opcache.net', 'home' => 'www.opcache.net', 'test' => 'test.opcache.net'];
 foreach($homeDoaminArray as $key => $value)
 {
 	Route::group(['domain' => $value], function() use ($key) {

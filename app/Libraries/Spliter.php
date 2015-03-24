@@ -34,6 +34,19 @@ class Spliter
             if($ord >= 0 && $ord <= 191)
             {
                 $i ++;
+                if($this->isLetter($letter))
+                {
+                    $word = $letter;
+                    while ($i <= $length)
+                    {
+                        $letter = substr($string, $i, 1);
+                        if( ! $this->isLetter($letter)) break;
+                        $word .= $letter;
+                        $i++;
+                    }
+                    $words .= ' ' . $word;
+                    continue;
+                }
                 $words .= ' ' . $letter;
                 continue;
             }
