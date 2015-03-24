@@ -30,7 +30,9 @@ class Common
      */
     public function top()
     {
-        return view('home.widget.top');
+        $object = new \stdClass();
+        $object->keyword = \Request::input('keyword');
+        return view('home.widget.top', compact('object'));
     }
 
     /**

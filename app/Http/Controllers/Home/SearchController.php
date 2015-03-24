@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Models\Home\Search as SearchModel;
+use App\Services\Home\Search\Process;
 use Request;
 
 /**
@@ -17,7 +18,12 @@ class SearchController extends Controller
     {
         $object = new \stdClass();
         $object->keyword = Request::input('keyword');
-        exit('kai fa ..');
+        $searchProcess = new Process();
+        $keywordUnicode = $searchProcess->prepareKeyword($object->keyword);
+        $object->sphinxResult_ArticleIds = $searchProcess->sphinxSearch($keywordUnicode);
+        $articleList = (new SearchModel())->activeArticleInfoBySearch($object);
+        $page = '';
+        if( ! empty($articleList)) $page = $articleList->appends(Request::all())->render();
         return view('home.index.index', compact('articleList', 'page', 'object'));
     }
 

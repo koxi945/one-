@@ -1,7 +1,7 @@
 <div class="header">
   <div class="input-group search pull-right hidden-sm hidden-xs">
     <div class="input-group">
-      <input type="text" class="form-control" id="search-keyword" placeholder="搜索你想要的。" >
+      <input type="text" class="form-control" id="search-keyword" placeholder="搜索你想要的。" value="<?php if(isset($object->keyword)) echo $object->keyword; ?>">
       <span class="input-group-btn">
           <button type="button" class="btn btn-primary" id="search"><i class="fa fa-search "></i></button>
       </span>

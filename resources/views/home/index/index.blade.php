@@ -2,7 +2,7 @@
 <body class="theme-3">
     <div class="content">
         <?php echo widget('Home.Common')->top(); ?>
-        <?php if( (isset($object->category) and ! empty($object->category)) or (isset($object->tag) and ! empty($object->tag))): ?>
+        <?php if( (isset($object->category) and ! empty($object->category)) or (isset($object->tag) and ! empty($object->tag)) or (isset($object->keyword))): ?>
             <div class="tag-category-title" style="color:#ccc;padding-bottom:10px;">以下为分类（标签）的筛选数据：</div>
         <?php endif; ?>
         <div class="main-content">

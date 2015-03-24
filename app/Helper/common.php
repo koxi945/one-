@@ -48,3 +48,29 @@ if( ! function_exists('showWriteTime'))
         return $result;
     }
 }
+
+if (!function_exists('arraySort'))
+{
+    function arraySort($arr,$keys,$type='asc')
+    {
+        $keysvalue = $new_array = array();
+        foreach ($arr as $k=>$v) {
+            $keysvalue[$k] = $v[$keys];
+        }
+        if($type == 'asc') {
+            asort($keysvalue);
+        } else {
+            arsort($keysvalue);
+        }
+        reset($keysvalue);
+        foreach($keysvalue as $k=>$v) {
+            $new_array[$k] = $arr[$k];
+        }
+        
+        $arr = array();
+        foreach($new_array as $key => $val) {
+            $arr[] = $val;
+        }
+        return $arr; 
+    }
+}
