@@ -1,5 +1,13 @@
+<div class="write-comment-main">
+	<h3>说几句吧：</h3>
+	<form id="tab" target="hiddenwin" method="post" >
+		<textarea name="comment" rows="3" class="form-control" placeholder="三人行，必有我师。"></textarea>
+		<div class="btn-toolbar list-toolbar">
+          <a class="btn btn-primary sys-btn-submit" data-loading="保存中..." ><span class="sys-btn-submit-str">提交</span></a>
+        </div>
+	</form>
+</div>
 <?php if(isset($commentList) and is_array($commentList) and ! empty($commentList)): ?>
-
 <?php
 	//递归输出评论引用内容
 	if( ! function_exists('showCommentReply'))
