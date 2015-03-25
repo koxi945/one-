@@ -4,8 +4,8 @@
     <title>风一样的世界---专注PHP开发</title>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="<?php if(isset($headerObject->description)) { echo $headerObject->description; } else { echo '风一样的世界，专注PHP开发，在这里，你可以看到我的一些学习的分享。'; } ?>">
+    <meta name="author" content="jiang">
     <link rel="stylesheet" type="text/css" href="/lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/t.min.css">

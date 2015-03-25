@@ -1,4 +1,6 @@
-<?php echo widget('Home.Common')->header(); ?>
+<?php $headerObject = new \stdClass(); ?>
+<?php $headerObject->description = $info['summary']; ?>
+<?php echo widget('Home.Common')->header($headerObject); ?>
 <body class="theme-3">
     <div class="content">
         <?php echo widget('Home.Common')->top(); ?>

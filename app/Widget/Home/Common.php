@@ -20,9 +20,9 @@ class Common
     /**
      * header
      */
-    public function header()
+    public function header($headerObject = false)
     {
-        return view('home.widget.header');
+        return view('home.widget.header', compact('headerObject'));
     }
 
     /**
