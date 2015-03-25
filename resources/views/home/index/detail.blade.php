@@ -26,10 +26,11 @@
                         <?php echo $info['content']; ?>
                     </div>
                 </div>
-
+                <?php echo widget('Home.Common')->comment($info['id']); ?>
             </div>
             <?php echo widget('Home.Common')->right(); ?>
           </div>
+        
         <?php echo widget('Home.Common')->footer(); ?>
             
         </div>

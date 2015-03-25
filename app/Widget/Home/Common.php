@@ -47,5 +47,15 @@ class Common
         return view('home.widget.right', compact('classifyInfo', 'tagsInfo'));
     }
 
+    /**
+     * comment
+     */
+    public function comment($objectID, $objectType = \App\Models\Home\Comment::OBJECT_TYPE)
+    {
+        $commemtModel = new \App\Models\Home\Comment();
+        $commentList = $commemtModel->getContentByObjectId($objectID, $objectType);
+        return view('home.widget.comment', compact('commentList'));
+    }
+
 
 }
