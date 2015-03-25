@@ -6,3 +6,4 @@ div.content {margin:0 auto; width: 1024px;border-left:none;}
 p.p_h_summary {color:#999;}
 #blog-posts .span_h_info {color:#5bc0de;}
 #blog-posts .p_h_info {color:#999;}
+.h-detail-summary {border: 1px dashed #E0E0E0; padding: 20px; background: #FCFCFC; margin-bottom: 20px; margin-top: 20px; color: #999;}

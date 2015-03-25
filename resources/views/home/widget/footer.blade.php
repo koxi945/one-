@@ -4,7 +4,6 @@
     <p class="pull-right">Power by Jiang</p>
     <p>© 2015</p>
 </footer>
-<script src="/lib/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript">
     $(function() {
         var uls = $('.sidebar-nav > ul > *').clone();
