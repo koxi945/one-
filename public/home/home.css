@@ -7,3 +7,19 @@ p.p_h_summary {color:#999;}
 #blog-posts .span_h_info {color:#5bc0de;}
 #blog-posts .p_h_info {color:#999;}
 .h-detail-summary {border: 1px dashed #E0E0E0; padding: 20px; background: #FCFCFC; margin-bottom: 20px; margin-top: 20px; color: #999;}
+
+#scrolltop {
+    background: none repeat scroll 0 0 #fff;
+    border-radius: 3px;
+    bottom: 50px;
+    color: #080;
+    cursor: pointer;
+    display: none;
+    font-size: 14px;
+    left: 54%;
+    margin-left: 501px;
+    padding: 2px;
+    position: fixed;
+    text-align: center;
+    width: 20px;
+}
