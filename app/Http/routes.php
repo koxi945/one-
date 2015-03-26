@@ -37,7 +37,12 @@ if( ! function_exists('homeRouteCommon'))
 			if(class_exists($class)) {
 				$classObject = new $class();
 				//这里必须要返回一个Illuminate\Http\Response 实例而非一个视图，原因是因为csrf中需要影响的必须为一个response
-				if(method_exists($classObject, $action)) return (new Illuminate\Http\Response())->setContent(call_user_func(array($classObject, $action)));
+				if(method_exists($classObject, $action))
+				{
+					$return = call_user_func(array($classObject, $action));
+					if( ! $return instanceof Illuminate\Http\Response) return (new Illuminate\Http\Response())->setContent();
+					return $return;
+				}
 			}
 			return abort(404);
 		}])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
