@@ -34,3 +34,4 @@ $(function(){
 		});
 	});
 </script>
+<script src="/home/common.js" type="text/javascript"></script>

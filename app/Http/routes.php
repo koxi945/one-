@@ -1,5 +1,7 @@
 <?php
 
+//注：但是以大部分的路由及控制器所执行的动作来说，你需要返回完整的 Illuminate\Http\Response 实例或是一个视图
+
 //系统后台路由
 Route::group(['domain' => 'admin.opcache.net'], function() {
 	//登录界面
@@ -19,7 +21,7 @@ Route::group(['domain' => 'admin.opcache.net'], function() {
 				$classObject = new $class();
 				if(method_exists($classObject, $action)) return call_user_func(array($classObject, $action));
 			}
-			return abort(404);			
+			return abort(404);
 		}])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
 	});
 });
@@ -34,9 +36,10 @@ if( ! function_exists('homeRouteCommon'))
 			$class = 'App\\Http\\Controllers\\Home\\'.ucfirst(strtolower($class)).'Controller';
 			if(class_exists($class)) {
 				$classObject = new $class();
-				if(method_exists($classObject, $action)) return call_user_func(array($classObject, $action));
+				//这里必须要返回一个Illuminate\Http\Response 实例而非一个视图，原因是因为csrf中需要影响的必须为一个response
+				if(method_exists($classObject, $action)) return (new Illuminate\Http\Response())->setContent(call_user_func(array($classObject, $action)));
 			}
-			return abort(404);			
+			return abort(404);
 		}])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
 	}
 }
@@ -44,7 +47,7 @@ if( ! function_exists('homeRouteCommon'))
 $homeDoaminArray = ['home_empty_prefix' => 'opcache.net', 'home' => 'www.opcache.net', 'test' => 'test.opcache.net'];
 foreach($homeDoaminArray as $key => $value)
 {
-	Route::group(['domain' => $value], function() use ($key) {
+	Route::group(['domain' => $value, 'middleware' => ['csrf']], function() use ($key) {
 		homeRouteCommon($key);
 	});
 }

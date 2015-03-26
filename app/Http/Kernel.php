@@ -26,6 +26,7 @@ class Kernel extends HttpKernel {
 	protected $routeMiddleware = [
 		'auth' => 'App\Http\Middleware\Authenticate',
 		'acl' => 'App\Http\Middleware\Acl',
+		'csrf' => 'App\Http\Middleware\VerifyCsrfToken',
 	];
 
 }

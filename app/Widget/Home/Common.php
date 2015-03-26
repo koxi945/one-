@@ -53,8 +53,13 @@ class Common
     public function comment($objectID, $objectType = \App\Models\Home\Comment::OBJECT_TYPE)
     {
         $commemtModel = new \App\Models\Home\Comment();
+        $commentProcess = new \App\Services\Home\Comment\Process();
         $commentList = $commemtModel->getContentByObjectId($objectID, $objectType);
-        return view('home.widget.comment', compact('commentList'));
+        $replyIds = $commentProcess->prepareReplyIds($commentList);
+        $replyComments = $commemtModel->getContentsByObjectIds($replyIds, $objectType);
+        $commentList = $commentProcess->joinReplyComments($commentList, $replyComments);
+        //dd($commentList);
+        return view('home.widget.comment', compact('commentList', 'objectID', 'objectType'));
     }
 
 
