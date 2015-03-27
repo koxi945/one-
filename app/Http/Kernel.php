@@ -11,7 +11,7 @@ class Kernel extends HttpKernel {
 	 */
 	protected $middleware = [
 		'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
-		'Illuminate\Cookie\Middleware\EncryptCookies', //如果报mcrypt_encrypt(): Size of key is too large for this algorithm，那么请把.env下的APP_KEY的长度改小点。
+		//'Illuminate\Cookie\Middleware\EncryptCookies', //如果报mcrypt_encrypt(): Size of key is too large for this algorithm，那么请把.env下的APP_KEY的长度改小点。
 		'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
 		'Illuminate\Session\Middleware\StartSession',
 		'Illuminate\View\Middleware\ShareErrorsFromSession',

@@ -59,11 +59,11 @@
             <div class="form-group notic" id="msg"></div>
             <div class="form-group">
                 <label>用户帐号</label>
-                <input type="text" class="form-control span12" id="username">
+                <input type="text" class="form-control span12 login-form" id="username">
             </div>
             <div class="form-group">
             <label>用户密码</label>
-                <input type="password" class="form-control span12 form-control" id="password">
+                <input type="password" class="form-control span12 login-form" id="password">
             </div>
             <a href="javascript:;" class="btn btn-primary pull-right" id="submit">登陆</a>
             <label class="remember-me"><input type="checkbox"> 记住</label>
@@ -86,6 +86,14 @@
         seajs.use('login', function(login) {
             login.submit();//侦听登录按钮的点击事件
             login.prelogin();//取得一次性的密钥
+        });
+
+        $(document).ready(function(){
+            $('.login-form').keyup(function(event){
+                if (event.keyCode == 13) {
+                    $('#submit').trigger('click');
+                }
+            });
         });
 
     </script>

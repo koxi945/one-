@@ -44,8 +44,8 @@
             var nav_pid = $(this).attr('data-pid');
             var nav_sid = $(this).attr('data-sid');
             var nav_href = $(this).attr('data-href');
-            $.cookie(cookie_top_nav, nav_pid);
-            $.cookie(cookie_sub_nav, nav_sid);
+            $.cookie(cookie_top_nav, nav_pid, {path:"/"});
+            $.cookie(cookie_sub_nav, nav_sid, {path:"/"});
             window.location.href = nav_href;
         });
 

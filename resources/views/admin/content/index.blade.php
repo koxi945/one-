@@ -22,7 +22,7 @@
                         <tbody>
                           <?php foreach($list as $key => $value): ?>
                             <tr>
-                              <td><?php echo $value['title']; ?></td>
+                              <td><a target="_blank" href="<?php echo route('home', ['class' => 'index', 'action' => 'detail', 'id' => $value['id']]); ?>"><?php echo $value['title']; ?></a></td>
                               <td><?php echo $value['name']; ?></td>
                               <td><?php echo date('Y-m-d H:i', $value['write_time']); ?></td>
                               <td>
