@@ -21,7 +21,7 @@ class IndexController extends Controller
     	$contentModel = new ContentModel();
     	$articleList = $contentModel->activeArticleInfo($object);
     	$page = $articleList->appends(Request::all())->render();
-        return (new \Illuminate\Http\Response())->setContent(view('home.index.index', compact('articleList', 'page', 'object')));
+        return response(view('home.index.index', compact('articleList', 'page', 'object')));
     }
 
     /**

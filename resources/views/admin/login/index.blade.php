@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="<?php echo csrf_token(); ?>" />
 
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
@@ -64,7 +65,6 @@
             <label>用户密码</label>
                 <input type="password" class="form-control span12 form-control" id="password">
             </div>
-            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
             <a href="javascript:;" class="btn btn-primary pull-right" id="submit">登陆</a>
             <label class="remember-me"><input type="checkbox"> 记住</label>
             <div class="clearfix"></div>
@@ -76,26 +76,6 @@
     <script type="text/javascript" src="lib/seajs/sea.js" ></script>
 
     <script type="text/javascript">
-        $(function() {
-            var match = document.cookie.match(new RegExp('color=([^;]+)'));
-            if(match) var color = match[1];
-            if(color) {
-                $('body').removeClass(function (index, css) {
-                    return (css.match (/\btheme-\S+/g) || []).join(' ')
-                })
-                $('body').addClass('theme-' + color);
-            }
-
-            $('[data-popover="true"]').popover({html: true});
-            
-        });
-
-        $(function() {
-            var uls = $('.sidebar-nav > ul > *').clone();
-            uls.addClass('visible-xs');
-            $('#main-menu').append(uls.clone());
-        });
-
         seajs.config({
             base: "/lib/seajs/modules/",
             alias : {

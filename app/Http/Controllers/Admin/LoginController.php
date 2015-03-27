@@ -22,7 +22,7 @@ class LoginController extends Controller
     {
         $isLogin = (new LoginProcess())->getProcess()->hasLogin();
         if($isLogin) return redirect(route('common', ['class' => 'index', 'action' => 'index']));
-        return view('admin.login.index');
+        return response(view('admin.login.index'));
     }
 
     /**
@@ -62,7 +62,7 @@ class LoginController extends Controller
     public function getPrelogin(LoginProcess $loginProcess)
     {
         $publicKey = $loginProcess->getProcess()->setPublicKey();
-        return response()->json(['pKey' => $publicKey])->setCallback(Request::input('callback'));
+        return response()->json(['pKey' => $publicKey, 'a' => csrf_token()])->setCallback(Request::input('callback'));
     }
 
     /**

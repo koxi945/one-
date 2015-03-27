@@ -51,6 +51,15 @@ class ProcessDefault extends AbstractProcess {
     }
 
     /**
+     * 手动的验证csrftoken
+     */
+    private function checkCsrfToken()
+    {
+        $csrf = new \App\Services\Admin\CsrfValidate();
+        $csrf->tokensMatch();
+    }
+
+    /**
      * 检测post过来的数据
      * 
      * @param string $username 用户名
@@ -60,6 +69,7 @@ class ProcessDefault extends AbstractProcess {
      */
     public function validate($username, $password)
     {
+        $this->checkCsrfToken();
         $data = array( 'username' => $username, 'password' => $password );
         $rules = array( 'username' => 'required|min:1', 'password' => 'required|min:1' );
         $messages = array( 'username.required' => '请输入用户名', 'username.min' => '请输入用户名',

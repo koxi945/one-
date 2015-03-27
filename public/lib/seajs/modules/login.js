@@ -33,6 +33,9 @@ define(function(require, exports, module) {
             dataType: "jsonp",
             jsonp: "callback",
             jsonpCallback:"callback",
+            headers: {
+                'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
             success: function(data) {
                 if(!data.result) {
                     prelogin(true);
@@ -74,6 +77,7 @@ define(function(require, exports, module) {
                     loginForm(true);
                 }
                 submit_obj.data(cache_publickey_str, data.pKey);
+                $('meta[name="csrf-token"]').attr('content', data.a);
             },
             beforeSend: function() {
                 msg_obj.html('处理中...').show();

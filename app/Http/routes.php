@@ -4,9 +4,12 @@
 
 //系统后台路由
 Route::group(['domain' => 'admin.opcache.net'], function() {
+
 	//登录界面
-	Route::get('/', 'Admin\LoginController@index');
-	Route::controller('login', 'Admin\LoginController', ['getOut' => 'login.out']);
+	Route::group(['middleware' => ['csrf']], function(){
+		Route::get('/', 'Admin\LoginController@index');
+		Route::controller('login', 'Admin\LoginController', ['getOut' => 'login.out']);
+	});
 
 	Route::group(['middleware' => ['auth', 'acl']], function() {
 
@@ -40,7 +43,7 @@ if( ! function_exists('homeRouteCommon'))
 				if(method_exists($classObject, $action))
 				{
 					$return = call_user_func(array($classObject, $action));
-					if( ! $return instanceof Illuminate\Http\Response) return (new Illuminate\Http\Response())->setContent($return);
+					if( ! $return instanceof Illuminate\Http\Response) return response($return);
 					return $return;
 				}
 			}
@@ -49,6 +52,7 @@ if( ! function_exists('homeRouteCommon'))
 	}
 }
 
+//配置多个域名的路由
 $homeDoaminArray = ['home_empty_prefix' => 'opcache.net', 'home' => 'www.opcache.net', 'test' => 'test.opcache.net'];
 foreach($homeDoaminArray as $key => $value)
 {
