@@ -53,7 +53,7 @@
                       <label class="radio-inline"><input type="radio" id="genderf" <?php if(isset($info['status']) && $info['status'] == 0) echo 'checked="checked"'; ?> value="0" name="data[status]"> 否</label>
                     </div>
                     <div class="btn-toolbar list-toolbar">
-                      <a class="btn btn-primary sys-btn-submit" data-loading="保存中..." ><i class="fa fa-save"></i> <span class="sys-btn-submit-str">保存</span></a>
+                      <a id="save-buttom" class="btn btn-primary sys-btn-submit" data-loading="保存中..." ><i class="fa fa-save"></i> <span class="sys-btn-submit-str">保存</span></a>
                     </div>
                     <?php if(isset($id)): ?>
                       <input name="id" type="hidden" value="<?php echo $id;?>" />
@@ -88,6 +88,14 @@
           autoHeight: false,
           initialFrameHeight: 500,
           autoFloatEnabled: false
+        });
+
+        $(document).keydown(function(e){
+          // ctrl + s
+          if( e.ctrlKey  == true && e.keyCode == 83 ){
+            $('#save-buttom').trigger('click');
+            return false; // 截取返回false就不会保存网页了
+          }
         });
     </script>
 </body></html>

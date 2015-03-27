@@ -40,7 +40,7 @@
         //处理菜单展开问题
         var cookie_top_nav = 'nav_pid';
         var cookie_sub_nav = 'nav_sub';
-        $('.nav-sub-menu').click(function(){
+        $(document).on('click', '.nav-sub-menu', function(){
             var nav_pid = $(this).attr('data-pid');
             var nav_sid = $(this).attr('data-sid');
             var nav_href = $(this).attr('data-href');

@@ -16,5 +16,11 @@
       var keyword = $('#search-keyword').val();
       window.location.href = '<?php echo route("home", array("class" => "search", "action" => "index")); ?>?keyword='+keyword;
     });
+
+    $('#search-keyword').keyup(function(event){
+      if (event.keyCode == 13) {
+        $('#search').trigger('click');
+      }
+    });
   });
 </script>
