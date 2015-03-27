@@ -30,8 +30,10 @@ $start = isset($_GET['start']) ? htmlspecialchars($_GET['start']) : 0;
 $end = $start + $size;
 
 /* 获取文件列表 */
-$path = $_SERVER['DOCUMENT_ROOT'] . (substr($path, 0, 1) == "/" ? "":"/") . $path;
-$files = getfiles($path, $allowFiles);
+$path = $APPCONFIG['sys_upload_path'] . (substr($path, 0, 1) == "/" ? "":"/") . $path;
+//var_dump($path);exit;
+$files = getfiles($path, $allowFiles, $APPCONFIG);
+//var_dump($files);exit;
 if (!count($files)) {
     return json_encode(array(
         "state" => "no match file",
@@ -68,7 +70,7 @@ return $result;
  * @param array $files
  * @return array
  */
-function getfiles($path, $allowFiles, &$files = array())
+function getfiles($path, $allowFiles, $APPCONFIG, &$files = array())
 {
     if (!is_dir($path)) return null;
     if(substr($path, strlen($path) - 1) != '/') $path .= '/';
@@ -77,11 +79,11 @@ function getfiles($path, $allowFiles, &$files = array())
         if ($file != '.' && $file != '..') {
             $path2 = $path . $file;
             if (is_dir($path2)) {
-                getfiles($path2, $allowFiles, $files);
+                getfiles($path2, $allowFiles, $APPCONFIG, $files);
             } else {
                 if (preg_match("/\.(".$allowFiles.")$/i", $file)) {
                     $files[] = array(
-                        'url'=> substr($path2, strlen($_SERVER['DOCUMENT_ROOT'])),
+                        'url'=> $APPCONFIG['sys_images_domain'].substr($path2, strlen($_SERVER['DOCUMENT_ROOT'])),
                         'mtime'=> filemtime($path2)
                     );
                 }
