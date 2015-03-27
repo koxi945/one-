@@ -87,7 +87,7 @@
         var ue = UE.getEditor('container', {
           autoHeight: false,
           initialFrameHeight: 500,
-          autoFloatEnabled: false
+          autoFloatEnabled: true
         });
 
         $(document).keydown(function(e){
