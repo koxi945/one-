@@ -6,6 +6,7 @@ error_reporting(E_ERROR);
 header("Content-Type: text/html; charset=utf-8");
 
 $CONFIG = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("config.json")), true);
+$APPCONFIG = require(dirname($_SERVER['DOCUMENT_ROOT']).'/config/sys.php');
 $action = $_GET['action'];
 
 switch ($action) {

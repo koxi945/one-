@@ -303,7 +303,7 @@ class Uploader
     private function getFilePath()
     {
         $fullname = $this->fullName;
-        $rootPath = $_SERVER['DOCUMENT_ROOT'];
+        $rootPath = ! isset($this->config['sys_upload_path']) ? dirname(dirname($_SERVER['DOCUMENT_ROOT'])).'/upload_path' : $this->config['sys_upload_path'];
 
         if (substr($fullname, 0, 1) != '/') {
             $fullname = '/' . $fullname;
@@ -338,7 +338,7 @@ class Uploader
     {
         return array(
             "state" => $this->stateInfo,
-            "url" => $this->fullName,
+            "url" => $this->config['sys_images_domain'].$this->fullName,
             "title" => $this->fileName,
             "original" => $this->oriName,
             "type" => $this->fileType,

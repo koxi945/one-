@@ -46,6 +46,8 @@ switch (htmlspecialchars($_GET['action'])) {
         $fieldName = $CONFIG['fileFieldName'];
         break;
 }
+$config['sys_upload_path'] = $APPCONFIG['sys_upload_path'];
+$config['sys_images_domain'] = $APPCONFIG['sys_images_domain'];
 
 /* 生成上传实例对象并完成上传 */
 $up = new Uploader($fieldName, $config, $base64);

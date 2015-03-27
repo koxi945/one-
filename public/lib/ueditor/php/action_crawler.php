@@ -13,7 +13,9 @@ $config = array(
     "pathFormat" => $CONFIG['catcherPathFormat'],
     "maxSize" => $CONFIG['catcherMaxSize'],
     "allowFiles" => $CONFIG['catcherAllowFiles'],
-    "oriName" => "remote.png"
+    "oriName" => "remote.png",
+    "sys_upload_path" => $APPCONFIG['sys_upload_path'],
+    'sys_images_domain' => $APPCONFIG['sys_images_domain']
 );
 $fieldName = $CONFIG['catcherFieldName'];
 
