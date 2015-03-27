@@ -82,9 +82,8 @@ function getfiles($path, $allowFiles, $APPCONFIG, &$files = array())
                 getfiles($path2, $allowFiles, $APPCONFIG, $files);
             } else {
                 if (preg_match("/\.(".$allowFiles.")$/i", $file)) {
-                    $prePath = $_SERVER['DOCUMENT_ROOT'].'/'.$APPCONFIG['sys_upload_path'];
                     $files[] = array(
-                        'url'=> $APPCONFIG['sys_images_domain'].substr($path2, strlen($prePath)),
+                        'url'=> $APPCONFIG['sys_images_domain'].substr($path2, strlen($APPCONFIG['sys_upload_path'])),
                         'mtime'=> filemtime($path2)
                     );
                 }
