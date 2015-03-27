@@ -12,6 +12,16 @@ use App\Libraries\Js;
 class CommentController extends Controller
 {
     /**
+     * 评论的列表，用于异步加载
+     */
+    public function ls()
+    {
+        $objectId = (int) Request::input('objectid');
+        $view = widget('Home.Common')->comment($objectId);
+        return $view;
+    }
+
+    /**
      * 评论
      */
     public function add()
@@ -23,7 +33,7 @@ class CommentController extends Controller
         $data['replyid'] = (int) Request::input('replyid');
 
         $commentProcess = new CommentProcess();
-        if($commentProcess->addComment($data) !== false) return Js::reload('parent');
+        if($commentProcess->addComment($data) !== false) return Js::execute('window.parent.reloadComment();');
         return Js::error($commentProcess->getErrorMessage());
     }
 

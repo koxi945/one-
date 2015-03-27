@@ -26,7 +26,8 @@
                         <?php echo $info['content']; ?>
                     </div>
                 </div>
-                <?php echo widget('Home.Common')->comment($info['id']); ?>
+                
+                <?php echo widget('Home.Common')->commentAjax($info['id']); ?>
             </div>
             <?php echo widget('Home.Common')->right(); ?>
           </div>

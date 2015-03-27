@@ -62,5 +62,13 @@ class Common
         return view('home.widget.comment', compact('commentList', 'objectID', 'objectType'));
     }
 
+    /**
+     * comment ajax
+     */
+    public function commentAjax($objectId)
+    {
+        return view('home.widget.commentAjax', compact('objectId'));
+    }
+
 
 }
