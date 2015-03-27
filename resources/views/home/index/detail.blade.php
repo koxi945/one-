@@ -14,7 +14,7 @@
 
                 <div id="blog-posts">
                     <p class="pull-right small">
-                        <a href="#detail-comment-list"><i class="icon-comments"></i>查看评论</a>
+                        <a href="#detail-comment"><i class="icon-comments"></i>查看评论</a>
                     </p>
                     <p class="text-sm p_h_info">
                         <span class="span_h_info">分类：</span><?php echo $info['classnames']; ?> &nbsp&nbsp&nbsp
