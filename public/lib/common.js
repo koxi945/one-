@@ -68,7 +68,7 @@ function ajaxDelete(url, replaceID, notice) {
 
 //显示loading
 function loading() {
-    var loading_image = '<img src="'+sys_domain+'/images/loading-icons/loading9.gif">';
+    var loading_image = '<img src="'+SYS_DOMAIN+'/images/loading-icons/loading9.gif">';
     $.blockUI({
         message: loading_image,
         css: {
@@ -121,6 +121,7 @@ function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_p
         url: upload_url+'?_=' + Math.random() + args + setting + upload_path,
         width: '500',
         height: '420',
+        padding: 0,
         okValue: '确定',
         ok: function () {
             this.title('提交中…');

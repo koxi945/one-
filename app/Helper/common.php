@@ -33,6 +33,9 @@ if( ! function_exists('widget'))
 
 /**
  * 返回json
+ *
+ * @param string $msg 返回的消息
+ * @param boolean $status 是否成功
  */
 if( ! function_exists('responseJson'))
 {
@@ -83,7 +86,7 @@ if( ! function_exists('showWriteTime'))
  * @param string $keys 以哪个key来做排序
  * @param string $type desc|asc
  */
-if (!function_exists('arraySort'))
+if ( ! function_exists('arraySort'))
 {
     function arraySort($arr,$keys,$type='asc')
     {
@@ -106,5 +109,88 @@ if (!function_exists('arraySort'))
             $arr[] = $val;
         }
         return $arr; 
+    }
+}
+
+/**
+ * 加载静态资源
+ *
+ * @param string $file 所要加载的资源
+ */
+if ( ! function_exists('loadStatic'))
+{
+    function loadStatic($file)
+    {
+        $realFile = public_path().$file;
+        if( ! file_exists($realFile)) return '';
+        $filemtime = filemtime($realFile);
+        return Request::root().$file.'?v='.$filemtime;
+    }
+}
+
+/**
+ * 适用于url的base64加密
+ */
+if( ! function_exists('base64url_encode') )
+{
+    function base64url_encode($data)
+    { 
+        return rtrim(strtr(base64_encode($data), '+/', '-_'), '='); 
+    } 
+}
+
+/**
+ * 适用于url的base64解密
+ */
+if( ! function_exists('base64url_decode') )
+{
+    function base64url_decode($data)
+    { 
+        return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT)); 
+    } 
+}
+
+if( ! function_exists('dir_path') )
+{
+    /**
+    * 转化 \ 为 /
+    * 
+    * @param    string  $path   路径
+    * @return   string  路径
+    */
+    function dir_path($path)
+    {
+        $path = str_replace('\\', '/', $path);
+        if(substr($path, -1) != '/') $path = $path.'/';
+        return $path;
+    }
+
+}
+
+if( ! function_exists('dir_create') )
+{
+    /**
+     * 创建目录
+     * 
+     * @param    string  $path   路径
+     * @param    string  $mode   属性
+     * @return   string  如果已经存在则返回true，否则为flase
+     */
+    function dir_create($path, $mode = 0777)
+    {
+        if(is_dir($path)) return TRUE;
+        $ftp_enable = 0;
+        $path = dir_path($path);
+        $temp = explode('/', $path);
+        $cur_dir = '';
+        $max = count($temp) - 1;
+        for($i=0; $i<$max; $i++)
+        {
+            $cur_dir .= $temp[$i].'/';
+            if (@is_dir($cur_dir)) continue;
+            @mkdir($cur_dir, 0777,true);
+            @chmod($cur_dir, 0777);
+        }
+        return is_dir($path);
     }
 }

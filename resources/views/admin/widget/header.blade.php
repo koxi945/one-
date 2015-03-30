@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" type="text/css" href="/lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/lib/bootstrap/css/bootstrap.css'); ?>">
+    <link rel="stylesheet" href="<?php echo loadStatic('/lib/font-awesome/css/font-awesome.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/stylesheets/theme.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/stylesheets/premium.css'); ?>">
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -31,25 +31,25 @@
             margin:10px 0;
         }
     </style>
-    <script src="/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
-    <script src="/lib/jquery.cookie.js" type="text/javascript"></script>
-    <script src="/lib/blockui.js" type="text/javascript"></script>
-    <script src="/lib/common.js" type="text/javascript"></script>
+    <script src="<?php echo loadStatic('/lib/jquery-1.11.1.min.js'); ?>" type="text/javascript"></script>
+    <script src="<?php echo loadStatic('/lib/jquery.cookie.js'); ?>" type="text/javascript"></script>
+    <script src="<?php echo loadStatic('/lib/blockui.js'); ?>" type="text/javascript"></script>
+    <script src="<?php echo loadStatic('/lib/common.js'); ?>" type="text/javascript"></script>
 
     <?php if(isset($widgetHeaderConfig['artdialog'])): ?>
         <!-- 弹出窗口 -->
-        <link rel="stylesheet" href="/lib/artdialog/css/ui-dialog.css">
-        <script src="/lib/artdialog/dist/dialog-plus-min.js"></script>
+        <link rel="stylesheet" href="<?php echo loadStatic('/lib/artdialog/css/ui-dialog.css'); ?>">
+        <script src="<?php echo loadStatic('/lib/artdialog/dist/dialog-plus-min.js'); ?>"></script>
     <?php endif; ?>
 
     <script type="text/javascript">
-        var sys_domain = '<?php echo $domain['domain']; ?>';
-        var sys_img_domain = '<?php echo $domain['img_domain']; ?>';
+        var SYS_DOMAIN = '<?php echo $domain['domain']; ?>';
+        var SYS_IMG_DOMAIN = '<?php echo $domain['img_domain']; ?>';
     </script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="/lib/html5.js"></script>
+      <script src="<?php echo loadStatic('/lib/html5.js'); ?>"></script>
     <![endif]-->
 </head>
 <body class="theme-3">

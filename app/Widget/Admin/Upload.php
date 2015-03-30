@@ -3,6 +3,7 @@
 namespace App\Widget\Admin;
 
 use Config;
+use App\Services\Admin\Upload\Process as UploadManager;
 
 /**
  * 上传小组件
@@ -29,19 +30,6 @@ class Upload
     /**
      * 上传的配置
      *
-     * <code>
-     *     配置的示例：
-     *     array(
-     *         'id' => '', //必传,表单id
-     *         'callback' => '', //必传,回调函数
-     *         'alowexts' => '', //允许图片格式
-     *         'nums' => '', //最多可以上传多少个文件
-     *         'thumbSetting' => '', //缩略图配置
-     *         'waterSetting' => '', //0或1 水印
-     *         'uploadPath' => '', //上传的路径
-     *     )
-     * </code>
-     *
      * @param array $config 上传的配置
      */
     public function setConfig(array $config)
@@ -59,15 +47,16 @@ class Upload
     public function uploadButton()
     {
         $config = $this->config;
-        $config['thumbExt'] = ',';
-        if(isset($config['thumbSetting'][1])) $config['thumbExt'] = $config['thumbSetting'][0].','.$config['thumbSetting'][1];
         if( ! isset($config['alowexts'])) $config['alowexts'] = 'jpg|jpeg|gif|bmp|png';
-        //$swfupload = new SwfUpload("$nums,$alowexts,1,$thumbExt,$waterSetting");
-        $config['authkey'] = '11'; //$swfupload->uploadKey();
-        if( ! isset($config['uploadPath'])) $config['uploadPath'] = Config::get('sys.sys_upload_path');
+        $uploadObject = new UploadManager();
+        if( ! isset($config['uploadPath']) or empty($config['uploadPath'])) $config['uploadPath'] = Config::get('sys.sys_upload_path').'/common/';
+        $config['uploadPath'] = base64url_encode($config['uploadPath']);
+
         $config['uploadUrl'] = route('common', ['class' => 'upload', 'action' => 'index']);
+        //生成密钥，附止表单被修改。
+        $authkey = $uploadObject->setParam($config)->uploadKey();
         return view('admin.widget.uploadbutton',
-            compact('config')
+            compact('config', 'authkey')
         );
     }
 
