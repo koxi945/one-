@@ -3,6 +3,7 @@
 namespace App\Widget\Admin;
 
 use App\Services\Admin\SC;
+use Request, Config;
 
 /**
  * 菜单小组件
@@ -22,9 +23,11 @@ class Common
     /**
      * header
      */
-    public function header()
+    public function header(array $widgetHeaderConfig = array())
     {
-        return view('admin.widget.header');
+        $domain['domain'] = Request::root();
+        $domain['img_domain'] = Config::get('sys.sys_images_domain');
+        return view('admin.widget.header', compact('widgetHeaderConfig', 'domain'));
     }
 
     /**
@@ -53,6 +56,14 @@ class Common
         return view('admin.widget.crumbs',
             compact('navParentName', 'navSonName', 'btnGroup')
         );
+    }
+
+    /**
+     * htmlend
+     */
+    public function htmlend()
+    {
+        return '</body></html>';
     }
 
 }

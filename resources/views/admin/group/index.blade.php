@@ -1,5 +1,4 @@
 <?php echo widget('Admin.Common')->header(); ?>
-<body class="theme-3">
     <?php echo widget('Admin.Common')->top(); ?>
     <?php echo widget('Admin.Menu')->leftMenu(); ?>
     <div class="content">
@@ -41,5 +40,4 @@
           <?php echo widget('Admin.Common')->footer(); ?>
         </div>
     </div>
-
-</body></html>
+<?php echo widget('Admin.Common')->htmlend(); ?>

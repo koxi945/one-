@@ -1,28 +1,42 @@
 //处理表单提单按钮，显示loading，禁用，启用。
 function setformSubmitButton() {
-    var isClick = false;
-    var sysBtnSubmitObject = $('form .sys-btn-submit');
-    var oldText = sysBtnSubmitObject.find('.sys-btn-submit-str').html();
-    //处理表单提交
-    $('form').submit(function(){
-        var loading = sysBtnSubmitObject.attr('data-loading') || 'loading...';
-        sysBtnSubmitObject.find('.sys-btn-submit-str').html(loading);
-        sysBtnSubmitObject.attr('disabled', 'disabled');
-        isClick = true;
-    });
     //模拟submit
-    sysBtnSubmitObject.on('click', function () {
-        sysBtnSubmitObject.parents('form').submit();
+    $(document).on('click', '.sys-btn-submit', function () {
+        var isClick = false;
+        var sysBtnSubmitObject = $(this);
+        var has_Object_Form_Init = sysBtnSubmitObject.data('form-init') || false;
+        var has_Object_Body_Init = sysBtnSubmitObject.data('body-init') || false;
+        
+        var oldText = sysBtnSubmitObject.find('.sys-btn-submit-str').html();
+
+        //处理表单提交
+        if( ! has_Object_Form_Init) {
+            sysBtnSubmitObject.parent().parent('form').submit(function(){
+                var loading = sysBtnSubmitObject.attr('data-loading') || 'loading...';
+                sysBtnSubmitObject.find('.sys-btn-submit-str').html(loading);
+                sysBtnSubmitObject.attr('disabled', 'disabled');
+                isClick = true;
+            });
+            sysBtnSubmitObject.data('form-init', true);
+        }
+
+        //取消按钮锁定
+        if( ! has_Object_Body_Init) {
+            $("body").on('click', function(){
+                if(isClick){
+                    sysBtnSubmitObject.removeAttr('disabled');
+                    sysBtnSubmitObject.find('.sys-btn-submit-str').html(oldText);
+                }
+                isClick = false;
+            });
+           sysBtnSubmitObject.data('body-init', true);
+        }
+
+        sysBtnSubmitObject.parent().parent('form').submit();
+
         return false;
     });
-    //取消按钮锁定
-    $("body").on('click', function(){
-        if(isClick){
-            sysBtnSubmitObject.removeAttr('disabled');
-            sysBtnSubmitObject.find('.sys-btn-submit-str').html(oldText);
-        }
-        isClick = false;
-    });
+    
 }
 
 //异步删除
@@ -54,7 +68,7 @@ function ajaxDelete(url, replaceID, notice) {
 
 //显示loading
 function loading() {
-    var loading_image = '<img src="images/loading-icons/loading9.gif">';
+    var loading_image = '<img src="'+sys_domain+'/images/loading-icons/loading9.gif">';
     $.blockUI({
         message: loading_image,
         css: {
@@ -70,6 +84,7 @@ function unloading() {
     $.unblockUI();
 }
 
+//权限给预选择
 function selectAllPermission(checker, scope, type) { 
     if(scope) {
         if(type == 'button') {
@@ -93,6 +108,33 @@ function selectAllPermission(checker, scope, type) {
             });
         }
     }
+}
+
+//上传弹出窗口
+function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_path, upload_url) {
+    var args = args ? '&args=' + args : '';
+    var setting = '&authkey=' + authkey;
+    var upload_path = '&upload_path=' + upload_path;
+    var d = dialog({
+        title: title,
+        id: uploadid,
+        url: upload_url+'?_=' + Math.random() + args + setting + upload_path,
+        width: '500',
+        height: '420',
+        okValue: '确定',
+        ok: function () {
+            this.title('提交中…');
+            if (funcName) {
+                funcName.apply(this, [uploadid, itemId]);
+            }
+            return false;
+        },
+        cancelValue: '取消',
+        cancel: function () {
+
+        }
+    });
+    d.showModal();
 }
 
 $(document).ready(function(){

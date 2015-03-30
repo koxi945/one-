@@ -39,6 +39,8 @@
       <script src="lib/html5.js"></script>
     <![endif]-->
   
+</head>
+<body class=" theme-blue">
 
     <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
     <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
@@ -47,9 +49,6 @@
     <!--[if (gt IE 9)|!(IE)]><!--> 
    
     <!--<![endif]-->
-</head>
-<body class=" theme-blue">
-
 
     <div class="dialog">
     <div class="panel panel-default">

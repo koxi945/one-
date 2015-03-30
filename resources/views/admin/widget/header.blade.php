@@ -6,15 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <link rel="stylesheet" type="text/css" href="/lib/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.css">
-
-    <script src="/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
-    <script src="/lib/jquery.cookie.js" type="text/javascript"></script>
-    <script src="/lib/blockui.js" type="text/javascript"></script>
-    <script src="/lib/common.js" type="text/javascript"></script>
-
     <link rel="stylesheet" type="text/css" href="/stylesheets/theme.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/premium.css">
     <style type="text/css">
@@ -38,18 +31,32 @@
             margin:10px 0;
         }
     </style>
+    <script src="/lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="/lib/jquery.cookie.js" type="text/javascript"></script>
+    <script src="/lib/blockui.js" type="text/javascript"></script>
+    <script src="/lib/common.js" type="text/javascript"></script>
+
+    <?php if(isset($widgetHeaderConfig['artdialog'])): ?>
+        <!-- 弹出窗口 -->
+        <link rel="stylesheet" href="/lib/artdialog/css/ui-dialog.css">
+        <script src="/lib/artdialog/dist/dialog-plus-min.js"></script>
+    <?php endif; ?>
+
+    <script type="text/javascript">
+        var sys_domain = '<?php echo $domain['domain']; ?>';
+        var sys_img_domain = '<?php echo $domain['img_domain']; ?>';
+    </script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="/lib/html5.js"></script>
     <![endif]-->
-  
-
-    <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
-    <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
-    <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
-    <!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
-    <!--[if (gt IE 9)|!(IE)]><!--> 
-   
-    <!--<![endif]-->
 </head>
+<body class="theme-3">
+<!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
+<!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
+<!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->
+<!--[if IE 9 ]> <body class="ie ie9 "> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> 
+
+<!--<![endif]-->

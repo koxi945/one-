@@ -17,4 +17,12 @@ class IndexController extends Controller
         return view('admin.index.index');
     }
 
+    /**
+     * 显示首页
+     */
+    public function cs()
+    {
+        return view('admin.index.cs');
+    }
+
 }
