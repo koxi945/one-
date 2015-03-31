@@ -6,7 +6,15 @@
         <div class="main-content">
           
         <!-- 上传的示例 -->
-        <?php echo widget('Admin.Upload')->setConfig(['id' => 'id', 'callback' => 'setformSubmitButton'])->uploadButton();?>
+        上传的示例：<?php echo widget('Admin.Upload')->setConfig(['id' => 'id', 'callback' => 'returnUpload'])->uploadButton();?>
+        <script type="text/javascript">
+            //示例的回调函数
+            function returnUpload(uploadid, itemId) {
+                var $dialog_id = uploadid;
+                var $response = $(".upload-reponse", window.frames[$dialog_id].document);
+                alert($response.val());
+            }
+        </script>
 
         <?php echo widget('Admin.Common')->footer(); ?>
             

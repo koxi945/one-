@@ -61,6 +61,7 @@
                 uploader = WebUploader.create({
                     // 自动上传。
                     auto: false,
+                    runtimeOrder: 'html5,flash',
                     //上传域的名字
                     fileVal: 'file',
                     //允许上传的文件数
@@ -79,9 +80,8 @@
                     pick: '#filePicker',
                     // 只允许选择文件，可选。
                     accept: {
-                        title: 'Images',
-                        extensions: '<?php echo $args['alowexts']; ?>',
-                        mimeTypes: 'image/*'
+                        title: 'all',
+                        extensions: '<?php echo $args['alowexts']; ?>'
                     }
                 });
 
@@ -91,7 +91,6 @@
                             '<div id="' + file.id + '" class="file-item thumbnail" title="' + file.name + '">' +
                                 '<img>' +
                                 '<div class="' + file.id + '-remove web-upload-remove" title="删除"><i class="fa fa-times-circle"></i></div>'+
-                                '<div class="info">' + file.name + '</div>' +
                             '</div>'
                             ),
                         $img = $li.find('img');
@@ -100,8 +99,11 @@
 
                     // 创建缩略图
                     uploader.makeThumb( file, function( error, src ) {
+                        var $fileExt = fileExt(file.ext);
                         if ( error ) {
-                            $img.replaceWith('<span>不能预览</span>');
+                            //$img.replaceWith('<span>不能预览</span>');
+                            $img.attr( 'src', SYS_DOMAIN+'/images/ext/'+ $fileExt+'.png');
+                            $img.attr('width', thumbnailWidth).attr('height',thumbnailHeight);
                             return;
                         }
 
@@ -134,8 +136,9 @@
                 });
 
                 // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-                uploader.on( 'uploadSuccess', function( file ) {
-                    $( '#'+file.id ).addClass('upload-state-done');
+                uploader.on( 'uploadSuccess', function( file, response ) {
+                    //保存服务器返回的真实的保存路径
+                    $( '#'+file.id ).addClass('upload-state-done').append('<input type="hidden" class="upload-reponse" value="'+response.file+'" />');
                     $('.progress .text-show-yes').html('上传成功');
                 });
 
@@ -175,7 +178,6 @@
                 //删除图片view
                 function removeImageView(file) {
                   var $div = $('#' + file.id);
-                  //alert(file.id);
                   $div.remove();
                 }
 
@@ -183,6 +185,17 @@
                 $('#upload-btn-save').click(function(){
                   uploader.upload();
                 });
+
+                //返回非图片的预览图
+                function fileExt(fileext) {
+                    if(fileext == 'zip' || fileext == 'rar') fileext = 'rar';
+                    else if(fileext == 'doc' || fileext == 'docx') fileext = 'doc';
+                    else if(fileext == 'xls' || fileext == 'xlsx') fileext = 'xls';
+                    else if(fileext == 'ppt' || fileext == 'pptx') fileext = 'ppt';
+                    else if (fileext == 'flv' || fileext == 'swf' || fileext == 'rm' || fileext == 'rmvb') fileext = 'flv';
+                    else fileext = 'do';
+                    return fileext;
+                }
                 
             });
         </script>

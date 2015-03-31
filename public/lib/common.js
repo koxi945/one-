@@ -127,14 +127,23 @@ function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_u
             if (funcName) {
                 funcName.apply(this, [uploadid, itemId]);
             }
+            this.close().remove();
+            removeDialogIframe(uploadid);
             return false;
         },
         cancelValue: '取消',
         cancel: function () {
-
+            this.close().remove();
+            removeDialogIframe(uploadid);
+            return false;
         }
     });
     d.showModal();
+}
+
+//artdialog关闭后还会有一个iframe，删除它
+function removeDialogIframe(uploadid) {
+    $('body').find('iframe[name="'+uploadid+'"]').remove();
 }
 
 $(document).ready(function(){

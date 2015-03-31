@@ -48,9 +48,9 @@ class Upload
     public function uploadButton()
     {
         $config = $this->config;
-        if( ! isset($config['alowexts']) or empty($config['alowexts'])) $config['alowexts'] = 'jpg,jpeg,gif,bmp,png';
+        if( ! isset($config['alowexts']) or empty($config['alowexts'])) $config['alowexts'] = 'jpg,jpeg,gif,bmp,png,doc,docx';
         $uploadObject = new UploadManager();
-        if( ! isset($config['uploadPath']) or empty($config['uploadPath'])) $config['uploadPath'] = Config::get('sys.sys_upload_path').'/common/';
+        if( ! isset($config['uploadPath']) or empty($config['uploadPath'])) $config['uploadPath'] = Config::get('sys.sys_upload_path').'/';
         $config['uploadPath'] = base64url_encode($config['uploadPath']);
 
         $config['uploadUrl'] = route('common', ['class' => 'upload', 'action' => 'index']);

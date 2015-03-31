@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Request;
+use Request, Config;
 use Lang;
 use App\Services\Admin\Upload\Process as UploadManager;
 
@@ -46,9 +46,12 @@ class UploadController extends Controller
     	{
     		dir_create($savePath);
     	}
-    	$move = $file->move($savePath, $saveFileName);
+    	$file->move($savePath, $saveFileName);
     	if( ! file_exists($savePath.$saveFileName)) return abort(500);
-    	return ;
+    	$configSavePath = Config::get('sys.sys_upload_path');
+    	$returnFileUrl = str_replace('/', '', str_replace($configSavePath, '', $savePath.$saveFileName));
+
+    	return response()->json(['file'=>$returnFileUrl]);
     }
 
 }
