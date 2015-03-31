@@ -58,7 +58,7 @@
 }
 
 #uploader-comtainer .col-tab .upload-content {
-    border: 1px solid #dce3ed;
+    /**border: 1px solid #dce3ed;*/
     overflow: hidden;
     padding: 10px;
     font-size: 14px!important;

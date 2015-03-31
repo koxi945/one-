@@ -10,16 +10,14 @@
   <script type="text/javascript" src="<?php echo loadStatic('/lib/webuploader/webuploader.min.js'); ?>"></script>
 
   <div class="main-content">
-    <div id="sys-list" style="padding-left:30px; padding-right:30px;">
+    <div id="sys-list" style="padding-left:20px; padding-right:20px;">
       <div class="row">
         
         <!--dom结构部分-->
         <div id="uploader-comtainer">
 
             <div class="col-tab">
-                  <ul class="tabBut cu-li">
-                      <li class="on" id="tab_swf_1">上传附件</li>
-                  </ul>
+                  
                   <div class="upload-content pad-10 on" id="div_swf_1">
                       <div>
                           <div id="addnew" class="addnew"></div>
