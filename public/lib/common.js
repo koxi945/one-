@@ -11,7 +11,7 @@ function setformSubmitButton() {
 
         //处理表单提交
         if( ! has_Object_Form_Init) {
-            sysBtnSubmitObject.parent().parent('form').submit(function(){
+            sysBtnSubmitObject.closest('form').submit(function(){
                 var loading = sysBtnSubmitObject.attr('data-loading') || 'loading...';
                 sysBtnSubmitObject.find('.sys-btn-submit-str').html(loading);
                 sysBtnSubmitObject.attr('disabled', 'disabled');
@@ -32,7 +32,7 @@ function setformSubmitButton() {
            sysBtnSubmitObject.data('body-init', true);
         }
 
-        sysBtnSubmitObject.parent().parent('form').submit();
+        sysBtnSubmitObject.closest('form').submit();
 
         return false;
     });
