@@ -18,8 +18,11 @@ class UploadController extends Controller
      */
     public function index()
     {
-    	$parpams = Request::only('args', 'authkey', 'upload_path');
-    	return view('admin.upload.index', compact('parpams'));
+    	$parpams = Request::only('args', 'authkey');
+    	$args = @ unserialize(base64url_decode($parpams['args']));
+    	$uploadObject = new UploadManager();
+    	if( ! $uploadObject->setParam($args)->checkUploadToken($parpams['authkey'])) return abort(500);
+    	return view('admin.upload.index', compact('parpams', 'args'));
     }
 
     /**
@@ -27,8 +30,8 @@ class UploadController extends Controller
      */
     public function process()
     {
-    	$parpams = Request::only('authkey', 'upload_path', 'args');
-    	$config = explode(',', base64url_decode($parpams['args']));
+    	$parpams = Request::only('authkey', 'args');
+    	$config = @ unserialize(base64url_decode($parpams['args']));
     	$uploadObject = new UploadManager();
     	if( ! $uploadObject->setParam($config)->checkUploadToken($parpams['authkey'])) return abort(500);
     	$fileName = 'file';
@@ -36,9 +39,9 @@ class UploadController extends Controller
     	if ( ! Request::file($fileName)->isValid()) return abort(500);
     	if (Request::file($fileName)->getError() != UPLOAD_ERR_OK) return abort(500);
     	$file = Request::file($fileName);
-    	$savePath = base64url_decode($parpams['upload_path']);
+    	$savePath = base64url_decode($config['uploadPath']);
+    	//var_dump($savePath, 'ss');exit;
     	$saveFileName = md5(uniqid('pre', TRUE).mt_rand(1000000,9999999)).'.'.$file->getClientOriginalExtension();
-    	//dd($savePath);
     	if( ! is_dir($savePath))
     	{
     		dir_create($savePath);

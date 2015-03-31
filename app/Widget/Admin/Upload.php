@@ -25,6 +25,7 @@ class Upload
         'thumbSetting' => '', //缩略图配置
         'waterSetting' => '', //0或1 水印
         'uploadPath' => '', //上传的路径
+        'filesize' => '',
     ];
 
     /**
@@ -47,7 +48,7 @@ class Upload
     public function uploadButton()
     {
         $config = $this->config;
-        if( ! isset($config['alowexts'])) $config['alowexts'] = 'jpg|jpeg|gif|bmp|png';
+        if( ! isset($config['alowexts']) or empty($config['alowexts'])) $config['alowexts'] = 'jpg,jpeg,gif,bmp,png';
         $uploadObject = new UploadManager();
         if( ! isset($config['uploadPath']) or empty($config['uploadPath'])) $config['uploadPath'] = Config::get('sys.sys_upload_path').'/common/';
         $config['uploadPath'] = base64url_encode($config['uploadPath']);

@@ -111,14 +111,13 @@ function selectAllPermission(checker, scope, type) {
 }
 
 //上传弹出窗口
-function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_path, upload_url) {
+function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_url) {
     var args = args ? '&args=' + args : '';
     var setting = '&authkey=' + authkey;
-    var upload_path = '&upload_path=' + upload_path;
     var d = dialog({
         title: title,
         id: uploadid,
-        url: upload_url+'?_=' + Math.random() + args + setting + upload_path,
+        url: upload_url+'?_=' + Math.random() + args + setting,
         width: '500',
         height: '420',
         padding: 0,

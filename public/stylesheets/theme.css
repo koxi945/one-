@@ -911,3 +911,7 @@ table.table.list tr:first-child td {
 #featurebar .btn {padding: 4px 12px}
 #featurebar .btn > i {display: inline-block; margin-right: 2px; opacity: 0.8}
 #featurebar .actions {float: right; margin-top: -2px;}
+
+div.clear {
+  clear: both;
+}

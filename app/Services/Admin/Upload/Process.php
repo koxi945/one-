@@ -45,7 +45,7 @@ class Process
     public function uploadKey()
     {
         $uploadToken = md5($this->uploadToken.$_SERVER['HTTP_USER_AGENT']);
-        $authkey = md5(implode(',', $this->params).$uploadToken);
+        $authkey = md5(serialize($this->params).$uploadToken);
         return $authkey;
     }
 

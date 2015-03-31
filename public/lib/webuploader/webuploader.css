@@ -102,17 +102,61 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     z-index: 10;
+    display: none;
 }
 
 #uploader-comtainer #fileList .file-item .error {
-    background: none repeat scroll 0 0 red;
+    background: none repeat scroll 0 0 #ccc;
     color: white;
     font-size: 14px;
     height: 20px;
     left: 4px;
-    line-height: 23px;
+    line-height: 18px;
     position: absolute;
     right: 4px;
     text-align: center;
     top: 4px;
+}
+
+#uploader-comtainer .web-upload-remove {
+  color: red;
+  position: absolute;
+  right: 4px;
+  top: 1px;
+  cursor: pointer;
+  background: #fff;
+  width: 16px;
+  text-align: center;
+  z-index: 9999;
+  border-radius: 8px;
+  height: 16px;
+  line-height: 14px;
+}
+
+#uploader-comtainer .web-upload-remove:hover {
+  color: #F24242;
+}
+
+.select-upload-file-buttom {
+  line-height: 11px;
+  float: left;
+  margin-right: 5px;
+}
+
+p.progress {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: 999;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
+    height: 100%;
+}
+
+#uploader-comtainer span.text-show-yes {
+    color: #fff;
+    display: block;
+    line-height: 90px;
+    padding-top: 10px;
+    text-align: center;
+    font-weight: bolder;
 }
