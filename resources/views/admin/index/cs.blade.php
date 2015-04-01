@@ -6,7 +6,7 @@
         <div class="main-content">
           
         <!-- 上传的示例 -->
-        上传的示例：<?php echo widget('Admin.Upload')->setConfig(['id' => 'id', 'callback' => 'returnUpload'])->uploadButton();?>
+        上传的示例：<?php echo widget('Admin.Upload')->setConfig(['id' => 'id', 'callback' => 'returnUpload', 'thumbSetting' => ['width' => 50, 'height' => 50] ])->uploadButton();?>
         <script type="text/javascript">
             //示例的回调函数
             function returnUpload(uploadid, itemId) {

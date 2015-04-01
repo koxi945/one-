@@ -22,8 +22,17 @@ class Upload
         'callback' => '', //必传,回调函数
         'alowexts' => '', //允许图片格式
         'nums' => '', //最多可以上传多少个文件
-        'thumbSetting' => '', //缩略图配置
-        'waterSetting' => '', //0或1 水印
+        //缩略图配置
+        //<code>
+        //  thumbSettin的值为：
+        //  $thumbSetting = array(
+        //      'width' => 111,
+        //      'height' => 222,
+        //  );
+        //</code>
+        'thumbSetting' => '',
+        'waterSetting' => '', //true|false 水印
+        'waterImage' => '', // 如果开启了水印，那么必需传入这个水印图，否则读取配置的。
         'uploadPath' => '', //上传的路径
         'filesize' => '',
     ];

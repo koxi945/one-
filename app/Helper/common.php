@@ -194,3 +194,18 @@ if( ! function_exists('dir_create') )
         return is_dir($path);
     }
 }
+
+if( ! function_exists('isImage') )
+{
+    /**
+     * 根据后缀来简单的判断是不是图片
+     * 
+     * @return boolean
+     */
+    function isImage($ext)
+    {
+        $imageExt = 'jpg|gif|png|bmp|jpeg';
+        if( ! in_array($ext, explode('|', $imageExt))) return false;
+        return true;
+    }
+}
