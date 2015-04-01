@@ -26,8 +26,8 @@ class Upload
         //<code>
         //  thumbSettin的值为：
         //  $thumbSetting = array(
-        //      'width' => 111,
-        //      'height' => 222,
+        //      ['width' => 111, 'height' => 222],//多个值就生成多个缩略图
+        //      ['width' => 111, 'height' => 222]
         //  );
         //</code>
         'thumbSetting' => '',

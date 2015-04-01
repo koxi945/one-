@@ -50,6 +50,13 @@ class Process
     private $saveFileName;
 
     /**
+     * 配置文件中所定的文件保存的路径
+     * 
+     * @var string
+     */
+    private $configSavePath;
+
+    /**
      * 设置上传需要的参数
      */
     public function setParam($params)
@@ -107,18 +114,49 @@ class Process
         $realFile = $savePath.$saveFileName;
         if( ! file_exists($realFile)) return false;
 
+        //是否加上水印
+        if(isset($this->params['waterSetting']) and $this->params['waterSetting'] === true)
+        {
+            $waterImage = $this->params['waterImage'];
+            if( ! isset($this->params['waterImage']) or empty($this->params['waterImage']))
+            {
+                $waterImage = $this->getWaterFile();
+            }
+            $this->waterImage($realFile, $waterImage);
+        }
+
         //返回文件
-        $configSavePath = \Config::get('sys.sys_upload_path');
-        $returnFileUrl['realFileUrl'] = str_replace('/', '', str_replace($configSavePath, '', $realFile));
+        $realFileUrl[] = str_replace('/', '', str_replace($this->getConfigSavePath(), '', $realFile));
+        $thumbRealFileUrl = [];
 
         //是否要裁剪
-        if(isset($this->params['thumbSetting']['width'], $this->params['thumbSetting']['height']))
+        if(isset($this->params['thumbSetting']) and ! empty($this->params['thumbSetting']))
         {
-            $thumbRealFile = $this->cutImage($realFile, $savePath);
-            $returnFileUrl['thumbRealFileUrl'] = str_replace('/', '', str_replace($configSavePath, '', $thumbRealFile));
+            $thumbRealFileUrl = $this->cutImage($realFile, $savePath);
         }
-        
+
+        $returnFileUrl = implode('|', array_merge($realFileUrl, $thumbRealFileUrl));
+
         return $returnFileUrl;
+    }
+
+    /**
+     * 加上水印
+     * 
+     * @param  string $realFile 所要处理的图片的位置
+     * @param string $waterImage 所要加上的水印图
+     * @return void
+     */
+    private function waterImage($realFile, $waterImage)
+    {
+        $imagine = new \Imagine\Gd\Imagine();
+        $watermark = $imagine->open($waterImage);
+        $image = $imagine->open($realFile);
+        $size = $image->getSize();
+        $wSize = $watermark->getSize();
+        $bottomRight = new \Imagine\Image\Point($size->getWidth() - $wSize->getWidth(), $size->getHeight() - $wSize->getHeight());
+        $image->paste($watermark, $bottomRight);
+        $image->save($realFile);
     }
 
     /**
@@ -132,13 +170,19 @@ class Process
     {
         if( ! isImage($this->file->getClientOriginalExtension())) throw new \Exception("Image thumb must be images.");
         $imagine = new \Imagine\Gd\Imagine();
-        $size = new \Imagine\Image\Box($this->params['thumbSetting']['width'], $this->params['thumbSetting']['height']);
         $mode = \Imagine\Image\ImageInterface::THUMBNAIL_INSET;
-        $saveName = $savePath.$this->getSaveFileName().'_thumb.'.$this->file->getClientOriginalExtension();
-        $imagine->open($realFile)
-                ->thumbnail($size, $mode)
-                ->save($saveName);
-        return $saveName;
+        $result = [];
+        foreach($this->params['thumbSetting'] as $key => $value)
+        {
+            if(isset($value['width'], $value['height']) and is_numeric($value['width']) and is_numeric($value['height']))
+            {
+                $size = new \Imagine\Image\Box($value['width'], $value['height']);
+                $saveName = $savePath.$this->getSaveFileName().'_'.$value['width'].'_'.$value['height'].'_thumb.'.$this->file->getClientOriginalExtension();
+                $imagine->open($realFile)->thumbnail($size, $mode)->save($saveName);
+                $result[] = str_replace('/', '', str_replace($this->getConfigSavePath(), '', $saveName));
+            }
+        }
+        return $result;
     }
 
     /**
@@ -166,6 +210,25 @@ class Process
     {
         if( ! $this->saveFileName) $this->saveFileName = md5(uniqid('pre', TRUE).mt_rand(1000000,9999999));
         return $this->saveFileName;
+    }
+
+    /**
+     * 配置文件中的图片所保存的路径
+     * 
+     * @return string
+     */
+    private function getConfigSavePath()
+    {
+        if( ! $this->configSavePath) $this->configSavePath = \Config::get('sys.sys_upload_path');
+        return $this->configSavePath;
+    }
+
+    /**
+     * 取得要加水印的图片
+     */
+    private function getWaterFile()
+    {
+        return \Config::get('sys.sys_water_file');
     }
 
     /**
