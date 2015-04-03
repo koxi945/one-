@@ -19,7 +19,7 @@
       <ul class="dropdown-menu">
         <li><a tabindex="-1" href="#">修改密码</a></li>
         <li class="divider"></li>
-        <li><a tabindex="-1" href="<?php echo route('login.out'); ?>">退出</a></li>
+        <li><a tabindex="-1" href="<?php echo route('foundation.login.out'); ?>">退出</a></li>
       </ul>
     </li>
   </ul>

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Foundation;
 
 use Request, Config, Lang;
 use App\Services\Admin\Upload\Process as UploadManager;
+use App\Http\Controllers\Admin\Controller;
 
 /**
  * 弹出窗口上传

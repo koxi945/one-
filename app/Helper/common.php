@@ -1,6 +1,27 @@
 <?php
 
 /**
+ * 自己重新定义的生成URL函数，方便使用而已。
+ *
+ * @param string $route 路由别中
+ * @param string $urlString 当前操作的模块、类、函数，以点为分隔
+ * @param string $params 附带参数
+ * @return string
+ */
+if( ! function_exists('R'))
+{
+    function R($route, $urlString, $params = [])
+    {
+        if( ! is_string($route) or ! is_string($urlString)) return false;
+        $urlArr = explode('.', $urlString);
+        if( ! isset($urlArr[2])) return false;
+        $param = ['module' => $urlArr[0], 'class' => $urlArr[1], 'action' => $urlArr[2]];
+        if(is_array($params)) $param = array_merge($param, $params);
+        return route($route, $param);
+    }
+}
+
+/**
  * 加载小组件，传入的名字会以目录和类名区别。
  * 如Home.Common就代表Widget目录下的Home/Common.php这个widget。
  *

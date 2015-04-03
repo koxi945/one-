@@ -62,7 +62,7 @@ class Upload
         if( ! isset($config['uploadPath']) or empty($config['uploadPath'])) $config['uploadPath'] = Config::get('sys.sys_upload_path').'/';
         $config['uploadPath'] = base64url_encode($config['uploadPath']);
 
-        $config['uploadUrl'] = route('common', ['class' => 'upload', 'action' => 'index']);
+        $config['uploadUrl'] = R('common', 'foundation.upload.index');
         //生成密钥，附止表单被修改。
         $authkey = $uploadObject->setParam($config)->uploadKey();
         return view('admin.widget.uploadbutton',

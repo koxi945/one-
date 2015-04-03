@@ -1,10 +1,11 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Admin\Blog;
 
 use Request, Lang;
 use App\Models\Admin\Content as ContentModel;
 use App\Models\Admin\Category as CategoryModel;
 use App\Services\Admin\Content\Process as ContentActionProcess;
 use App\Libraries\Js;
+use App\Http\Controllers\Admin\Controller;
 
 /**
  * 登录相关
@@ -32,7 +33,7 @@ class ContentController extends Controller
     {
         if(Request::method() == 'POST') return $this->saveDatasToDatabase();
         $classifyInfo = (new CategoryModel())->activeCategory();
-        $formUrl = route('common', ['class' => 'content', 'action' => 'add']);
+        $formUrl = R('common', 'blog.content.add');
         return view('admin.content.add', compact('formUrl', 'classifyInfo'));
     }
     
@@ -46,7 +47,7 @@ class ContentController extends Controller
         $data = (array) Request::input('data');
         $data['tags'] = explode(';', $data['tags']);
         $manager = new ContentActionProcess();
-        if($manager->addContent($data) !== false) return Js::locate(route('common', ['class' => 'content', 'action' => 'index']), 'parent');
+        if($manager->addContent($data) !== false) return Js::locate(R('common', 'blog.content.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 
@@ -79,7 +80,7 @@ class ContentController extends Controller
         $classifyInfo = (new CategoryModel())->activeCategory();
         $info = $this->joinArticleClassify($info);
         $info = $this->joinArticleTags($info);
-        $formUrl = route('common', ['class' => 'content', 'action' => 'edit']);
+        $formUrl = R('common', 'blog.content.edit');
         return view('admin.content.add', compact('info', 'formUrl', 'id', 'classifyInfo'));
     }
 
@@ -130,7 +131,7 @@ class ContentController extends Controller
         $id = intval(Request::input('id'));
         $data['tags'] = explode(';', $data['tags']);
         $manager = new ContentActionProcess();
-        if($manager->editContent($data, $id) !== false) return Js::locate(route('common', ['class' => 'content', 'action' => 'index']), 'parent');
+        if($manager->editContent($data, $id) !== false) return Js::locate(R('common', 'blog.content.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 

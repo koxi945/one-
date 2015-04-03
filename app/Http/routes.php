@@ -6,9 +6,9 @@
 Route::group(['domain' => 'admin.opcache.net'], function() {
 
 	//登录界面
-	Route::group(['middleware' => ['csrf']], function(){
-		Route::get('/', 'Admin\LoginController@index');
-		Route::controller('login', 'Admin\LoginController', ['getOut' => 'login.out']);
+	Route::group(['middleware' => ['csrf']], function() {
+		Route::get('/', 'Admin\Foundation\LoginController@index');
+		Route::controller('login', 'Admin\Foundation\LoginController', ['getOut' => 'foundation.login.out']);
 	});
 
 	Route::group(['middleware' => ['auth', 'acl']], function() {
@@ -18,8 +18,8 @@ Route::group(['domain' => 'admin.opcache.net'], function() {
 		//Route::get('index-index.html', ['as' => 'login.index', 'uses' => 'Admin\IndexController@index']);
 		
 		//通用的路由
-		Route::any('{class}----{action}.html', ['as' => 'common', function($class, $action) {
-			$class = 'App\\Http\\Controllers\\Admin\\'.ucfirst(strtolower($class)).'Controller';
+		Route::any('{module}-{class}-{action}.html', ['as' => 'common', function($module, $class, $action) {
+			$class = 'App\\Http\\Controllers\\Admin\\'.ucfirst(strtolower($module)).'\\'.ucfirst(strtolower($class)).'Controller';
 			if(class_exists($class)) {
 				$classObject = new $class();
 				if(method_exists($classObject, $action)) return call_user_func(array($classObject, $action));

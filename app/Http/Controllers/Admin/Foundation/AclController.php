@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Foundation;
 
+use App\Http\Controllers\Admin\Controller;
 use App\Models\Admin\Permission as PermissionModel;
 use App\Models\Admin\Access as AccessModel;
 use App\Models\Admin\User as UserModel;
@@ -41,7 +42,7 @@ class AclController extends Controller
     public function add()
     {
         if(Request::method() == 'POST') return $this->savePermissionToDatabase();
-        $formUrl = route('common', ['class' => 'acl', 'action' => 'add']);
+        $formUrl = R('common', 'foundation.acl.add');
         $list = (new PermissionModel())->getAllAccessPermission();
         $select = Tree::dropDownSelect(Tree::genTree($list));
         return view('admin.acl.add', compact('select', 'formUrl'));
@@ -57,7 +58,7 @@ class AclController extends Controller
         $data = (array) Request::input('data');
         $data['add_time'] = time();
         $manager = new AclActionProcess();
-        if($manager->addAcl($data) !== false) return Js::locate(route('common', ['class' => 'acl', 'action' => 'index']), 'parent');
+        if($manager->addAcl($data) !== false) return Js::locate(R('common', 'foundation.acl.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
     
@@ -91,7 +92,7 @@ class AclController extends Controller
         $permissionInfo = $permissionModel->getOnePermissionById(intval($id));
         if(empty($permissionInfo)) return Js::error(Lang::get('common.acl_not_found'), true);
         $select = Tree::dropDownSelect($list, $permissionInfo['pid']);
-        $formUrl = route('common', ['class' => 'acl', 'action' => 'edit']);
+        $formUrl = R('common', 'foundation.acl.edit');
         return view('admin.acl.add', compact('select', 'permissionInfo', 'formUrl', 'id'));
     }
     
@@ -105,7 +106,7 @@ class AclController extends Controller
         $data = Request::input('data');
         if( ! $data) return Js::error(Lang::get('common.info_incomplete'));
         $manager = new AclActionProcess();
-        if($manager->editAcl($data) !== false) return Js::locate(route('common', ['class' => 'acl', 'action' => 'index']), 'parent');
+        if($manager->editAcl($data) !== false) return Js::locate(R('common', 'foundation.acl.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
     
@@ -123,7 +124,7 @@ class AclController extends Controller
             if((new PermissionModel())->sortPermission($key, $value) === false) $err = true;
         }
         if(isset($err)) return Js::error(Lang::get('common.action_error'));
-        return Js::locate(route('common', ['class' => 'acl', 'action' => 'index']), 'parent');
+        return Js::locate(R('common', 'foundation.acl.index'), 'parent');
     }
 
     /**

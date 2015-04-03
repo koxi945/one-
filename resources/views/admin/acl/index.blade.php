@@ -5,7 +5,7 @@
         <?php echo widget('Admin.Common')->crumbs('Acl'); ?>
         <div class="main-content">
           <div id="sys-list">
-          <form id="aclListForm" target="hiddenwin" method="post" action="<?php echo route('common', ['class' => 'acl', 'action' => 'sort']);?>">
+          <form id="aclListForm" target="hiddenwin" method="post" action="<?php echo R('common', 'foundation.acl.sort');?>">
           <div class="row">
               <div class="col-sm-6 col-md-12">
                   <div class="panel panel-default">

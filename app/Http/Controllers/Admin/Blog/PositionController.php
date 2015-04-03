@@ -1,9 +1,10 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Admin\Blog;
 
 use Request, Lang;
 use App\Models\Admin\Position as PositionModel;
 use App\Services\Admin\Position\Process as PositionActionProcess;
 use App\Libraries\Js;
+use App\Http\Controllers\Admin\Controller;
 
 /**
  * 文章推荐位相关
@@ -28,7 +29,7 @@ class PositionController extends Controller
     public function add()
     {
     	if(Request::method() == 'POST') return $this->saveDatasToDatabase();
-        $formUrl = route('common', ['class' => 'position', 'action' => 'add']);
+        $formUrl = R('common', 'blog.position.add');
         return view('admin.content.positionadd', compact('formUrl'));
     }
 
@@ -41,7 +42,7 @@ class PositionController extends Controller
     {
         $data = (array) Request::input('data');
         $manager = new PositionActionProcess();
-        if($manager->addPosition($data) !== false) return Js::locate(route('common', ['class' => 'position', 'action' => 'index']), 'parent');
+        if($manager->addPosition($data) !== false) return Js::locate(R('common', 'blog.position.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 
@@ -55,7 +56,7 @@ class PositionController extends Controller
         if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
         $info = (new PositionModel())->getOneById($id);
         if(empty($info)) return Js::error(Lang::get('position.not_found'));
-        $formUrl = route('common', ['class' => 'position', 'action' => 'edit']);
+        $formUrl = R('common', 'blog.position.edit');
         return view('admin.content.positionadd', compact('info', 'formUrl', 'id'));
     }
 
@@ -69,7 +70,7 @@ class PositionController extends Controller
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
         $manager = new PositionActionProcess();
-        if($manager->editPosition($data)) return Js::locate(route('common', ['class' => 'position', 'action' => 'index']), 'parent');
+        if($manager->editPosition($data)) return Js::locate(R('common', 'blog.position.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 

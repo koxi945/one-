@@ -1,9 +1,10 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Admin\Blog;
 
 use Request, Lang;
 use App\Models\Admin\Category as CategoryModel;
 use App\Services\Admin\Category\Process as CategoryActionProcess;
 use App\Libraries\Js;
+use App\Http\Controllers\Admin\Controller;
 
 /**
  * 文章分类相关
@@ -28,7 +29,7 @@ class CategoryController extends Controller
     public function add()
     {
     	if(Request::method() == 'POST') return $this->saveDatasToDatabase();
-        $formUrl = route('common', ['class' => 'category', 'action' => 'add']);
+        $formUrl = R('common', 'blog.category.add');
         return view('admin.content.classifyadd', compact('formUrl'));
     }
 
@@ -41,7 +42,7 @@ class CategoryController extends Controller
     {
         $data = (array) Request::input('data');
         $manager = new CategoryActionProcess();
-        if($manager->addCategory($data) !== false) return Js::locate(route('common', ['class' => 'category', 'action' => 'index']), 'parent');
+        if($manager->addCategory($data) !== false) return Js::locate(R('common', 'blog.category.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 
@@ -55,7 +56,7 @@ class CategoryController extends Controller
         if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
         $info = (new CategoryModel())->getOneById($id);
         if(empty($info)) return Js::error(Lang::get('category.not_found'));
-        $formUrl = route('common', ['class' => 'category', 'action' => 'edit']);
+        $formUrl = R('common', 'blog.category.edit');
         return view('admin.content.classifyadd', compact('info', 'formUrl', 'id'));
     }
 
@@ -69,7 +70,7 @@ class CategoryController extends Controller
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
         $manager = new CategoryActionProcess();
-        if($manager->editCategory($data)) return Js::locate(route('common', ['class' => 'category', 'action' => 'index']), 'parent');
+        if($manager->editCategory($data)) return Js::locate(R('common', 'blog.category.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 

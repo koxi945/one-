@@ -14,8 +14,8 @@
                     <li>
                         <ul class="dashboard-menu-<?php echo $key;?> nav nav-list collapse <?php if($subShow == 1): ?>inn<?php endif; ?>">
                             <?php foreach($value[$son] as $skey => $svalue): ?>
-                                <?php $urlParam = ['class' => $svalue['class'], 'action' => $svalue['action']]; ?>
-                                <li id="nav-sub-<?php echo $skey;?>"><a id="nav-sub-a-<?php echo $skey;?>" data-sid="<?php echo $skey;?>" data-pid="<?php echo $key;?>" data-href="<?php echo route('common', $urlParam); ?>" href="javascript:;" class="nav-sub-menu"><span class="fa fa-caret-right"></span> <?php echo $svalue['name']; ?></a></li>
+                                <?php $urlParam = $svalue['module'] .'.'. $svalue['class'] .'.'. $svalue['action']; ?>
+                                <li id="nav-sub-<?php echo $skey;?>"><a id="nav-sub-a-<?php echo $skey;?>" data-sid="<?php echo $skey;?>" data-pid="<?php echo $key;?>" data-href="<?php echo R('common', $urlParam); ?>" href="javascript:;" class="nav-sub-menu"><span class="fa fa-caret-right"></span> <?php echo $svalue['name']; ?></a></li>
                             <?php endforeach;?>
                         </ul>
                     </li>

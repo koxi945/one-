@@ -5,14 +5,14 @@
         <?php echo widget('Admin.Common')->crumbs('Acl'); ?>
         <div class="main-content">
           <div id="sys-list">
-          <form id="aclListForm" target="hiddenwin" method="post" action="<?php echo route('common', ['class' => 'acl', 'action' =>  $router]);?>">
+          <form id="aclListForm" target="hiddenwin" method="post" action="<?php echo R('common', 'foundation.acl.'.$router); ?>">
           <div class="row">
             <div class="col-sm-6 col-md-12">
               <div id="featurebar">
                 <div class="heading"><?php echo isset($info['name']) ? $info['name'] : ''; ?><?php echo isset($info['group_name']) ? $info['group_name'] : ''; ?> : </div>
                 <ul class="nav">
                   <li class="active">
-                    <a href="<?php echo route('common', ['classs' => 'acl', 'action' => $router, 'id' => $id]);?>">所有权限</a>
+                    <a href="<?php echo R('common', 'foundation.acl.'.$router, ['id' => $id]); ?>">所有权限</a>
                   </li>
                   <?php
                       $son = App\Services\Admin\Tree::getSonKey();
@@ -22,7 +22,7 @@
                                   
                   ?>
                   <li class="active">
-                    <a href="<?php echo route('common', ['classs' => 'acl', 'action' => $router, 'id' => $id, 'pid' => $value['id']]);?>"><?php echo $value['name']; ?></a>
+                    <a href="<?php echo R('common', 'foundation.acl.'.$router, ['id' => $id, 'pid' => $value['id'] ]); ?>"><?php echo $value['name']; ?></a>
                   </li>
                   <?php
                       endforeach;

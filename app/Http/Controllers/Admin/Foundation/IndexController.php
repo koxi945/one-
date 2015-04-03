@@ -1,6 +1,7 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Admin\Foundation;
 
 use App\Services\Admin\SC;
+use App\Http\Controllers\Admin\Controller;
 
 /**
  * 登录相关

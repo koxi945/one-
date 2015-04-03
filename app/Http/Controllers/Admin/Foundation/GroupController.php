@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Foundation;
 
+use App\Http\Controllers\Admin\Controller;
 use App\Models\Admin\Group as GroupModel;
 use Request, Lang;
 use App\Services\Admin\Group\Process as GroupActionProcess;
@@ -36,7 +37,7 @@ class GroupController extends Controller
     public function add()
     {
         if(Request::method() == 'POST') return $this->saveDatasToDatabase();
-        $formUrl = route('common', ['class' => 'group', 'action' => 'add']);
+        $formUrl = R('common', 'foundation.group.add');
         return view('admin.group.add', compact('formUrl'));
     }
     
@@ -49,7 +50,7 @@ class GroupController extends Controller
     {
         $data = (array) Request::input('data');
         $manager = new GroupActionProcess();
-        if($manager->addGroup($data) !== false) return Js::locate(route('common', ['class' => 'group', 'action' => 'index']), 'parent');
+        if($manager->addGroup($data) !== false) return Js::locate(R('common', 'foundation.group.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 
@@ -80,7 +81,7 @@ class GroupController extends Controller
         $groupInfo = (new GroupModel())->getOneGroupById($id);
         if(empty($groupInfo)) return Js::error(Lang::get('group.group_not_found'));
         if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'), true);
-        $formUrl = route('common', ['class' => 'group', 'action' => 'edit']);
+        $formUrl = R('common', 'foundation.group.edit');
         return view('admin.group.add', compact('groupInfo', 'formUrl', 'id'));
     }
     
@@ -94,7 +95,7 @@ class GroupController extends Controller
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
         $manager = new GroupActionProcess();
-        if($manager->editGroup($data)) return Js::locate(route('common', ['class' => 'group', 'action' => 'index']), 'parent');
+        if($manager->editGroup($data)) return Js::locate(R('common', 'foundation.group.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 

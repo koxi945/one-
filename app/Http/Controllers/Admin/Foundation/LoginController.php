@@ -1,5 +1,6 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers\Admin\Foundation;
 
+use App\Http\Controllers\Admin\Controller;
 use App\Services\Admin\Login\Process as LoginProcess;
 use App\Services\Admin\SC;
 use App\Models\Admin\User;
@@ -21,7 +22,7 @@ class LoginController extends Controller
     public function index()
     {
         $isLogin = (new LoginProcess())->getProcess()->hasLogin();
-        if($isLogin) return redirect(route('common', ['class' => 'index', 'action' => 'index']));
+        if($isLogin) return redirect(R('common', 'foundation.index.index'));
         return response(view('admin.login.index'));
     }
 
@@ -47,7 +48,7 @@ class LoginController extends Controller
             SC::setUserPermissionSession($aclObj->getUserAccessPermission($userInfo));
         }
 
-        $result = $userInfo ? ['msg' => '登录成功', 'result' => true, 'jumpUrl' => route('common', ['class' => 'index', 'action' => 'index'])]
+        $result = $userInfo ? ['msg' => '登录成功', 'result' => true, 'jumpUrl' => R('common', 'foundation.index.index')]
                                 : ['msg' => '登录失败', 'result' => false];
         
         return response()->json($result)->setCallback($callback);
