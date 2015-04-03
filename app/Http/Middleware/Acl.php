@@ -21,7 +21,7 @@ class Acl
     {
         $param = $this->buildAclParam($request);
         $aclObject = new AclManager();
-        $ret = $aclObject->checkUriPermission(false, $param->class, $param->action);
+        $ret = $aclObject->checkUriPermission($param->module, $param->class, $param->action);
         if( ! $ret) return abort(401);
         $response = $next($request);
         return $response;
@@ -35,15 +35,17 @@ class Acl
         $object = new \stdClass();
         $object->class = $request->route('class');
         $object->action = $request->route('action');
-        if( ! $object->class and ! $object->action)
+        $object->module = $request->route('module');
+        if( ! $object->class and ! $object->action and ! $object->module)
         {
             //如果没有指定class和action的参数，那么使用别名来做处理
             $currentRouteName = $request->route()->getName();
             $currentRouteNameArr = explode('.', $currentRouteName);
-            if(isset($currentRouteNameArr[1]))
+            if(isset($currentRouteNameArr[2]))
             {
                 $object->class = $currentRouteNameArr[0];
                 $object->action = $currentRouteNameArr[1];
+                $object->module = $currentRouteNameArr[2];
             }
         }
         return $object;

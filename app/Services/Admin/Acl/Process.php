@@ -57,7 +57,7 @@ class Process extends BaseProcess
     {
         if( ! $this->aclValidate->add($data)) return $this->setErrorMsg($this->aclValidate->getErrorMessage());
         //检测是否已经存在
-        if($this->permissionModel->checkIfIsExists('', $data['class'], $data['action'])) return $this->setErrorMsg(Lang::get('acl.acl_exists'));
+        if($this->permissionModel->checkIfIsExists($data['module'], $data['class'], $data['action'])) return $this->setErrorMsg(Lang::get('acl.acl_exists'));
         
         //标志当前属于第几级菜单
         $info = $this->permissionModel->getOnePermissionById(intval($data['pid']));
@@ -94,7 +94,7 @@ class Process extends BaseProcess
         if( ! $id or ! is_numeric($id)) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
         if( ! $this->aclValidate->edit($data)) return $this->setErrorMsg($this->aclValidate->getErrorMessage());
         //检测是否已经存在
-        if($this->permissionModel->checkIfIsExists('', $data['class'], $data['action'], false, $id)) return $this->setErrorMsg(Lang::get('acl.acl_exists'));
+        if($this->permissionModel->checkIfIsExists($data['module'], $data['class'], $data['action'], false, $id)) return $this->setErrorMsg(Lang::get('acl.acl_exists'));
         //标志当前属于第几级菜单
         $info = $this->permissionModel->getOnePermissionById(intval($data['pid']));
         $data['level'] = $info['level'] + 1;

@@ -20,6 +20,7 @@ class Acl extends BaseValidate
         //创建验证规则
         $rules = array(
             'name'    => 'required',
+            'module'  => 'required',
             'class'   => 'required',
             'action'  => 'required',
             'pid'     => 'required|numeric',
@@ -28,6 +29,7 @@ class Acl extends BaseValidate
         //自定义验证消息
         $messages = array(
             'name.required'   => Lang::get('acl.acl_name_empty'),
+            'module.required'  => Lang::get('acl.acl_module_empty'),
             'class.required'  => Lang::get('acl.acl_class_empty'),
             'pid.numeric'     => Lang::get('acl.acl_pid_empty'),
             'pid.required'    => Lang::get('acl.acl_pid_empty'),

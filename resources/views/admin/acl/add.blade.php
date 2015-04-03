@@ -20,6 +20,10 @@
                       <input type="text" value="<?php if(isset($permissionInfo['name'])) echo $permissionInfo['name']; ?>" name="data[name]" class="form-control">
                     </div>
                     <div class="form-group">
+                      <label>模块名</label>
+                      <input type="text" value="<?php if(isset($permissionInfo['module'])) echo $permissionInfo['module']; ?>" name="data[module]" class="form-control" placeholder="一般为子文件夹的名字。" >
+                    </div>
+                    <div class="form-group">
                       <label>类名</label>
                       <input type="text" value="<?php if(isset($permissionInfo['class'])) echo $permissionInfo['class']; ?>" name="data[class]" class="form-control" placeholder="一般为Contrller的类名。" >
                     </div>
