@@ -3,13 +3,14 @@
 use Lang;
 use App\Models\Admin\Position as PositionModel;
 use App\Services\Admin\Position\Validate\Position as PositionValidate;
+use App\Services\Admin\BaseProcess;
 
 /**
  * 推荐位处理
  *
  * @author jiang <mylampblog@163.com>
  */
-class Process
+class Process extends BaseProcess
 {
     /**
      * 推荐位模型
@@ -24,13 +25,6 @@ class Process
      * @var object
      */
     private $positionValidate;
-
-    /**
-     * 错误的信息
-     * 
-     * @var string
-     */
-    private $errorMsg;
 
     /**
      * 初始化
@@ -52,15 +46,10 @@ class Process
      */
     public function addPosition($data)
     {
-        if( ! $this->positionValidate->add($data))
-        {
-            $this->errorMsg = $this->positionValidate->getMsg();
-            return false;
-        }
+        if( ! $this->positionValidate->add($data)) return $this->setErrorMsg($this->positionValidate->getErrorMessage());
         $data['is_delete'] = PositionModel::IS_DELETE_NO;
         if($this->positionModel->addPosition($data) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
@@ -75,8 +64,7 @@ class Process
         if( ! is_array($ids)) return false;
         $data['is_delete'] = PositionModel::IS_DELETE_YES;
         if($this->positionModel->deletePositions($data, $ids) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
@@ -88,33 +76,11 @@ class Process
      */
     public function editPosition($data)
     {
-        if( ! isset($data['id']))
-        {
-            $this->errorMsg = Lang::get('common.action_error');
-            return false;
-        }
-
+        if( ! isset($data['id'])) return $this->setErrorMsg(Lang::get('common.action_error'));
         $id = intval($data['id']); unset($data['id']);
-
-        if( ! $this->positionValidate->edit($data))
-        {
-            $this->errorMsg = $this->positionValidate->getMsg();
-            return false;
-        }
+        if( ! $this->positionValidate->edit($data)) return $this->setErrorMsg($this->positionValidate->getErrorMessage());
         if($this->positionModel->editPosition($data, $id) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
-    }
-
-    /**
-     * 取得错误的信息
-     *
-     * @access public
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        return $this->errorMsg;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
 }

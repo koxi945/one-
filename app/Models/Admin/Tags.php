@@ -1,21 +1,14 @@
 <?php namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Base;
 
 /**
  * 文章标签关系表模型
  *
  * @author jiang
  */
-class Tags extends Model
+class Tags extends Base
 {
-    /**
-     * 关闭自动维护updated_at、created_at字段
-     * 
-     * @var boolean
-     */
-    public $timestamps = false;
-    
     /**
      * 数据表名
      *

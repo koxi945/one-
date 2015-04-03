@@ -2,15 +2,14 @@
 
 use App\Models\Admin\Group;
 use App\Models\Admin\User;
-use Request;
+use Request, Lang;
 use App\Services\Admin\SC;
 use App\Services\Admin\User\Process as UserActionProcess;
 use App\Libraries\Js;
 use App\Services\Admin\Acl\Acl;
-use Lang;
 
 /**
- * 登录相关
+ * 用户相关
  *
  * @author jiang <mylampblog@163.com>
  */

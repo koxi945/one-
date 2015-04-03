@@ -3,13 +3,14 @@
 use Lang;
 use App\Models\Admin\Category as CategoryModel;
 use App\Services\Admin\Category\Validate\Category as CategoryValidate;
+use App\Services\Admin\BaseProcess;
 
 /**
  * 文章分类处理
  *
  * @author jiang <mylampblog@163.com>
  */
-class Process
+class Process extends BaseProcess
 {
     /**
      * 分类模型
@@ -24,13 +25,6 @@ class Process
      * @var object
      */
     private $categoryValidate;
-
-    /**
-     * 错误的信息
-     * 
-     * @var string
-     */
-    private $errorMsg;
 
     /**
      * 初始化
@@ -52,15 +46,10 @@ class Process
      */
     public function addCategory($data)
     {
-        if( ! $this->categoryValidate->add($data))
-        {
-            $this->errorMsg = $this->categoryValidate->getMsg();
-            return false;
-        }
+        if( ! $this->categoryValidate->add($data)) return $this->setErrorMsg($this->categoryValidate->getErrorMessage());
         $data['is_delete'] = CategoryModel::IS_DELETE_NO;
         if($this->categoryModel->addCategory($data) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
@@ -75,8 +64,7 @@ class Process
         if( ! is_array($ids)) return false;
         $data['is_delete'] = CategoryModel::IS_DELETE_YES;
         if($this->categoryModel->deleteCategorys($data, $ids) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
@@ -88,33 +76,11 @@ class Process
      */
     public function editCategory($data)
     {
-        if( ! isset($data['id']))
-        {
-            $this->errorMsg = Lang::get('common.action_error');
-            return false;
-        }
-
+        if( ! isset($data['id'])) return $this->setErrorMsg(Lang::get('common.action_error'));
         $id = intval($data['id']); unset($data['id']);
-
-        if( ! $this->categoryValidate->edit($data))
-        {
-            $this->errorMsg = $this->categoryValidate->getMsg();
-            return false;
-        }
+        if( ! $this->categoryValidate->edit($data)) return $this->setErrorMsg($this->categoryValidate->getErrorMessage());
         if($this->categoryModel->editCategory($data, $id) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
-    }
-
-    /**
-     * 取得错误的信息
-     *
-     * @access public
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        return $this->errorMsg;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
 }

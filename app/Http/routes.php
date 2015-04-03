@@ -1,6 +1,6 @@
 <?php
 
-//注：但是以大部分的路由及控制器所执行的动作来说，你需要返回完整的 Illuminate\Http\Response 实例或是一个视图
+//注：大部分的路由及控制器所执行的动作来说，你需要返回完整的 Illuminate\Http\Response 实例或是一个视图
 
 //系统后台路由
 Route::group(['domain' => 'admin.opcache.net'], function() {
@@ -29,7 +29,7 @@ Route::group(['domain' => 'admin.opcache.net'], function() {
 	});
 });
 
-//博客首页
+//博客通用路由
 if( ! function_exists('homeRouteCommon'))
 {
 	function homeRouteCommon($type)

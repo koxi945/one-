@@ -1,21 +1,14 @@
 <?php namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Base;
 
 /**
  * 推荐位表模型
  *
  * @author jiang
  */
-class Position extends Model
+class Position extends Base
 {
-    /**
-     * 关闭自动维护updated_at、created_at字段
-     * 
-     * @var boolean
-     */
-    public $timestamps = false;
-    
     /**
      * 推荐位数据表名
      *

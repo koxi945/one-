@@ -1,19 +1,12 @@
 <?php namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Base;
 
 /**
  * 用户表模型
  */
-class User extends Model
+class User extends Base
 {
-    /**
-     * 关闭自动维护updated_at、created_at字段
-     * 
-     * @var boolean
-     */
-    public $timestamps = false;
-
     /**
      * 数据表名
      * 
@@ -33,7 +26,6 @@ class User extends Model
 
     /**
      * 取得用户的信息，根据用户名
-     * 数据结构为：return ['username' => 'test', 'password' => '96e79218965eb72c92a549dd5a330112', 'apitoken' => '111111'];
      * 
      * @param string $username 用户名
      */

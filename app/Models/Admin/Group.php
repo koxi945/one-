@@ -1,21 +1,14 @@
 <?php namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Base;
 
 /**
  * 用户组表模型
  *
  * @author jiang
  */
-class Group extends Model
+class Group extends Base
 {
-    /**
-     * 关闭自动维护updated_at、created_at字段
-     * 
-     * @var boolean
-     */
-    public $timestamps = false;
-    
     /**
      * 用户组数据表名
      *
@@ -31,18 +24,18 @@ class Group extends Model
     protected $fillable = array('id', 'group_name', 'mark', 'status', 'level');
     
     /**
-     * 取得所有的用户
+     * 取得所有的用户组
      *
      * @return array
      */
     public function getAllGroupByPage()
     {
-        $currentQuery = $this->orderBy('id', 'desc')->paginate(15);
+        $currentQuery = $this->orderBy('id', 'desc')->paginate(self::PAGE_NUMS);
         return $currentQuery;
     }
 
     /**
-     * 取得所有的用户
+     * 取得所有的用户组
      *
      * @return array
      */
@@ -52,7 +45,7 @@ class Group extends Model
     }
 
     /**
-     * 取得等级比当前用户等级低的用户
+     * 取得等级比当前用户等级低的用户组
      *
      * @return array
      */

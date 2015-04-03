@@ -4,7 +4,7 @@ use Validator, Lang;
 use App\Services\Admin\BaseValidate;
 
 /**
- * 用户列表表单验证
+ * 用户表单验证
  *
  * @author jiang <mylampblog@163.com>
  */
@@ -41,7 +41,7 @@ class User extends BaseValidate
         $validator = Validator::make($data, $rules, $messages);
         if($validator->fails())
         {
-            $this->msg = $validator->messages()->first();
+            $this->errorMsg = $validator->messages()->first();
             return false;
         }
         return true;
@@ -83,7 +83,7 @@ class User extends BaseValidate
         $validator = Validator::make($data, $rules, $messages);
         if($validator->fails())
         {
-            $this->msg = $validator->messages()->first();
+            $this->errorMsg = $validator->messages()->first();
             return false;
         }
         return true;
@@ -114,7 +114,7 @@ class User extends BaseValidate
         if($validator->fails())
         {
             $message = $validator->messages();
-            $this->msg = $message->all();
+            $this->errorMsg = $message->all();
             return false;
         }
         return true;

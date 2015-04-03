@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin\Group as GroupModel;
-use Request;
+use Request, Lang;
 use App\Services\Admin\Group\Process as GroupActionProcess;
 use App\Libraries\Js;
 use App\Services\Admin\Acl\Acl;
-use Lang;
 
 /**
- * 登录相关
+ * 用户组管理
  *
  * @author jiang <mylampblog@163.com>
  */

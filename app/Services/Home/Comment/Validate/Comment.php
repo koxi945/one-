@@ -37,7 +37,7 @@ class Comment extends BaseValidate
         $validator = Validator::make($data, $rules, $messages);
         if($validator->fails())
         {
-            $this->msg = $validator->messages()->first();
+            $this->errorMsg = $validator->messages()->first();
             return false;
         }
         return true;

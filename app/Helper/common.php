@@ -150,14 +150,14 @@ if( ! function_exists('base64url_decode') )
     } 
 }
 
+/**
+ * 转化 \ 为 /
+ * 
+ * @param    string  $path   路径
+ * @return   string  路径
+ */
 if( ! function_exists('dir_path') )
 {
-    /**
-    * 转化 \ 为 /
-    * 
-    * @param    string  $path   路径
-    * @return   string  路径
-    */
     function dir_path($path)
     {
         $path = str_replace('\\', '/', $path);
@@ -167,15 +167,15 @@ if( ! function_exists('dir_path') )
 
 }
 
+/**
+ * 创建目录
+ * 
+ * @param    string  $path   路径
+ * @param    string  $mode   属性
+ * @return   string  如果已经存在则返回true，否则为flase
+ */
 if( ! function_exists('dir_create') )
 {
-    /**
-     * 创建目录
-     * 
-     * @param    string  $path   路径
-     * @param    string  $mode   属性
-     * @return   string  如果已经存在则返回true，否则为flase
-     */
     function dir_create($path, $mode = 0777)
     {
         if(is_dir($path)) return TRUE;
@@ -195,13 +195,13 @@ if( ! function_exists('dir_create') )
     }
 }
 
+/**
+ * 根据后缀来简单的判断是不是图片
+ * 
+ * @return boolean
+ */
 if( ! function_exists('isImage') )
 {
-    /**
-     * 根据后缀来简单的判断是不是图片
-     * 
-     * @return boolean
-     */
     function isImage($ext)
     {
         $imageExt = 'jpg|gif|png|bmp|jpeg';

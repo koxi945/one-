@@ -3,21 +3,15 @@
 use Lang;
 use App\Models\Home\Comment as CommentModel;
 use App\Libraries\Js;
+use App\Services\Home\BaseProcess;
 
 /**
  * 评论相关处理
  *
  * @author jiang <mylampblog@163.com>
  */
-class Process
+class Process extends BaseProcess
 {
-    /**
-     * 错误的信息
-     * 
-     * @var string
-     */
-    private $errorMsg;
-
     /**
      * 整理相关的评论Id，用于查询相关评论信息
      */
@@ -77,41 +71,21 @@ class Process
     public function addComment($data)
     {
         $validate = new \App\Services\Home\Comment\Validate\Comment();
-        if( ! $validate->add($data))
-        {
-            $this->errorMsg = $validate->getMsg();
-            return false;
-        }
+        if( ! $validate->add($data)) return $this->setErrorMsg($validate->getErrorMessage());
 
         $commentObject = new CommentModel();
 
         if( ! empty($data['replyid']))
         {
             $replyInfo = $commentObject->getOneContentById($data['replyid']);
-            if(empty($replyInfo))
-            {
-                $this->errorMsg = Lang::get('home.reply_comment_not_exist');
-                return false;
-            }
+            if(empty($replyInfo)) return $this->setErrorMsg(Lang::get('home.reply_comment_not_exist'));
             $data['reply_ids'] = ! empty($replyInfo['reply_ids']) ? $data['replyid'].','.$replyInfo['reply_ids'] : $data['replyid'];
             unset($data['replyid']);
         }
 
         $data['time'] = time();
         if($commentObject->addComment($data) !== false) return true;
-        $this->errorMsg = Lang::get('home.action_error');
-        return false;
-    }
-
-    /**
-     * 取得错误的信息
-     *
-     * @access public
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        return $this->errorMsg;
+        return $this->setErrorMsg(Lang::get('home.action_error'));
     }
 
 }

@@ -10,13 +10,14 @@ use App\Models\Admin\SearchIndex as SearchIndexModel;
 use App\Services\Admin\Content\Validate\Content as ContentValidate;
 use App\Services\Admin\SC;
 use App\Libraries\Spliter;
+use App\Services\Admin\BaseProcess;
 
 /**
  * 文章处理
  *
  * @author jiang <mylampblog@163.com>
  */
-class Process
+class Process extends BaseProcess
 {
     /**
      * 文章模型
@@ -40,13 +41,6 @@ class Process
     private $contentValidate;
 
     /**
-     * 错误的信息
-     * 
-     * @var string
-     */
-    private $errorMsg;
-
-    /**
      * 初始化
      *
      * @access public
@@ -67,11 +61,7 @@ class Process
      */
     public function addContent($data)
     {
-        if( ! $this->contentValidate->add($data))
-        {
-            $this->errorMsg = $this->contentValidate->getMsg();
-            return false;
-        }
+        if( ! $this->contentValidate->add($data)) return $this->setErrorMsg($this->contentValidate->getErrorMessage());
         $object = new \stdClass();
         $object->time = time();
         $object->userId = SC::getLoginSession()->id;
@@ -91,9 +81,8 @@ class Process
         {
             $result = false;
         }
-        if($result) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        if( ! $result) return $this->setErrorMsg(Lang::get('common.action_error'));
+        return true;
     }
 
     /**
@@ -206,8 +195,7 @@ class Process
         if( ! is_array($ids)) return false;
         $data['is_delete'] = ContentModel::IS_DELETE_YES;
         if($this->contentModel->solfDeleteContent($data, $ids) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
@@ -219,11 +207,7 @@ class Process
      */
     public function editContent($data, $id)
     {
-        if( ! $this->contentValidate->edit($data))
-        {
-            $this->errorMsg = $this->contentValidate->getMsg();
-            return false;
-        }
+        if( ! $this->contentValidate->edit($data)) return $this->setErrorMsg($this->contentValidate->getErrorMessage());
         $object = new \stdClass();
         $object->contentAutoId = $id;
         try
@@ -240,12 +224,10 @@ class Process
         }
         catch (\Exception $e)
         {
-            //dd($e->getMessage());
             $result = false;
         }
-        if($result) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        if( ! $result) return $this->setErrorMsg(Lang::get('common.action_error'));
+        return true;
     }
 
     /**
@@ -303,17 +285,6 @@ class Process
         $indexModel = new SearchIndexModel();
         $result = $indexModel->saveIndex($checkIndex, $index);
         if($result === false) throw new Exception("save article dict index error.");
-    }
-
-    /**
-     * 取得错误的信息
-     *
-     * @access public
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        return $this->errorMsg;
     }
 
 }

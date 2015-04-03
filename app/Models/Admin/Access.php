@@ -1,21 +1,14 @@
 <?php namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Base;
 
 /**
  * 权限用户(组)关系表模型
  *
  * @author jiang
  */
-class Access extends Model
+class Access extends Base
 {
-    /**
-     * 关闭自动维护updated_at、created_at字段
-     * 
-     * @var boolean
-     */
-    public $timestamps = false;
-
     /**
      * 权限用户(组)关系表名
      * 

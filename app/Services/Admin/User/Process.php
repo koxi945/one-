@@ -4,13 +4,14 @@ use Lang;
 use App\Models\Admin\User as UserModel;
 use App\Services\Admin\User\Validate\User as UserValidate;
 use App\Services\Admin\Acl\Acl;
+use App\Services\Admin\BaseProcess;
 
 /**
- * 登录处理
+ * 用户处理
  *
  * @author jiang <mylampblog@163.com>
  */
-class Process
+class Process extends BaseProcess
 {
     /**
      * 用户模型
@@ -34,13 +35,6 @@ class Process
     private $acl;
 
     /**
-     * 错误的信息
-     * 
-     * @var string
-     */
-    private $errorMsg;
-
-    /**
      * 初始化
      *
      * @access public
@@ -61,28 +55,15 @@ class Process
      */
     public function addUser($data)
     {
-        if( ! $this->userValidate->add($data))
-        {
-            $this->errorMsg = $this->userValidate->getMsg();
-            return false;
-        }
+        if( ! $this->userValidate->add($data)) return $this->setErrorMsg($this->userValidate->getErrorMessage());
         //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($data['group_id'], Acl::GROUP_LEVEL_TYPE_GROUP))
-        {
-            $this->errorMsg = Lang::get('common.account_level_deny');
-            return false;
-        }
+        if( ! $this->acl->checkGroupLevelPermission($data['group_id'], Acl::GROUP_LEVEL_TYPE_GROUP)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         //检测当前用户名是否已经存在
-        if($this->userModel->getOneUserByName($data['name']))
-        {
-            $this->errorMsg = Lang::get('user.account_exists');
-            return false;
-        }
+        if($this->userModel->getOneUserByName($data['name'])) return $this->setErrorMsg(Lang::get('user.account_exists'));
         $data['password'] = md5($data['password']);
         //开始保存到数据库
         if($this->userModel->addUser($data) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
@@ -97,20 +78,11 @@ class Process
         if( ! is_array($ids)) return false;
         foreach($ids as $key => $value)
         {
-            if( ! $this->acl->checkGroupLevelPermission($value, Acl::GROUP_LEVEL_TYPE_USER))
-            {
-                $this->errorMsg = Lang::get('common.account_level_deny');
-                return false;
-            }
-            if($value == Acl::ADMIN_ID)
-            {
-                $this->errorMsg = Lang::get('common.sys_account');
-                return false;
-            }
+            if( ! $this->acl->checkGroupLevelPermission($value, Acl::GROUP_LEVEL_TYPE_USER)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+            if($value == Acl::ADMIN_ID) return $this->setErrorMsg(Lang::get('common.sys_account'));
         }
         if($this->userModel->deleteUser($ids) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
@@ -122,48 +94,15 @@ class Process
      */
     public function editUser($data)
     {
-        if( ! isset($data['id']))
-        {
-            $this->errorMsg = Lang::get('common.action_error');
-            return false;
-        }
-
+        if( ! isset($data['id'])) return $this->setErrorMsg(Lang::get('common.action_error'));
         $id = intval($data['id']); unset($data['id']);
-
-        if( ! $this->userValidate->edit($data))
-        {
-            $this->errorMsg = $this->userValidate->getMsg();
-            return false;
-        }
-        if( ! empty($data['password']))
-        {
-            $data['password'] = md5($data['password']);
-        }
-        else
-        {
-            unset($data['password']);
-        }
-
+        if( ! $this->userValidate->edit($data)) return $this->setErrorMsg($this->userValidate->getErrorMessage());
+        if( ! empty($data['password'])) $data['password'] = md5($data['password']);
+        else unset($data['password']);
         //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER))
-        {
-            $this->errorMsg = Lang::get('common.account_level_deny');
-            return false;
-        }
+        if( ! $this->acl->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         if($this->userModel->editUser($data, $id) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
-    }
-
-    /**
-     * 取得错误的信息
-     *
-     * @access public
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        return $this->errorMsg;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
 }

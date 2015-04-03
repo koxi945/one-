@@ -3,21 +3,15 @@
 use Lang;
 use App\Services\Home\Search\Sphinx;
 use App\Libraries\Spliter;
+use App\Services\Home\BaseProcess;
 
 /**
  * 搜索处理
  *
  * @author jiang <mylampblog@163.com>
  */
-class Process
+class Process extends BaseProcess
 {
-    /**
-     * 错误的信息
-     * 
-     * @var string
-     */
-    private $errorMsg;
-
     /**
      * 初始化sphinx客户端
      */
@@ -60,17 +54,6 @@ class Process
             $against .= $splitedWords['words']; 
         }
         return $against;
-    }
-
-    /**
-     * 取得错误的信息
-     *
-     * @access public
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        return $this->errorMsg;
     }
 
 }

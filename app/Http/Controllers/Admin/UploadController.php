@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Request, Config;
-use Lang;
+use Request, Config, Lang;
 use App\Services\Admin\Upload\Process as UploadManager;
 
 /**

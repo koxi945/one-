@@ -1,21 +1,14 @@
 <?php namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Base;
 
 /**
  * 用户组表模型
  *
  * @author jiang
  */
-class Category extends Model
+class Category extends Base
 {
-    /**
-     * 关闭自动维护updated_at、created_at字段
-     * 
-     * @var boolean
-     */
-    public $timestamps = false;
-    
     /**
      * 用户组数据表名
      *

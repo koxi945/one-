@@ -6,11 +6,10 @@ use App\Models\Admin\Permission as PermissionModel;
 use App\Models\Admin\Access as AccessModel;
 use App\Models\Admin\User as UserModel;
 use App\Models\Admin\Group as GroupModel;
-use Request;
+use Request, Lang;
 use App\Services\Admin\Acl\Process as AclActionProcess;
 use App\Libraries\Js;
 use App\Services\Admin\Acl\Acl;
-use Lang;
 use App\Services\Admin\Tree;
 use App\Services\Admin\SC;
 

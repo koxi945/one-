@@ -1,19 +1,14 @@
 <?php namespace App\Services\Admin\Upload;
 
+use App\Services\Admin\BaseProcess;
+
 /**
  * 上传处理
  *
  * @author jiang <mylampblog@163.com>
  */
-class Process
+class Process extends BaseProcess
 {
-    /**
-     * 错误的信息
-     * 
-     * @var string
-     */
-    private $errorMsg;
-
     /**
      * 用于上传的加密密钥
      * 
@@ -229,17 +224,6 @@ class Process
     private function getWaterFile()
     {
         return \Config::get('sys.sys_water_file');
-    }
-
-    /**
-     * 取得错误的信息
-     *
-     * @access public
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        return $this->errorMsg;
     }
 
 }

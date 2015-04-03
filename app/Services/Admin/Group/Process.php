@@ -4,13 +4,14 @@ use Lang;
 use App\Models\Admin\Group as GroupModel;
 use App\Services\Admin\Group\Validate\Group as GroupValidate;
 use App\Services\Admin\Acl\Acl;
+use App\Services\Admin\BaseProcess;
 
 /**
  * 登录处理
  *
  * @author jiang <mylampblog@163.com>
  */
-class Process
+class Process extends BaseProcess
 {
     /**
      * 用户组模型
@@ -34,13 +35,6 @@ class Process
     private $acl;
 
     /**
-     * 错误的信息
-     * 
-     * @var string
-     */
-    private $errorMsg;
-
-    /**
      * 初始化
      *
      * @access public
@@ -61,21 +55,12 @@ class Process
      */
     public function addGroup($data)
     {
-        if( ! $this->groupValidate->add($data))
-        {
-            $this->errorMsg = $this->groupValidate->getMsg();
-            return false;
-        }
+        if( ! $this->groupValidate->add($data)) return $this->setErrorMsg($this->groupValidate->getErrorMessage());
         //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($data['level'], Acl::GROUP_LEVEL_TYPE_LEVEL))
-        {
-            $this->errorMsg = Lang::get('common.account_level_deny');
-            return false;
-        }
+        if( ! $this->acl->checkGroupLevelPermission($data['level'], Acl::GROUP_LEVEL_TYPE_LEVEL)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         //开始保存到数据库
         if($this->groupModel->addGroup($data) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
@@ -91,14 +76,10 @@ class Process
         foreach($ids as $key => $value)
         {
             if( ! $this->acl->checkGroupLevelPermission($value, Acl::GROUP_LEVEL_TYPE_GROUP))
-            {
-                $this->errorMsg = Lang::get('common.account_level_deny');
-                return false;
-            }
+                return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         }
         if($this->groupModel->deleteGroup($ids) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
@@ -110,39 +91,13 @@ class Process
      */
     public function editGroup($data)
     {
-        if( ! isset($data['id']))
-        {
-            $this->errorMsg = Lang::get('common.action_error');
-            return false;
-        }
-
+        if( ! isset($data['id'])) return $this->setErrorMsg(Lang::get('common.action_error'));
         $id = intval($data['id']); unset($data['id']);
-
-        if( ! $this->groupValidate->edit($data))
-        {
-            $this->errorMsg = $this->groupValidate->getMsg();
-            return false;
-        }
+        if( ! $this->groupValidate->edit($data)) return $this->setErrorMsg($this->groupValidate->getErrorMessage());
         //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($data['level'], Acl::GROUP_LEVEL_TYPE_LEVEL))
-        {
-            $this->errorMsg = Lang::get('common.account_level_deny');
-            return false;
-        }
+        if( ! $this->acl->checkGroupLevelPermission($data['level'], Acl::GROUP_LEVEL_TYPE_LEVEL)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         if($this->groupModel->editGroup($data, $id) !== false) return true;
-        $this->errorMsg = Lang::get('common.action_error');
-        return false;
-    }
-
-    /**
-     * 取得错误的信息
-     *
-     * @access public
-     * @return string
-     */
-    public function getErrorMessage()
-    {
-        return $this->errorMsg;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
 }
