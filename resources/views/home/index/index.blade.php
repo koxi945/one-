@@ -26,7 +26,7 @@
                                 <p class="p_h_summary">
                                   <?php echo $value['summary']; ?>
                                 </p>
-                                <p><a href="premium-blog-item.html" class="btn btn-default btn-xs">查看详情</a></p>
+                                <p><a href="<?php echo route('home', ['class' => 'index', 'action' => 'detail', 'id' => $value['id']]); ?>" class="btn btn-default btn-xs">查看详情</a></p>
                             </div>
                         </div>
                     </div>
