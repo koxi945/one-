@@ -2,6 +2,8 @@
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
 
 class Handler extends ExceptionHandler {
 
@@ -37,6 +39,21 @@ class Handler extends ExceptionHandler {
 	public function render($request, Exception $e)
 	{
 		return parent::render($request, $e);
+	}
+
+	/**
+	 * 自定义错误页
+	 */
+	protected function renderHttpException(HttpException $e)
+	{
+		if (view()->exists('error.common') and ! config('app.debug'))
+		{
+			return response()->view('error.common', ['errorCode' => $e->getStatusCode()], $e->getStatusCode());
+		}
+		else
+		{
+			return (new SymfonyDisplayer(config('app.debug')))->createResponse($e);
+		}
 	}
 
 }
