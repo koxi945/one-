@@ -68,8 +68,18 @@ class Access extends Base
     public function setPermission(array $data, $id, $allArr, $type)
     {
         if( ! in_array($type, array(self::AP_USER, self::AP_GROUP))) return false;
+        //删除不存在的权限
+        $currentQuery = $this->from('permission')->select(array('id'))->get();
+        $existPermissionIds = $currentQuery->toArray();
         //删除旧的权限
-        $del = $this->where('role_id', '=', intval($id))->where('type', '=', intval($type))->whereIn('permission_id', $allArr)->delete();
+        $del = $this->where('role_id', '=', intval($id))->where('type', '=', intval($type))->where(function($query) use ($allArr, $existPermissionIds)
+        {
+            $query->whereIn('permission_id', $allArr)->orWhere(function($query) use ($existPermissionIds)
+            {
+                $query->whereNotIn('permission_id', $existPermissionIds);
+            });
+        })->delete();
+        
         if($del !== false)
         {
             if(empty($data)) return true;
@@ -84,6 +94,7 @@ class Access extends Base
             }
             return $this->insert($inserData);
         }
+
         return false;
     }
 

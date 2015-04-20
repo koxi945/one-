@@ -188,7 +188,7 @@ class MCAManager {
         $userPermission = $this->getUserPermission();
         foreach($userPermission as $key => $value)
         {
-            if($currentMCAInfo['pid'] == $value['id'])
+            if($currentMCAInfo['pid'] == $value['id'] and ! empty($value['id']))
             {
                 if($value['level'] == $menuLevel) return $value;
                 return $this->searchMCAMatchMenuLevelForCurrentMCA($menuLevel, $value);
