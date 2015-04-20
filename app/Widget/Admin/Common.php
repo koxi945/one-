@@ -44,17 +44,8 @@ class Common
      */
     public function crumbs($btnGroup = false)
     {
-        $navPid = SC::getNavPid();
-        $navSid = SC::getNavSid();
-        $menuArr = SC::getUserPermissionSession();
-        $navParentName = $navSonName = '';
-        foreach($menuArr as $key => $value)
-        {
-            if($value['id'] == $navPid) $navParentName = $value;
-            if($value['id'] == $navSid) $navSonName = $value;
-        }
         return view('admin.widget.crumbs',
-            compact('navParentName', 'navSonName', 'btnGroup')
+            compact('btnGroup')
         );
     }
 

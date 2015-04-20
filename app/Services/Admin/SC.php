@@ -22,20 +22,6 @@ class SC {
     CONST USER_ACL_SESSION_KEY = 'USER_ACL_SESSION';
 
     /**
-     * 左边菜单的值
-     *
-     * @var string
-     */
-    CONST NAV_PID = 'nav_pid';
-
-    /**
-     * 左边子菜单的值
-     *
-     * @var string
-     */
-    CONST NAV_SID = 'nav_sub';
-
-    /**
      * 设置登录成功的session
      * 
      * @param array $userInfo 用户的相关信息
@@ -119,22 +105,6 @@ class SC {
     static public function getUserPermissionSession()
     {
         return Session::get(self::USER_ACL_SESSION_KEY);
-    }
-
-    /**
-     * 返回左边菜单的值
-     */
-    static public function getNavPid()
-    {
-        return Request::cookie(self::NAV_PID);
-    }
-
-    /**
-     * 返回左边子菜单的值
-     */
-    static public function getNavSid()
-    {
-        return Request::cookie(self::NAV_SID);
     }
 
 }

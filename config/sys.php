@@ -16,6 +16,6 @@ return [
 
     //不需要验证权限的功能，*号代表全部,module不能为*号
 	'access_public' => [
-		['module' => '', 'class' => 'index', 'function' => ['index', 'error']],
+		['module' => 'foundation', 'class' => 'index', 'function' => ['index']],
 	]
 ];

@@ -4,12 +4,5 @@
     <?php endif;?>
     <ul class="breadcrumb">
         <li><a href="<?php echo R('common', 'foundation.index.index'); ?>">后台首页</a> </li>
-        <?php if(isset($navParentName['name'])): ?>
-        <li class="active"><?php echo $navParentName['name']; ?> </li>
-        <?php endif; ?>
-
-        <?php if(isset($navSonName['name'])): ?>
-        <li class="active"><?php echo $navSonName['name']; ?></li>
-        <?php endif; ?>
     </ul>
 </div>
