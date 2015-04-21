@@ -20,7 +20,7 @@ class Group extends AbstractBase
     public function edit($data)
     {
         $this->setCurrentAction('group', 'edit', 'foundation')->setData($data)->checkPermission(Acl::GROUP_LEVEL_TYPE_GROUP);
-        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id'])]);
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-pencil"></i></a>'
                         : '<i class="fa fa-pencil" style="color:#ccc"></i>';
@@ -35,7 +35,7 @@ class Group extends AbstractBase
     public function delete($data)
     {
         $this->setCurrentAction('group', 'delete', 'foundation')->setData($data)->checkPermission(Acl::GROUP_LEVEL_TYPE_GROUP);
-        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id'])]);
         $html = $this->hasPermission ?
                     '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
                         : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
@@ -50,7 +50,7 @@ class Group extends AbstractBase
     public function acl($data)
     {
         $this->setCurrentAction('acl', 'group', 'foundation')->setData($data)->checkPermission(Acl::GROUP_LEVEL_TYPE_GROUP);
-        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id'])]);
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-user"></i></a>'
                         : '<i class="fa fa-user" style="color:#ccc"></i>';

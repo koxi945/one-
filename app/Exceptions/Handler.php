@@ -1,6 +1,6 @@
 <?php namespace App\Exceptions;
 
-use Exception;
+use Exception, Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Debug\ExceptionHandler as SymfonyDisplayer;
@@ -46,7 +46,11 @@ class Handler extends ExceptionHandler {
 	 */
 	protected function renderHttpException(HttpException $e)
 	{
-		if (view()->exists('error.common') and ! config('app.debug'))
+		if(Request::ajax() and ! config('app.debug'))
+		{
+			return response()->json(['error_code' => $e->getStatusCode()]);
+		}
+		elseif (view()->exists('error.common') and ! config('app.debug'))
 		{
 			return response()->view('error.common', ['errorCode' => $e->getStatusCode()], $e->getStatusCode());
 		}

@@ -90,7 +90,7 @@ class Process extends BaseProcess
      */
     public function editAcl($data)
     {
-        $id = intval($data['id']); unset($data['id']);
+        $id = intval(url_param_decode($data['id'])); unset($data['id']);
         if( ! $id or ! is_numeric($id)) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
         if( ! $this->aclValidate->edit($data)) return $this->setErrorMsg($this->aclValidate->getErrorMessage());
         //检测是否已经存在

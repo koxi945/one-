@@ -72,7 +72,7 @@ class UserController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
+        if( ! $id = url_param_decode(Request::input('id'))) return responseJson(Lang::get('common.action_error'));
         if( ! is_array($id)) $id = array($id);
         $manager = new UserActionProcess();
         if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
@@ -88,11 +88,12 @@ class UserController extends Controller
     {
         if(Request::method() == 'POST') return $this->updateUserInfoToDatabase();
         $id = Request::input('id');
-        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
+        $userId = url_param_decode($id);
+        if( ! $userId or ! is_numeric($userId)) return Js::error(Lang::get('common.illegal_operation'), true);
         $userModel = new User(); $groupModel = new Group();
-        $userInfo = $userModel->getOneUserById($id);
+        $userInfo = $userModel->getOneUserById($userId);
         if(empty($userInfo)) return Js::error(Lang::get('user.user_not_found'), true);
-        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'), true);
+        if( ! (new Acl())->checkGroupLevelPermission($userId, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'), true);
         //根据当前用户的权限获取用户组列表
         $groupInfo = $groupModel->getOneGroupById(SC::getLoginSession()->group_id);
         $groupList = $groupModel->getGroupLevelLessThenCurrentUser($groupInfo['level']);

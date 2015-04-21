@@ -61,7 +61,7 @@ class GroupController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
+        if( ! $id = url_param_decode(Request::input('id'))) return responseJson(Lang::get('common.action_error'));
         if( ! is_array($id)) $id = array($id);
         $manager = new GroupActionProcess();
         if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
@@ -77,10 +77,11 @@ class GroupController extends Controller
     {
         if(Request::method() == 'POST') return $this->updateDatasToDatabase();
         $id = Request::input('id');
-        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
-        $groupInfo = (new GroupModel())->getOneGroupById($id);
+        $groupId = url_param_decode($id);
+        if( ! $groupId or ! is_numeric($groupId)) return Js::error(Lang::get('common.illegal_operation'));
+        $groupInfo = (new GroupModel())->getOneGroupById($groupId);
         if(empty($groupInfo)) return Js::error(Lang::get('group.group_not_found'));
-        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'), true);
+        if( ! (new Acl())->checkGroupLevelPermission($groupId, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'), true);
         $formUrl = R('common', 'foundation.group.edit');
         return view('admin.group.add', compact('groupInfo', 'formUrl', 'id'));
     }

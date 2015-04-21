@@ -70,7 +70,7 @@ class AclController extends Controller
      */
     public function delete()
     {
-        $id = (int) Request::input('id');
+        $id = (int) url_param_decode(Request::input('id'));
         if( ! $id) return responseJson(Lang::get('common.action_error'));
         if( ! is_array($id)) $id = array($id);
         $manager = new AclActionProcess();
@@ -86,10 +86,12 @@ class AclController extends Controller
     public function edit()
     {
         if(Request::method() == 'POST') return $this->updatePermissionToDatabase();
-        if( ! $id = Request::input('id') or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
+        $id = Request::input('id');
+        $permissionId = url_param_decode($id);
+        if( ! $permissionId or ! is_numeric($permissionId)) return Js::error(Lang::get('common.illegal_operation'), true);
         $permissionModel = new PermissionModel();
         $list = (array) Tree::genTree($permissionModel->getAllAccessPermission());
-        $permissionInfo = $permissionModel->getOnePermissionById(intval($id));
+        $permissionInfo = $permissionModel->getOnePermissionById(intval($permissionId));
         if(empty($permissionInfo)) return Js::error(Lang::get('common.acl_not_found'), true);
         $select = Tree::dropDownSelect($list, $permissionInfo['pid']);
         $formUrl = R('common', 'foundation.acl.edit');
@@ -135,13 +137,11 @@ class AclController extends Controller
     public function user()
     {
         if(Request::method() == 'POST') return $this->saveUserPermissionToDatabase();
-        if( ! $id = Request::input('id') or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
-        //用户信息
+        $id = url_param_decode(Request::input('id'));
+        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'), true);
         $info = (new UserModel())->getOneUserById(intval($id));
-        if(empty($info)) return Js::error(Lang::get('common.illegal_operation'));
-        $aclManager = new Acl();
-        //判断当前用户有没有权限进行这个操作
-        if( ! $aclManager->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'), true);
+        if(empty($info)) return Js::error(Lang::get('common.illegal_operation'), true);
+        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'), true);
         //分菜单来查询
         $pid = intval(Request::input('pid'));
         //取回用户所拥有的权限列表
@@ -166,18 +166,18 @@ class AclController extends Controller
      */
     private function saveUserPermissionToDatabase()
     {
+        $this->checkFormHash();
         $permissions = Request::input('permission', array());
         $id = Request::input('id');
         $all = Request::input('all');
         if( ! $id or ! is_numeric($id) or ! $all) return Js::error(Lang::get('common.illegal_operation'));
-        //判断当前用户有没有权限进行这个操作
         if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'));
         //当前列表中的所有权限信息
         $allArr = explode(',', $all);
         $allArr = array_map('intval', $allArr);
         //需要作更改的权限信息
         $permission = array_unique($permissions);
-        $ret = (new AccessModel())->setPermission($permission, intval($id), $allArr, 2);
+        $ret = (new AccessModel())->setPermission($permission, intval($id), $allArr, AccessModel::AP_USER);
         if($ret) return Js::error(Lang::get('common.action_success'));
         return Js::error(Lang::get('common.action_error'));
     }
@@ -190,22 +190,17 @@ class AclController extends Controller
     public function group()
     {
         if(Request::method() == 'POST') return $this->saveGroupPermissionToDatabase();
-        if( ! $id = Request::input('id') or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
-        //用户组信息
+        $id = url_param_decode(Request::input('id'));
+        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'), true);
         $info = (new GroupModel())->getOneGroupById(intval($id));
-        if(empty($info)) return Js::error(Lang::get('common.illegal_operation'));
-        
-        //判断当前用户有没有权限进行这个操作
+        if(empty($info)) return Js::error(Lang::get('common.illegal_operation'), true);
         if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'), true);
-
         //分菜单来查询
         $pid = intval(Request::input('pid'));
-        
         //取回用户组所拥有的权限列表
         $list = (array) SC::getUserPermissionSession();
         $tree = Tree::genPermissionTree($list);
-
-        //当前用户组的权限
+        //当前所要编辑的用户组的权限，用于标识是否已经勾选
         $groupAcl = (new AccessModel())->getGroupAccessPermission(intval($id));
         $hasPermissions = array();
         foreach($groupAcl as $key => $value)
@@ -225,24 +220,18 @@ class AclController extends Controller
      */
     private function saveGroupPermissionToDatabase()
     {
+        $this->checkFormHash();
         $permissions = Request::input('permission', array());
         $id = Request::input('id', false);
         $all = Request::input('all', false);
-        //确保参数的正确性
         if( ! $id or ! is_numeric($id) or ! $all) return Js::error(Lang::get('common.illegal_operation'));
-        
-        //判断当前用户有没有权限进行这个操作
         if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'));
-
         //当前列表中的所有权限信息
         $allArr = explode(',', $all);
         $allArr = array_map('intval', $allArr);
-        
         //需要作更改的权限信息
         $permission = array_unique($permissions);
-
-        //入库
-        $ret = (new AccessModel())->setPermission($permission, intval($id), $allArr, 1);
+        $ret = (new AccessModel())->setPermission($permission, intval($id), $allArr, AccessModel::AP_GROUP);
         if($ret) return Js::error(Lang::get('common.action_success'));
         return Js::error(Lang::get('common.action_error'));
     }

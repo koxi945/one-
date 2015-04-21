@@ -95,7 +95,9 @@ class Process extends BaseProcess
     public function editUser($data)
     {
         if( ! isset($data['id'])) return $this->setErrorMsg(Lang::get('common.action_error'));
-        $id = intval($data['id']); unset($data['id']);
+        $id = url_param_decode($data['id']);
+        if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+        $id = intval($id); unset($data['id']);
         if( ! $this->userValidate->edit($data)) return $this->setErrorMsg($this->userValidate->getErrorMessage());
         if( ! empty($data['password'])) $data['password'] = md5($data['password']);
         else unset($data['password']);

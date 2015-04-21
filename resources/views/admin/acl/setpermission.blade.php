@@ -102,6 +102,7 @@
                       <button class="btn btn-default" onclick="javascript:history.go(-1);" type="button">返回</button>
                       <input type="hidden" name="id" value="<?php echo $id;?>" />
                       <input type="hidden" name="all" value="<?php echo implode(',', $all); ?>" />
+                      <input type="hidden" name="_form_hash" value="<?php echo form_hash([ 'id' => $id, 'all' => implode(',', $all) ]); ?>" />
                     </td>
                   </tr>
                               

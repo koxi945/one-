@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="zh-cn"><head>
     <meta charset="utf-8">
     <title>管理系统</title>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
