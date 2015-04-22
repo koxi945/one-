@@ -36,7 +36,7 @@
         type                    = mysql
         sql_host                = localhost
         sql_user                = root
-        sql_pass                = qqq111!!!
+        sql_pass                = xxx
         sql_db                  = mrblog
         sql_port                = 3306
         sql_query_pre   = SET NAMES utf8
