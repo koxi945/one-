@@ -4,9 +4,13 @@
 
 一、如何安装
 --------------------------
+
 1、建立数据库名为：mrblog
+
 2、把包目录下的mrblog.sql导到库mrblog中。
+
 3、修改包目录下的.env文件，修改数据库连接为你的信息。
+
 4、默认使用的域名为admin.opcache.net和www.opcache.net，如果你需要修改，那么修改文件
 
         app/Http/routes.php
