@@ -46,9 +46,9 @@ class Acl
             $currentRouteNameArr = explode('.', $currentRouteName);
             if(isset($currentRouteNameArr[2]))
             {
-                $object->class = $currentRouteNameArr[0];
-                $object->action = $currentRouteNameArr[1];
-                $object->module = $currentRouteNameArr[2];
+                $object->module = $currentRouteNameArr[0];
+                $object->class = $currentRouteNameArr[1];
+                $object->action = $currentRouteNameArr[2];
             }
         }
         return $object;
