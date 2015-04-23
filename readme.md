@@ -17,13 +17,14 @@
 
 中的值
 
-        sys_images_domain
-        sys_admin_domain
-        sys_blog_domain
-        sys_blog_nopre_domain
+    sys_images_domain
+    sys_admin_domain
+    sys_blog_domain
+    sys_blog_nopre_domain
 
 
 5、配置你的域名并指向目录public
+
 6、自行安装与配置sphinx，下面是建议的配置
 
     doc/sphinx.conf
