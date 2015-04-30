@@ -15,7 +15,7 @@ class User extends BaseValidate
      *
      * @access public
      */
-    public function add($data)
+    public function add(\App\Services\Admin\User\Param\UserSave $data)
     {
         // 创建验证规则
         $rules = array(
@@ -36,9 +36,8 @@ class User extends BaseValidate
             'group_id.min'       => Lang::get('user.group_empty'),
             'mobile.required'    => Lang::get('user.mobile_empty')
         );
-        
         //开始验证
-        $validator = Validator::make($data, $rules, $messages);
+        $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
             $this->errorMsg = $validator->messages()->first();
@@ -52,7 +51,7 @@ class User extends BaseValidate
      *
      * @access public
      */
-    public function edit($data)
+    public function edit(\App\Services\Admin\User\Param\UserSave $data)
     {
         //创建验证规则
         $rules = array(
@@ -73,14 +72,14 @@ class User extends BaseValidate
         );
         
         //如果传入的密码，那么检测它
-        if( ! empty($data['password']))
+        if( ! empty($data->password))
         {
             $rules['password'] = 'required';
             $messages['password.required'] = Lang::get('user.password_empty');
         }
         
         //开始验证
-        $validator = Validator::make($data, $rules, $messages);
+        $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
             $this->errorMsg = $validator->messages()->first();

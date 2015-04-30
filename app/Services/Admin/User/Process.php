@@ -49,20 +49,20 @@ class Process extends BaseProcess
     /**
      * 增加新的用户
      *
-     * @param string $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */
-    public function addUser($data)
+    public function addUser(\App\Services\Admin\User\Param\UserSave $data)
     {
         if( ! $this->userValidate->add($data)) return $this->setErrorMsg($this->userValidate->getErrorMessage());
         //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($data['group_id'], Acl::GROUP_LEVEL_TYPE_GROUP)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        if( ! $this->acl->checkGroupLevelPermission($data->group_id, Acl::GROUP_LEVEL_TYPE_GROUP)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         //检测当前用户名是否已经存在
-        if($this->userModel->getOneUserByName($data['name'])) return $this->setErrorMsg(Lang::get('user.account_exists'));
-        $data['password'] = md5($data['password']);
+        if($this->userModel->getOneUserByName($data->name)) return $this->setErrorMsg(Lang::get('user.account_exists'));
+        $data->setPassword(md5($data->password));
         //开始保存到数据库
-        if($this->userModel->addUser($data) !== false) return true;
+        if($this->userModel->addUser($data->toArray()) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
@@ -92,18 +92,17 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    public function editUser($data)
+    public function editUser(\App\Services\Admin\User\Param\UserSave $data)
     {
-        if( ! isset($data['id'])) return $this->setErrorMsg(Lang::get('common.action_error'));
-        $id = url_param_decode($data['id']);
+        if( ! isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
+        $id = intval(url_param_decode($data->id)); unset($data->id);
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
-        $id = intval($id); unset($data['id']);
         if( ! $this->userValidate->edit($data)) return $this->setErrorMsg($this->userValidate->getErrorMessage());
-        if( ! empty($data['password'])) $data['password'] = md5($data['password']);
-        else unset($data['password']);
+        if( ! empty($data->password)) $data->setPassword(md5($data->password));
+        else unset($data->password);
         //检查当前用户的权限是否能增加这个用户
         if( ! $this->acl->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
-        if($this->userModel->editUser($data, $id) !== false) return true;
+        if($this->userModel->editUser($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 

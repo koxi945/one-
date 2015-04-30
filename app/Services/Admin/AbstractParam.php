@@ -55,6 +55,16 @@ abstract class AbstractParam implements ArrayAccess
     {
         unset($this->$offset);
     }
+    
+    /**
+     * 返回该类的数组形式
+     * 
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->attributes;
+    }
 
     /**
      * Dynamically access container services.
@@ -67,13 +77,14 @@ abstract class AbstractParam implements ArrayAccess
         return $this[$key];
     }
 
-    /**
-     * 返回该类的数组形式
-     * 
-     * @return array
-     */
-    public function toArray()
+    public function __isset($key)
     {
-        return $this->attributes;
+        return isset($this[$key]) and isset($this->attributes[$key]);
     }
+
+    public function __unset($key)
+    {
+        if(isset($this->attributes[$key])) unset($this->attributes[$key], $this[$key]);
+    }
+
 }

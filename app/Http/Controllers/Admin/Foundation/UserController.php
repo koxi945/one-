@@ -60,8 +60,10 @@ class UserController extends Controller
     {
         $data = (array) Request::input('data');
         $data['add_time'] = time();
+        $param = new \App\Services\Admin\User\Param\UserSave();
+        $param->setAttributes($data);
         $manager = new UserActionProcess();
-        if($manager->addUser($data)) return Js::locate(R('common', 'foundation.user.index'), 'parent');
+        if($manager->addUser($param)) return Js::locate(R('common', 'foundation.user.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
     
@@ -72,8 +74,13 @@ class UserController extends Controller
      */
     public function delete()
     {
-        if( ! $id = url_param_decode(Request::input('id'))) return responseJson(Lang::get('common.action_error'));
-        if( ! is_array($id)) $id = array($id);
+        $id = Request::input('id');
+        if( ! is_array($id))
+        {
+            if( ! $id = url_param_decode($id)) return responseJson(Lang::get('common.action_error'));
+            $id = array($id);
+        }
+        $id = array_map('intval', $id);
         $manager = new UserActionProcess();
         if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
         return responseJson($manager->getErrorMessage());
@@ -110,8 +117,10 @@ class UserController extends Controller
     {
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.info_incomplete'));
+        $param = new \App\Services\Admin\User\Param\UserSave();
+        $param->setAttributes($data);
         $manager = new UserActionProcess();
-        if($manager->editUser($data)) return Js::locate(R('common', 'foundation.user.index'), 'parent');
+        if($manager->editUser($param)) return Js::locate(R('common', 'foundation.user.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 
