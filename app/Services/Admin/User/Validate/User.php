@@ -94,29 +94,37 @@ class User extends BaseValidate
      *
      * @access public
      */
-    public function password($data)
+    public function password(\App\Services\Admin\User\Param\UserModifyPassword $data)
     {
         // 创建验证规则
         $rules = array(
-            'password'  => 'required|confirmed',
-            'password_old' => 'required',
+            'oldPassword'  => 'required',
+            'newPassword' => 'required',
+            'newPasswordRepeat' => 'required',
         );
         
         // 自定义验证消息
         $messages = array(
-            'password_old.required'  => Lang::get('user.password_empty'),
-            'password.required'  => Lang::get('user.password_empty'),
-            'password.confirmed' => Lang::get('user.password_inconformity')
+            'oldPassword.required'  => Lang::get('user.password_empty'),
+            'newPassword.required'  => Lang::get('user.new_password_empty'),
+            'newPasswordRepeat.required' => Lang::get('user.newPasswordRepeat')
         );
-        
+
         //开始验证
-        $validator = Validator::make($data, $rules, $messages);
+        $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
-            $message = $validator->messages();
-            $this->errorMsg = $message->all();
+            $this->errorMsg = $validator->messages()->first();
             return false;
         }
+
+        //新密码输入要一致
+        if($data->newPassword != $data->newPasswordRepeat)
+        {
+            $this->errorMsg = Lang::get('user.password_comfirm');
+            return false;
+        }
+
         return true;
     }
     

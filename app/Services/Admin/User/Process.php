@@ -107,4 +107,20 @@ class Process extends BaseProcess
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
+    /**
+     * 修改自己的密码
+     * 
+     * @return true|false
+     */
+    public function modifyPassword(\App\Services\Admin\User\Param\UserModifyPassword $params)
+    {
+        if( ! $this->userValidate->password($params)) return $this->setErrorMsg($this->userValidate->getErrorMessage());
+        $loginProcess = new \App\Services\Admin\Login\Process();
+        $userInfo = \App\Services\Admin\SC::getLoginSession();
+        if($userInfo->password != md5($params->oldPassword)) return $this->setErrorMsg(Lang::get('user.old_password_wrong'));
+        $updateData = ['password' => md5($params->newPassword)];
+        if($this->userModel->editUser($updateData, $userInfo->id) !== false) return true;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
+    }
+
 }

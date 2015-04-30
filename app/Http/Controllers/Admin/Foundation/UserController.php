@@ -114,5 +114,21 @@ class UserController extends Controller
         if($manager->editUser($data)) return Js::locate(R('common', 'foundation.user.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
+
+    /**
+     * 修改自己的密码
+     */
+    public function mpassword()
+    {
+        $params = new \App\Services\Admin\User\Param\UserModifyPassword();
+        $params->setOldPassword(Request::input('old_password'))->setNewPassword(Request::input('new_password'))->setNewPasswordRepeat(Request::input('new_password_repeat'));
+        $manager = new UserActionProcess();
+        if($manager->modifyPassword($params))
+        {
+            (new \App\Services\Admin\Login\Process())->getProcess()->logout();
+            return responseJson(Lang::get('common.action_success'), true);
+        }
+        return responseJson($manager->getErrorMessage());
+    }
     
 }

@@ -36,11 +36,9 @@
     <script src="<?php echo loadStatic('/lib/blockui.js'); ?>" type="text/javascript"></script>
     <script src="<?php echo loadStatic('/lib/common.js'); ?>" type="text/javascript"></script>
 
-    <?php if(isset($widgetHeaderConfig['artdialog'])): ?>
-        <!-- 弹出窗口 -->
-        <link rel="stylesheet" href="<?php echo loadStatic('/lib/artdialog/css/ui-dialog.css'); ?>">
-        <script src="<?php echo loadStatic('/lib/artdialog/dist/dialog-plus-min.js'); ?>"></script>
-    <?php endif; ?>
+    <!-- 弹出窗口 -->
+    <link rel="stylesheet" href="<?php echo loadStatic('/lib/artdialog/css/ui-dialog.css'); ?>">
+    <script src="<?php echo loadStatic('/lib/artdialog/dist/dialog-plus-min.js'); ?>"></script>
 
     <script type="text/javascript">
         var SYS_DOMAIN = '<?php echo $domain['domain']; ?>';

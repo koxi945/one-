@@ -9,4 +9,8 @@ return array(
     'realname_empty' => '真实姓名必须输入！',
     'group_empty' => '请先选择用户组！',
     'mobile_empty' => '手机号不能为空！',
+    'new_password_empty' => '请输入新密码！',
+    'newPasswordRepeat' => '请再次输入新密码！',
+    'password_comfirm' => '两次输入密码不一致！',
+    'old_password_wrong' => '旧密码错误！',
 );

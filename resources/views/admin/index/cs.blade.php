@@ -1,4 +1,4 @@
-<?php echo widget('Admin.Common')->header(array('artdialog' => true)); ?>
+<?php echo widget('Admin.Common')->header(); ?>
     <?php echo widget('Admin.Common')->top(); ?>
     <?php echo widget('Admin.Menu')->leftMenu(); ?>
     <div class="content">

@@ -24,7 +24,8 @@ return [
     'sys_water_file' => __DIR__ . '/../storage/water/water.png',
 
     //不需要验证权限的功能，*号代表全部,module不能为*号
-	'access_public' => [
-		['module' => 'foundation', 'class' => 'index', 'function' => ['index']],
-	]
+    'access_public' => [
+        ['module' => 'foundation', 'class' => 'index', 'function' => ['index']],
+        ['module' => 'foundation', 'class' => 'user', 'function' => ['mpassword']],
+    ]
 ];
