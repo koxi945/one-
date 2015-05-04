@@ -87,7 +87,7 @@ class Routes
                         if(method_exists($classObject, $action))
                         {
                             $return = call_user_func(array($classObject, $action));
-                            if( ! $return instanceof Illuminate\Http\Response) return response($return);
+                            if( ! $return instanceof \Illuminate\Http\Response) return response($return);
                             return $return;
                         }
                     }
