@@ -53,13 +53,12 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    public function addGroup($data)
+    public function addGroup(\App\Services\Admin\Group\Param\GroupSave $data)
     {
         if( ! $this->groupValidate->add($data)) return $this->setErrorMsg($this->groupValidate->getErrorMessage());
-        //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($data['level'], Acl::GROUP_LEVEL_TYPE_LEVEL)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
-        //开始保存到数据库
-        if($this->groupModel->addGroup($data) !== false) return true;
+        //检查当前用户的权限是否能增加这个用户组
+        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        if($this->groupModel->addGroup($data->toArray()) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
@@ -89,16 +88,15 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    public function editGroup($data)
+    public function editGroup(\App\Services\Admin\Group\Param\GroupSave $data)
     {
-        if( ! isset($data['id'])) return $this->setErrorMsg(Lang::get('common.action_error'));
-        $id = url_param_decode($data['id']);
+        if( ! isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
+        $id = intval(url_param_decode($data->id)); unset($data->id);
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
-        $id = intval($id); unset($data['id']);
         if( ! $this->groupValidate->edit($data)) return $this->setErrorMsg($this->groupValidate->getErrorMessage());
         //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($data['level'], Acl::GROUP_LEVEL_TYPE_LEVEL)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
-        if($this->groupModel->editGroup($data, $id) !== false) return true;
+        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        if($this->groupModel->editGroup($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 

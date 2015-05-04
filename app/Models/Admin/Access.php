@@ -39,7 +39,9 @@ class Access extends Base
     public function getUserAccessPermission($userId)
     {
         $info = $this->leftJoin('permission', 'access.permission_id', '=', 'permission.id')
-                     ->where('role_id', '=', intval($userId))->where('type', '=', self::AP_USER)->get();
+                     ->where('role_id', '=', intval($userId))->where('type', '=', self::AP_USER)
+                     ->orderBy('sort', 'desc')->orderBy('permission.id', 'asc')
+                     ->get();
         return $info->toArray();
     }
     
@@ -52,7 +54,9 @@ class Access extends Base
     public function getGroupAccessPermission($groupId)
     {
         $info = $this->leftJoin('permission', 'access.permission_id', '=', 'permission.id')
-                     ->where('role_id', '=', intval($groupId))->where('type', '=', self::AP_GROUP)->get();
+                     ->where('role_id', '=', intval($groupId))->where('type', '=', self::AP_GROUP)
+                     ->orderBy('sort', 'desc')->orderBy('permission.id', 'asc')
+                     ->get();
         return $info->toArray();
     }
 

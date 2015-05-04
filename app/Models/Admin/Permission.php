@@ -41,7 +41,7 @@ class Permission extends Base
      */
     public function getAllAccessPermission()
     {
-        return $this->all()->toArray();
+        return $this->orderBy('sort', 'desc')->orderBy('id', 'asc')->get()->toArray();
     }
 
     /**

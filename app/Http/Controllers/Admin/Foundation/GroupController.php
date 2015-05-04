@@ -49,8 +49,10 @@ class GroupController extends Controller
     private function saveDatasToDatabase()
     {
         $data = (array) Request::input('data');
+        $params = new \App\Services\Admin\Group\Param\GroupSave();
+        $params->setAttributes($data);
         $manager = new GroupActionProcess();
-        if($manager->addGroup($data) !== false) return Js::locate(R('common', 'foundation.group.index'), 'parent');
+        if($manager->addGroup($params) !== false) return Js::locate(R('common', 'foundation.group.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 
@@ -61,8 +63,13 @@ class GroupController extends Controller
      */
     public function delete()
     {
-        if( ! $id = url_param_decode(Request::input('id'))) return responseJson(Lang::get('common.action_error'));
-        if( ! is_array($id)) $id = array($id);
+        $id = Request::input('id');
+        if( ! is_array($id))
+        {
+            if( ! $id = url_param_decode($id)) return responseJson(Lang::get('common.action_error'));
+            $id = array($id);
+        }
+        $id = array_map('intval', $id);
         $manager = new GroupActionProcess();
         if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
         return responseJson($manager->getErrorMessage());
@@ -95,8 +102,10 @@ class GroupController extends Controller
     {
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
+        $params = new \App\Services\Admin\Group\Param\GroupSave();
+        $params->setAttributes($data);
         $manager = new GroupActionProcess();
-        if($manager->editGroup($data)) return Js::locate(R('common', 'foundation.group.index'), 'parent');
+        if($manager->editGroup($params)) return Js::locate(R('common', 'foundation.group.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 

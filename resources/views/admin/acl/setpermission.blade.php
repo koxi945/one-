@@ -12,7 +12,7 @@
                 <div class="heading"><?php echo isset($info['name']) ? $info['name'] : ''; ?><?php echo isset($info['group_name']) ? $info['group_name'] : ''; ?> : </div>
                 <ul class="nav">
                   <li class="active">
-                    <a href="<?php echo R('common', 'foundation.acl.'.$router, ['id' => $id]); ?>">所有权限</a>
+                    <a href="<?php echo R('common', 'foundation.acl.'.$router, ['id' => url_param_encode($id)]); ?>">所有权限</a>
                   </li>
                   <?php
                       $son = App\Services\Admin\Tree::getSonKey();
@@ -22,7 +22,7 @@
                                   
                   ?>
                   <li class="active">
-                    <a href="<?php echo R('common', 'foundation.acl.'.$router, ['id' => $id, 'pid' => $value['id'] ]); ?>"><?php echo $value['name']; ?></a>
+                    <a href="<?php echo R('common', 'foundation.acl.'.$router, ['id' => url_param_encode($id), 'pid' => $value['id'] ]); ?>"><?php echo $value['name']; ?></a>
                   </li>
                   <?php
                       endforeach;

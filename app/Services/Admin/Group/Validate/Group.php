@@ -15,7 +15,7 @@ class Group extends BaseValidate
      *
      * @access public
      */
-    public function add($data)
+    public function add(\App\Services\Admin\Group\Param\GroupSave $data)
     {
         // 创建验证规则
         $rules = array(
@@ -31,7 +31,7 @@ class Group extends BaseValidate
         );
         
         //开始验证
-        $validator = Validator::make($data, $rules, $messages);
+        $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
             $this->errorMsg = $validator->messages()->first();
@@ -45,7 +45,7 @@ class Group extends BaseValidate
      *
      * @access public
      */
-    public function edit($data)
+    public function edit(\App\Services\Admin\Group\Param\GroupSave $data)
     {
         return $this->add($data);
     }

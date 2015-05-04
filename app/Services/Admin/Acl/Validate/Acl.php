@@ -15,7 +15,7 @@ class Acl extends BaseValidate
      *
      * @access public
      */
-    public function add($data)
+    public function add(\App\Services\Admin\Acl\Param\AclSave $data)
     {
         //创建验证规则
         $rules = array(
@@ -37,7 +37,7 @@ class Acl extends BaseValidate
         );
         
         //开始验证
-        $validator = Validator::make($data, $rules, $messages);
+        $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
             $this->errorMsg = $validator->messages()->first();
@@ -47,11 +47,11 @@ class Acl extends BaseValidate
     }
     
     /**
-     * 编辑用户组的时候的表单验证
+     * 编辑用户权限的时候的表单验证
      *
      * @access public
      */
-    public function edit($data)
+    public function edit(\App\Services\Admin\Acl\Param\AclSave $data)
     {
         return $this->add($data);
     }

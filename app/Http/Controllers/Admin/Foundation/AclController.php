@@ -15,7 +15,7 @@ use App\Services\Admin\Tree;
 use App\Services\Admin\SC;
 
 /**
- * 登录相关
+ * 权限菜单相关
  *
  * @author jiang <mylampblog@163.com>
  */
@@ -57,8 +57,10 @@ class AclController extends Controller
     {
         $data = (array) Request::input('data');
         $data['add_time'] = time();
+        $params = new \App\Services\Admin\Acl\Param\AclSave();
+        $params->setAttributes($data);
         $manager = new AclActionProcess();
-        if($manager->addAcl($data) !== false) return Js::locate(R('common', 'foundation.acl.index'), 'parent');
+        if($manager->addAcl($params) !== false) return Js::locate(R('common', 'foundation.acl.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
     
@@ -70,9 +72,13 @@ class AclController extends Controller
      */
     public function delete()
     {
-        $id = (int) url_param_decode(Request::input('id'));
-        if( ! $id) return responseJson(Lang::get('common.action_error'));
-        if( ! is_array($id)) $id = array($id);
+        $id = Request::input('id');
+        if( ! is_array($id))
+        {
+            if( ! $id = url_param_decode($id)) return responseJson(Lang::get('common.action_error'));
+            $id = array($id);
+        }
+        $id = array_map('intval', $id);
         $manager = new AclActionProcess();
         if($manager->detele($id) !== false) return responseJson(Lang::get('common.action_success'), true);;
         return Js::error($manager->getErrorMessage());
@@ -107,8 +113,10 @@ class AclController extends Controller
     {
         $data = Request::input('data');
         if( ! $data) return Js::error(Lang::get('common.info_incomplete'));
+        $params = new \App\Services\Admin\Acl\Param\AclSave();
+        $params->setAttributes($data);
         $manager = new AclActionProcess();
-        if($manager->editAcl($data) !== false) return Js::locate(R('common', 'foundation.acl.index'), 'parent');
+        if($manager->editAcl($params) !== false) return Js::locate(R('common', 'foundation.acl.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
     
@@ -167,19 +175,16 @@ class AclController extends Controller
     private function saveUserPermissionToDatabase()
     {
         $this->checkFormHash();
-        $permissions = Request::input('permission', array());
+        $permissions = (array) Request::input('permission');
         $id = Request::input('id');
         $all = Request::input('all');
         if( ! $id or ! is_numeric($id) or ! $all) return Js::error(Lang::get('common.illegal_operation'));
-        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'));
-        //当前列表中的所有权限信息
-        $allArr = explode(',', $all);
-        $allArr = array_map('intval', $allArr);
-        //需要作更改的权限信息
-        $permission = array_unique($permissions);
-        $ret = (new AccessModel())->setPermission($permission, intval($id), $allArr, AccessModel::AP_USER);
-        if($ret) return Js::error(Lang::get('common.action_success'));
-        return Js::error(Lang::get('common.action_error'));
+        $params = new \App\Services\Admin\Acl\Param\AclSet();
+        $params->setPermission($permissions)->setAll($all)->setId($id);
+        $manager = new AclActionProcess();
+        $result = $manager->setUserAcl($params);
+        if($result) return Js::error(Lang::get('common.action_success'));
+        return Js::error($manager->getErrorMessage());
     }
     
     /**
@@ -221,19 +226,17 @@ class AclController extends Controller
     private function saveGroupPermissionToDatabase()
     {
         $this->checkFormHash();
-        $permissions = Request::input('permission', array());
-        $id = Request::input('id', false);
-        $all = Request::input('all', false);
+        $permissions = (array) Request::input('permission');
+        $id = Request::input('id');
+        $all = Request::input('all');
         if( ! $id or ! is_numeric($id) or ! $all) return Js::error(Lang::get('common.illegal_operation'));
         if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'));
-        //当前列表中的所有权限信息
-        $allArr = explode(',', $all);
-        $allArr = array_map('intval', $allArr);
-        //需要作更改的权限信息
-        $permission = array_unique($permissions);
-        $ret = (new AccessModel())->setPermission($permission, intval($id), $allArr, AccessModel::AP_GROUP);
-        if($ret) return Js::error(Lang::get('common.action_success'));
-        return Js::error(Lang::get('common.action_error'));
+        $params = new \App\Services\Admin\Acl\Param\AclSet();
+        $params->setPermission($permissions)->setAll($all)->setId($id);
+        $manager = new AclActionProcess();
+        $result = $manager->setGroupAcl($params);
+        if($result) return Js::error(Lang::get('common.action_success'));
+        return Js::error($manager->getErrorMessage());
     }
 
 }
