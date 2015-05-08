@@ -44,8 +44,12 @@ class Common
      */
     public function crumbs($btnGroup = false)
     {
+        $mcaName = \App\Services\Admin\MCAManager::MAC_BIND_NAME;
+        $MCA = app()->make($mcaName);
+        $currentMCAinfo = $MCA->getCurrentMCAInfo();
+        $topMenu = $MCA->getCurrentMCAfatherMenuInfo();
         return view('admin.widget.crumbs',
-            compact('btnGroup')
+            compact('btnGroup', 'currentMCAinfo', 'topMenu')
         );
     }
 

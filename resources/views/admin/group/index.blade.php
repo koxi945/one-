@@ -2,6 +2,7 @@
     <?php echo widget('Admin.Common')->top(); ?>
     <?php echo widget('Admin.Menu')->leftMenu(); ?>
     <div class="content">
+        <?php echo widget('Admin.Menu')->contentMenu(); ?>
         <?php echo widget('Admin.Common')->crumbs('Group'); ?>
         <div class="main-content">
           <div id="sys-list">

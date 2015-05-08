@@ -130,6 +130,36 @@ class MCAManager {
     }
 
     /**
+     * 取得当前的操作的功能信息
+     * 
+     * @return array 功能信息
+     */
+    public function getCurrentMCAInfo()
+    {
+        return $this->currentMCAInfo();
+    }
+
+    /**
+     * 取得当前操作所属的顶级菜单信息
+     * 
+     * @return array 功能信息
+     */
+    public function getCurrentMCAfatherMenuInfo()
+    {
+        return $this->searchMCAMatchMenuLevelForCurrentMCA(self::MENU_LEVEL_FIRST, $this->currentMCAInfo());
+    }
+
+    /**
+     * 取得当前操作所属的二级菜单信息
+     * 
+     * @return array 功能信息
+     */
+    public function getCurrentMCASecondFatherMenuInfo()
+    {
+        return $this->searchMCAMatchMenuLevelForCurrentMCA(self::MENU_LEVEL_SECOND, $this->currentMCAInfo());
+    }
+
+    /**
      * 当前请求所对应的一级菜单，这里只考虑三层的情况
      * 
      * @param  string $module 模块
