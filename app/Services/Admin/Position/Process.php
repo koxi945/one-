@@ -44,9 +44,10 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    public function addPosition($data)
+    public function addPosition(\App\Services\Admin\Position\Param\PositionSave $data)
     {
         if( ! $this->positionValidate->add($data)) return $this->setErrorMsg($this->positionValidate->getErrorMessage());
+        $data = $data->toArray();
         $data['is_delete'] = PositionModel::IS_DELETE_NO;
         if($this->positionModel->addPosition($data) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
@@ -74,12 +75,12 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    public function editPosition($data)
+    public function editPosition(\App\Services\Admin\Position\Param\PositionSave $data)
     {
         if( ! isset($data['id'])) return $this->setErrorMsg(Lang::get('common.action_error'));
         $id = intval($data['id']); unset($data['id']);
         if( ! $this->positionValidate->edit($data)) return $this->setErrorMsg($this->positionValidate->getErrorMessage());
-        if($this->positionModel->editPosition($data, $id) !== false) return true;
+        if($this->positionModel->editPosition($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 

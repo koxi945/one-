@@ -41,8 +41,10 @@ class CategoryController extends Controller
     private function saveDatasToDatabase()
     {
         $data = (array) Request::input('data');
+        $param = new \App\Services\Admin\Category\Param\CategorySave();
+        $param->setAttributes($data);
         $manager = new CategoryActionProcess();
-        if($manager->addCategory($data) !== false) return Js::locate(R('common', 'blog.category.index'), 'parent');
+        if($manager->addCategory($param) !== false) return Js::locate(R('common', 'blog.category.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 
@@ -69,8 +71,10 @@ class CategoryController extends Controller
     {
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
+        $param = new \App\Services\Admin\Category\Param\CategorySave();
+        $param->setAttributes($data);
         $manager = new CategoryActionProcess();
-        if($manager->editCategory($data)) return Js::locate(R('common', 'blog.category.index'), 'parent');
+        if($manager->editCategory($param)) return Js::locate(R('common', 'blog.category.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 

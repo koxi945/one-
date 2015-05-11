@@ -15,7 +15,7 @@ class Category extends BaseValidate
      *
      * @access public
      */
-    public function add($data)
+    public function add(\App\Services\Admin\Category\Param\CategorySave $data)
     {
         // 创建验证规则
         $rules = array(
@@ -30,7 +30,7 @@ class Category extends BaseValidate
         );
         
         //开始验证
-        $validator = Validator::make($data, $rules, $messages);
+        $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
             $this->errorMsg = $validator->messages()->first();
@@ -44,7 +44,7 @@ class Category extends BaseValidate
      *
      * @access public
      */
-    public function edit($data)
+    public function edit(\App\Services\Admin\Category\Param\CategorySave $data)
     {
         return $this->add($data);
     }

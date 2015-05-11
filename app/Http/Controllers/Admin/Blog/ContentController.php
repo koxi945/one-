@@ -46,8 +46,10 @@ class ContentController extends Controller
     {
         $data = (array) Request::input('data');
         $data['tags'] = explode(';', $data['tags']);
+        $param = new \App\Services\Admin\Content\Param\ContentSave();
+        $param->setAttributes($data);
         $manager = new ContentActionProcess();
-        if($manager->addContent($data) !== false) return Js::locate(R('common', 'blog.content.index'), 'parent');
+        if($manager->addContent($param) !== false) return Js::locate(R('common', 'blog.content.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 
@@ -130,8 +132,10 @@ class ContentController extends Controller
         $data = (array) Request::input('data');
         $id = intval(Request::input('id'));
         $data['tags'] = explode(';', $data['tags']);
+        $param = new \App\Services\Admin\Content\Param\ContentSave();
+        $param->setAttributes($data);
         $manager = new ContentActionProcess();
-        if($manager->editContent($data, $id) !== false) return Js::locate(R('common', 'blog.content.index'), 'parent');
+        if($manager->editContent($param, $id) !== false) return Js::locate(R('common', 'blog.content.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 

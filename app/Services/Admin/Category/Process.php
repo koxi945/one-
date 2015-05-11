@@ -38,22 +38,23 @@ class Process extends BaseProcess
     }
 
     /**
-     * 增加新的用户组
+     * 增加新的分类
      *
-     * @param string $data
+     * @param array $data
      * @access public
      * @return boolean true|false
      */
-    public function addCategory($data)
+    public function addCategory(\App\Services\Admin\Category\Param\CategorySave $data)
     {
         if( ! $this->categoryValidate->add($data)) return $this->setErrorMsg($this->categoryValidate->getErrorMessage());
+        $data = $data->toArray();
         $data['is_delete'] = CategoryModel::IS_DELETE_NO;
         if($this->categoryModel->addCategory($data) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
     /**
-     * 删除用户组
+     * 删除分类
      * 
      * @param array $ids
      * @access public
@@ -68,18 +69,18 @@ class Process extends BaseProcess
     }
 
     /**
-     * 编辑用户组
+     * 编辑分类
      *
-     * @param string $data
+     * @param array $data
      * @access public
      * @return boolean true|false
      */
-    public function editCategory($data)
+    public function editCategory(\App\Services\Admin\Category\Param\CategorySave $data)
     {
         if( ! isset($data['id'])) return $this->setErrorMsg(Lang::get('common.action_error'));
         $id = intval($data['id']); unset($data['id']);
         if( ! $this->categoryValidate->edit($data)) return $this->setErrorMsg($this->categoryValidate->getErrorMessage());
-        if($this->categoryModel->editCategory($data, $id) !== false) return true;
+        if($this->categoryModel->editCategory($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 

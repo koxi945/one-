@@ -41,8 +41,10 @@ class PositionController extends Controller
     private function saveDatasToDatabase()
     {
         $data = (array) Request::input('data');
+        $param = new \App\Services\Admin\Position\Param\PositionSave();
+        $param->setAttributes($data);
         $manager = new PositionActionProcess();
-        if($manager->addPosition($data) !== false) return Js::locate(R('common', 'blog.position.index'), 'parent');
+        if($manager->addPosition($param) !== false) return Js::locate(R('common', 'blog.position.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 
@@ -69,8 +71,10 @@ class PositionController extends Controller
     {
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
+        $param = new \App\Services\Admin\Position\Param\PositionSave();
+        $param->setAttributes($data);
         $manager = new PositionActionProcess();
-        if($manager->editPosition($data)) return Js::locate(R('common', 'blog.position.index'), 'parent');
+        if($manager->editPosition($param)) return Js::locate(R('common', 'blog.position.index'), 'parent');
         return Js::error($manager->getErrorMessage());
     }
 

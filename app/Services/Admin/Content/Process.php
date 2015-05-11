@@ -59,7 +59,7 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    public function addContent($data)
+    public function addContent(\App\Services\Admin\Content\Param\ContentSave $data)
     {
         if( ! $this->contentValidate->add($data)) return $this->setErrorMsg($this->contentValidate->getErrorMessage());
         $object = new \stdClass();
@@ -81,8 +81,7 @@ class Process extends BaseProcess
         {
             $result = false;
         }
-        if( ! $result) return $this->setErrorMsg(Lang::get('common.action_error'));
-        return true;
+        return  ! $result ? $this->setErrorMsg(Lang::get('common.action_error')) : true;
     }
 
     /**
@@ -153,7 +152,7 @@ class Process extends BaseProcess
      * @param  array $data
      * @return int 自增的ID
      */
-    private function saveContent($data, $object)
+    private function saveContent(\App\Services\Admin\Content\Param\ContentSave $data, $object)
     {
         $dataContet['is_delete'] = ContentModel::IS_DELETE_NO;
         $dataContet['write_time'] = $object->time;
@@ -172,7 +171,7 @@ class Process extends BaseProcess
      * @param  array $data
      * @return object
      */
-    private function saveContentDetail($data, $object)
+    private function saveContentDetail(\App\Services\Admin\Content\Param\ContentSave $data, $object)
     {
         $detailData['content'] = $data['content'];
         $detailData['user_id'] = $object->userId;
@@ -205,7 +204,7 @@ class Process extends BaseProcess
      * @access public
      * @return boolean true|false
      */
-    public function editContent($data, $id)
+    public function editContent(\App\Services\Admin\Content\Param\ContentSave $data, $id)
     {
         if( ! $this->contentValidate->edit($data)) return $this->setErrorMsg($this->contentValidate->getErrorMessage());
         $object = new \stdClass();
@@ -226,8 +225,7 @@ class Process extends BaseProcess
         {
             $result = false;
         }
-        if( ! $result) return $this->setErrorMsg(Lang::get('common.action_error'));
-        return true;
+        return  ! $result ? $this->setErrorMsg(Lang::get('common.action_error')) : true;
     }
 
     /**
@@ -236,7 +234,7 @@ class Process extends BaseProcess
      * @param  array $data
      * @return int 自增的ID
      */
-    private function updateContent($data, $id)
+    private function updateContent(\App\Services\Admin\Content\Param\ContentSave $data, $id)
     {
         $dataContet['title'] = $data['title'];
         $dataContet['status'] = $data['status'];
@@ -252,7 +250,7 @@ class Process extends BaseProcess
      * @param  array $data
      * @return object
      */
-    private function updateContentDetail($data, $id)
+    private function updateContentDetail(\App\Services\Admin\Content\Param\ContentSave $data, $id)
     {
         $detailData['content'] = $data['content'];
         $result = $this->contentDetailModel->editContentDetail($detailData, $id);
@@ -268,7 +266,7 @@ class Process extends BaseProcess
      * @param boolean $isEdit false的时候为增加，true的时候为edit
      * @return boolean
      */
-    private function saveSeachFullText($object, $data, $isEdit = false)
+    private function saveSeachFullText($object, \App\Services\Admin\Content\Param\ContentSave $data, $isEdit = false)
     {
         $spliterObject = new Spliter();
         $titleSplited   = $spliterObject->utf8Split($data['title']);

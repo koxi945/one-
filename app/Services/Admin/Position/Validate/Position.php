@@ -4,18 +4,18 @@ use Validator, Lang;
 use App\Services\Admin\BaseValidate;
 
 /**
- * 用户组列表表单验证
+ * 增加文章推荐位表单验证
  *
  * @author jiang <mylampblog@163.com>
  */
 class Position extends BaseValidate
 {
     /**
-     * 增加用户组的时候的表单验证
+     * 增加文章推荐位的时候的表单验证
      *
      * @access public
      */
-    public function add($data)
+    public function add(\App\Services\Admin\Position\Param\PositionSave $data)
     {
         // 创建验证规则
         $rules = array(
@@ -30,7 +30,7 @@ class Position extends BaseValidate
         );
         
         //开始验证
-        $validator = Validator::make($data, $rules, $messages);
+        $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
             $this->errorMsg = $validator->messages()->first();
@@ -40,11 +40,11 @@ class Position extends BaseValidate
     }
     
     /**
-     * 编辑用户组的时候的表单验证
+     * 编辑文章推荐位的时候的表单验证
      *
      * @access public
      */
-    public function edit($data)
+    public function edit(\App\Services\Admin\Position\Param\PositionSave $data)
     {
         return $this->add($data);
     }
