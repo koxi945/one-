@@ -8,13 +8,13 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="<?php echo csrf_token(); ?>" />
 
-    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/lib/bootstrap/css/bootstrap.css'); ?>">
+    <link rel="stylesheet" href="<?php echo loadStatic('/lib/font-awesome/css/font-awesome.css'); ?>">
 
-    <script src="lib/jquery-1.11.1.min.js" type="text/javascript"></script>
+    <script src="<?php echo loadStatic('/lib/jquery-1.11.1.min.js'); ?>" type="text/javascript"></script>
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/theme.css">
-    <link rel="stylesheet" type="text/css" href="stylesheets/premium.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/stylesheets/theme.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/stylesheets/premium.css'); ?>">
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -36,7 +36,7 @@
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="lib/html5.js"></script>
+      <script src="<?php echo loadStatic('/lib/html5.js'); ?>"></script>
     <![endif]-->
   
 </head>
@@ -53,7 +53,7 @@
     <div class="dialog">
     <div class="panel panel-default">
         <p class="panel-heading no-collapse">用户登陆</p>
-        <div class="panel-body" style="text-align:center;" id="loading"><img src="images/loading-icons/loading7.gif"></div>
+        <div class="panel-body" style="text-align:center;" id="loading"><img src="/images/loading-icons/loading7.gif"></div>
         <div id="login-form" class="panel-body none">
             <div class="form-group notic" id="msg"></div>
             <div class="form-group">
@@ -70,9 +70,9 @@
         </div>
     </div>
     </div>
-    <script src="lib/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="crypto/md5.js" ></script>
-    <script type="text/javascript" src="lib/seajs/sea.js" ></script>
+    <script src="<?php echo loadStatic('/lib/bootstrap/js/bootstrap.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo loadStatic('/crypto/md5.js'); ?>" ></script>
+    <script type="text/javascript" src="<?php echo loadStatic('/lib/seajs/sea.js'); ?>" ></script>
 
     <script type="text/javascript">
         seajs.config({
