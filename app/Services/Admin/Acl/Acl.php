@@ -88,7 +88,7 @@ class Acl
     {
         $permission = new Permission(); $access = new Access();
         //如果是超级管理员，那么返回所有的权限
-        if($userObj->group_id == self::ADMIN_ROLE_ID) return $permission->getAllAccessPermission();
+        if($userObj->group_id == self::ADMIN_ROLE_ID or $userObj->id == self::ADMIN_ID) return $permission->getAllAccessPermission();
         
         //如果需要对比用户和用户组的权限或者返回用户的权限
         if($userOrGroup == self::AP_USER or ! $userOrGroup)
