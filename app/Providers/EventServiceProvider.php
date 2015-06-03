@@ -11,9 +11,9 @@ class EventServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $listen = [
-		'event.name' => [
-			'EventListener',
-		],
+		'App\Events\Admin\ActionLog' => [
+            'App\Handlers\Events\Admin\ActionLog',
+        ],
 	];
 
 	/**

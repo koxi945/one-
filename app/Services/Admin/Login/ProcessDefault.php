@@ -3,7 +3,7 @@
 use App\Models\Admin\User as UserModel;
 use App\Services\Admin\SC;
 use App\Services\Admin\Login\AbstractProcess;
-use Validator;
+use Validator, Lang;
 use Request;
 
 /**
@@ -49,18 +49,10 @@ class ProcessDefault extends AbstractProcess {
             $data['last_login_ip'] = Request::ip();
             $this->userModel->updateLastLoginInfo($userInfo->id, $data);
             SC::setLoginSession($userInfo);
+            event(new \App\Events\Admin\ActionLog(Lang::get('login.login_sys'), ['userInfo' => $userInfo]));
             return $userInfo;
         }
         return false;
-    }
-
-    /**
-     * 手动的验证csrftoken
-     */
-    private function checkCsrfToken()
-    {
-        $csrf = new \App\Services\Admin\CsrfValidate();
-        $csrf->tokensMatch();
     }
 
     /**
@@ -76,14 +68,27 @@ class ProcessDefault extends AbstractProcess {
         $this->checkCsrfToken();
         $data = array( 'username' => $username, 'password' => $password );
         $rules = array( 'username' => 'required|min:1', 'password' => 'required|min:1' );
-        $messages = array( 'username.required' => '请输入用户名', 'username.min' => '请输入用户名',
-            'password.required' => '请输入密码', 'password.min' => '请输入密码' );
+        $messages = array(
+            'username.required' => Lang::get('login.please_input_username'),
+            'username.min' => Lang::get('login.please_input_username'),
+            'password.required' => Lang::get('login.please_input_password'),
+            'password.min' => Lang::get('login.please_input_password')
+        );
         $validator = Validator::make($data, $rules, $messages);
         if ($validator->fails())
         {
             return $validator->messages()->first();
         }
         return false;
+    }
+
+    /**
+     * 手动的验证csrftoken
+     */
+    private function checkCsrfToken()
+    {
+        $csrf = new \App\Services\Admin\CsrfValidate();
+        $csrf->tokensMatch();
     }
 
     /**
