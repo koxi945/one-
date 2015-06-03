@@ -4,6 +4,7 @@ use App\Models\Admin\User as UserModel;
 use App\Services\Admin\SC;
 use App\Services\Admin\Login\AbstractProcess;
 use Validator;
+use Request;
 
 /**
  * 登录处理
@@ -44,6 +45,9 @@ class ProcessDefault extends AbstractProcess {
         $this->delPublicKey();
         if($sign == strtolower($password))
         {
+            $data['last_login_time'] = time();
+            $data['last_login_ip'] = Request::ip();
+            $this->userModel->updateLastLoginInfo($userInfo->id, $data);
             SC::setLoginSession($userInfo);
             return $userInfo;
         }

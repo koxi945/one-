@@ -99,4 +99,19 @@ class User extends Base
         return $this->where('name', '=', $name)->first();
     }
 
+    /**
+     * 更新最后登录时间
+     * 
+     * @param int $userId 登录用户的ID
+     * @param int $data 更新的数据
+     */
+    public function updateLastLoginInfo($userId, $data)
+    {
+        $updateDatas = [];
+        if(isset($data['last_login_time'])) $updateDatas['last_login_time'] = $data['last_login_time'];
+        if(isset($data['last_login_ip'])) $updateDatas['last_login_ip'] = $data['last_login_ip'];
+        if(empty($updateDatas)) return false;
+        return $this->where('id', '=', intval($userId))->update($updateDatas);
+    }
+
 }
