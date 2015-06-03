@@ -5,10 +5,7 @@
         <?php echo widget('Admin.Menu')->contentMenu(); ?>
         <?php echo widget('Admin.Common')->crumbs(); ?>
 
-        <style type="text/css">
-          #search-username {width: 100px;}
-          #search-realname {width: 100px;}
-        </style>
+        
 
         <div class="main-content">
           <div id="sys-list">
