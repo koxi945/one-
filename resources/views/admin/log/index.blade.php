@@ -10,7 +10,7 @@
         <div class="main-content">
           <div id="sys-list">
           <div class="row">
-              <div class="col-sm-6 col-md-12">
+              <div class="col-md-12">
                 <form method="get" action="" class="form-inline">
                   <div class="form-group">
                     <label for="search-username">用户名</label>
@@ -35,8 +35,9 @@
                 </form>
               </div>
               <div style="margin-bottom:20px; clear:both;"></div>
-              <div class="col-sm-6 col-md-12">
+              <div class="col-md-12">
                   <div class="panel panel-default">
+                    <div class="table-responsive">
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
@@ -67,6 +68,7 @@
                           <?php endforeach; ?>
                         </tbody>
                       </table>
+                      </div>
                   </div>
               </div>
           </div>

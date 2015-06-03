@@ -8,7 +8,7 @@
           <div id="sys-list">
           <form id="aclListForm" target="hiddenwin" method="post" action="<?php echo R('common', 'foundation.acl.'.$router); ?>">
           <div class="row">
-            <div class="col-sm-6 col-md-12">
+            <div class=" col-md-12">
               <div id="featurebar">
                 <div class="heading"><?php echo isset($info['name']) ? $info['name'] : ''; ?><?php echo isset($info['group_name']) ? $info['group_name'] : ''; ?> : </div>
                 <ul class="nav">

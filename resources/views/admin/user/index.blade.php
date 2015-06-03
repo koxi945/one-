@@ -7,8 +7,9 @@
         <div class="main-content">
           <div id="sys-list">
           <div class="row">
-              <div class="col-sm-6 col-md-12">
+              <div class=" col-md-12">
                   <div class="panel panel-default">
+                    <div class="table-responsive">
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
@@ -39,6 +40,7 @@
                           <?php endforeach; ?>
                         </tbody>
                       </table>
+                      </div>
                   </div>
               </div>
           </div>

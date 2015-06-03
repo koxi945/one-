@@ -5,7 +5,7 @@
         <?php echo widget('Admin.Common')->crumbs(); ?>
         <div class="main-content">
           <div class="row">
-              <div class="col-sm-6 col-md-12">
+              <div class=" col-md-12">
                   <div class="panel panel-default">
                       <a href="#widget1container" class="panel-heading" data-toggle="collapse">开源协议 </a>
                       <div id="widget1container" class="panel-body collapse in">
