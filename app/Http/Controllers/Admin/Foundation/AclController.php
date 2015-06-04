@@ -183,7 +183,11 @@ class AclController extends Controller
         $params->setPermission($permissions)->setAll($all)->setId($id);
         $manager = new AclActionProcess();
         $result = $manager->setUserAcl($params);
-        if($result) return Js::error(Lang::get('common.action_success'));
+        if($result)
+        {
+            $this->setActionLog();
+            return Js::error(Lang::get('common.action_success'));
+        }
         return Js::error($manager->getErrorMessage());
     }
     
@@ -235,7 +239,11 @@ class AclController extends Controller
         $params->setPermission($permissions)->setAll($all)->setId($id);
         $manager = new AclActionProcess();
         $result = $manager->setGroupAcl($params);
-        if($result) return Js::error(Lang::get('common.action_success'));
+        if($result)
+        {
+            $this->setActionLog();
+            return Js::error(Lang::get('common.action_success'));
+        }
         return Js::error($manager->getErrorMessage());
     }
 

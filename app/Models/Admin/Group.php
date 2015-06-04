@@ -95,4 +95,16 @@ class Group extends Base
         return $this->destroy($ids);
     }
 
+    /**
+     * 取得指定ID组的用户组信息
+     * 
+     * @param intval $ids 用户组的ID
+     * @return array
+     */
+    public function getGroupInIds($ids)
+    {
+        if( ! is_array($ids)) return false;
+        return $this->whereIn('id', $ids)->get()->toArray();
+    }
+
 }

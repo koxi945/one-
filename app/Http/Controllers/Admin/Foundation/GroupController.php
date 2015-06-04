@@ -52,7 +52,11 @@ class GroupController extends Controller
         $params = new \App\Services\Admin\Group\Param\GroupSave();
         $params->setAttributes($data);
         $manager = new GroupActionProcess();
-        if($manager->addGroup($params) !== false) return Js::locate(R('common', 'foundation.group.index'), 'parent');
+        if($manager->addGroup($params) !== false)
+        {
+            $this->setActionLog();
+            return Js::locate(R('common', 'foundation.group.index'), 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
 
@@ -70,8 +74,14 @@ class GroupController extends Controller
             $id = array($id);
         }
         $id = array_map('intval', $id);
+        $groupModel = new GroupModel();
+        $groupInfos = $groupModel->getGroupInIds($id);
         $manager = new GroupActionProcess();
-        if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
+        if($manager->detele($id))
+        {
+            $this->setActionLog(['groupInfos' => $groupInfos]);
+            return responseJson(Lang::get('common.action_success'), true);
+        }
         return responseJson($manager->getErrorMessage());
     }
     
@@ -105,7 +115,11 @@ class GroupController extends Controller
         $params = new \App\Services\Admin\Group\Param\GroupSave();
         $params->setAttributes($data);
         $manager = new GroupActionProcess();
-        if($manager->editGroup($params)) return Js::locate(R('common', 'foundation.group.index'), 'parent');
+        if($manager->editGroup($params))
+        {
+            $this->setActionLog();
+            return Js::locate(R('common', 'foundation.group.index'), 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
 
