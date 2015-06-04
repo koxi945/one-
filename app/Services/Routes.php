@@ -40,14 +40,13 @@ class Routes
     {
         Route::group(['domain' => $this->adminDomain], function()
         {
-            //登录界面
             Route::group(['middleware' => ['csrf']], function()
             {
                 Route::get('/', 'Admin\Foundation\LoginController@index');
                 Route::controller('login', 'Admin\Foundation\LoginController', ['getOut' => 'foundation.login.out']);
             });
 
-            Route::group(['middleware' => ['auth', 'acl']], function()
+            Route::group(['middleware' => ['auth', 'acl', 'alog']], function()
             {
                 //通用的路由，如果要覆盖，写在些行之上
                 Route::any('{module}-{class}-{action}.html', ['as' => 'common', function($module, $class, $action)
@@ -59,7 +58,7 @@ class Routes
                         if(method_exists($classObject, $action)) return call_user_func(array($classObject, $action));
                     }
                     return abort(404);
-                }])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
+                }])->where(['module' => '[0-9a-z]+', 'class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
             });
         });
         return $this;

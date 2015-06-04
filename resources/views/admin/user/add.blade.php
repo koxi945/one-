@@ -18,7 +18,10 @@
                   <form id="tab" target="hiddenwin" method="post" action="<?php echo $formUrl; ?>">
                     <div class="form-group">
                       <label>用户名</label>
-                      <input type="text" value="<?php if(isset($userInfo['name'])) echo $userInfo['name']; ?>" name="data[name]" class="form-control">
+                      <input type="text" <?php if(isset($id)) echo 'disabled'; ?> value="<?php if(isset($userInfo['name'])) echo $userInfo['name']; ?>" name="data[name]" class="form-control">
+                      <?php if(isset($id)): ?>
+                        <input type="hidden" value="<?php if(isset($userInfo['name'])) echo $userInfo['name']; ?>" name="data[name]" class="form-control">
+                      <?php endif; ?>
                     </div>
                     <div class="form-group">
                       <label>真实姓名</label>

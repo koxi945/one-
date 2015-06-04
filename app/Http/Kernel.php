@@ -27,6 +27,7 @@ class Kernel extends HttpKernel {
 		'auth' => 'App\Http\Middleware\Authenticate',
 		'acl' => 'App\Http\Middleware\Acl',
 		'csrf' => 'App\Http\Middleware\VerifyCsrfToken',
+		'alog' => 'App\Http\Middleware\ActionLog',
 	];
 
 }

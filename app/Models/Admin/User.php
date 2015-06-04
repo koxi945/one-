@@ -114,4 +114,16 @@ class User extends Base
         return $this->where('id', '=', intval($userId))->update($updateDatas);
     }
 
+    /**
+     * 取得指定ID组的用户信息
+     * 
+     * @param intval $ids 用户的ID
+     * @return array
+     */
+    public function getUserInIds($ids)
+    {
+        if( ! is_array($ids)) return false;
+        return $this->whereIn('id', $ids)->get()->toArray();
+    }
+
 }

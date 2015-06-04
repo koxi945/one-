@@ -2,6 +2,7 @@
 
 use Illuminate\Routing\Controller as BaseController;
 use App\Services\Formhash;
+use App\Services\Admin\ActionLog\Mark;
 
 /**
  * 父控制类类
@@ -18,6 +19,14 @@ abstract class Controller extends BaseController
     protected function checkFormHash()
     {
         return (new Formhash())->checkFormHash();
+    }
+
+    /**
+     * 启用操作日志记录
+     */
+    protected function setActionLog($extDatas = [])
+    {
+    	return app()->make(Mark::BIND_NAME)->setMarkYes()->setExtDatas($extDatas);
     }
 
 }

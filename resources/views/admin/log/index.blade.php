@@ -45,7 +45,7 @@
                             <th>用户名</th>
                             <th>真实姓名</th>
                             <th>操作详情</th>
-                            <th>登录IP</th>
+                            <th>操作IP</th>
                             <th>操作时间</th>
                           </tr>
                         </thead>

@@ -44,6 +44,8 @@ class UserController extends Controller
         $groupModel = new Group();
         $groupId = SC::getLoginSession()->group_id;
         $groupInfo = $groupModel->getOneGroupById($groupId);
+        $isSuperSystemManager = (new Acl())->isSuperSystemManager();
+        if($isSuperSystemManager) $groupInfo['level'] = 0;
         $groupList = $groupModel->getGroupLevelLessThenCurrentUser($groupInfo['level']);
         $formUrl = R('common', 'foundation.user.add');
         return view('admin.user.add',
@@ -63,7 +65,11 @@ class UserController extends Controller
         $param = new \App\Services\Admin\User\Param\UserSave();
         $param->setAttributes($data);
         $manager = new UserActionProcess();
-        if($manager->addUser($param)) return Js::locate(R('common', 'foundation.user.index'), 'parent');
+        if($manager->addUser($param))
+        {
+            $this->setActionLog();
+            return Js::locate(R('common', 'foundation.user.index'), 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
     
@@ -81,8 +87,14 @@ class UserController extends Controller
             $id = array($id);
         }
         $id = array_map('intval', $id);
+        $userModel = new User();
+        $userInfos = $userModel->getUserInIds($id);
         $manager = new UserActionProcess();
-        if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
+        if($manager->detele($id))
+        {
+            $this->setActionLog(['userInfos' => $userInfos]);
+            return responseJson(Lang::get('common.action_success'), true);
+        }
         return responseJson($manager->getErrorMessage());
     }
     
@@ -103,6 +115,8 @@ class UserController extends Controller
         if( ! (new Acl())->checkGroupLevelPermission($userId, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'), true);
         //根据当前用户的权限获取用户组列表
         $groupInfo = $groupModel->getOneGroupById(SC::getLoginSession()->group_id);
+        $isSuperSystemManager = (new Acl())->isSuperSystemManager();
+        if($isSuperSystemManager) $groupInfo['level'] = 0;
         $groupList = $groupModel->getGroupLevelLessThenCurrentUser($groupInfo['level']);
         $formUrl = R('common', 'foundation.user.edit');
         return view('admin.user.add', compact('userInfo', 'formUrl', 'id', 'groupList'));
@@ -120,7 +134,11 @@ class UserController extends Controller
         $param = new \App\Services\Admin\User\Param\UserSave();
         $param->setAttributes($data);
         $manager = new UserActionProcess();
-        if($manager->editUser($param)) return Js::locate(R('common', 'foundation.user.index'), 'parent');
+        if($manager->editUser($param))
+        {
+            $this->setActionLog();
+            return Js::locate(R('common', 'foundation.user.index'), 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
 
