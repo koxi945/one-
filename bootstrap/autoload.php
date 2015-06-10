@@ -27,19 +27,18 @@ require __DIR__.'/../vendor/autoload.php';
 |
 */
 
-$compiledPath = __DIR__.'/../storage/framework/compiled.php';
+$compiledPath = __DIR__.'/cache/compiled.php';
 
-if (file_exists($compiledPath))
-{
-	require $compiledPath;
+if (file_exists($compiledPath)) {
+    require $compiledPath;
 }
 
 //import helper
-$helperArr = array(
+$fileArr = array(
 	__DIR__.'/../app/Helper/common.php'
 );
 
-foreach($helperArr as $key => $value) {
+foreach($fileArr as $key => $value) {
 	if(file_exists($value)) {
 		require $value;
 	}

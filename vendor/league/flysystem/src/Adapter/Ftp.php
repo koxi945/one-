@@ -25,7 +25,7 @@ class Ftp extends AbstractFtpAdapter
         'password', 'ssl', 'timeout',
         'root', 'permPrivate',
         'permPublic', 'passive',
-        'transferMode',
+        'transferMode', 'systemType',
     ];
 
     /**
@@ -106,7 +106,7 @@ class Ftp extends AbstractFtpAdapter
         $root = $this->getRoot();
         $connection = $this->getConnection();
 
-        if ($root && ! ftp_chdir($connection, $root)) {
+        if (empty($root) === false && ! ftp_chdir($connection, $root)) {
             throw new RuntimeException('Root is invalid or does not exist: '.$this->getRoot());
         }
 
@@ -151,23 +151,22 @@ class Ftp extends AbstractFtpAdapter
      */
     public function write($path, $contents, Config $config)
     {
-        $mimetype = Util::guessMimeType($path, $contents);
-        $config = Util::ensureConfig($config);
-        $stream = tmpfile();
+        $stream = fopen('php://temp', 'w+b');
         fwrite($stream, $contents);
         rewind($stream);
+
         $result = $this->writeStream($path, $stream, $config);
-        $result = fclose($stream) && $result;
+
+        fclose($stream);
 
         if ($result === false) {
             return false;
         }
 
-        if ($visibility = $config->get('visibility')) {
-            $this->setVisibility($path, $visibility);
-        }
+        $result['contents'] = $contents;
+        $result['mimetype'] = Util::guessMimeType($path, $contents);
 
-        return compact('path', 'contents', 'mimetype', 'visibility');
+        return $result;
     }
 
     /**
@@ -176,7 +175,6 @@ class Ftp extends AbstractFtpAdapter
     public function writeStream($path, $resource, Config $config)
     {
         $this->ensureDirectory(Util::dirname($path));
-        $config = Util::ensureConfig($config);
 
         if (! ftp_fput($this->getConnection(), $path, $resource, $this->transferMode)) {
             return false;
@@ -283,9 +281,11 @@ class Ftp extends AbstractFtpAdapter
         // List the current directory
         $listing = ftp_nlist($connection, '.');
 
-        $listing = array_map(function ($item) {
-            return ltrim($item, './');
-        }, $listing);
+        foreach ($listing as $key => $item) {
+            if (preg_match('~^\./.*~', $item)) {
+                $listing[$key] = substr($item, 2);
+            }
+        }
 
         if (in_array($directory, $listing)) {
             return true;
@@ -299,11 +299,27 @@ class Ftp extends AbstractFtpAdapter
      */
     public function getMetadata($path)
     {
-        if (empty($path) ||  ! ($object = ftp_raw($this->getConnection(), 'STAT '.$path)) || count($object) < 3) {
+        $connection = $this->getConnection();
+
+        if ($path === '') {
+            return ['type' => 'dir', 'path' => ''];
+        }
+
+        if (@ftp_chdir($connection, $path) === true) {
+            $this->setConnectionRoot();
+
+            return ['type' => 'dir', 'path' => $path];
+        }
+
+        $listing = ftp_rawlist($connection, $path);
+
+        if (empty($listing)) {
             return false;
         }
 
-        return $this->normalizeObject($object[1], '');
+        $metadata = $this->normalizeObject($listing[0], '');
+
+        return $metadata;
     }
 
     /**
@@ -377,10 +393,6 @@ class Ftp extends AbstractFtpAdapter
     {
         $listing = ftp_rawlist($this->getConnection(), '-lna '.$directory, $recursive);
 
-        if ($listing === false) {
-            return [];
-        }
-
-        return $this->normalizeListing($listing, $directory);
+        return $listing ? $this->normalizeListing($listing, $directory) : [];
     }
 }

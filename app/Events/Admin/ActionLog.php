@@ -1,20 +1,14 @@
-<?php namespace App\Events\Admin;
+<?php
+
+namespace App\Events\Admin;
 
 use App\Events\Event;
-
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Services\Admin\SC;
 
-/**
- * 操作日志事件
- *
- * @author jiang <mylampblog@163.com>
- */
 class ActionLog extends Event
 {
-    /**
-     * SerializesModels
-     */
     use SerializesModels;
 
     /**
@@ -60,4 +54,13 @@ class ActionLog extends Event
         $this->message = $message;
     }
 
+    /**
+     * Get the channels the event should be broadcast on.
+     *
+     * @return array
+     */
+    public function broadcastOn()
+    {
+        return [];
+    }
 }

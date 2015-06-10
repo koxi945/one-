@@ -1,9 +1,8 @@
 <?php namespace App\Services\Admin;
 
 use Crypt, Session, Request;
-//use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
-use Symfony\Component\Security\Core\Util\StringUtils;
+use Illuminate\Support\Str;
 
 class CsrfValidate {
 
@@ -14,8 +13,8 @@ class CsrfValidate {
     {
         $token = Session::token();
         $header = Request::header('X-XSRF-TOKEN');
-        $match = StringUtils::equals($token, Request::input('_token')) ||
-               ($header && StringUtils::equals($token, $header));
+        $match = Str::equals($token, Request::input('_token')) ||
+               ($header && Str::equals($token, $header));
         if( ! $match) throw new TokenMismatchException;
     }
 }
