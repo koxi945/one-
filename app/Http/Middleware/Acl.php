@@ -24,6 +24,8 @@ class Acl
         $aclObject = new AclManager();
         $ret = $aclObject->checkUriPermission($param->module, $param->class, $param->action);
         if( ! $ret) return abort(401);
+        $ret = $aclObject->checkIfHasReg($param->module, $param->class, $param->action);
+        if( ! $ret) return abort(404, 'function hasn`t been registered');
         $this->bindAclParams($param);
         $response = $next($request);
         return $response;

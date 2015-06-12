@@ -22,6 +22,13 @@ class SC {
     CONST USER_ACL_SESSION_KEY = 'USER_ACL_SESSION';
 
     /**
+     * 所有的权限的key
+     *
+     * @var string
+     */
+    CONST ALL_PERMISSION_KEY = 'ALL_PERMISSION_KEY';
+
+    /**
      * 设置登录成功的session
      * 
      * @param array $userInfo 用户的相关信息
@@ -105,6 +112,27 @@ class SC {
     static public function getUserPermissionSession()
     {
         return Session::get(self::USER_ACL_SESSION_KEY);
+    }
+
+    /**
+     * 把所有的权限保存到session中。
+     * 
+     * @access public
+     * @return true|false
+     */
+    static public function setAllPermissionSession($allAclInfo)
+    {
+        return Session::put(self::ALL_PERMISSION_KEY, $allAclInfo);
+    }
+
+    /**
+     * 返回保存在session中的所有权限信息
+     *
+     * @access public
+     */
+    static public function getAllPermissionSession()
+    {
+        return Session::get(self::ALL_PERMISSION_KEY);
     }
 
 }

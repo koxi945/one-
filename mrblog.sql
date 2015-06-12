@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-06-03 17:30:58
+Date: 2015-06-12 16:30:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,13 +27,11 @@ CREATE TABLE `bk_access` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`) USING BTREE,
   KEY `node_id` (`permission_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=396 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=429 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_access
 -- ----------------------------
-INSERT INTO `bk_access` VALUES ('318', '4', '85', '1');
-INSERT INTO `bk_access` VALUES ('327', '4', '22', '1');
 INSERT INTO `bk_access` VALUES ('328', '4', '12', '1');
 INSERT INTO `bk_access` VALUES ('330', '29', '29', '2');
 INSERT INTO `bk_access` VALUES ('331', '29', '11', '2');
@@ -63,16 +61,17 @@ INSERT INTO `bk_access` VALUES ('365', '30', '36', '2');
 INSERT INTO `bk_access` VALUES ('366', '30', '35', '2');
 INSERT INTO `bk_access` VALUES ('367', '30', '37', '2');
 INSERT INTO `bk_access` VALUES ('368', '30', '42', '2');
-INSERT INTO `bk_access` VALUES ('386', '4', '1', '1');
-INSERT INTO `bk_access` VALUES ('387', '4', '2', '1');
-INSERT INTO `bk_access` VALUES ('388', '4', '3', '1');
-INSERT INTO `bk_access` VALUES ('389', '4', '4', '1');
-INSERT INTO `bk_access` VALUES ('390', '4', '43', '1');
-INSERT INTO `bk_access` VALUES ('391', '4', '44', '1');
-INSERT INTO `bk_access` VALUES ('392', '4', '34', '1');
-INSERT INTO `bk_access` VALUES ('393', '4', '36', '1');
-INSERT INTO `bk_access` VALUES ('394', '4', '37', '1');
-INSERT INTO `bk_access` VALUES ('395', '4', '42', '1');
+INSERT INTO `bk_access` VALUES ('418', '4', '1', '1');
+INSERT INTO `bk_access` VALUES ('419', '4', '2', '1');
+INSERT INTO `bk_access` VALUES ('420', '4', '3', '1');
+INSERT INTO `bk_access` VALUES ('421', '4', '4', '1');
+INSERT INTO `bk_access` VALUES ('422', '4', '43', '1');
+INSERT INTO `bk_access` VALUES ('423', '4', '44', '1');
+INSERT INTO `bk_access` VALUES ('424', '4', '53', '1');
+INSERT INTO `bk_access` VALUES ('425', '4', '34', '1');
+INSERT INTO `bk_access` VALUES ('426', '4', '36', '1');
+INSERT INTO `bk_access` VALUES ('427', '4', '37', '1');
+INSERT INTO `bk_access` VALUES ('428', '4', '42', '1');
 
 -- ----------------------------
 -- Table structure for `bk_action_log`
@@ -91,7 +90,7 @@ CREATE TABLE `bk_action_log` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `username` (`username`) USING BTREE,
   KEY `addtime` (`add_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_action_log
@@ -101,6 +100,39 @@ INSERT INTO `bk_action_log` VALUES ('2', 'admin', '1', '127.0.0.1', '', '1433319
 INSERT INTO `bk_action_log` VALUES ('3', 'admin', '1', '127.0.0.1', '', '1433319146', '管理员', '登录系统成功');
 INSERT INTO `bk_action_log` VALUES ('4', 'test', '2', '127.0.0.1', '', '1433323585', 'test', '登录系统成功');
 INSERT INTO `bk_action_log` VALUES ('5', 'admin', '1', '127.0.0.1', '', '1433323596', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('6', 'test', '2', '127.0.0.1', '', '1433387021', 'test', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('7', 'admin', '1', '127.0.0.1', '', '1433387092', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('8', 'admin', '1', '127.0.0.1', '', '1433387394', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('9', 'admin', '1', '127.0.0.1', '', '1433387489', '管理员', '增加了新的系统用户：test1231231123');
+INSERT INTO `bk_action_log` VALUES ('10', 'admin', '1', '127.0.0.1', '', '1433388058', '管理员', '编辑了系统用户：test1231231123');
+INSERT INTO `bk_action_log` VALUES ('11', 'admin', '1', '127.0.0.1', '', '1433389439', '管理员', '增加了新的系统用户：123123aab');
+INSERT INTO `bk_action_log` VALUES ('12', 'admin', '1', '127.0.0.1', '', '1433389488', '管理员', '增加了新的系统用户：12313123123');
+INSERT INTO `bk_action_log` VALUES ('13', 'admin', '1', '127.0.0.1', '', '1433389702', '管理员', '增加了新的系统用户：123123ffffffff');
+INSERT INTO `bk_action_log` VALUES ('14', 'admin', '1', '127.0.0.1', '', '1433389728', '管理员', '增加了新的系统用户：123123gg');
+INSERT INTO `bk_action_log` VALUES ('15', 'admin', '1', '127.0.0.1', '', '1433390103', '管理员', '删除了系统用户：12313123123');
+INSERT INTO `bk_action_log` VALUES ('16', 'admin', '1', '127.0.0.1', '', '1433390300', '管理员', '删除了系统用户：123123aab');
+INSERT INTO `bk_action_log` VALUES ('17', 'admin', '1', '127.0.0.1', '', '1433390407', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('18', 'test', '2', '127.0.0.1', '', '1433390430', 'test', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('19', 'admin', '1', '127.0.0.1', '', '1433397520', '管理员', '增加了新的用户组：sdfasf');
+INSERT INTO `bk_action_log` VALUES ('20', 'admin', '1', '127.0.0.1', '', '1433398047', '管理员', '编辑了用户组：sdfasf');
+INSERT INTO `bk_action_log` VALUES ('21', 'admin', '1', '127.0.0.1', '', '1433398364', '管理员', '删除了系统用户：sdfasf');
+INSERT INTO `bk_action_log` VALUES ('22', 'admin', '1', '127.0.0.1', '', '1433398384', '管理员', '删除了用户组：test123');
+INSERT INTO `bk_action_log` VALUES ('23', 'admin', '1', '127.0.0.1', '', '1433398933', '管理员', '增加了新的用户组：:groupname');
+INSERT INTO `bk_action_log` VALUES ('24', 'admin', '1', '127.0.0.1', '', '1433398963', '管理员', '改变了用户组的权限：测试用户组');
+INSERT INTO `bk_action_log` VALUES ('25', 'admin', '1', '127.0.0.1', '', '1433399098', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('26', 'admin', '1', '127.0.0.1', '', '1433400975', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('27', 'admin', '1', '127.0.0.1', '', '1433408366', '管理员', '增加了新的系统用户：test123');
+INSERT INTO `bk_action_log` VALUES ('28', 'admin', '1', '127.0.0.1', '', '1433408371', '管理员', '删除了系统用户：test123');
+INSERT INTO `bk_action_log` VALUES ('29', 'admin', '1', '127.0.0.1', '', '1433408376', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('30', 'admin', '1', '127.0.0.1', '', '1433904485', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('31', 'admin', '1', '127.0.0.1', '', '1433904731', '管理员', '增加了新的用户组：1123');
+INSERT INTO `bk_action_log` VALUES ('32', 'admin', '1', '127.0.0.1', '', '1433904744', '管理员', '删除了用户组：1123');
+INSERT INTO `bk_action_log` VALUES ('33', 'test', '2', '127.0.0.1', '', '1433905009', 'test', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('34', 'admin', '1', '127.0.0.1', '', '1433907007', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('35', 'admin', '1', '127.0.0.1', '', '1433909004', '管理员', '增加了新的用户组：1123');
+INSERT INTO `bk_action_log` VALUES ('36', 'admin', '1', '127.0.0.1', '', '1433985688', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('37', 'admin', '1', '127.0.0.1', '', '1434093122', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('38', 'admin', '1', '127.0.0.1', '', '1434094731', '管理员', '登录系统成功');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify`
@@ -150,7 +182,7 @@ CREATE TABLE `bk_article_classify_relation` (
   PRIMARY KEY (`id`),
   KEY `classify_id` (`classify_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8 COMMENT='文章所属分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=253 DEFAULT CHARSET=utf8 COMMENT='文章所属分类表';
 
 -- ----------------------------
 -- Records of bk_article_classify_relation
@@ -226,6 +258,7 @@ INSERT INTO `bk_article_classify_relation` VALUES ('231', '80', '4', '1427960404
 INSERT INTO `bk_article_classify_relation` VALUES ('233', '81', '4', '1427961629');
 INSERT INTO `bk_article_classify_relation` VALUES ('240', '76', '4', '1427968979');
 INSERT INTO `bk_article_classify_relation` VALUES ('250', '82', '4', '1427981466');
+INSERT INTO `bk_article_classify_relation` VALUES ('252', '83', '4', '1433904944');
 
 -- ----------------------------
 -- Table structure for `bk_article_detail`
@@ -240,7 +273,7 @@ CREATE TABLE `bk_article_detail` (
   PRIMARY KEY (`id`),
   KEY `article_id` (`article_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 COMMENT='文章副表';
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8 COMMENT='文章副表';
 
 -- ----------------------------
 -- Records of bk_article_detail
@@ -275,6 +308,7 @@ INSERT INTO `bk_article_detail` VALUES ('66', '1', '79', '<p>1、OpenVPN连接�
 INSERT INTO `bk_article_detail` VALUES ('67', '1', '80', '<p>1、如何抓网卡的包</p><pre class=\"brush:bash;toolbar:false\">tcpdump&nbsp;-i&nbsp;eth0&nbsp;#代表侦听网卡eth0的流量包。</pre><p>2、<br/></p>', '1427960404');
 INSERT INTO `bk_article_detail` VALUES ('68', '1', '81', '<pre class=\"brush:bash;toolbar:false\">#!/bin/bash\r\nPATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin\r\nexport&nbsp;PATH\r\ndbuser=&#39;root&#39;\r\ndbpasswd=&#39;xx&#39;\r\ndbname=&#39;db1&nbsp;db2&#39;\r\nbacktime=`date&nbsp;+%Y%m%d%H%M%S`\r\nlogpath=&#39;/root/mysql_backup/log&#39;\r\ndatapath=&#39;/root/mysql_backup&#39;\r\necho&nbsp;&quot;backup&nbsp;time:${backtime},database:${dbname}&nbsp;touching...&quot;&nbsp;&gt;&gt;&nbsp;${logpath}/mysqllog.log\r\nfor&nbsp;table&nbsp;in&nbsp;$dbname;&nbsp;do\r\nsource=`/usr/local/mysql/bin/mysqldump&nbsp;-u${dbuser}&nbsp;-p${dbpasswd}&nbsp;${table}&gt;&nbsp;${datapath}/${table}${backtime}.sql`&nbsp;2&gt;&gt;&nbsp;${logpath}/mysqllog.log;\r\nif&nbsp;[&nbsp;&quot;$?&quot;&nbsp;==&nbsp;0&nbsp;];then\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cd&nbsp;${datapath}\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tar&nbsp;czf&nbsp;${table}${backtime}.tar.gz&nbsp;${table}${backtime}.sql&nbsp;&gt;&nbsp;/dev/null\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mv&nbsp;${table}${backtime}.tar.gz&nbsp;backup/\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cd&nbsp;${datapath}/backup\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;svn&nbsp;add&nbsp;${table}${backtime}.tar.gz\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;&quot;database&nbsp;${dbname}&nbsp;backup&nbsp;success!!&quot;&nbsp;&gt;&gt;&nbsp;${logpath}/mysqllog.log\r\nelse\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;&quot;database&nbsp;${dbname}&nbsp;backup&nbsp;error!!&quot;&nbsp;&gt;&gt;&nbsp;${logpath}/mysqllog.log\r\nfi\r\ndone\r\ncd&nbsp;${datapath}/backup\r\nsvn&nbsp;commit&nbsp;-m&nbsp;&quot;mysql&nbsp;auto&nbsp;backup&quot;</pre><p><br/></p>', '1427961483');
 INSERT INTO `bk_article_detail` VALUES ('69', '1', '82', '<p>1、安装apr apr-util</p><pre class=\"brush:bash;toolbar:false\">#安装apr\r\ncd&nbsp;./apr-1.5.1\r\n./configure&nbsp;--prefix=/usr/local/apr\r\nmake&nbsp;&amp;&amp;&nbsp;make&nbsp;install\r\n\r\n#安装apr-util\r\ncd&nbsp;../apr-util-1.5.3\r\n./configure&nbsp;--prefix=/usr/local/apr-util&nbsp;--with-apr=/usr/local/apr/\r\nmake&nbsp;&amp;&amp;&nbsp;make&nbsp;install</pre><p>2.1安装sqlite-autoconf</p><pre class=\"brush:bash;toolbar:false\">wget&nbsp;&nbsp;\r\ntar&nbsp;xzf&nbsp;sqlite-autoconf-xxx.tar.gz\r\n./configure&nbsp;--prefix=/usr/local/sqlite_autoconf\r\nmake&nbsp;&amp;&amp;&nbsp;make&nbsp;install</pre><p>2.2如果没有expat</p><pre class=\"brush:bash;toolbar:false\">yum&nbsp;install&nbsp;expat</pre><p>2.3安装zlib</p><pre class=\"brush:bash;toolbar:false\">/configure&nbsp;--prefix=/usr/local/zlib\r\nmake&nbsp;&amp;&amp;&nbsp;make&nbsp;install</pre><p>3、</p><pre class=\"brush:bash;toolbar:false\">./configure&nbsp;--prefix=/usr/local/subversion&nbsp;--with-apr=/usr/local/apr&nbsp;\\\r\n--with-apr-util=/usr/local/apr-util&nbsp;--with-zlib&nbsp;--with-openssl&nbsp;\\\r\n--enable-maintainer-mode&nbsp;--with-sqlite=/usr/local/sqlite_autoconf</pre><pre class=\"brush:bash;toolbar:false\">make&nbsp;&amp;&amp;&nbsp;make&nbsp;install</pre><p>4、check</p><pre class=\"brush:bash;toolbar:false\">/usr/local/subversion/bin/svn&nbsp;--version</pre><p><span style=\"color: rgb(255, 0, 0);\">5、如果有问题的话，下载rpm安装包,以rpm的方式安装</span></p><pre class=\"brush:bash;toolbar:false\"><a _src=\"http://www.collab.net/downloads/subversion#tab-1\" href=\"http://www.collab.net/downloads/subversion#tab-1\">http://www.collab.net/downloads/subversion#tab-1</a> <br/></pre><p>下载CollabNetSubversion-client-1.8.11-1.x86_64.rpm</p><p>安装rpm -ivh CollabNetSubversion-client-1.8.11-1.x86_64.rpm</p><p>默认安装在/opt/下，不过你可以复制到任何地方。<br/></p><p><br/></p><p><br/></p>', '1427964450');
+INSERT INTO `bk_article_detail` VALUES ('70', '1', '83', '<p>123<br/></p>', '1433904915');
 
 -- ----------------------------
 -- Table structure for `bk_article_main`
@@ -301,7 +335,7 @@ CREATE TABLE `bk_article_main` (
   KEY `conunt_comment` (`count_comment`) USING BTREE,
   KEY `is_delete` (`is_delete`) USING BTREE,
   KEY `status` (`status`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8 COMMENT='文章主表';
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COMMENT='文章主表';
 
 -- ----------------------------
 -- Records of bk_article_main
@@ -336,6 +370,7 @@ INSERT INTO `bk_article_main` VALUES ('79', '1', 'OpenVPN使用问题总结。',
 INSERT INTO `bk_article_main` VALUES ('80', '1', 'centos 使用过程中遇到的问题笔记', 'centos 使用过程中遇到的问题笔记', '', '', '1427960404', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('81', '1', '自动备份mysql数据库脚本', '在用的mysql数据库备份脚本，适合小量的。', '', '', '1427961483', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('82', '1', 'subversion的编译安装', 'subversion的编译安装subversion-1.8.13', '', '', '1427964450', '0', '0', '0', '0', '1', '1');
+INSERT INTO `bk_article_main` VALUES ('83', '1', '123', '123', '', '', '1433904915', '0', '0', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `bk_article_position`
@@ -423,7 +458,7 @@ CREATE TABLE `bk_article_tags` (
   KEY `is_delete` (`is_delete`) USING BTREE,
   KEY `sort` (`sort`) USING BTREE,
   KEY `name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 COMMENT='文章标签配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COMMENT='文章标签配置表';
 
 -- ----------------------------
 -- Records of bk_article_tags
@@ -445,6 +480,7 @@ INSERT INTO `bk_article_tags` VALUES ('53', 'opcache', '0', '1', '1', '142738396
 INSERT INTO `bk_article_tags` VALUES ('54', '软件安装', '0', '1', '1', '1427444712');
 INSERT INTO `bk_article_tags` VALUES ('55', 'openvpn', '0', '1', '1', '1427939462');
 INSERT INTO `bk_article_tags` VALUES ('56', 'mysql', '0', '1', '1', '1427961483');
+INSERT INTO `bk_article_tags` VALUES ('57', '123', '0', '1', '1', '1433904916');
 
 -- ----------------------------
 -- Table structure for `bk_article_tag_relation`
@@ -458,7 +494,7 @@ CREATE TABLE `bk_article_tag_relation` (
   PRIMARY KEY (`id`),
   KEY `article_id` (`article_id`) USING BTREE,
   KEY `tag_id` (`tag_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=356 DEFAULT CHARSET=utf8 COMMENT='文章所属标签表';
+) ENGINE=InnoDB AUTO_INCREMENT=358 DEFAULT CHARSET=utf8 COMMENT='文章所属标签表';
 
 -- ----------------------------
 -- Records of bk_article_tag_relation
@@ -517,38 +553,7 @@ INSERT INTO `bk_article_tag_relation` VALUES ('336', '80', '47', '1427960404');
 INSERT INTO `bk_article_tag_relation` VALUES ('338', '81', '56', '1427961629');
 INSERT INTO `bk_article_tag_relation` VALUES ('345', '76', '47', '1427968979');
 INSERT INTO `bk_article_tag_relation` VALUES ('355', '82', '48', '1427981466');
-
--- ----------------------------
--- Table structure for `bk_attachment`
--- ----------------------------
-DROP TABLE IF EXISTS `bk_attachment`;
-CREATE TABLE `bk_attachment` (
-  `aid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `module` char(15) NOT NULL,
-  `catid` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `filename` char(50) NOT NULL,
-  `filepath` char(200) NOT NULL,
-  `filesize` int(10) unsigned NOT NULL DEFAULT '0',
-  `fileext` char(10) NOT NULL,
-  `isimage` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `isthumb` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `downloads` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `userid` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `uploadtime` int(10) unsigned NOT NULL DEFAULT '0',
-  `uploadip` char(15) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `authcode` char(32) NOT NULL,
-  `siteid` smallint(5) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`aid`),
-  KEY `authcode` (`authcode`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of bk_attachment
--- ----------------------------
-INSERT INTO `bk_attachment` VALUES ('1', 'content', '12', '3812b31bb051f819a8b1eda1d8b44aed2f73e741.jpg', '2014/0731/20140731054933484.jpg', '24851', 'jpg', '1', '0', '0', '1', '1406800173', '127.0.0.1', '0', 'cbf29c20b016e0652047d41d94550347', '1');
-INSERT INTO `bk_attachment` VALUES ('2', 'link', '0', '3812b31bb051f819a8b1eda1d8b44aed2f73e741.jpg', '2014/0802/20140802100007554.jpg', '24851', 'jpg', '1', '0', '0', '1', '1406944806', '127.0.0.1', '0', '00daf1b6f47651cc5496eaf8d8b3eed7', '1');
-INSERT INTO `bk_attachment` VALUES ('3', 'link', '0', '3812b31bb051f819a8b1eda1d8b44aed2f73e741.jpg', '2014/0802/20140802123010669.jpg', '24851', 'jpg', '1', '0', '0', '1', '1406953810', '127.0.0.1', '0', '295088d2cebb4b0dec9885a69529de33', '1');
+INSERT INTO `bk_article_tag_relation` VALUES ('357', '83', '57', '1433904944');
 
 -- ----------------------------
 -- Table structure for `bk_comment`
@@ -563,7 +568,7 @@ CREATE TABLE `bk_comment` (
   `reply_ids` varchar(255) NOT NULL COMMENT '所评论的内容',
   `time` int(11) NOT NULL COMMENT '评论的时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_comment
@@ -590,6 +595,7 @@ INSERT INTO `bk_comment` VALUES ('32', '1', '74', '阿君', '不懂为什么用a
 INSERT INTO `bk_comment` VALUES ('33', '1', '81', '美女', '可以', '', '1428027488');
 INSERT INTO `bk_comment` VALUES ('34', '1', '81', '刘洋', '你好', '', '1428027537');
 INSERT INTO `bk_comment` VALUES ('35', '1', '82', '风', '建议使用第5点的方法安装。', '', '1428034649');
+INSERT INTO `bk_comment` VALUES ('36', '1', '82', '123123', '123123', '', '1433904890');
 
 -- ----------------------------
 -- Table structure for `bk_group`
@@ -602,13 +608,14 @@ CREATE TABLE `bk_group` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否禁用',
   `level` int(11) NOT NULL DEFAULT '0' COMMENT '用户组等级，低等级的不能对高等级的用户做修改',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_group
 -- ----------------------------
 INSERT INTO `bk_group` VALUES ('1', '超级用户组', '123123', '1', '1');
 INSERT INTO `bk_group` VALUES ('4', '测试用户组', '123123', '1', '2');
+INSERT INTO `bk_group` VALUES ('6', '1123', '123', '1', '123');
 
 -- ----------------------------
 -- Table structure for `bk_permission`
@@ -630,7 +637,7 @@ CREATE TABLE `bk_permission` (
   KEY `module` (`module`) USING BTREE,
   KEY `class` (`class`) USING BTREE,
   KEY `action` (`action`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_permission
@@ -668,6 +675,8 @@ INSERT INTO `bk_permission` VALUES ('50', 'blog', 'position', 'add', '推荐位�
 INSERT INTO `bk_permission` VALUES ('51', 'blog', 'position', 'edit', '推荐位编辑', '0', '42', '0', '3', '', '1429509949');
 INSERT INTO `bk_permission` VALUES ('52', 'blog', 'position', 'delete', '推荐位删除', '0', '42', '0', '3', '', '1429509972');
 INSERT INTO `bk_permission` VALUES ('53', 'foundation', 'log', 'action', '操作日志', '1', '1', '0', '2', '查看操作日志', '1433319136');
+INSERT INTO `bk_permission` VALUES ('54', '工作流', '工作流', '工作流', '工作流', '1', '0', '0', '1', '', '1434093036');
+INSERT INTO `bk_permission` VALUES ('55', 'workflow', 'index', 'index', '工作流管理', '1', '54', '0', '2', '', '1434093108');
 
 -- ----------------------------
 -- Table structure for `bk_search_index`
@@ -685,7 +694,7 @@ CREATE TABLE `bk_search_index` (
   UNIQUE KEY `article_id` (`article_id`) USING BTREE,
   KEY `added_date` (`added_date`) USING BTREE,
   FULLTEXT KEY `content` (`title`,`summary`,`content`)
-) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_search_index
@@ -720,6 +729,7 @@ INSERT INTO `bk_search_index` VALUES ('48', '79', ' openvpn 20351 29992 38382 39
 INSERT INTO `bk_search_index` VALUES ('49', '80', ' centos   20351 29992 36807 31243 20013 36935 21040 30340 38382 39064 31508 35760 ', ' centos   20351 29992 36807 31243 20013 36935 21040 30340 38382 39064 31508 35760 ', ' 1 12289 22914 20309 25235 32593 21345 30340 21253 tcpdump&nbsp ; -i&nbsp ; eth0&nbsp ; # 20195 34920 20390 21548 32593 21345 eth0 30340 27969 37327 21253 12290 2 12289 ', '1427960404', '1427960404');
 INSERT INTO `bk_search_index` VALUES ('50', '81', ' 33258 21160 22791 20221 mysql 25968 25454 24211 33050 26412 ', ' 22312 29992 30340 mysql 25968 25454 24211 22791 20221 33050 26412 65292 36866 21512 23567 37327 30340 12290 ', ' # ! /bin/bash \r \n path = /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin: ~ /bin \r \n export&nbsp ; path \r \n dbuser = & # 39 ; root& # 39 ; \r \n dbpasswd = & # 39 ; xx& # 39 ; \r \n dbname = & # 39 ; db1&nbsp ; db2& # 39 ; \r \n backtime = ` date&nbsp ; + % y % m % d % h % m % s ` \r \n logpath = & # 39 ; /root/mysql_backup/log& # 39 ; \r \n datapath = & # 39 ; /root/mysql_backup& # 39 ; \r \n echo&nbsp ; &quot ; backup&nbsp ; time: $ { backtime } , database: $ { dbname } &nbsp ; touching...&quot ; &nbsp ; &gt ; &gt ; &nbsp ; $ { logpath } /mysqllog.log \r \n for&nbsp ; table&nbsp ; in&nbsp ; $ dbname ; &nbsp ; do \r \n source = ` /usr/local/mysql/bin/mysqldump&nbsp ; -u $ { dbuser } &nbsp ; -p $ { dbpasswd } &nbsp ; $ { table } &gt ; &nbsp ; $ { datapath } / $ { table } $ { backtime } .sql ` &nbsp ; 2&gt ; &gt ; &nbsp ; $ { logpath } /mysqllog.log ; \r \n if&nbsp ; [ &nbsp ; &quot ; $ ?&quot ; &nbsp ; = = &nbsp ; 0&nbsp ; ] ; then \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; cd&nbsp ; $ { datapath } \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; tar&nbsp ; czf&nbsp ; $ { table } $ { backtime } .tar.gz&nbsp ; $ { table } $ { backtime } .sql&nbsp ; &gt ; &nbsp ; /dev/null \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; mv&nbsp ; $ { table } $ { backtime } .tar.gz&nbsp ; backup/ \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; cd&nbsp ; $ { datapath } /backup \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; svn&nbsp ; add&nbsp ; $ { table } $ { backtime } .tar.gz \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; echo&nbsp ; &quot ; database&nbsp ; $ { dbname } &nbsp ; backup&nbsp ; success ! ! &quot ; &nbsp ; &gt ; &gt ; &nbsp ; $ { logpath } /mysqllog.log \r \n else \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; echo&nbsp ; &quot ; database&nbsp ; $ { dbname } &nbsp ; backup&nbsp ; error ! ! &quot ; &nbsp ; &gt ; &gt ; &nbsp ; $ { logpath } /mysqllog.log \r \n fi \r \n done \r \n cd&nbsp ; $ { datapath } /backup \r \n svn&nbsp ; commit&nbsp ; -m&nbsp ; &quot ; mysql&nbsp ; auto&nbsp ; backup&quot ; ', '1427961483', '1427961629');
 INSERT INTO `bk_search_index` VALUES ('51', '82', ' subversion 30340 32534 35793 23433 35013 ', ' subversion 30340 32534 35793 23433 35013 subversion-1.8.13 ', ' 1 12289 23433 35013 apr   apr-util # 23433 35013 apr \r \n cd&nbsp ; ./apr-1.5.1 \r \n ./configure&nbsp ; --prefix = /usr/local/apr \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install \r \n \r \n # 23433 35013 apr-util \r \n cd&nbsp ; ../apr-util-1.5.3 \r \n ./configure&nbsp ; --prefix = /usr/local/apr-util&nbsp ; --with-apr = /usr/local/apr/ \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install2.1 23433 35013 sqlite-autoconfwget&nbsp ; &nbsp ; \r \n tar&nbsp ; xzf&nbsp ; sqlite-autoconf-xxx.tar.gz \r \n ./configure&nbsp ; --prefix = /usr/local/sqlite_autoconf \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install2.2 22914 26524 27809 26377 expatyum&nbsp ; install&nbsp ; expat2.3 23433 35013 zlib/configure&nbsp ; --prefix = /usr/local/zlib \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install3 12289 ./configure&nbsp ; --prefix = /usr/local/subversion&nbsp ; --with-apr = /usr/local/apr&nbsp ; \\ \r \n --with-apr-util = /usr/local/apr-util&nbsp ; --with-zlib&nbsp ; --with-openssl&nbsp ; \\ \r \n --enable-maintainer-mode&nbsp ; --with-sqlite = /usr/local/sqlite_autoconfmake&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install4 12289 check/usr/local/subversion/bin/svn&nbsp ; --version5 12289 22914 26524 26377 38382 39064 30340 35805 65292 19979 36733 rpm 23433 35013 21253 , 20197 rpm 30340 26041 24335 23433 35013 http://www.collab.net/downloads/subversion # tab-1   19979 36733 collabnetsubversion-client-1.8.11-1.x86_64.rpm 23433 35013 rpm   -ivh   collabnetsubversion-client-1.8.11-1.x86_64.rpm 40664 35748 23433 35013 22312 /opt/ 19979 65292 19981 36807 20320 21487 20197 22797 21046 21040 20219 20309 22320 26041 12290 ', '1427964450', '1427981466');
+INSERT INTO `bk_search_index` VALUES ('52', '83', ' 123 ', ' 123 ', ' 123 ', '1433904916', '1433904944');
 
 -- ----------------------------
 -- Table structure for `bk_users`
@@ -748,5 +758,54 @@ CREATE TABLE `bk_users` (
 -- ----------------------------
 -- Records of bk_users
 -- ----------------------------
-INSERT INTO `bk_users` VALUES ('1', 'admin', '96e79218965eb72c92a549dd5a330112', '4', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', null, '1', '1', '超级用户组', '127.0.0.1', '1433323596');
-INSERT INTO `bk_users` VALUES ('2', 'test', '96e79218965eb72c92a549dd5a330112', '4', 'test', '', '1427273006', null, '1', '1', '1', '127.0.0.1', '1433323585');
+INSERT INTO `bk_users` VALUES ('1', 'admin', '96e79218965eb72c92a549dd5a330112', '4', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', null, '1', '1', '超级用户组', '127.0.0.1', '1434094731');
+INSERT INTO `bk_users` VALUES ('2', 'test', '96e79218965eb72c92a549dd5a330112', '4', 'test', '', '1427273006', null, '1', '1', '1', '127.0.0.1', '1433905009');
+
+-- ----------------------------
+-- Table structure for `bk_workflow`
+-- ----------------------------
+DROP TABLE IF EXISTS `bk_workflow`;
+CREATE TABLE `bk_workflow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL COMMENT '工作流的名字',
+  `description` text NOT NULL COMMENT '描述',
+  `addtime` int(11) NOT NULL DEFAULT '0' COMMENT '数据插入的时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='工作流表';
+
+-- ----------------------------
+-- Records of bk_workflow
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `bk_workflow_step`
+-- ----------------------------
+DROP TABLE IF EXISTS `bk_workflow_step`;
+CREATE TABLE `bk_workflow_step` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `workflow_id` int(11) NOT NULL COMMENT '所属的工作流',
+  `name` varchar(255) NOT NULL COMMENT '工作流步骤的名称',
+  `description` text NOT NULL COMMENT '工作流步骤的描述',
+  `set_item_value` varchar(255) NOT NULL COMMENT '该工作流步骤所要设置的值，可能为不同表不同字段的值。审核过后会更新这个值到指定的字段',
+  `addtime` int(11) NOT NULL COMMENT '数据增加的日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='工作流的详细步骤';
+
+-- ----------------------------
+-- Records of bk_workflow_step
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `bk_workflow_user`
+-- ----------------------------
+DROP TABLE IF EXISTS `bk_workflow_user`;
+CREATE TABLE `bk_workflow_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `workflow_step_id` int(11) NOT NULL COMMENT '工作流步骤的ID',
+  `user_id` int(11) NOT NULL COMMENT '后台管理员的ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=323 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of bk_workflow_user
+-- ----------------------------

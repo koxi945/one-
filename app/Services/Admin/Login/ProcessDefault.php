@@ -1,6 +1,7 @@
 <?php namespace App\Services\Admin\Login;
 
 use App\Models\Admin\User as UserModel;
+use App\Models\Admin\Permission as PermissionModel;
 use App\Services\Admin\SC;
 use App\Services\Admin\Login\AbstractProcess;
 use Validator, Lang;
@@ -21,6 +22,13 @@ class ProcessDefault extends AbstractProcess {
     private $userModel;
 
     /**
+     * 权限模型
+     * 
+     * @var object
+     */
+    private $permissionModel;
+
+    /**
      * 初始化
      *
      * @access public
@@ -28,6 +36,7 @@ class ProcessDefault extends AbstractProcess {
     public function __construct()
     {
         if( ! $this->userModel) $this->userModel = new UserModel();
+        if( ! $this->permissionModel) $this->permissionModel = new PermissionModel();
     }
 
     /**
@@ -49,6 +58,7 @@ class ProcessDefault extends AbstractProcess {
             $data['last_login_ip'] = Request::ip();
             $this->userModel->updateLastLoginInfo($userInfo->id, $data);
             SC::setLoginSession($userInfo);
+            SC::setAllPermissionSession($this->permissionModel->getAllAccessPermission());
             event(new \App\Events\Admin\ActionLog(Lang::get('login.login_sys'), ['userInfo' => $userInfo]));
             return $userInfo;
         }
