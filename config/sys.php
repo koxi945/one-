@@ -27,5 +27,6 @@ return [
     'access_public' => [
         ['module' => 'foundation', 'class' => 'index', 'function' => ['index']],
         ['module' => 'foundation', 'class' => 'user', 'function' => ['mpassword']],
+        ['module' => 'foundation', 'class' => 'upload', 'function' => ['process']],
     ]
 ];
