@@ -12,29 +12,29 @@
           <div class="row">
               <div class="col-md-12">
                 <form method="get" action="" class="form-inline">
-                  <div class="form-group">
+                  <div class="form-group f-g">
                     <label for="search-username">用户名</label>
                     <input type="text" value="<?php if(isset($data['username'])) echo $data['username']; ?>" name="username" id="search-username" class="form-control">
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group f-g">
                     <label for="search-realname">真实姓名</label>
                     <input type="text" value="<?php if(isset($data['realname'])) echo $data['realname']; ?>" name="realname" id="search-realname" class="form-control">
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group f-g">
                     <label for="search-time">操作时间</label>
                     <input type="text" value="<?php if(isset($data['timeFrom'])) echo $data['timeFrom']; ?>" name="time_from" id="search-time" class="form-control">
                     到
                     <input type="text" value="<?php if(isset($data['timeTo'])) echo $data['timeTo']; ?>" name="time_to" id="search-time-to" class="form-control">
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group f-g">
                     <input class="btn btn-default" type="submit" value="查询">
                   </div>
                 </form>
               </div>
-              <div style="margin-bottom:20px; clear:both;"></div>
+              <div style="margin-bottom:5px; clear:both;"></div>
               <div class="col-md-12">
                   <div class="panel panel-default">
                     <div class="table-responsive">
