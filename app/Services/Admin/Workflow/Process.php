@@ -38,6 +38,16 @@ class Process extends BaseProcess
     }
 
     /**
+     * 工作流列表
+     *
+     * @access public
+     */
+    public function workflowInfos()
+    {
+        return $this->workflowModel->getAllWorkflowByPage();
+    }
+
+    /**
      * 增加新的工作流
      *
      * @param object $data

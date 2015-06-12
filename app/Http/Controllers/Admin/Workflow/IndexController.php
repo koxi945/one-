@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers\Admin\Workflow;
 
 use App\Http\Controllers\Admin\Controller;
+use App\Services\Admin\Workflow\Process;
+use Request;
 
 /**
  * 工作流
@@ -14,7 +16,10 @@ class IndexController extends Controller
      */
     public function index()
     {
-        return view('admin.workflow.index');
+    	$manger = new Process();
+    	$list = $manger->workflowInfos();
+    	$page = $list->appends(Request::all())->render();
+        return view('admin.workflow.index', compact('list', 'page'));
     }
 
 }
