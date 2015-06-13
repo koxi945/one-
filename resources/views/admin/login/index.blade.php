@@ -37,10 +37,16 @@
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="<?php echo loadStatic('/lib/html5.js'); ?>"></script>
+      <script type="text/javascript">
+        $(document).ready(function(){
+            $('body').html('您使用的是IE浏览器，仅支持IE9以上版本，建议使用firefox、chrome浏览器，以或得最佳体验。');
+        });
+        
+      </script>
     <![endif]-->
   
 </head>
-<body class=" theme-blue">
+<body class="theme-blue">
 
     <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
     <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
@@ -65,11 +71,13 @@
                 <input type="password" class="form-control span12 login-form" id="password">
             </div>
             <a href="javascript:;" class="btn btn-primary pull-right" id="submit">登陆</a>
-            <label class="remember-me"><input type="checkbox"> 记住</label>
+
+            <label class="remember-me none"><input type="checkbox"> 记住</label>
             <div class="clearfix"></div>
         </div>
     </div>
     </div>
+    <div style="color:#bbb;font-size:12px; margin:0 auto; width:200px;">最佳体验在IE9+、firefox、chrome</div>
     <script src="<?php echo loadStatic('/lib/bootstrap/js/bootstrap.js'); ?>"></script>
     <script type="text/javascript" src="<?php echo loadStatic('/crypto/md5.js'); ?>" ></script>
     <script type="text/javascript" src="<?php echo loadStatic('/lib/seajs/sea.js'); ?>" ></script>
