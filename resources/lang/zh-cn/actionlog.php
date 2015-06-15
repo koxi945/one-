@@ -15,4 +15,9 @@ return array(
     'add_new_workflow' => '增加了新的工作流：:name',
     'edit_workflow' => '编辑了工作流：:name',
     'delete_workflow' => '删除了工作流：:name',
+
+    'add_workflow_step' => '增加了新的工作流步骤：:name',
+    'edit_workflow_step' => '编辑了工作流步骤：:name',
+
+    'delete_workflow_step' => '删除了工作流步骤：:name',
 );

@@ -57,4 +57,19 @@ class Workflow extends AbstractBase
         return $html;
     }
 
+    /**
+     * 工作流管理列表详情
+     *
+     * @access public
+     */
+    public function detail($data)
+    {
+        $this->setCurrentAction('step', 'index', 'workflow')->setData($data)->checkPermission();
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
+        $html = $this->hasPermission ?
+                    '<a title="详情" href="'.$url.'"><i class="fa fa-list"></i></a>'
+                        : '<i class="fa fa-list" style="color:#ccc"></i>';
+        return $html;
+    }
+
 }

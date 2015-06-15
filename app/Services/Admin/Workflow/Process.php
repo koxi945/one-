@@ -2,7 +2,9 @@
 
 use Lang;
 use App\Models\Admin\Workflow as WorkflowModel;
+use App\Models\Admin\WorkflowStep as workflowStepModel;
 use App\Services\Admin\Workflow\Validate\Workflow as WorkflowValidate;
+use App\Services\Admin\Workflow\Validate\WorkflowStep as WorkflowStepValidate;
 use App\Services\Admin\BaseProcess;
 
 /**
@@ -27,6 +29,20 @@ class Process extends BaseProcess
     private $workflowValidate;
 
     /**
+     * 工作流步骤表单验证对象
+     * 
+     * @var object
+     */
+    private $workflowStepModel;
+
+    /**
+     * 工作流步骤表单验证对象
+     * 
+     * @var object
+     */
+    private $workflowStepValidate;
+
+    /**
      * 初始化
      *
      * @access public
@@ -35,6 +51,8 @@ class Process extends BaseProcess
     {
         if( ! $this->workflowModel) $this->workflowModel = new WorkflowModel();
         if( ! $this->workflowValidate) $this->workflowValidate = new WorkflowValidate();
+        if( ! $this->workflowStepModel) $this->workflowStepModel = new workflowStepModel();
+        if( ! $this->workflowStepValidate) $this->workflowStepValidate = new WorkflowStepValidate();
     }
 
     /**
@@ -86,7 +104,7 @@ class Process extends BaseProcess
         if( ! isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
         $id = $data->id; unset($data->id);
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
-        if( ! $this->workflowValidate->edit($data)) return $this->setErrorMsg($this->groupValidate->getErrorMessage());
+        if( ! $this->workflowValidate->edit($data)) return $this->setErrorMsg($this->workflowValidate->getErrorMessage());
         if($this->workflowModel->editWorkflow($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
@@ -105,6 +123,101 @@ class Process extends BaseProcess
         return false;
     }
 
-    
+    /**
+     * 取得工作流详细步骤的信息
+     *
+     * @param array $where 条件
+     * @return array
+     */
+    public function workflowStepInfos($where = [])
+    {
+        if(empty($where)) return $this->workflowStepModel->getAllWorkflowStepByPage();
+        if(isset($where['ids'])) return $this->workflowStepModel->getWorkflowStepInIds($where['ids']);
+        return [];
+    }
+
+    /**
+     * 返回固定的步骤信息，暂时只支持到十五步
+     *
+     * @return  array
+     */
+    public function workflowStepLevelList()
+    {
+        return [
+            ['step_level' => 1, 'title' => '审核第一步'],
+            ['step_level' => 2, 'title' => '审核第二步'],
+            ['step_level' => 3, 'title' => '审核第三步'],
+            ['step_level' => 4, 'title' => '审核第四步'],
+            ['step_level' => 5, 'title' => '审核第五步'],
+            ['step_level' => 6, 'title' => '审核第六步'],
+            ['step_level' => 7, 'title' => '审核第七步'],
+            ['step_level' => 8, 'title' => '审核第八步'],
+            ['step_level' => 9, 'title' => '审核第九步'],
+            ['step_level' => 10, 'title' => '审核第十步'],
+            ['step_level' => 11, 'title' => '审核第十一步'],
+            ['step_level' => 12, 'title' => '审核第十二步'],
+            ['step_level' => 13, 'title' => '审核第十三步'],
+            ['step_level' => 14, 'title' => '审核第十四步'],
+            ['step_level' => 15, 'title' => '审核第十五步'],
+        ];
+    }
+
+    /**
+     * 增加新的工作流步骤
+     *
+     * @param object $data
+     * @access public
+     * @return boolean true|false
+     */
+    public function addWorkflowStep(\App\Services\Admin\Workflow\Param\WorkflowStepSave $data)
+    {
+        if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') )) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+        if( ! $this->workflowStepValidate->add($data)) return $this->setErrorMsg($this->workflowStepValidate->getErrorMessage());
+        if($this->workflowStepModel->addWorkflowStep($data->toArray()) !== false) return true;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
+    }
+
+    /**
+     * 取得单条工作流步骤信息
+     *
+     * @param array $where 条件
+     * @return array
+     */
+    public function workflowStepInfo($where)
+    {
+        return $this->workflowStepModel->getWorkflowStepInfo($where);
+    }
+
+    /**
+     * 编辑工作流步骤
+     *
+     * @param string $data
+     * @access public
+     * @return boolean true|false
+     */
+    public function editWorkflowStep(\App\Services\Admin\Workflow\Param\WorkflowStepSave $data)
+    {
+        if( ! isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
+        if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') )) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+        $id = $data->id; unset($data->id);
+        if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+        if( ! $this->workflowStepValidate->edit($data)) return $this->setErrorMsg($this->workflowStepValidate->getErrorMessage());
+        if($this->workflowStepModel->editWorkflowStep($data->toArray(), $id) !== false) return true;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
+    }
+
+    /**
+     * 删除工作流步骤
+     *
+     * @param array $where 条件
+     * @return true|false
+     * @access public
+     */
+    public function deleteWorkflowStep($where)
+    {
+        if(isset($where['ids'])) $ids = array_map('intval', $where['ids']);
+        if(isset($ids)) return $this->workflowStepModel->deleteWorkflowStep($ids);
+        return false;
+    }
 
 }

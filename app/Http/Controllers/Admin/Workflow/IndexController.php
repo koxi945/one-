@@ -62,7 +62,7 @@ class IndexController extends Controller
     {
         if(Request::method() == 'POST') return $this->updateDatasToDatabase();
         $id = Request::input('id');
-        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
+        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'), true);
         $manger = new Process();
         $info = $manger->workflowInfo(['id' => $id]);
         if(empty($info)) return Js::error(Lang::get('workflow.workflow_not_found'));
@@ -113,5 +113,6 @@ class IndexController extends Controller
         }
         return responseJson($manager->getErrorMessage());
     }
+
 
 }

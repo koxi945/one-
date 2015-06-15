@@ -3,8 +3,9 @@
     <?php echo widget('Admin.Menu')->leftMenu(); ?>
     <div class="content">
         <?php echo widget('Admin.Menu')->contentMenu(); ?>
-        <?php echo widget('Admin.Common')->crumbs('Workflow'); ?>
+        <?php echo widget('Admin.Common')->crumbs('WorkflowStep'); ?>
         <div class="main-content">
+          <div class="function-bar-text"><h5>工作流：<span style="color:#999;"><?php if(isset($workflowInfo['name'])) echo $workflowInfo['name']; ?></span></h5></div>
           <div id="sys-list">
           <div class="row">
               <div class=" col-md-12">
@@ -13,10 +14,13 @@
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>工作流名字</th>
+                            <th>工作流步骤名字</th>
+                            <th>审核步骤</th>
+                            <th>关联人员</th>
                             <th>备注</th>
                             <th>增加的时间</th>
-                            <th>详情</th>
+                            <th>设置关联人员</th>
+                            <th>操作</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -24,12 +28,14 @@
                           <?php foreach($list as $key => $value): ?>
                             <tr>
                               <td><?php echo $value['name']; ?></td>
+                              <td>第<?php echo $value['step_level']; ?>步</td>
+                              <td></td>
                               <td><?php echo $value['description']; ?></td>
                               <td><?php echo date('Y-m-d', $value['addtime']); ?></td>
+                              <td></td>
                               <td>
-                                <?php echo widget('Admin.Workflow')->edit($value); ?>
-                                <?php echo widget('Admin.Workflow')->delete($value); ?>
-                                <?php echo widget('Admin.Workflow')->detail($value); ?>
+                                <?php echo widget('Admin.WorkflowStep')->edit($value); ?>
+                                <?php echo widget('Admin.WorkflowStep')->delete($value); ?>
                               </td>
                             </tr>
                           <?php endforeach; ?>
