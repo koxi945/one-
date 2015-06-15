@@ -102,4 +102,17 @@ class Access extends Base
         return false;
     }
 
+    /**
+     * 删除权限与用户或用户组的关联
+     * 
+     * @return true|false
+     */
+    public function deleteInfo($where)
+    {
+        if(isset($where['type'], $where['role_id']) and is_array($where['role_id']) and in_array($where['type'], array(self::AP_USER, self::AP_GROUP)) )
+            $search = $this->where('type', '=', $where['type'])->whereIn('role_id', array_map('intval', $where['role_id']));
+        if(isset($search)) return $search->delete();
+        return false;
+    }
+
 }

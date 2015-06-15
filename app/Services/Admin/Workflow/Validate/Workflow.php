@@ -19,15 +19,14 @@ class Workflow extends BaseValidate
     {
         // 创建验证规则
         $rules = array(
-            'group_name' => 'required',
-            'level' => 'required|numeric',
+            'name' => 'required',
+            'description' => 'required',
         );
         
         // 自定义验证消息
         $messages = array(
-            'group_name.required' => Lang::get('group.group_name_empty'),
-            'level.required' => Lang::get('group.group_level_empty'),
-            'level.numeric' => Lang::get('group.group_level_empty'),
+            'name.required' => Lang::get('workflow.workflow_name_empty'),
+            'description.required' => Lang::get('workflow.workflow_description_empty'),
         );
         
         //开始验证

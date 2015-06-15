@@ -9,6 +9,11 @@ use ArrayAccess;
  */
 abstract class AbstractParam implements ArrayAccess
 {
+    /**
+     * 用来保存传进来的值
+     * 
+     * @var array
+     */
     protected $attributes = [];
 
     /**
@@ -77,14 +82,39 @@ abstract class AbstractParam implements ArrayAccess
         return $this[$key];
     }
 
+    /**
+     * magic function
+     */
     public function __isset($key)
     {
         return isset($this[$key]) and isset($this->attributes[$key]);
     }
 
+    /**
+     * magic function
+     */
     public function __unset($key)
     {
         if(isset($this->attributes[$key])) unset($this->attributes[$key], $this[$key]);
+    }
+
+    /**
+     * 把值赋予到参数容器中
+     * 
+     * @param array $attributes 传入的值数值
+     */
+    public function setAttributes($attributes)
+    {
+        $reflection = new \ReflectionClass($this);
+        $attributes = (array) $attributes;
+        foreach($attributes as $key => $value)
+        {
+            if($reflection->hasProperty($key) and ! isset($this->attributes[$key]))
+            {
+                $this->$key = $this->attributes[$key] = $value;
+            }
+        }
+        return $this;
     }
 
 }

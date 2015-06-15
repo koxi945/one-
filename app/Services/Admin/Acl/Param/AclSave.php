@@ -27,20 +27,6 @@ class AclSave extends AbstractParam
 
     protected $id;
 
-    public function setAttributes($attributes)
-    {
-        $reflection = new \ReflectionClass($this);
-        $attributes = (array) $attributes;
-        foreach($attributes as $key => $value)
-        {
-            if($reflection->hasProperty($key) and ! isset($this->attributes[$key]))
-            {
-                $this->$key = $this->attributes[$key] = $value;
-            }
-        }
-        return $this;
-    }
-
     public function setName($name)
     {
         $this->name = $this->attributes['name'] = $name;

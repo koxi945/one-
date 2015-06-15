@@ -2,6 +2,7 @@
 
 use Lang;
 use App\Models\Admin\Group as GroupModel;
+use App\Models\Admin\Access as AccessModel;
 use App\Services\Admin\Group\Validate\Group as GroupValidate;
 use App\Services\Admin\Acl\Acl;
 use App\Services\Admin\BaseProcess;
@@ -77,7 +78,12 @@ class Process extends BaseProcess
             if( ! $this->acl->checkGroupLevelPermission($value, Acl::GROUP_LEVEL_TYPE_GROUP))
                 return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         }
-        if($this->groupModel->deleteGroup($ids) !== false) return true;
+        if($this->groupModel->deleteGroup($ids) !== false)
+        {
+            $accessModel = new AccessModel();
+            $result = $accessModel->deleteInfo(['type' => AccessModel::AP_GROUP, 'role_id' => $ids]);
+            return true;
+        }
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 

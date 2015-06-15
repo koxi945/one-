@@ -30,7 +30,7 @@
                   </div>
 
                   <div class="form-group f-g">
-                    <input class="btn btn-default" type="submit" value="查询">
+                    <input class="btn btn-primary" type="submit" value="查询日志">
                   </div>
                 </form>
               </div>

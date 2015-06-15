@@ -27,7 +27,8 @@
                               <td><?php echo $value['description']; ?></td>
                               <td><?php echo date('Y-m-d', $value['addtime']); ?></td>
                               <td>
-                                详情
+                                <?php echo widget('Admin.Workflow')->edit($value); ?>
+                                <?php echo widget('Admin.Workflow')->delete($value); ?>
                               </td>
                             </tr>
                           <?php endforeach; ?>

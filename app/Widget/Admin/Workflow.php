@@ -27,4 +27,34 @@ class Workflow extends AbstractBase
         return $html;
     }
 
+    /**
+     * 工作流管理列表编辑操作
+     *
+     * @access public
+     */
+    public function edit($data)
+    {
+        $this->setCurrentAction('index', 'edit', 'workflow')->setData($data)->checkPermission();
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
+        $html = $this->hasPermission ?
+                    '<a href="'.$url.'"><i class="fa fa-pencil"></i></a>'
+                        : '<i class="fa fa-pencil" style="color:#ccc"></i>';
+        return $html;
+    }
+
+    /**
+     * 工作流管理列表删除操作
+     *
+     * @access public
+     */
+    public function delete($data)
+    {
+        $this->setCurrentAction('index', 'delete', 'workflow')->setData($data)->checkPermission();
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
+        $html = $this->hasPermission ?
+                    '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
+                        : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
+        return $html;
+    }
+
 }

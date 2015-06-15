@@ -3,7 +3,7 @@
     <?php echo widget('Admin.Menu')->leftMenu(); ?>
     <div class="content">
         <?php echo widget('Admin.Menu')->contentMenu(); ?>
-        <?php echo widget('Admin.Common')->crumbs('Content'); ?>
+        <?php echo widget('Admin.Common')->crumbs(); ?>
         <div class="main-content">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#home" data-toggle="tab">填写文章信息</a></li>
