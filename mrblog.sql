@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-06-15 16:46:33
+Date: 2015-06-16 16:34:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -51,7 +51,7 @@ CREATE TABLE `bk_action_log` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `username` (`username`) USING BTREE,
   KEY `addtime` (`add_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_action_log
@@ -135,6 +135,23 @@ INSERT INTO `bk_action_log` VALUES ('76', 'admin', '1', '127.0.0.1', '', '143435
 INSERT INTO `bk_action_log` VALUES ('77', 'admin', '1', '127.0.0.1', '', '1434354837', '管理员', '增加了新的工作流步骤：xx');
 INSERT INTO `bk_action_log` VALUES ('78', 'admin', '1', '127.0.0.1', '', '1434354941', '管理员', '登录系统成功');
 INSERT INTO `bk_action_log` VALUES ('79', 'admin', '1', '127.0.0.1', '', '1434355261', '管理员', '删除了工作流步骤：xx');
+INSERT INTO `bk_action_log` VALUES ('80', 'admin', '1', '127.0.0.1', '', '1434422513', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('81', 'admin', '1', '127.0.0.1', '', '1434441684', '管理员', '关联了用户test到工作流工作流1中的审核步骤财务审核');
+INSERT INTO `bk_action_log` VALUES ('82', 'admin', '1', '127.0.0.1', '', '1434441764', '管理员', '关联了用户：test到工作流：工作流1中的审核步骤：财务审核');
+INSERT INTO `bk_action_log` VALUES ('83', 'admin', '1', '127.0.0.1', '', '1434441764', '管理员', '关联了用户：管理员到工作流：工作流1中的审核步骤：财务审核');
+INSERT INTO `bk_action_log` VALUES ('84', 'admin', '1', '127.0.0.1', '', '1434441789', '管理员', '关联了用户：test 到工作流：工作流1 中的审核步骤：财务审核');
+INSERT INTO `bk_action_log` VALUES ('85', 'admin', '1', '127.0.0.1', '', '1434441789', '管理员', '关联了用户：管理员 到工作流：工作流1 中的审核步骤：财务审核');
+INSERT INTO `bk_action_log` VALUES ('86', 'admin', '1', '127.0.0.1', '', '1434441843', '管理员', '关联了用户：test 到工作流：工作流1 中的审核步骤：财务审核');
+INSERT INTO `bk_action_log` VALUES ('87', 'admin', '1', '127.0.0.1', '', '1434443074', '管理员', '增加了新的工作流：测试仪');
+INSERT INTO `bk_action_log` VALUES ('88', 'admin', '1', '127.0.0.1', '', '1434443280', '管理员', '编辑了工作流：测试仪');
+INSERT INTO `bk_action_log` VALUES ('89', 'admin', '1', '127.0.0.1', '', '1434443296', '管理员', '增加了新的工作流步骤：123');
+INSERT INTO `bk_action_log` VALUES ('90', 'admin', '1', '127.0.0.1', '', '1434443311', '管理员', '增加了新的工作流步骤：ads');
+INSERT INTO `bk_action_log` VALUES ('91', 'admin', '1', '127.0.0.1', '', '1434443332', '管理员', '关联了用户：test 到工作流：测试仪 中的审核步骤：123');
+INSERT INTO `bk_action_log` VALUES ('92', 'admin', '1', '127.0.0.1', '', '1434443347', '管理员', '关联了用户：管理员 到工作流：测试仪 中的审核步骤：ads');
+INSERT INTO `bk_action_log` VALUES ('93', 'admin', '1', '127.0.0.1', '', '1434443452', '管理员', '增加了新的工作流步骤：1231');
+INSERT INTO `bk_action_log` VALUES ('94', 'admin', '1', '127.0.0.1', '', '1434443543', '管理员', '增加了新的工作流步骤：123123123');
+INSERT INTO `bk_action_log` VALUES ('95', 'admin', '1', '127.0.0.1', '', '1434443554', '管理员', '删除了工作流步骤：123123123');
+INSERT INTO `bk_action_log` VALUES ('96', 'admin', '1', '127.0.0.1', '', '1434443580', '管理员', '删除了工作流：测试仪');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify`
@@ -637,7 +654,7 @@ CREATE TABLE `bk_permission` (
   KEY `module` (`module`) USING BTREE,
   KEY `class` (`class`) USING BTREE,
   KEY `action` (`action`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_permission
@@ -684,6 +701,7 @@ INSERT INTO `bk_permission` VALUES ('59', 'workflow', 'step', 'index', '工作�
 INSERT INTO `bk_permission` VALUES ('60', 'workflow', 'step', 'add', '增加工作流步骤', '0', '59', '0', '4', '增加工作流步骤', '1434349481');
 INSERT INTO `bk_permission` VALUES ('61', 'workflow', 'step', 'edit', '编辑工作流步骤', '0', '59', '0', '4', '编辑工作流步骤', '1434353110');
 INSERT INTO `bk_permission` VALUES ('62', 'workflow', 'step', 'delete', '工作流步骤删除', '0', '59', '0', '4', '工作流步骤删除', '1434354926');
+INSERT INTO `bk_permission` VALUES ('63', 'workflow', 'step', 'relation', '工作流设置关联人员', '0', '59', '0', '4', '工作流设置关联人员', '1434422499');
 
 -- ----------------------------
 -- Table structure for `bk_search_index`
@@ -765,7 +783,7 @@ CREATE TABLE `bk_users` (
 -- ----------------------------
 -- Records of bk_users
 -- ----------------------------
-INSERT INTO `bk_users` VALUES ('1', 'admin', '96e79218965eb72c92a549dd5a330112', '4', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', null, '1', '1', '超级用户组', '127.0.0.1', '1434354941');
+INSERT INTO `bk_users` VALUES ('1', 'admin', '96e79218965eb72c92a549dd5a330112', '4', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', null, '1', '1', '超级用户组', '127.0.0.1', '1434422513');
 INSERT INTO `bk_users` VALUES ('2', 'test', '96e79218965eb72c92a549dd5a330112', '4', 'test', '', '1427273006', null, '1', '1', '1', '127.0.0.1', '1433905009');
 
 -- ----------------------------
@@ -778,7 +796,7 @@ CREATE TABLE `bk_workflow` (
   `description` text NOT NULL COMMENT '描述',
   `addtime` int(11) NOT NULL DEFAULT '0' COMMENT '数据插入的时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='工作流表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='工作流表';
 
 -- ----------------------------
 -- Records of bk_workflow
@@ -800,7 +818,7 @@ CREATE TABLE `bk_workflow_step` (
   PRIMARY KEY (`id`),
   KEY `workflow_id` (`workflow_id`) USING BTREE,
   KEY `step_level` (`step_level`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='工作流的详细步骤';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='工作流的详细步骤';
 
 -- ----------------------------
 -- Records of bk_workflow_step
@@ -817,9 +835,14 @@ CREATE TABLE `bk_workflow_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `workflow_step_id` int(11) NOT NULL COMMENT '工作流步骤的ID',
   `user_id` int(11) NOT NULL COMMENT '后台管理员的ID',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `workflow_id` int(11) NOT NULL COMMENT '工作流ID',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`) USING BTREE,
+  KEY `workflow_step_id` (`workflow_step_id`) USING BTREE,
+  KEY `workflow_id` (`workflow_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_workflow_user
 -- ----------------------------
+INSERT INTO `bk_workflow_user` VALUES ('6', '1', '2', '2');
