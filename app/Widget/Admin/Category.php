@@ -5,20 +5,20 @@ namespace App\Widget\Admin;
 use App\Widget\Admin\AbstractBase;
 
 /**
- * 用户列表小组件
+ * 文章分类列表小组件
  *
  * @author jiang <mylampblog@163.com>
  */
 class Category extends AbstractBase
 {
     /**
-     * 用户列表编辑操作
+     * 文章分类列表编辑操作
      *
      * @access public
      */
     public function edit($data)
     {
-        $this->setCurrentAction('category', 'edit', 'blog')->setData($data)->checkPermission();
+        $this->setCurrentAction('category', 'edit', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-pencil"></i></a>'
@@ -27,13 +27,13 @@ class Category extends AbstractBase
     }
 
     /**
-     * 用户列表删除操作
+     * 文章分类列表删除操作
      *
      * @access public
      */
     public function delete($data)
     {
-        $this->setCurrentAction('category', 'delete', 'blog')->setData($data)->checkPermission();
+        $this->setCurrentAction('category', 'delete', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'

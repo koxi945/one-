@@ -6,20 +6,20 @@ use App\Widget\Admin\AbstractBase;
 use App\Services\Admin\Acl\Acl as AclManager;
 
 /**
- * 用户列表小组件
+ * 权限列表小组件
  *
  * @author jiang <mylampblog@163.com>
  */
 class Acl extends AbstractBase
 {
     /**
-     * 用户列表编辑操作
+     * 权限列表编辑操作
      *
      * @access public
      */
     public function edit($data)
     {
-        $this->setCurrentAction('acl', 'edit', 'foundation')->setData($data)->checkPermission();
+        $this->setCurrentAction('acl', 'edit', 'foundation')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id'])]);
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-pencil"></i></a>'
@@ -28,13 +28,13 @@ class Acl extends AbstractBase
     }
 
     /**
-     * 用户列表删除操作
+     * 权限列表删除操作
      *
      * @access public
      */
     public function delete($data)
     {
-        $this->setCurrentAction('acl', 'delete', 'foundation')->setData($data)->checkPermission();
+        $this->setCurrentAction('acl', 'delete', 'foundation')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id'])]);
         $html = $this->hasPermission ?
                     '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
@@ -58,7 +58,7 @@ class Acl extends AbstractBase
     }
 
     /**
-     * 面包屑中的按钮
+     * 排序的按钮
      *
      * @access public
      */

@@ -6,14 +6,14 @@ use App\Widget\Admin\AbstractBase;
 use App\Services\Admin\Acl\Acl;
 
 /**
- * 用户列表小组件
+ * 用户组列表小组件
  *
  * @author jiang <mylampblog@163.com>
  */
 class Group extends AbstractBase
 {
     /**
-     * 用户列表编辑操作
+     * 用户组列表编辑操作
      *
      * @access public
      */
@@ -28,7 +28,7 @@ class Group extends AbstractBase
     }
 
     /**
-     * 用户列表删除操作
+     * 用户组列表删除操作
      *
      * @access public
      */
@@ -43,7 +43,7 @@ class Group extends AbstractBase
     }
 
     /**
-     * 用户列表删除操作
+     * 用户组列表删除操作
      *
      * @access public
      */

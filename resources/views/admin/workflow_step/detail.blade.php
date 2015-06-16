@@ -32,7 +32,9 @@
                               <td></td>
                               <td><?php echo $value['description']; ?></td>
                               <td><?php echo date('Y-m-d', $value['addtime']); ?></td>
-                              <td></td>
+                              <td>
+                                <?php echo widget('Admin.WorkflowStep')->relation($value); ?>
+                              </td>
                               <td>
                                 <?php echo widget('Admin.WorkflowStep')->edit($value); ?>
                                 <?php echo widget('Admin.WorkflowStep')->delete($value); ?>

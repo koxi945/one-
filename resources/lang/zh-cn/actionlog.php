@@ -20,4 +20,6 @@ return array(
     'edit_workflow_step' => '编辑了工作流步骤：:name',
 
     'delete_workflow_step' => '删除了工作流步骤：:name',
+
+    'set_step_user' => '关联了用户：:username 到工作流：:workflow 中的审核步骤：:workflow_step',
 );

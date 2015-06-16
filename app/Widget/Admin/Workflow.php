@@ -34,7 +34,7 @@ class Workflow extends AbstractBase
      */
     public function edit($data)
     {
-        $this->setCurrentAction('index', 'edit', 'workflow')->setData($data)->checkPermission();
+        $this->setCurrentAction('index', 'edit', 'workflow')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-pencil"></i></a>'
@@ -49,7 +49,7 @@ class Workflow extends AbstractBase
      */
     public function delete($data)
     {
-        $this->setCurrentAction('index', 'delete', 'workflow')->setData($data)->checkPermission();
+        $this->setCurrentAction('index', 'delete', 'workflow')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
@@ -64,7 +64,7 @@ class Workflow extends AbstractBase
      */
     public function detail($data)
     {
-        $this->setCurrentAction('step', 'index', 'workflow')->setData($data)->checkPermission();
+        $this->setCurrentAction('step', 'index', 'workflow')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a title="详情" href="'.$url.'"><i class="fa fa-list"></i></a>'

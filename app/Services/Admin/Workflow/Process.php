@@ -119,7 +119,20 @@ class Process extends BaseProcess
     public function deleteWorkflow($where)
     {
         if(isset($where['ids'])) $ids = array_map('intval', $where['ids']);
-        if(isset($ids)) return $this->workflowModel->deleteWorkflow($ids);
+        if(isset($ids))
+        {
+            $result = $this->workflowModel->deleteWorkflow($ids);
+            if($result !== false)
+            {
+                $modelStepUser = new \App\Models\Admin\WorkflowStepUser();
+                foreach($ids as $workflowId)
+                {
+                    $this->workflowStepModel->commonDelete(['workflow_id' => $workflowId]);
+                    $modelStepUser->commonDelete(['workflow_id' => $workflowId]);
+                }
+            }
+            return true;
+        }
         return false;
     }
 
@@ -131,9 +144,8 @@ class Process extends BaseProcess
      */
     public function workflowStepInfos($where = [])
     {
-        if(empty($where)) return $this->workflowStepModel->getAllWorkflowStepByPage();
         if(isset($where['ids'])) return $this->workflowStepModel->getWorkflowStepInIds($where['ids']);
-        return [];
+        return $this->workflowStepModel->getAllWorkflowStepByPage($where);
     }
 
     /**
@@ -216,7 +228,59 @@ class Process extends BaseProcess
     public function deleteWorkflowStep($where)
     {
         if(isset($where['ids'])) $ids = array_map('intval', $where['ids']);
-        if(isset($ids)) return $this->workflowStepModel->deleteWorkflowStep($ids);
+        if(isset($ids))
+        {
+            $result = $this->workflowStepModel->deleteWorkflowStep($ids);
+            $modelStepUser = new \App\Models\Admin\WorkflowStepUser();
+            if($result !== false)
+            {
+                foreach($ids as $stepId)
+                {
+                    $modelStepUser->deleteByStepId($stepId);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 已经关联的用户ID
+     *
+     * @param int $stepId 步骤的ID
+     * @return array
+     */
+    public function hasRelationUser($stepId)
+    {
+        $model = new \App\Models\Admin\WorkflowStepUser();
+        $list = $model->getWorkflowStepUsers(['step_id' => intval($stepId)]);
+        $ids = [];
+        foreach($list as $key => $val)
+        {
+            $ids[] = $val['user_id'];
+        }
+        return $ids;
+    }
+
+    /**
+     * 设置关联人员
+     *
+     * @access public
+     */
+    public function setRelation($workflowId, $stepId, $userIds)
+    {
+        $model = new \App\Models\Admin\WorkflowStepUser();
+        $deleteBefore = $model->deleteByStepId($stepId);
+        if($deleteBefore !== false)
+        {
+            if( ! is_array($userIds)) return false;
+            $insertData = [];
+            foreach($userIds as $key => $val)
+            {
+                $insertData[] = ['workflow_step_id' => $stepId, 'user_id' => $val, 'workflow_id' => $workflowId];
+            }
+            return $model->addWorkflowStepUser($insertData);
+        }
         return false;
     }
 

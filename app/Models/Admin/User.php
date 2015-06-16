@@ -39,11 +39,12 @@ class User extends Base
      *
      * @return array
      */
-    public function getAllUser($groupId = null)
+    public function getAllUser($param = [])
     {
         $query = $this->leftJoin('group', 'users.group_id', '=', 'group.id');
-        if($groupId) $query->where('users.group_id', '=', intval($groupId));
-        $currentQuery = $query->select(array('*','users.id as id'))->orderBy('users.id', 'desc')->paginate(15);
+        if(isset($param['group_id'])) $query->where('users.group_id', '=', intval($param['group_id']));
+        $nums = isset($param['nums']) ? $param['nums'] : self::PAGE_NUMS;
+        $currentQuery = $query->select(array('*','users.id as id'))->orderBy('users.id', 'desc')->paginate($nums);
         return $currentQuery;
     }
 

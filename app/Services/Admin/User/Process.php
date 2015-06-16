@@ -128,4 +128,14 @@ class Process extends BaseProcess
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
+    /**
+     * 工作流关联用户的用户资料
+     * 
+     * @return array
+     */
+    public function getWorkflowUser($param = [])
+    {
+        return $this->userModel->getAllUser($param);
+    }
+
 }

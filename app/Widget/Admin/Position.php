@@ -18,7 +18,7 @@ class Position extends AbstractBase
      */
     public function edit($data)
     {
-        $this->setCurrentAction('position', 'edit', 'blog')->setData($data)->checkPermission();
+        $this->setCurrentAction('position', 'edit', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-pencil"></i></a>'
@@ -33,7 +33,7 @@ class Position extends AbstractBase
      */
     public function delete($data)
     {
-        $this->setCurrentAction('position', 'delete', 'blog')->setData($data)->checkPermission();
+        $this->setCurrentAction('position', 'delete', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'

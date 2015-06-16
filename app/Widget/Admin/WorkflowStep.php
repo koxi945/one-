@@ -34,7 +34,7 @@ class WorkflowStep extends AbstractBase
      */
     public function edit($data)
     {
-        $this->setCurrentAction('step', 'edit', 'workflow')->setData($data)->checkPermission();
+        $this->setCurrentAction('step', 'edit', 'workflow')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['stepid' => $data['id'], 'workflow_id' => \Request::input('id') ] );
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-pencil"></i></a>'
@@ -49,11 +49,40 @@ class WorkflowStep extends AbstractBase
      */
     public function delete($data)
     {
-        $this->setCurrentAction('step', 'delete', 'workflow')->setData($data)->checkPermission();
+        $this->setCurrentAction('step', 'delete', 'workflow')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
                         : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
+        return $html;
+    }
+
+    /**
+     * 设置工作流步骤的关联人员
+     * 
+     * @return string
+     */
+    public function relation($data)
+    {
+        $this->setCurrentAction('step', 'relation', 'workflow')->checkPermission();
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['stepid' => $data['id'], 'workflow_id' => \Request::input('id') ] );
+        $html = $this->hasPermission ?
+                    '<a class="step-relation" target="_blank" href="'.$url.'"><i class="fa fa-user"></i></a>'
+                        : '<i class="fa fa-user" style="color:#ccc"></i>';
+        return $html;
+    }
+
+    /**
+     * 保存关联的按钮
+     *
+     * @access public
+     */
+    public function selected()
+    {
+        $this->setCurrentAction('step', 'relation', 'workflow')->checkPermission();
+        $html = $this->hasPermission ?
+                    '<div class="btn-group" style="float:left;margin:10px 0;margin-right:20px;"><a class="btn btn-primary sys-btn-submit" data-loading="处理中..." ><i class="fa fa-user"></i> <span class="sys-btn-submit-str">关联审核人员</span></a></div>'
+                        : '';
         return $html;
     }
 

@@ -21,7 +21,8 @@ class StepController extends Controller
         if( ! $workflowId or ! is_numeric($workflowId)) return Js::error(Lang::get('common.illegal_operation'), true);
     	$manger = new Process();
     	$workflowInfo = $manger->workflowInfo(['id' => $workflowId]);
-        $list = $manger->workflowStepInfos();
+        if(empty($workflowInfo)) return Js::error(Lang::get('common.illegal_operation'), true);
+        $list = $manger->workflowStepInfos(['workflow_id' => $workflowId ]);
     	$page = $list->appends(Request::all())->render();
         return view('admin.workflow_step.detail', compact('workflowInfo', 'list', 'page'));
     }
@@ -77,7 +78,7 @@ class StepController extends Controller
         $manger = new Process();
         $stepList = $manger->workflowStepLevelList();
         $info = $manger->workflowStepInfo(['id' => $stepId]);
-        if(empty($info)) return Js::error(Lang::get('workflow.step_not_found'));
+        if(empty($info)) return Js::error(Lang::get('workflow.step_not_found'), true);
         $formUrl = R('common', 'workflow.step.edit');
         return view('admin.workflow_step.add', compact('info', 'formUrl', 'stepId', 'stepList', 'workflow_Id'));
     }
@@ -108,7 +109,7 @@ class StepController extends Controller
     }
 
     /**
-     * 删除工作流
+     * 删除工作流步骤
      *
      * @access public
      */
@@ -129,6 +130,56 @@ class StepController extends Controller
             return responseJson(Lang::get('common.action_success'), true);
         }
         return responseJson($manager->getErrorMessage());
+    }
+
+    /**
+     * 设置关联人员
+     *
+     * @access public
+     */
+    public function relation()
+    {
+        if(Request::method() == 'POST') return $this->setRelation();
+        $stepId = (int) Request::input('stepid');
+        $workflowId = (int) Request::input('workflow_id');
+        if( ! $stepId or ! $workflowId) return Js::error(Lang::get('common.illegal_operation'), true);
+        $manager = new Process();
+        $info = $manager->workflowStepInfo(['id' => $stepId]);
+        if(empty($info) or $info['workflow_id'] != $workflowId) return Js::error(Lang::get('common.illegal_operation'), true);
+        $userList = (new \App\Services\Admin\User\Process())->getWorkflowUser(['nums' => 30]);
+        $page = $userList->appends(Request::all())->render();
+        $hasRelationUser = $manager->hasRelationUser($stepId);
+        foreach($userList as $key => $val)
+        {
+            if(in_array($val['id'], $hasRelationUser)) $userList[$key]['selected'] = true;
+            else $userList[$key]['selected'] = false;
+        }
+        return view('admin.workflow_step.relation', compact('page', 'stepId', 'workflowId', 'info', 'userList'));
+    }
+
+    /**
+     * 设置审核步骤与用户的关联
+     *
+     * @access private
+     */
+    private function setRelation()
+    {
+        $this->checkFormHash();
+        $stepId = (int) Request::input('stepId');
+        $workflowId = (int) Request::input('workflowId');
+        $userIds = Request::input('ids');
+        if( ! $userIds) return Js::error(Lang::get('workflow.relation_user_empty'));
+        if( ! $stepId or ! $workflowId or ! is_array($userIds)) return Js::error(Lang::get('common.illegal_operation'));
+        $userIds = array_map('intval', $userIds);
+        $manager = new Process();
+        $stepInfo = $manager->workflowStepInfo(['id' => $stepId]);
+        if(empty($stepInfo)) return Js::error(Lang::get('common.illegal_operation'));
+        if($manager->setRelation($workflowId, $stepId, $userIds))
+        {
+            $this->setActionLog(['userIds' => $userIds, 'stepInfo' => $stepInfo]);
+            return Js::alert(Lang::get('common.action_success'));
+        }
+        return Js::error($manager->getErrorMessage());
     }
 
 

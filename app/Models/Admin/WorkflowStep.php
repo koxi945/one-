@@ -28,10 +28,12 @@ class WorkflowStep extends Base
      *
      * @return array
      */
-    public function getAllWorkflowStepByPage()
+    public function getAllWorkflowStepByPage($where = [])
     {
-        $currentQuery = $this->orderBy('step_level', 'asc')->paginate(self::PAGE_NUMS);
-        return $currentQuery;
+        $currentQuery = $this->orderBy('step_level', 'asc');
+        if(isset($where['workflow_id'])) $currentQuery->where('workflow_id', '=', intval($where['workflow_id']));
+        $result = $currentQuery->paginate(self::PAGE_NUMS);
+        return $result;
     }
 
     /**
@@ -54,6 +56,7 @@ class WorkflowStep extends Base
     {
         if(isset($where['id'])) $search = $this->where('id', '=', intval($where['id']));
         if(isset($search)) return $search->first();
+        return [];
     }
 
     /**
@@ -86,6 +89,16 @@ class WorkflowStep extends Base
     {
         if( ! is_array($ids)) return false;
         return $this->whereIn('id', $ids)->get()->toArray();
+    }
+
+    /**
+     * 根据条件删除数据
+     */
+    public function commonDelete($where)
+    {
+        if(isset($where['workflow_id'])) $sql = $this->where('workflow_id', '=', intval($where['workflow_id']));
+        if(isset($sql)) return $sql->delete();
+        return false;
     }
 
     
