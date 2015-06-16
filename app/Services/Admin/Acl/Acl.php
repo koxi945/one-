@@ -174,6 +174,7 @@ class Acl
         $userObj = SC::getLoginSession();
         $groupModel = new Group(); $userModel = new User();
         $currentGroupInfo = $groupModel->getOneGroupById($userObj->group_id);
+        if(empty($currentGroupInfo)) return false;
         if($type === self::GROUP_LEVEL_TYPE_LEVEL) return ($id <= $currentGroupInfo['level']) ? false : true;
         if($type === self::GROUP_LEVEL_TYPE_USER)
         {

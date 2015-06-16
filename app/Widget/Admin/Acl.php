@@ -19,8 +19,9 @@ class Acl extends AbstractBase
      */
     public function edit($data)
     {
+        $data['id'] = url_param_encode($data['id']);
         $this->setCurrentAction('acl', 'edit', 'foundation')->checkPermission();
-        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id'])]);
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-pencil"></i></a>'
                         : '<i class="fa fa-pencil" style="color:#ccc"></i>';
@@ -34,8 +35,9 @@ class Acl extends AbstractBase
      */
     public function delete($data)
     {
+        $data['id'] = url_param_encode($data['id']);
         $this->setCurrentAction('acl', 'delete', 'foundation')->checkPermission();
-        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id'])]);
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
                     '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
                         : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
