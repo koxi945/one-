@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-06-16 16:34:50
+Date: 2015-06-16 16:55:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,12 +27,52 @@ CREATE TABLE `bk_access` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`) USING BTREE,
   KEY `node_id` (`permission_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=594 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=635 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_access
 -- ----------------------------
-INSERT INTO `bk_access` VALUES ('593', '2', '1', '2');
+INSERT INTO `bk_access` VALUES ('594', '2', '1', '2');
+INSERT INTO `bk_access` VALUES ('595', '2', '2', '2');
+INSERT INTO `bk_access` VALUES ('596', '2', '23', '2');
+INSERT INTO `bk_access` VALUES ('597', '2', '24', '2');
+INSERT INTO `bk_access` VALUES ('598', '2', '25', '2');
+INSERT INTO `bk_access` VALUES ('599', '2', '26', '2');
+INSERT INTO `bk_access` VALUES ('600', '2', '3', '2');
+INSERT INTO `bk_access` VALUES ('601', '2', '30', '2');
+INSERT INTO `bk_access` VALUES ('602', '2', '31', '2');
+INSERT INTO `bk_access` VALUES ('603', '2', '32', '2');
+INSERT INTO `bk_access` VALUES ('604', '2', '33', '2');
+INSERT INTO `bk_access` VALUES ('605', '2', '4', '2');
+INSERT INTO `bk_access` VALUES ('606', '2', '20', '2');
+INSERT INTO `bk_access` VALUES ('607', '2', '27', '2');
+INSERT INTO `bk_access` VALUES ('608', '2', '28', '2');
+INSERT INTO `bk_access` VALUES ('609', '2', '29', '2');
+INSERT INTO `bk_access` VALUES ('610', '2', '43', '2');
+INSERT INTO `bk_access` VALUES ('611', '2', '44', '2');
+INSERT INTO `bk_access` VALUES ('612', '2', '53', '2');
+INSERT INTO `bk_access` VALUES ('613', '2', '34', '2');
+INSERT INTO `bk_access` VALUES ('614', '2', '36', '2');
+INSERT INTO `bk_access` VALUES ('615', '2', '35', '2');
+INSERT INTO `bk_access` VALUES ('616', '2', '48', '2');
+INSERT INTO `bk_access` VALUES ('617', '2', '49', '2');
+INSERT INTO `bk_access` VALUES ('618', '2', '37', '2');
+INSERT INTO `bk_access` VALUES ('619', '2', '45', '2');
+INSERT INTO `bk_access` VALUES ('620', '2', '46', '2');
+INSERT INTO `bk_access` VALUES ('621', '2', '47', '2');
+INSERT INTO `bk_access` VALUES ('622', '2', '42', '2');
+INSERT INTO `bk_access` VALUES ('623', '2', '50', '2');
+INSERT INTO `bk_access` VALUES ('624', '2', '51', '2');
+INSERT INTO `bk_access` VALUES ('625', '2', '52', '2');
+INSERT INTO `bk_access` VALUES ('626', '2', '54', '2');
+INSERT INTO `bk_access` VALUES ('627', '2', '55', '2');
+INSERT INTO `bk_access` VALUES ('628', '2', '56', '2');
+INSERT INTO `bk_access` VALUES ('629', '2', '57', '2');
+INSERT INTO `bk_access` VALUES ('630', '2', '58', '2');
+INSERT INTO `bk_access` VALUES ('631', '2', '60', '2');
+INSERT INTO `bk_access` VALUES ('632', '2', '61', '2');
+INSERT INTO `bk_access` VALUES ('633', '2', '62', '2');
+INSERT INTO `bk_access` VALUES ('634', '2', '63', '2');
 
 -- ----------------------------
 -- Table structure for `bk_action_log`
@@ -51,7 +91,7 @@ CREATE TABLE `bk_action_log` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `username` (`username`) USING BTREE,
   KEY `addtime` (`add_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_action_log
@@ -152,6 +192,9 @@ INSERT INTO `bk_action_log` VALUES ('93', 'admin', '1', '127.0.0.1', '', '143444
 INSERT INTO `bk_action_log` VALUES ('94', 'admin', '1', '127.0.0.1', '', '1434443543', '管理员', '增加了新的工作流步骤：123123123');
 INSERT INTO `bk_action_log` VALUES ('95', 'admin', '1', '127.0.0.1', '', '1434443554', '管理员', '删除了工作流步骤：123123123');
 INSERT INTO `bk_action_log` VALUES ('96', 'admin', '1', '127.0.0.1', '', '1434443580', '管理员', '删除了工作流：测试仪');
+INSERT INTO `bk_action_log` VALUES ('97', 'admin', '1', '127.0.0.1', '', '1434443792', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('98', 'admin', '1', '127.0.0.1', '', '1434443823', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('99', 'test', '2', '127.0.0.1', '', '1434443878', 'test', '登录系统成功');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify`
@@ -686,7 +729,7 @@ INSERT INTO `bk_permission` VALUES ('44', 'foundation', 'upload', 'index', '弹�
 INSERT INTO `bk_permission` VALUES ('45', 'blog', 'category', 'add', '文章分类增加', '0', '37', '0', '3', '', '1429509721');
 INSERT INTO `bk_permission` VALUES ('46', 'blog', 'category', 'edit', '文章分类编辑', '0', '37', '0', '3', '', '1429509748');
 INSERT INTO `bk_permission` VALUES ('47', 'blog', 'category', 'delete', '文章分类删除', '0', '37', '0', '3', '', '1429509769');
-INSERT INTO `bk_permission` VALUES ('48', 'blog', 'conent', 'edit', '编辑文章', '0', '36', '0', '3', '', '1429509849');
+INSERT INTO `bk_permission` VALUES ('48', 'blog', 'content', 'edit', '编辑文章', '0', '36', '0', '3', '', '1429509849');
 INSERT INTO `bk_permission` VALUES ('49', 'blog', 'content', 'delete', '删除文章', '0', '36', '0', '3', '', '1429509889');
 INSERT INTO `bk_permission` VALUES ('50', 'blog', 'position', 'add', '推荐位增加', '0', '42', '0', '3', '', '1429509926');
 INSERT INTO `bk_permission` VALUES ('51', 'blog', 'position', 'edit', '推荐位编辑', '0', '42', '0', '3', '', '1429509949');
@@ -783,8 +826,8 @@ CREATE TABLE `bk_users` (
 -- ----------------------------
 -- Records of bk_users
 -- ----------------------------
-INSERT INTO `bk_users` VALUES ('1', 'admin', '96e79218965eb72c92a549dd5a330112', '4', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', null, '1', '1', '超级用户组', '127.0.0.1', '1434422513');
-INSERT INTO `bk_users` VALUES ('2', 'test', '96e79218965eb72c92a549dd5a330112', '4', 'test', '', '1427273006', null, '1', '1', '1', '127.0.0.1', '1433905009');
+INSERT INTO `bk_users` VALUES ('1', 'admin', '96e79218965eb72c92a549dd5a330112', '4', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', null, '1', '1', '超级用户组', '127.0.0.1', '1434443822');
+INSERT INTO `bk_users` VALUES ('2', 'test', '96e79218965eb72c92a549dd5a330112', '4', 'test', '', '1427273006', null, '1', '1', '1', '127.0.0.1', '1434443878');
 
 -- ----------------------------
 -- Table structure for `bk_workflow`
