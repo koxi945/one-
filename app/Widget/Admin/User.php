@@ -19,9 +19,8 @@ class User extends AbstractBase
      */
     public function edit($data)
     {
-        $data['id'] = url_param_encode($data['id']);
         $this->setCurrentAction('user', 'edit', 'foundation')->setData($data)->checkPermission(Acl::GROUP_LEVEL_TYPE_USER);
-        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id'] ]);
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id']) ]);
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-pencil"></i></a>'
                         : '<i class="fa fa-pencil" style="color:#ccc"></i>';
@@ -35,9 +34,8 @@ class User extends AbstractBase
      */
     public function delete($data)
     {
-        $data['id'] = url_param_encode($data['id']);
         $this->setCurrentAction('user', 'delete', 'foundation')->setData($data)->checkPermission(Acl::GROUP_LEVEL_TYPE_USER);
-        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id'])]);
         $html = $this->hasPermission ?
                     '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
                         : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
@@ -45,15 +43,14 @@ class User extends AbstractBase
     }
 
     /**
-     * 用户列表删除操作
+     * 用户列表权限操作
      *
      * @access public
      */
     public function acl($data)
     {
-        $data['id'] = url_param_encode($data['id']);
         $this->setCurrentAction('acl', 'user', 'foundation')->setData($data)->checkPermission(Acl::GROUP_LEVEL_TYPE_USER);
-        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
+        $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => url_param_encode($data['id'])]);
         $html = $this->hasPermission ?
                     '<a href="'.$url.'"><i class="fa fa-user"></i></a>'
                         : '<i class="fa fa-user" style="color:#ccc"></i>';
