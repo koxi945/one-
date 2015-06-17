@@ -9,4 +9,5 @@ return array(
     'step_not_found' => '查无信息',
     'relation_user_empty' => '关联用户没有选择',
     'code_exists' => '调用代码已存在',
+    'workflow_code_empty' => '调用代码没有填写',
 );

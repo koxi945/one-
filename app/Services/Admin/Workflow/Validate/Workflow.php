@@ -21,12 +21,14 @@ class Workflow extends BaseValidate
         $rules = array(
             'name' => 'required',
             'description' => 'required',
+            'code' => 'required',
         );
         
         // 自定义验证消息
         $messages = array(
             'name.required' => Lang::get('workflow.workflow_name_empty'),
             'description.required' => Lang::get('workflow.workflow_description_empty'),
+            'code.required' => Lang::get('workflow.workflow_code_empty'),
         );
         
         //开始验证
