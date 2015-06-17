@@ -26,4 +26,18 @@ class IndexController extends Controller
         return view('admin.index.cs');
     }
 
+    /**
+     * 测试工作流
+     */
+    public function workflow()
+    {
+        $check = new \App\Services\Admin\Workflow\Check();
+        //检测有没有权限
+        $is = $check->checkAcl('W_sdfg', [0]);
+        var_dump($is);
+        //下一步所要设置的信息
+        $next = $check->getComfirmStatus('W_sdfg', 1);
+        var_dump($next);
+    }
+
 }

@@ -29,7 +29,7 @@
                             <tr>
                               <td><?php echo $value['name']; ?></td>
                               <td>第<?php echo $value['step_level']; ?>步</td>
-                              <td></td>
+                              <td><?php echo $value['relatioin_users']; ?></td>
                               <td><?php echo $value['description']; ?></td>
                               <td><?php echo date('Y-m-d', $value['addtime']); ?></td>
                               <td>

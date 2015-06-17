@@ -21,7 +21,7 @@ class Workflow extends Base
      *
      * @var string
      */
-    protected $fillable = array('name', 'description', 'addtime');
+    protected $fillable = array('name', 'description', 'addtime', 'code');
     
     /**
      * 取得所有的工作流
@@ -52,8 +52,17 @@ class Workflow extends Base
      */
     public function getWorkflowInfo($where)
     {
-        if(isset($where['id'])) $search = $this->where('id', '=', intval($where['id']));
-        if(isset($search)) return $search->first();
+        $search = $this->select(array('*'));
+        if(isset($where['id'])) $search->where('id', '=', intval($where['id']));
+        if(isset($where['code']))
+        {
+            $search->where('code', '=', $where['code']);
+            if(isset($where['self'], $where['self_id']) and $where['self'] === false)
+            {
+                $search->where('id', '!=', $where['self_id']);
+            }
+        }
+        return $search->first();
     }
 
     /**
@@ -86,6 +95,42 @@ class Workflow extends Base
     {
         if( ! is_array($ids)) return false;
         return $this->whereIn('id', $ids)->get()->toArray();
+    }
+
+    /**
+     * 取得当前用户所拥有的审核权限
+     *
+     * @param int $userId 用户的ID
+     * @param string $code 调用的code
+     * @access public
+     */
+    public function getCurrentUserWorkflow($userId, $code)
+    {
+        $workflow = \DB::table('workflow_user')->select('workflow_step.step_level')
+                    ->leftJoin('workflow_step', 'workflow_user.workflow_step_id', '=', 'workflow_step.id')
+                    ->leftJoin('workflow', 'workflow_step.workflow_id', '=', 'workflow.id')
+                    ->where('workflow_user.user_id', '=', $userId)
+                    ->where('workflow.code', '=', $code)
+                    ->get();
+        $result = [];
+        foreach($workflow as $val)
+        {
+            $result[] = $val->step_level;
+        }
+        return $result;
+    }
+
+    /**
+     * 返回最后审核的值
+     */
+    public function worflowFinalLevel($code)
+    {
+        $workflow = \DB::table('workflow')->select('workflow_step.step_level')
+                    ->leftJoin('workflow_step', 'workflow.id', '=', 'workflow_step.workflow_id')
+                    ->where('workflow.code', '=', $code)
+                    ->orderBy('workflow_step.step_level', 'desc')
+                    ->first();
+        return $workflow->step_level;
     }
 
     

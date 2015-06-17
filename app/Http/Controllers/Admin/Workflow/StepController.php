@@ -22,7 +22,7 @@ class StepController extends Controller
     	$manger = new Process();
     	$workflowInfo = $manger->workflowInfo(['id' => $workflowId]);
         if(empty($workflowInfo)) return Js::error(Lang::get('common.illegal_operation'), true);
-        $list = $manger->workflowStepInfos(['workflow_id' => $workflowId ]);
+        $list = $manger->workflowStepInfos(['workflow_id' => $workflowId, 'join_user' => true ]);
     	$page = $list->appends(Request::all())->render();
         return view('admin.workflow_step.detail', compact('workflowInfo', 'list', 'page'));
     }

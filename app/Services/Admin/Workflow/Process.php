@@ -88,6 +88,8 @@ class Process extends BaseProcess
     public function addWorkflow(\App\Services\Admin\Workflow\Param\WorkflowSave $data)
     {
         if( ! $this->workflowValidate->add($data)) return $this->setErrorMsg($this->workflowValidate->getErrorMessage());
+        $checkCode = $this->workflowModel->getWorkflowInfo(['code' => $data->code]);
+        if( ! empty($checkCode)) return $this->setErrorMsg(Lang::get('workflow.code_exists'));
         if($this->workflowModel->addWorkflow($data->toArray()) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
@@ -104,6 +106,8 @@ class Process extends BaseProcess
         if( ! isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
         $id = $data->id; unset($data->id);
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+        $checkCode = $this->workflowModel->getWorkflowInfo(['code' => $data->code, 'self' => false, 'self_id' => $id]);
+        if( ! empty($checkCode)) return $this->setErrorMsg(Lang::get('workflow.code_exists'));
         if( ! $this->workflowValidate->edit($data)) return $this->setErrorMsg($this->workflowValidate->getErrorMessage());
         if($this->workflowModel->editWorkflow($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
@@ -145,11 +149,26 @@ class Process extends BaseProcess
     public function workflowStepInfos($where = [])
     {
         if(isset($where['ids'])) return $this->workflowStepModel->getWorkflowStepInIds($where['ids']);
-        return $this->workflowStepModel->getAllWorkflowStepByPage($where);
+        $result = $this->workflowStepModel->getAllWorkflowStepByPage($where);
+        if(isset($where['join_user']))
+        {
+            $modelStepUser = new \App\Models\Admin\WorkflowStepUser();
+            foreach($result as $key => $val)
+            {
+                $userInfo = $modelStepUser->getWorkflowStepUsersJoinUsersByStepId($val['id']);
+                $relationUsers = [];
+                foreach($userInfo as $user)
+                {
+                    $relationUsers[] = $user['realname'];
+                }
+                $result[$key]['relatioin_users'] = implode(',', $relationUsers);
+            }
+        }
+        return $result;
     }
 
     /**
-     * 返回固定的步骤信息，暂时只支持到十五步
+     * 返回固定的步骤信息，暂时只支持到九步
      *
      * @return  array
      */
@@ -165,12 +184,6 @@ class Process extends BaseProcess
             ['step_level' => 7, 'title' => '审核第七步'],
             ['step_level' => 8, 'title' => '审核第八步'],
             ['step_level' => 9, 'title' => '审核第九步'],
-            ['step_level' => 10, 'title' => '审核第十步'],
-            ['step_level' => 11, 'title' => '审核第十一步'],
-            ['step_level' => 12, 'title' => '审核第十二步'],
-            ['step_level' => 13, 'title' => '审核第十三步'],
-            ['step_level' => 14, 'title' => '审核第十四步'],
-            ['step_level' => 15, 'title' => '审核第十五步'],
         ];
     }
 

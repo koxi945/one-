@@ -66,5 +66,16 @@ class WorkflowStepUser extends Base
         return false;
     }
 
+    /**
+     * 取得指定条件的工作流步骤与用户关联的信息
+     * 
+     * @param array $where
+     * @return array
+     */
+    public function getWorkflowStepUsersJoinUsersByStepId($stepId)
+    {
+        $query = $this->select(['workflow_user.*', 'users.realname'])->leftJoin('users', 'workflow_user.user_id', '=', 'users.id')->where('workflow_user.workflow_step_id', '=', intval($stepId));
+        return $query->get()->toArray();
+    }
     
 }
