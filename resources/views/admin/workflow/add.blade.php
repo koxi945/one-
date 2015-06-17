@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group">
                       <label>调用代码<small style="color:#bbb;padding-left:10px;">用于程序结合的调用，请保持唯一性，一但确定不要更改。</small></label>
-                      <input type="text" placeholder="建议格式：W_xxx" value="<?php if(isset($info['code'])) echo $info['code']; ?>" name="data[code]" readonly class="form-control">
+                      <input type="text" placeholder="建议格式：W_xxx" value="<?php if(isset($info['code'])) echo $info['code']; ?>" name="data[code]" <?php if(isset($id)): ?>readonly<?php endif; ?> class="form-control">
                     </div>
                     <div class="form-group">
                       <label>备注</label>
