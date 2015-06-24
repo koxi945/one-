@@ -18,6 +18,7 @@
 
       <ul class="dropdown-menu">
         <li><a tabindex="-1" href="javascript:;" data-dialog-id="modify-password" class="modify-password">修改密码</a></li>
+        <li><a tabindex="-1" href="javascript:;" data-dialog-id="menu-map" class="menu-map">功能地图</a></li>
         <li class="divider"></li>
         <li><a tabindex="-1" href="<?php echo route('foundation.login.out'); ?>">退出</a></li>
       </ul>
@@ -27,60 +28,5 @@
 
 </div>
 </div>
-<div class="none modify-password-content">
-  <div class="form-group">
-    <label>旧密码</label>
-    <input type="password" value="" name="old_password" class="form-control">
-  </div>
-  <div class="form-group">
-    <label>新密码</label>
-    <input type="password" value="" name="new_password" class="form-control">
-  </div>
-  <div class="form-group">
-    <label>确认新密码</label>
-    <input type="password" value="" name="new_password_repeat" class="form-control">
-  </div>
-</div>
-<script type="text/javascript">
-  $(document).ready(function() {
-    //修改密码
-    var $modify_password = $('.modify-password');
-    var $modify_password_content = $('.modify-password-content');
-    $modify_password.click(function() {
-      var $d = dialog({
-        title: '修改密码',
-        id: $modify_password.attr('data-dialog-id'),
-        content: $modify_password_content.html(),
-        width: '390',
-        height: '300',
-        okValue: '确定',
-        ok: function () {
-            var $this = this;
-            $this.title('提交中…');
-            var $old_password = $('input[name="old_password"]:visible').val();
-            var $new_password = $('input[name="new_password"]:visible').val();
-            var $new_password_repeat = $('input[name="new_password_repeat"]:visible').val();
-            $.post('<?php echo R('common', 'foundation.user.mpassword'); ?>',
-              {old_password:$old_password,new_password:$new_password,new_password_repeat:$new_password_repeat},
-              function(data) {
-                alert(data.message);
-                $this.title('修改密码');
-                if(data.result == 'success') {
-                  $this.close().remove();
-                  window.location.href = '/';
-                }
-              }
-            );
-            return false;
-        },
-        cancelValue: '取消',
-        cancel: function () {
-            //this.close().remove();
-            //return false;
-        }
-      });
-      $d.showModal();
-    });
-    
-  });
-</script>
+<?php echo widget('Admin.Common')->mpassword(); ?>
+<?php echo widget('Admin.Common')->menumap(); ?>

@@ -50,6 +50,25 @@ class Menu
     }
 
     /**
+     * 返回ztree插件所需的结点，目前只支持到三级
+     */
+    public function ztreeNode()
+    {
+        $this->list = SC::getUserPermissionSession();
+        $result = []; $i = 1;
+        foreach($this->list as $key => $value) {
+            if($value['display'] == self::DISABLE_NONE) continue;
+            $url = R('common', $value['module'].'.'.$value['class'].'.'.$value['action']);
+            if($value['pid'] == 0) $url = 'javascript:;';
+            $arr = ['id' => $value['id'], 'pId' => $value['pid'], 'name' => $value['name'], 'url' => $url, 'target' => '_self'];
+            if($i === 1) $arr['open'] = true;
+            $result[] = $arr;
+            $i++;
+        }
+        return json_encode($result);
+    }
+
+    /**
      * 取回登录所保存的权限信息并生成树形结构
      */
     protected function generalData()

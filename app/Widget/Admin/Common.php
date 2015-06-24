@@ -61,4 +61,21 @@ class Common
         return '</body></html>';
     }
 
+    /**
+     * 修改密码
+     */
+    public function mpassword()
+    {
+        return view('admin.widget.mpassword');
+    }
+
+    /**
+     * 功能地图
+     */
+    public function menumap()
+    {
+        $zTreeNode = widget('Admin.Menu')->ztreeNode();
+        return view('admin.widget.menumap', compact('zTreeNode'));
+    }
+
 }

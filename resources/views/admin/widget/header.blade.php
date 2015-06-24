@@ -40,6 +40,10 @@
     <link rel="stylesheet" href="<?php echo loadStatic('/lib/artdialog/css/ui-dialog.css'); ?>">
     <script src="<?php echo loadStatic('/lib/artdialog/dist/dialog-plus-min.js'); ?>"></script>
 
+    <!-- ztree -->
+    <link rel="stylesheet" href="<?php echo loadStatic('/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css'); ?>" type="text/css">
+    <script type="text/javascript" src="<?php echo loadStatic('/lib/zTree_v3/js/jquery.ztree.core-3.5.js'); ?>"></script>
+
     <script type="text/javascript">
         var SYS_DOMAIN = '<?php echo $domain['domain']; ?>';
         var SYS_IMG_DOMAIN = '<?php echo $domain['img_domain']; ?>';
