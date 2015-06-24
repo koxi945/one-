@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?php if(isset($headerObject->description)) { echo $headerObject->description; } else { echo '风一样的世界，专注PHP开发，在这里，你可以看到我的一些学习的分享。'; } ?>">
     <meta name="author" content="jiang">
-    <link rel="stylesheet" type="text/css" href="/lib/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/t.min.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/premium.css">
-    <link rel="stylesheet" type="text/css" href="/home/home.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/lib/bootstrap/css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" href="<?php echo loadStatic('/lib/font-awesome/css/font-awesome.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/stylesheets/t.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/stylesheets/premium.css'); ?> ">
+    <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/home/home.css'); ?>">
     <style type="text/css">
         #line-chart {
             height:300px;
@@ -32,10 +32,10 @@
             margin:10px 0;
         }
     </style>
-    <script src="/home/lib.js" type="text/javascript"></script>
+    <script src="<?php echo loadStatic('/home/lib.js'); ?>" type="text/javascript"></script>
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="/lib/html5.js"></script>
+      <script src="<?php echo loadStatic('/lib/html5.js'); ?>"></script>
     <![endif]-->
   
 
