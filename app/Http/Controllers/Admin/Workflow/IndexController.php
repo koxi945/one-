@@ -19,7 +19,7 @@ class IndexController extends Controller
     {
     	$manger = new Process();
     	$list = $manger->workflowInfos();
-    	$page = $list->appends(Request::all())->render();
+    	$page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.workflow.index', compact('list', 'page'));
     }
 

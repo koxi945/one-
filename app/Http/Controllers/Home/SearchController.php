@@ -23,7 +23,7 @@ class SearchController extends Controller
         $object->sphinxResult_ArticleIds = $searchProcess->sphinxSearch($keywordUnicode);
         $articleList = (new SearchModel())->activeArticleInfoBySearch($object);
         $page = '';
-        if( ! empty($articleList)) $page = $articleList->appends(Request::all())->render();
+        if( ! empty($articleList)) $page = $articleList->setPath('')->appends(Request::all())->render();
         return view('home.index.index', compact('articleList', 'page', 'object'));
     }
 

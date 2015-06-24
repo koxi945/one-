@@ -19,7 +19,7 @@ class PositionController extends Controller
     public function index()
     {
     	$list = (new PositionModel())->unDeletePosition();
-    	$page = $list->appends(Request::all())->render();
+    	$page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.content.position', compact('list', 'page'));
     }
 

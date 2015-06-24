@@ -26,7 +26,7 @@ class UserController extends Controller
         $userModel = new User(); $groupModel = new Group();
         $groupId = Request::input('gid');
         $userList = $userModel->getAllUser(['group_id' => $groupId]);
-        $page = $userList->appends(Request::all())->render();
+        $page = $userList->setPath('')->appends(Request::all())->render();
         $groupList = $groupModel->getAllGroup();
         return view('admin.user.index',
             compact('userList', 'groupList', 'page')

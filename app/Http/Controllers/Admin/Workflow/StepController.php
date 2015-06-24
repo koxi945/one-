@@ -23,7 +23,7 @@ class StepController extends Controller
     	$workflowInfo = $manger->workflowInfo(['id' => $workflowId]);
         if(empty($workflowInfo)) return Js::error(Lang::get('common.illegal_operation'), true);
         $list = $manger->workflowStepInfos(['workflow_id' => $workflowId, 'join_user' => true ]);
-    	$page = $list->appends(Request::all())->render();
+    	$page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.workflow_step.detail', compact('workflowInfo', 'list', 'page'));
     }
 
@@ -147,7 +147,7 @@ class StepController extends Controller
         $info = $manager->workflowStepInfo(['id' => $stepId]);
         if(empty($info) or $info['workflow_id'] != $workflowId) return Js::error(Lang::get('common.illegal_operation'), true);
         $userList = (new \App\Services\Admin\User\Process())->getWorkflowUser(['nums' => 30]);
-        $page = $userList->appends(Request::all())->render();
+        $page = $userList->setPath('')->appends(Request::all())->render();
         $hasRelationUser = $manager->hasRelationUser($stepId);
         foreach($userList as $key => $val)
         {

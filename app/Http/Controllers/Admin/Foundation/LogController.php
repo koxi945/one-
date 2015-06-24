@@ -28,7 +28,7 @@ class LogController extends Controller
 
         $model = new ActionLogModel();
         $list = $model->getAllByPage($data);
-        $page = $list->appends(Request::all())->render();
+        $page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.log.index', compact('list', 'page', 'data'));
     }
     
