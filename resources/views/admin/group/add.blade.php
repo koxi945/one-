@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group">
                       <label>用户组等级</label>
-                      <input type="text" value="<?php if(isset($groupInfo['level'])) echo $groupInfo['level']; ?>" name="data[level]" class="form-control" placeholder="请输入数字，数字超大，等级越小。" >
+                      <input type="text" value="<?php if(isset($groupInfo['level'])) echo $groupInfo['level']; ?>" name="data[level]" class="form-control" placeholder="请输入数字，数字越大，等级越小。" >
                     </div>
                     <div class="form-group">
                       <label>备注</label>
