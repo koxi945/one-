@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-06-17 12:01:59
+Date: 2015-06-25 16:35:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -92,7 +92,7 @@ CREATE TABLE `bk_action_log` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `username` (`username`) USING BTREE,
   KEY `addtime` (`add_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_action_log
@@ -210,6 +210,32 @@ INSERT INTO `bk_action_log` VALUES ('110', 'admin', '1', '127.0.0.1', '', '14345
 INSERT INTO `bk_action_log` VALUES ('111', 'admin', '1', '127.0.0.1', '', '1434509294', '管理员', '编辑了工作流：工作流1');
 INSERT INTO `bk_action_log` VALUES ('112', 'admin', '1', '127.0.0.1', '', '1434509313', '管理员', '编辑了工作流：测试工作流');
 INSERT INTO `bk_action_log` VALUES ('113', 'admin', '1', '127.0.0.1', '', '1434509520', '管理员', '编辑了工作流：测试工作流');
+INSERT INTO `bk_action_log` VALUES ('114', 'admin', '1', '127.0.0.1', '', '1434516742', '管理员', '增加了新的工作流步骤：测试1');
+INSERT INTO `bk_action_log` VALUES ('115', 'admin', '1', '127.0.0.1', '', '1434516769', '管理员', '增加了新的工作流步骤：测试2');
+INSERT INTO `bk_action_log` VALUES ('116', 'admin', '1', '127.0.0.1', '', '1434516774', '管理员', '关联了用户：管理员 到工作流：测试工作流 中的审核步骤：测试1');
+INSERT INTO `bk_action_log` VALUES ('117', 'admin', '1', '127.0.0.1', '', '1434516845', '管理员', '关联了用户：test 到工作流：测试工作流 中的审核步骤：测试1');
+INSERT INTO `bk_action_log` VALUES ('118', 'admin', '1', '127.0.0.1', '', '1434516853', '管理员', '关联了用户：test 到工作流：测试工作流 中的审核步骤：测试1');
+INSERT INTO `bk_action_log` VALUES ('119', 'admin', '1', '127.0.0.1', '', '1434516853', '管理员', '关联了用户：管理员 到工作流：测试工作流 中的审核步骤：测试1');
+INSERT INTO `bk_action_log` VALUES ('120', 'admin', '1', '127.0.0.1', '', '1434517331', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('121', 'admin', '1', '127.0.0.1', '', '1434520918', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('122', 'admin', '1', '127.0.0.1', '', '1434523410', '管理员', '关联了用户：test 到工作流：测试工作流 中的审核步骤：测试2');
+INSERT INTO `bk_action_log` VALUES ('123', 'admin', '1', '127.0.0.1', '', '1434523426', '管理员', '编辑了工作流步骤：测试1');
+INSERT INTO `bk_action_log` VALUES ('124', 'admin', '1', '127.0.0.1', '', '1434523612', '管理员', '关联了用户：test 到工作流：测试工作流 中的审核步骤：测试1');
+INSERT INTO `bk_action_log` VALUES ('125', 'admin', '1', '127.0.0.1', '', '1434523635', '管理员', '关联了用户：管理员 到工作流：测试工作流 中的审核步骤：测试2');
+INSERT INTO `bk_action_log` VALUES ('126', 'test', '2', '127.0.0.1', '', '1434523662', 'test', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('127', 'test', '2', '127.0.0.1', '', '1434524881', 'test', '增加了新的工作流：xx');
+INSERT INTO `bk_action_log` VALUES ('128', 'test', '2', '127.0.0.1', '', '1434524889', 'test', '删除了工作流：xx');
+INSERT INTO `bk_action_log` VALUES ('129', 'test', '2', '127.0.0.1', '', '1434524895', 'test', '删除了工作流：工作流11');
+INSERT INTO `bk_action_log` VALUES ('130', 'admin', '1', '127.0.0.1', '', '1435044773', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('131', 'admin', '1', '127.0.0.1', '', '1435114399', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('132', 'admin', '1', '127.0.0.1', '', '1435117746', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('133', 'admin', '1', '127.0.0.1', '', '1435117778', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('134', 'admin', '1', '127.0.0.1', '', '1435118579', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('135', 'admin', '1', '127.0.0.1', '', '1435118762', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('136', 'admin', '1', '127.0.0.1', '', '1435126625', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('137', 'admin', '1', '127.0.0.1', '', '1435127311', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('138', 'admin', '1', '127.0.0.1', '', '1435127360', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('139', 'admin', '1', '127.0.0.1', '', '1435129351', '管理员', '登录系统成功');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify`
@@ -681,11 +707,11 @@ DROP TABLE IF EXISTS `bk_group`;
 CREATE TABLE `bk_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_name` varchar(255) NOT NULL COMMENT '用户组名',
-  `mark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `mark` varchar(255) NOT NULL COMMENT '备注',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否禁用',
   `level` int(11) NOT NULL DEFAULT '0' COMMENT '用户组等级，低等级的不能对高等级的用户做修改',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_group
@@ -704,25 +730,25 @@ CREATE TABLE `bk_permission` (
   `name` varchar(255) NOT NULL COMMENT '节点的名字',
   `display` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1为显示为菜单，0则不显示',
   `pid` int(11) NOT NULL DEFAULT '0' COMMENT '节点的父节点，此值一般用于输出树形结构，0则为顶级',
-  `sort` int(11) DEFAULT '0' COMMENT '排序',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `level` tinyint(2) NOT NULL DEFAULT '1' COMMENT '第几级菜单',
-  `mark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `add_time` bigint(20) DEFAULT NULL COMMENT '增加的日期',
+  `mark` varchar(255) NOT NULL COMMENT '备注',
+  `add_time` bigint(20) NOT NULL COMMENT '增加的日期',
   PRIMARY KEY (`id`),
   KEY `module` (`module`) USING BTREE,
   KEY `class` (`class`) USING BTREE,
   KEY `action` (`action`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_permission
 -- ----------------------------
-INSERT INTO `bk_permission` VALUES ('1', 'foundation', '系统管理', '系统管理', '系统管理', '1', '0', '0', '1', '系统管理页面，不作权限验证，只用做菜单显示', null);
-INSERT INTO `bk_permission` VALUES ('2', 'foundation', 'group', 'index', '用户组管理', '1', '1', '0', '2', '用户组管理页面', null);
-INSERT INTO `bk_permission` VALUES ('3', 'foundation', 'acl', 'index', '菜单功能管理', '1', '1', '0', '2', '功能管理页面', null);
-INSERT INTO `bk_permission` VALUES ('4', 'foundation', 'user', 'index', '用户管理', '1', '1', '0', '2', '用户管理页面', null);
-INSERT INTO `bk_permission` VALUES ('12', 'foundation', 'index', 'index', '我的首页', '0', '0', '0', '1', '系统首页', null);
-INSERT INTO `bk_permission` VALUES ('20', 'foundation', 'user', 'add', '增加用户', '0', '4', '0', '3', '增加一个用户', null);
+INSERT INTO `bk_permission` VALUES ('1', 'foundation', '系统管理', '系统管理', '系统管理', '1', '0', '0', '1', '系统管理页面，不作权限验证，只用做菜单显示', '0');
+INSERT INTO `bk_permission` VALUES ('2', 'foundation', 'group', 'index', '用户组管理', '1', '1', '0', '2', '用户组管理页面', '0');
+INSERT INTO `bk_permission` VALUES ('3', 'foundation', 'acl', 'index', '菜单功能管理', '1', '1', '0', '2', '功能管理页面', '0');
+INSERT INTO `bk_permission` VALUES ('4', 'foundation', 'user', 'index', '用户管理', '1', '1', '0', '2', '用户管理页面', '0');
+INSERT INTO `bk_permission` VALUES ('12', 'foundation', 'index', 'index', '我的首页', '0', '0', '0', '1', '系统首页', '0');
+INSERT INTO `bk_permission` VALUES ('20', 'foundation', 'user', 'add', '增加用户', '0', '4', '0', '3', '增加一个用户', '0');
 INSERT INTO `bk_permission` VALUES ('23', 'foundation', 'group', 'add', '增加用户组', '0', '2', '0', '3', '增加用户组', '1406882443');
 INSERT INTO `bk_permission` VALUES ('24', 'foundation', 'group', 'edit', '用户组编辑', '0', '2', '0', '3', '用户组编辑', '1406882515');
 INSERT INTO `bk_permission` VALUES ('25', 'foundation', 'group', 'delete', '用户组删除', '0', '2', '0', '3', '用户组删除、批量删除', '1406882542');
@@ -737,7 +763,7 @@ INSERT INTO `bk_permission` VALUES ('33', 'foundation', 'acl', 'sort', '功能�
 INSERT INTO `bk_permission` VALUES ('34', 'blog', '内容管理', '内容管理', '内容管理', '1', '0', '0', '1', '内容管理', '1407374295');
 INSERT INTO `bk_permission` VALUES ('35', 'blog', 'content', 'add', '发表文章', '0', '36', '0', '3', '发表文章', '1407374316');
 INSERT INTO `bk_permission` VALUES ('36', 'blog', 'content', 'index', '文章列表', '1', '34', '0', '2', '文章列表', '1407374358');
-INSERT INTO `bk_permission` VALUES ('37', 'blog', 'category', 'index', '文章分类管理', '1', '34', '0', '2', '文章分类管理', null);
+INSERT INTO `bk_permission` VALUES ('37', 'blog', 'category', 'index', '文章分类管理', '1', '34', '0', '2', '文章分类管理', '0');
 INSERT INTO `bk_permission` VALUES ('42', 'blog', 'position', 'index', '推荐位管理', '1', '34', '0', '2', '推荐位管理', '1426735289');
 INSERT INTO `bk_permission` VALUES ('43', 'foundation', 'index', 'cs', '功能示例', '1', '1', '0', '2', '一些小功能的合集，可以用来加快开发的速度。', '1427788812');
 INSERT INTO `bk_permission` VALUES ('44', 'foundation', 'upload', 'index', '弹出窗口上传', '0', '1', '0', '2', '通用的弹出窗口上传。', '1427790345');
@@ -760,6 +786,8 @@ INSERT INTO `bk_permission` VALUES ('60', 'workflow', 'step', 'add', '增加工�
 INSERT INTO `bk_permission` VALUES ('61', 'workflow', 'step', 'edit', '编辑工作流步骤', '0', '59', '0', '4', '编辑工作流步骤', '1434353110');
 INSERT INTO `bk_permission` VALUES ('62', 'workflow', 'step', 'delete', '工作流步骤删除', '0', '59', '0', '4', '工作流步骤删除', '1434354926');
 INSERT INTO `bk_permission` VALUES ('63', 'workflow', 'step', 'relation', '工作流设置关联人员', '0', '59', '0', '4', '工作流设置关联人员', '1434422499');
+INSERT INTO `bk_permission` VALUES ('64', '1', '1', '1', '测试菜单', '1', '2', '0', '3', '', '1435126599');
+INSERT INTO `bk_permission` VALUES ('65', '1', '1', '2', '测试菜单2', '1', '2', '0', '3', '', '1435126614');
 
 -- ----------------------------
 -- Table structure for `bk_search_index`
@@ -823,26 +851,26 @@ CREATE TABLE `bk_users` (
   `name` varchar(50) NOT NULL COMMENT '用户名',
   `password` varchar(255) NOT NULL COMMENT '用户密码',
   `group_id` int(11) NOT NULL,
-  `realname` varchar(255) DEFAULT '' COMMENT '真实性名',
+  `realname` varchar(255) NOT NULL DEFAULT '' COMMENT '真实性名',
   `token` varchar(255) NOT NULL COMMENT '用户注册时的密钥',
   `add_time` bigint(20) NOT NULL COMMENT '用户注册的时间',
-  `modify_time` bigint(20) DEFAULT NULL COMMENT '用户信息所修改的时间',
-  `mobile` varchar(11) DEFAULT NULL COMMENT '手机',
+  `modify_time` bigint(20) NOT NULL COMMENT '用户信息所修改的时间',
+  `mobile` varchar(11) NOT NULL COMMENT '手机',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '用户禁用0正常的1',
-  `mark` varchar(255) DEFAULT '' COMMENT '备注',
-  `last_login_ip` varchar(255) DEFAULT NULL COMMENT '最后登录ip',
-  `last_login_time` bigint(20) DEFAULT NULL,
+  `mark` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
+  `last_login_ip` varchar(255) NOT NULL COMMENT '最后登录ip',
+  `last_login_time` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `password` (`password`) USING BTREE,
   KEY `group_id` (`group_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='用户表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_users
 -- ----------------------------
-INSERT INTO `bk_users` VALUES ('1', 'admin', '96e79218965eb72c92a549dd5a330112', '4', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', null, '1', '1', '超级用户组', '127.0.0.1', '1434445038');
-INSERT INTO `bk_users` VALUES ('2', 'test', '96e79218965eb72c92a549dd5a330112', '4', 'test', '', '1427273006', null, '1', '1', '1', '127.0.0.1', '1434444960');
+INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '4', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '1', '1', '超级用户组', '127.0.0.1', '1435129351');
+INSERT INTO `bk_users` VALUES ('2', 'test', '96e79218965eb72c92a549dd5a330112', '4', 'test', '', '1427273006', '0', '1', '1', '1', '127.0.0.1', '1434523662');
 
 -- ----------------------------
 -- Table structure for `bk_workflow`
@@ -861,7 +889,6 @@ CREATE TABLE `bk_workflow` (
 -- ----------------------------
 -- Records of bk_workflow
 -- ----------------------------
-INSERT INTO `bk_workflow` VALUES ('1', '工作流11', '工作流11', '1434335000', '1');
 INSERT INTO `bk_workflow` VALUES ('2', '工作流1', '工作流1', '1434335050', 'W_sdfg1');
 INSERT INTO `bk_workflow` VALUES ('8', '测试工作流', '测试工作流2', '1434508916', 'W_sdfg');
 
@@ -879,7 +906,7 @@ CREATE TABLE `bk_workflow_step` (
   PRIMARY KEY (`id`),
   KEY `workflow_id` (`workflow_id`) USING BTREE,
   KEY `step_level` (`step_level`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='工作流的详细步骤';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='工作流的详细步骤';
 
 -- ----------------------------
 -- Records of bk_workflow_step
@@ -887,6 +914,8 @@ CREATE TABLE `bk_workflow_step` (
 INSERT INTO `bk_workflow_step` VALUES ('1', '2', '财务审核', '财务审核', '1', '1434352029');
 INSERT INTO `bk_workflow_step` VALUES ('2', '2', '财务总监审核', '财务总监审核', '2', '1434352541');
 INSERT INTO `bk_workflow_step` VALUES ('3', '2', '公司负责人审核', '公司负责人审核', '3', '1434352641');
+INSERT INTO `bk_workflow_step` VALUES ('9', '8', '测试1', '1', '1', '1434516742');
+INSERT INTO `bk_workflow_step` VALUES ('10', '8', '测试2', '2', '2', '1434516769');
 
 -- ----------------------------
 -- Table structure for `bk_workflow_user`
@@ -901,7 +930,7 @@ CREATE TABLE `bk_workflow_user` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `workflow_step_id` (`workflow_step_id`) USING BTREE,
   KEY `workflow_id` (`workflow_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_workflow_user
@@ -910,3 +939,5 @@ INSERT INTO `bk_workflow_user` VALUES ('6', '1', '2', '2');
 INSERT INTO `bk_workflow_user` VALUES ('9', '2', '2', '2');
 INSERT INTO `bk_workflow_user` VALUES ('10', '2', '1', '2');
 INSERT INTO `bk_workflow_user` VALUES ('11', '3', '1', '2');
+INSERT INTO `bk_workflow_user` VALUES ('17', '9', '2', '8');
+INSERT INTO `bk_workflow_user` VALUES ('18', '10', '1', '8');
