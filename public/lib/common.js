@@ -39,9 +39,27 @@ function setformSubmitButton() {
     
 }
 
+//confirm
+function confirmNotic(content, callback) {
+    var d = dialog({
+        title: '提示',
+        content: content,
+        okValue: '确定',
+        ok: function () {
+            if(typeof callback === 'function') {
+                this.title('提交中…');
+                callback();
+            }
+        },
+        cancelValue: '取消',
+        cancel: function () {}
+    });
+    d.showModal();
+}
+
 //异步删除
 function ajaxDelete(url, replaceID, notice) {
-    if(confirm(notice)) {
+    confirmNotic(notice, function() {
         $.ajax({
             type:     'GET', 
             url:      url,
@@ -63,7 +81,7 @@ function ajaxDelete(url, replaceID, notice) {
                 unloading();
             }
         });
-    }
+    });
 }
 
 //显示loading
