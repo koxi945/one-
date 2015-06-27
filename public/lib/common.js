@@ -1,4 +1,8 @@
-//处理表单提单按钮，显示loading，禁用，启用。
+/**
+ * 处理表单提单按钮，显示loading，禁用，启用。
+ * 
+ * @return void
+ */
 function setformSubmitButton() {
     //模拟submit
     $(document).on('click', '.sys-btn-submit', function () {
@@ -39,12 +43,19 @@ function setformSubmitButton() {
     
 }
 
-//confirm
+/**
+ * 自定义的confirm确认弹出窗口
+ * 
+ * @param  string   content  提示的内容
+ * @param  function callback 回调函数
+ * @return void
+ */
 function confirmNotic(content, callback) {
     var d = dialog({
         title: '提示',
         content: content,
         okValue: '确定',
+        width: 250,
         ok: function () {
             if(typeof callback === 'function') {
                 this.title('提交中…');
@@ -57,7 +68,31 @@ function confirmNotic(content, callback) {
     d.showModal();
 }
 
-//异步删除
+/**
+ * 自定义的alert提示弹窗
+ * 
+ * @param  string content 提示的内容
+ * @return void
+ */
+function alertNotic(content) {
+    var d = dialog({
+        title: '提示',
+        content: content,
+        okValue: '确定',
+        width: 250,
+        ok: function () {}
+    });
+    d.showModal();
+}
+
+/**
+ * 异步删除
+ * 
+ * @param  {string} url       执行的url
+ * @param  {string} replaceID 用于刷新列表的容器id
+ * @param  {string} notice    提示信息
+ * @return {void}
+ */
 function ajaxDelete(url, replaceID, notice) {
     confirmNotic(notice, function() {
         $.ajax({
@@ -71,7 +106,7 @@ function ajaxDelete(url, replaceID, notice) {
                         $('#tmpDiv').replaceWith($('#tmpDiv').html());
                     });
                 } else {
-                    alert(data.message);
+                    alertNotic(data.message);
                 }
             },
             beforeSend: function() {
@@ -84,7 +119,11 @@ function ajaxDelete(url, replaceID, notice) {
     });
 }
 
-//显示loading
+/**
+ * 显示loading，用于处理数据的时候显示
+ * 
+ * @return void
+ */
 function loading() {
     var loading_image = '<img src="'+SYS_DOMAIN+'/images/loading-icons/loading9.gif">';
     $.blockUI({
@@ -97,12 +136,20 @@ function loading() {
     }); 
 }
 
-//关闭显示loading
+/**
+ * 关闭loading
+ * 
+ * @return void
+ */
 function unloading() {
     $.unblockUI();
 }
 
-//权限给预选择
+/**
+ * 权限给予页面专用的批量选择函数
+ *
+ * @return {void}
+ */
 function selectAllPermission(checker, scope, type) { 
     if(scope) {
         if(type == 'button') {
@@ -128,7 +175,18 @@ function selectAllPermission(checker, scope, type) {
     }
 }
 
-//上传弹出窗口
+/**
+ * 上传弹出窗口
+ * 
+ * @param  {string} uploadid   dialog插件的ID
+ * @param  {string} title      dialog插件的标题
+ * @param  {string} itemId     回调函数用到的html ID
+ * @param  {function} funcName 回调函数
+ * @param  {string} args       附带的参数
+ * @param  {string} authkey    当前上传窗口的签名token,防止篡改
+ * @param  {string} upload_url 处理上传的接口
+ * @return {void}
+ */
 function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_url) {
     var args = args ? '&args=' + args : '';
     var setting = '&authkey=' + authkey;
@@ -159,7 +217,11 @@ function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_u
     d.showModal();
 }
 
-//artdialog关闭后还会有一个iframe，删除它
+/**
+ * artdialog关闭后还会有一个iframe，删除它
+ * @param  {[string]} uploadid dialog插件的id
+ * @return {[void]}
+ */
 function removeDialogIframe(uploadid) {
     $('body').find('iframe[name="'+uploadid+'"]').remove();
 }

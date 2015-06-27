@@ -65,7 +65,7 @@ class Js
      */
     static public function alert($message = '')
     {
-        return self::start() . "alert('" . $message . "')" . self::end() . self::resetForm();
+        return self::start() . "if(window.top) window.top.alertNotic('" . $message . "')" . self::end() . self::resetForm();
     }
 
     /**
@@ -84,7 +84,7 @@ class Js
         {
             foreach($message as $item)
             {
-                is_array($item) ? $alertMessage .= join('\n', $item) . '\n' : $alertMessage .= $item . '\n';
+                is_array($item) ? $alertMessage .= join('<br/>', $item) . '<br/>' : $alertMessage .= $item . '<br/>';
             }
         }
         else
@@ -222,37 +222,6 @@ EOT;
         $js .= "var href = $window.location.href;\n";
         $js .= "$window.location.href = href.indexOf('#') < 0 ? href : href.substring(0, href.indexOf('#'));";
 
-        $js .= self::end();
-        return $js;
-    }
-
-    /**
-     * Close colorbox in javascript.
-     * This is a obsolete method, you can use 'closeModal' instead.
-     * 
-     * @param  string $window 
-     * @static
-     * @access public
-     * @return void
-     */
-    static public function closeColorbox($window = 'self')
-    {
-        return self::closeModal($window);
-    }
-
-    /**
-     * Close modal with javascript.
-     * 
-     * @param  string $window 
-     * @static
-     * @access public
-     * @return void
-     */
-    static public function closeModal($window = 'self', $location = '')
-    {
-        $js  = self::start();
-        $js .= "if($window.location.href == self.location.href){ $window.window.close();}";
-        $js .= "else{ $window.$.cookie('selfClose', 1);$window.$.closeModal(null, '$location');}";
         $js .= self::end();
         return $js;
     }
