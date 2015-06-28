@@ -1,4 +1,4 @@
-<?php
+<?php if( ! defined('IN_UEDITOR')) exit;
 /**
  * 上传附件和上传视频
  * User: Jinqn

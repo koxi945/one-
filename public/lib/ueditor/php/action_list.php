@@ -1,4 +1,4 @@
-<?php
+<?php if( ! defined('IN_UEDITOR')) exit;
 /**
  * 获取已上传的文件列表
  * User: Jinqn

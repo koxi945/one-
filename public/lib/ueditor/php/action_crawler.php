@@ -1,4 +1,4 @@
-<?php
+<?php if( ! defined('IN_UEDITOR')) exit;
 /**
  * 抓取远程图片
  * User: Jinqn
