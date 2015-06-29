@@ -11,12 +11,10 @@ define('IN_UEDITOR', TRUE);
 require dirname($_SERVER['DOCUMENT_ROOT']).'/bootstrap/autoload.php';
 $app = require_once dirname($_SERVER['DOCUMENT_ROOT']).'/bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-$response = $kernel->handle(
-    $request = Illuminate\Http\Request::capture()
-);
+$kernel->handle(Illuminate\Http\Request::capture());
 use App\Services\Admin\Login\Process as LoginProcess;
 $isLogin = (new LoginProcess())->getProcess()->hasLogin();
-if(empty($isLogin)) exit;
+if(empty($isLogin)) return;
 
 $CONFIG = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("config.json")), true);
 $APPCONFIG = require(dirname($_SERVER['DOCUMENT_ROOT']).'/config/sys.php');
