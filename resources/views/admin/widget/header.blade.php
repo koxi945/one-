@@ -54,7 +54,7 @@
       <script src="<?php echo loadStatic('/lib/html5.js'); ?>"></script>
     <![endif]-->
 </head>
-<body class="theme-3">
+<body class="theme-3" style="min-width:350px;">
 <!--[if lt IE 7 ]> <body class="ie ie6"> <![endif]-->
 <!--[if IE 7 ]> <body class="ie ie7 "> <![endif]-->
 <!--[if IE 8 ]> <body class="ie ie8 "> <![endif]-->

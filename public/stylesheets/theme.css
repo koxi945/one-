@@ -900,7 +900,7 @@ table.table.list tr:first-child td {
 #featurebar .heading:after {font-size: 12px; color: #999; display: inline-block; margin-left: 5px;}
 #featurebar .heading > i {color: #808080}
 
-#featurebar .nav {height: 30px; float: left;margin-top:4px;}
+#featurebar .nav {height: 30px; /*float: left;*/margin-top:4px;}
 #featurebar .nav > li {float: left; margin-right: 2px;}
 #featurebar .nav > li > .form-control {margin-left: 6px; padding: 1px 8px; height: 30px; height: 26px\0; margin-right: 10px;}
 #featurebar .nav > li > .form-control.form-date {width: 110px}
