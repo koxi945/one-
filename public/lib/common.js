@@ -161,6 +161,7 @@ function selectAllPermission(checker, scope, type) {
             $('#' + scope + ' input').each(function() {
                 $(this).prop("checked", checker.checked)
             });
+            $('.check-self-'+scope).prop("checked", checker.checked);
          }
     } else {
         if(type == 'button') {

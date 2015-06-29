@@ -65,7 +65,7 @@
                       <td class="pv-10px w-130px bg-w" style="padding-left:10px;line-height: 30px;">
                           <!-- b -->
                           <a onclick="$('#h_<?php echo $value2['id']; ?>').click();" class="acl-set-all" href="javascript:;" title="点击我全选"><?php echo $value2['name']; ?></a>
-                          <input type="checkbox" <?php if(in_array($value2['id'], $hasPermissions)) echo 'checked'; ?>  value="<?php echo $value2['id']; ?>" name="permission[]" style="float:right;">
+                          <input class="check-self-m<?php echo $value2['id']; ?>" type="checkbox" <?php if(in_array($value2['id'], $hasPermissions)) echo 'checked'; ?>  value="<?php echo $value2['id']; ?>" name="permission[]" style="float:right;">
                           <!-- e -->
                           
                           <input id="h_<?php echo $value2['id']; ?>" type="checkbox" onclick="selectAllPermission(this, 'm<?php echo $value2['id']; ?>', 'checkbox')" style="display:none;">
