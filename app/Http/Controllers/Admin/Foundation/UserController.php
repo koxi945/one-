@@ -2,7 +2,7 @@
 
 use App\Models\Admin\Group;
 use App\Models\Admin\User;
-use Request, Lang;
+use Request, Lang, Session;
 use App\Services\Admin\SC;
 use App\Services\Admin\User\Process as UserActionProcess;
 use App\Libraries\Js;
@@ -23,6 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        Session::flashInput(['http_referer' => Request::fullUrl()]);
         $userModel = new User(); $groupModel = new Group();
         $groupId = Request::input('gid');
         $userList = $userModel->getAllUser(['group_id' => $groupId]);
@@ -106,6 +107,7 @@ class UserController extends Controller
     public function edit()
     {
         if(Request::method() == 'POST') return $this->updateUserInfoToDatabase();
+        Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
         $id = Request::input('id');
         $userId = url_param_decode($id);
         if( ! $userId or ! is_numeric($userId)) return Js::error(Lang::get('common.illegal_operation'), true);
@@ -129,6 +131,7 @@ class UserController extends Controller
      */
     private function updateUserInfoToDatabase()
     {
+        $httpReferer = Session::getOldInput('http_referer');
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.info_incomplete'));
         $param = new \App\Services\Admin\User\Param\UserSave();
@@ -137,7 +140,8 @@ class UserController extends Controller
         if($manager->editUser($param))
         {
             $this->setActionLog();
-            return Js::locate(R('common', 'foundation.user.index'), 'parent');
+            $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'foundation.user.index'); 
+            return Js::locate($backUrl, 'parent');
         }
         return Js::error($manager->getErrorMessage());
     }

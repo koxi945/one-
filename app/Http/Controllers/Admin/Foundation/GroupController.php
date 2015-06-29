@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Foundation;
 
 use App\Http\Controllers\Admin\Controller;
 use App\Models\Admin\Group as GroupModel;
-use Request, Lang;
+use Request, Lang, Session;
 use App\Services\Admin\Group\Process as GroupActionProcess;
 use App\Libraries\Js;
 use App\Services\Admin\Acl\Acl;
@@ -23,6 +23,7 @@ class GroupController extends Controller
      */
     public function index()
     {
+        Session::flashInput(['http_referer' => Request::fullUrl()]);
         $groupModel = new GroupModel();
         $grouplist = $groupModel->getAllGroupByPage();
         $page = $grouplist->setPath('')->appends(Request::all())->render();
@@ -93,6 +94,7 @@ class GroupController extends Controller
     public function edit()
     {
         if(Request::method() == 'POST') return $this->updateDatasToDatabase();
+        Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
         $id = Request::input('id');
         $groupId = url_param_decode($id);
         if( ! $groupId or ! is_numeric($groupId)) return Js::error(Lang::get('common.illegal_operation'));
@@ -110,6 +112,7 @@ class GroupController extends Controller
      */
     private function updateDatasToDatabase()
     {
+        $httpReferer = Session::getOldInput('http_referer');
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
         $params = new \App\Services\Admin\Group\Param\GroupSave();
@@ -118,7 +121,8 @@ class GroupController extends Controller
         if($manager->editGroup($params))
         {
             $this->setActionLog();
-            return Js::locate(R('common', 'foundation.group.index'), 'parent');
+            $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'foundation.group.index');
+            return Js::locate($backUrl, 'parent');
         }
         return Js::error($manager->getErrorMessage());
     }

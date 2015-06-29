@@ -7,7 +7,7 @@ use App\Models\Admin\Permission as PermissionModel;
 use App\Models\Admin\Access as AccessModel;
 use App\Models\Admin\User as UserModel;
 use App\Models\Admin\Group as GroupModel;
-use Request, Lang;
+use Request, Lang, Session;
 use App\Services\Admin\Acl\Process as AclActionProcess;
 use App\Libraries\Js;
 use App\Services\Admin\Acl\Acl;
@@ -28,6 +28,7 @@ class AclController extends Controller
      */
     public function index()
     {
+        Session::flashInput(['http_referer' => Request::fullUrl()]);
         $permissionModel = new PermissionModel();
         $list = $permissionModel->getAllAccessPermissionByPage();
         $page = $list->setPath('')->appends(Request::all())->render();
@@ -92,6 +93,7 @@ class AclController extends Controller
     public function edit()
     {
         if(Request::method() == 'POST') return $this->updatePermissionToDatabase();
+        Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
         $id = Request::input('id');
         $permissionId = url_param_decode($id);
         if( ! $permissionId or ! is_numeric($permissionId)) return Js::error(Lang::get('common.illegal_operation'), true);
@@ -111,12 +113,17 @@ class AclController extends Controller
      */
     private function updatePermissionToDatabase()
     {
+        $httpReferer = Session::getOldInput('http_referer');
         $data = Request::input('data');
         if( ! $data) return Js::error(Lang::get('common.info_incomplete'));
         $params = new \App\Services\Admin\Acl\Param\AclSave();
         $params->setAttributes($data);
         $manager = new AclActionProcess();
-        if($manager->editAcl($params) !== false) return Js::locate(R('common', 'foundation.acl.index'), 'parent');
+        if($manager->editAcl($params) !== false)
+        {
+            $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'foundation.acl.index'); 
+            return Js::locate($backUrl, 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
     
