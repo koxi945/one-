@@ -70,5 +70,13 @@ class Common
         return view('home.widget.commentAjax', compact('objectId'));
     }
 
+    /**
+     * htmlend
+     */
+    public function htmlend()
+    {
+        return '</body></html>';
+    }
+
 
 }

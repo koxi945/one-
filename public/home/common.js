@@ -39,6 +39,48 @@ function setformSubmitButton() {
     
 }
 
+/**
+ * 自定义的confirm确认弹出窗口
+ * 
+ * @param  string   content  提示的内容
+ * @param  function callback 回调函数
+ * @return void
+ */
+function confirmNotic(content, callback) {
+    var d = dialog({
+        title: '提示',
+        content: content,
+        okValue: '确定',
+        width: 250,
+        ok: function () {
+            if(typeof callback === 'function') {
+                this.title('提交中…');
+                callback();
+            }
+        },
+        cancelValue: '取消',
+        cancel: function () {}
+    });
+    d.showModal();
+}
+
+/**
+ * 自定义的alert提示弹窗
+ * 
+ * @param  string content 提示的内容
+ * @return void
+ */
+function alertNotic(content) {
+    var d = dialog({
+        title: '提示',
+        content: content,
+        okValue: '确定',
+        width: 250,
+        ok: function () {}
+    });
+    d.showModal();
+}
+
 $(document).ready(function(){
     setformSubmitButton();
 });

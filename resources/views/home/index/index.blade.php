@@ -1,6 +1,5 @@
 <?php echo widget('Home.Common')->header(); ?>
-<body class="theme-3">
-    <div class="content">
+    <div class="content col-md-8">
         <?php echo widget('Home.Common')->top(); ?>
         <?php if( (isset($object->category) and ! empty($object->category)) or (isset($object->tag) and ! empty($object->tag)) or (isset($object->keyword))): ?>
             <div class="tag-category-title" style="color:#ccc;padding-bottom:10px;">以下为分类（标签）的筛选数据：</div>
@@ -43,4 +42,4 @@
             
         </div>
     </div>
-</body></html>
+<?php echo widget('Home.Common')->htmlend(); ?>

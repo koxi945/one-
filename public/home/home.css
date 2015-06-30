@@ -1,6 +1,6 @@
 body {background-color:#21598A;}
 div.header {height:70px;}
-div.content {margin:0 auto; width: 1024px;border-left:none;}
+div.content {float: none; margin:0 auto; border-left:none;}
 #blog-posts div.row {padding-top: 10px; padding-bottom: 10px; border-bottom: 1px dashed #ccc;}
 #blog-posts h3.h_h3 a {color:#555;}
 p.p_h_summary {color:#999;}

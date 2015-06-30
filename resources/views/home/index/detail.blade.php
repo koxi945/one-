@@ -1,8 +1,7 @@
 <?php $headerObject = new \stdClass(); ?>
 <?php $headerObject->description = $info['summary']; ?>
 <?php echo widget('Home.Common')->header($headerObject); ?>
-<body class="theme-3">
-    <div class="content">
+    <div class="content col-md-8">
         <?php echo widget('Home.Common')->top(); ?>
         
         <div class="main-content">
@@ -36,4 +35,4 @@
             
         </div>
     </div>
-</body></html>
+<?php echo widget('Home.Common')->htmlend(); ?>
