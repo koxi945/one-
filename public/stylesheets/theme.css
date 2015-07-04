@@ -1,5 +1,6 @@
 body {
-  background: #fafafa;
+  /*background: #fafafa;*/
+  background: #fff;
   background-position: initial initial;
   background-repeat: initial initial;
   margin: 0px;
@@ -169,9 +170,9 @@ label {
 .content {
   position: relative;
   min-height: 800px;
-  background: #fff;
+  /*background: #fff;*/
   margin-left: 210px;
-  border-left: 1px solid #cccccc;
+  /*border-left: 1px solid #cccccc;*/
   padding: 15px 15px 0px 15px;
 }
 .header {
@@ -376,11 +377,14 @@ a.panel-heading:hover,
   float: left;
   border-top: none;
   border-left: none;
+  border-right: 1px solid #cccccc;
   margin: 0em;
+  padding-bottom: 80px;
 }
 .sidebar-nav ul {
   list-style: none;
   padding-left: 0px;
+  margin-bottom: 0px;
 }
 .sidebar-nav li a .fa-caret-right {
   color: #666;

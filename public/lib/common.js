@@ -227,6 +227,19 @@ function removeDialogIframe(uploadid) {
     $('body').find('iframe[name="'+uploadid+'"]').remove();
 }
 
+/**
+ * onload的时候改变菜单的高度
+ */
+function changeLeftMenuHeight() {
+    var divContent = $('div.content');
+    var winHeight = $(window).height();
+    if(winHeight < 800) winHeight = 800;
+    divContent.css('min-height', winHeight);
+    var contentHeight = divContent.height();
+    $('div.sidebar-nav').css('min-height', contentHeight+15);
+}
+
 $(document).ready(function(){
     setformSubmitButton();
+    changeLeftMenuHeight();
 });
