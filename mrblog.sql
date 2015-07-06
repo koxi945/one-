@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-06-25 16:35:58
+Date: 2015-07-06 16:11:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,53 +27,23 @@ CREATE TABLE `bk_access` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`) USING BTREE,
   KEY `node_id` (`permission_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=677 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_access
 -- ----------------------------
-INSERT INTO `bk_access` VALUES ('635', '2', '1', '2');
-INSERT INTO `bk_access` VALUES ('636', '2', '2', '2');
-INSERT INTO `bk_access` VALUES ('637', '2', '23', '2');
-INSERT INTO `bk_access` VALUES ('638', '2', '24', '2');
-INSERT INTO `bk_access` VALUES ('639', '2', '25', '2');
-INSERT INTO `bk_access` VALUES ('640', '2', '26', '2');
-INSERT INTO `bk_access` VALUES ('641', '2', '3', '2');
-INSERT INTO `bk_access` VALUES ('642', '2', '30', '2');
-INSERT INTO `bk_access` VALUES ('643', '2', '31', '2');
-INSERT INTO `bk_access` VALUES ('644', '2', '32', '2');
-INSERT INTO `bk_access` VALUES ('645', '2', '33', '2');
-INSERT INTO `bk_access` VALUES ('646', '2', '4', '2');
-INSERT INTO `bk_access` VALUES ('647', '2', '20', '2');
-INSERT INTO `bk_access` VALUES ('648', '2', '27', '2');
-INSERT INTO `bk_access` VALUES ('649', '2', '28', '2');
-INSERT INTO `bk_access` VALUES ('650', '2', '29', '2');
-INSERT INTO `bk_access` VALUES ('651', '2', '43', '2');
-INSERT INTO `bk_access` VALUES ('652', '2', '44', '2');
-INSERT INTO `bk_access` VALUES ('653', '2', '53', '2');
-INSERT INTO `bk_access` VALUES ('654', '2', '34', '2');
-INSERT INTO `bk_access` VALUES ('655', '2', '36', '2');
-INSERT INTO `bk_access` VALUES ('656', '2', '35', '2');
-INSERT INTO `bk_access` VALUES ('657', '2', '48', '2');
-INSERT INTO `bk_access` VALUES ('658', '2', '49', '2');
-INSERT INTO `bk_access` VALUES ('659', '2', '37', '2');
-INSERT INTO `bk_access` VALUES ('660', '2', '45', '2');
-INSERT INTO `bk_access` VALUES ('661', '2', '46', '2');
-INSERT INTO `bk_access` VALUES ('662', '2', '47', '2');
-INSERT INTO `bk_access` VALUES ('663', '2', '42', '2');
-INSERT INTO `bk_access` VALUES ('664', '2', '50', '2');
-INSERT INTO `bk_access` VALUES ('665', '2', '51', '2');
-INSERT INTO `bk_access` VALUES ('666', '2', '52', '2');
-INSERT INTO `bk_access` VALUES ('667', '2', '54', '2');
-INSERT INTO `bk_access` VALUES ('668', '2', '55', '2');
-INSERT INTO `bk_access` VALUES ('669', '2', '56', '2');
-INSERT INTO `bk_access` VALUES ('670', '2', '57', '2');
-INSERT INTO `bk_access` VALUES ('671', '2', '58', '2');
-INSERT INTO `bk_access` VALUES ('672', '2', '60', '2');
-INSERT INTO `bk_access` VALUES ('673', '2', '61', '2');
-INSERT INTO `bk_access` VALUES ('674', '2', '62', '2');
-INSERT INTO `bk_access` VALUES ('675', '2', '63', '2');
-INSERT INTO `bk_access` VALUES ('676', '2', '59', '2');
+INSERT INTO `bk_access` VALUES ('16', '2', '34', '1');
+INSERT INTO `bk_access` VALUES ('17', '2', '69', '1');
+INSERT INTO `bk_access` VALUES ('18', '2', '37', '1');
+INSERT INTO `bk_access` VALUES ('19', '2', '45', '1');
+INSERT INTO `bk_access` VALUES ('20', '2', '46', '1');
+INSERT INTO `bk_access` VALUES ('21', '2', '47', '1');
+INSERT INTO `bk_access` VALUES ('22', '2', '42', '1');
+INSERT INTO `bk_access` VALUES ('23', '2', '50', '1');
+INSERT INTO `bk_access` VALUES ('24', '2', '51', '1');
+INSERT INTO `bk_access` VALUES ('25', '2', '52', '1');
+INSERT INTO `bk_access` VALUES ('26', '2', '66', '1');
+INSERT INTO `bk_access` VALUES ('27', '2', '44', '1');
 
 -- ----------------------------
 -- Table structure for `bk_action_log`
@@ -92,7 +62,7 @@ CREATE TABLE `bk_action_log` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `username` (`username`) USING BTREE,
   KEY `addtime` (`add_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=218 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_action_log
@@ -236,6 +206,84 @@ INSERT INTO `bk_action_log` VALUES ('136', 'admin', '1', '127.0.0.1', '', '14351
 INSERT INTO `bk_action_log` VALUES ('137', 'admin', '1', '127.0.0.1', '', '1435127311', '管理员', '登录系统成功');
 INSERT INTO `bk_action_log` VALUES ('138', 'admin', '1', '127.0.0.1', '', '1435127360', '管理员', '登录系统成功');
 INSERT INTO `bk_action_log` VALUES ('139', 'admin', '1', '127.0.0.1', '', '1435129351', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('140', 'admin', '1', '127.0.0.1', '', '1435288666', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('141', 'admin', '1', '127.0.0.1', '', '1435304943', '管理员', '编辑了用户组：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('142', 'admin', '1', '127.0.0.1', '', '1435304988', '管理员', '增加了新的用户组：123');
+INSERT INTO `bk_action_log` VALUES ('143', 'admin', '1', '127.0.0.1', '', '1435305005', '管理员', '增加了新的用户组：123');
+INSERT INTO `bk_action_log` VALUES ('144', 'admin', '1', '127.0.0.1', '', '1435305072', '管理员', '编辑了工作流：测试工作流');
+INSERT INTO `bk_action_log` VALUES ('145', 'admin', '1', '127.0.0.1', '', '1435305087', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('146', 'admin', '1', '127.0.0.1', '', '1435305090', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('147', 'admin', '1', '127.0.0.1', '', '1435305093', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('148', 'admin', '1', '127.0.0.1', '', '1435305096', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('149', 'admin', '1', '127.0.0.1', '', '1435305098', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('150', 'admin', '1', '127.0.0.1', '', '1435305101', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('151', 'admin', '1', '127.0.0.1', '', '1435305104', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('152', 'admin', '1', '127.0.0.1', '', '1435305106', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('153', 'admin', '1', '127.0.0.1', '', '1435305109', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('154', 'admin', '1', '127.0.0.1', '', '1435305112', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('155', 'admin', '1', '127.0.0.1', '', '1435305114', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('156', 'admin', '1', '127.0.0.1', '', '1435305144', '管理员', '删除了用户组：123');
+INSERT INTO `bk_action_log` VALUES ('157', 'admin', '1', '127.0.0.1', '', '1435305194', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('158', 'admin', '1', '127.0.0.1', '', '1435543884', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('159', 'admin', '1', '127.0.0.1', '', '1435543919', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('160', 'admin', '1', '127.0.0.1', '', '1435543924', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('161', 'admin', '1', '127.0.0.1', '', '1435544846', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('162', 'admin', '1', '127.0.0.1', '', '1435544858', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('163', 'admin', '1', '127.0.0.1', '', '1435544905', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('164', 'admin', '1', '127.0.0.1', '', '1435544909', '管理员', '改变了用户组的权限：123');
+INSERT INTO `bk_action_log` VALUES ('165', 'admin', '1', '127.0.0.1', '', '1435545169', '管理员', '删除了用户组：123');
+INSERT INTO `bk_action_log` VALUES ('166', 'admin', '1', '127.0.0.1', '', '1435545229', '管理员', '删除了系统用户：test');
+INSERT INTO `bk_action_log` VALUES ('167', 'admin', '1', '127.0.0.1', '', '1435545383', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('168', 'admin', '1', '127.0.0.1', '', '1435545965', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('169', 'admin', '1', '127.0.0.1', '', '1435546040', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('170', 'admin', '1', '127.0.0.1', '', '1435546116', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('171', 'admin', '1', '127.0.0.1', '', '1435546127', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('172', 'admin', '1', '127.0.0.1', '', '1435546171', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('173', 'admin', '1', '127.0.0.1', '', '1435546175', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('174', 'admin', '1', '127.0.0.1', '', '1435548904', '管理员', '改变了用户组的权限：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('175', 'admin', '1', '127.0.0.1', '', '1435551384', '管理员', '关联了用户：管理员 到工作流：测试工作流 中的审核步骤：测试1');
+INSERT INTO `bk_action_log` VALUES ('176', 'admin', '1', '127.0.0.1', '', '1435551469', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('177', 'admin', '1', '127.0.0.1', '', '1435551480', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('178', 'admin', '1', '127.0.0.1', '', '1435551487', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('179', 'admin', '1', '127.0.0.1', '', '1435551491', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('180', 'admin', '1', '127.0.0.1', '', '1435551494', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('181', 'admin', '1', '127.0.0.1', '', '1435551504', '管理员', '编辑了用户组：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('182', 'admin', '1', '127.0.0.1', '', '1435563248', '管理员', '编辑了用户组：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('183', 'admin', '1', '127.0.0.1', '', '1435563266', '管理员', '编辑了用户组：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('184', 'admin', '1', '127.0.0.1', '', '1435563284', '管理员', '编辑了用户组：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('185', 'admin', '1', '127.0.0.1', '', '1435563326', '管理员', '编辑了用户组：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('186', 'admin', '1', '127.0.0.1', '', '1435563375', '管理员', '编辑了系统用户：admin');
+INSERT INTO `bk_action_log` VALUES ('187', 'admin', '1', '127.0.0.1', '', '1435563479', '管理员', '编辑了用户组：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('188', 'admin', '1', '127.0.0.1', '', '1435563853', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('189', 'admin', '1', '127.0.0.1', '', '1435563866', '管理员', '改变了用户组的权限：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('190', 'admin', '1', '127.0.0.1', '', '1435568665', '管理员', '改变了用户组的权限：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('191', 'admin', '1', '127.0.0.1', '', '1435630315', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('192', 'admin', '1', '127.0.0.1', '', '1435631134', '管理员', '改变了用户的权限：admin');
+INSERT INTO `bk_action_log` VALUES ('193', 'admin', '1', '127.0.0.1', '', '1435631327', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('194', 'admin', '1', '127.0.0.1', '', '1435632843', '管理员', '编辑了系统用户：admin');
+INSERT INTO `bk_action_log` VALUES ('195', 'admin', '1', '127.0.0.1', '', '1435637075', '管理员', '编辑了用户组：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('196', 'admin', '1', '127.0.0.1', '', '1435638964', '管理员', '编辑了工作流步骤：测试1');
+INSERT INTO `bk_action_log` VALUES ('197', 'admin', '1', '127.0.0.1', '', '1435649867', '管理员', '改变了用户组的权限：超级用户组');
+INSERT INTO `bk_action_log` VALUES ('198', 'admin', '1', '127.0.0.1', '', '1435737120', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('199', 'admin', '1', '127.0.0.1', '', '1435738202', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('200', 'admin', '1', '127.0.0.1', '', '1436147586', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('201', 'admin', '1', '127.0.0.1', '', '1436147922', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('202', 'admin', '1', '127.0.0.1', '', '1436150023', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('203', 'admin', '1', '127.0.0.1', '', '1436150360', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('204', 'admin', '1', '127.0.0.1', '', '1436150536', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('205', 'admin', '1', '127.0.0.1', '', '1436152462', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('206', 'admin', '1', '127.0.0.1', '', '1436153673', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('207', 'admin', '1', '127.0.0.1', '', '1436153740', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('208', 'admin', '1', '127.0.0.1', '', '1436156479', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('209', 'admin', '1', '127.0.0.1', '', '1436169648', '管理员', '增加了新的系统用户：test');
+INSERT INTO `bk_action_log` VALUES ('210', 'admin', '1', '127.0.0.1', '', '1436169666', '管理员', '增加了新的用户组：test');
+INSERT INTO `bk_action_log` VALUES ('211', 'admin', '1', '127.0.0.1', '', '1436169678', '管理员', '编辑了系统用户：test');
+INSERT INTO `bk_action_log` VALUES ('212', 'admin', '1', '127.0.0.1', '', '1436169830', '管理员', '改变了用户组的权限：test');
+INSERT INTO `bk_action_log` VALUES ('213', 'admin', '1', '127.0.0.1', '', '1436169901', '管理员', '改变了用户组的权限：test');
+INSERT INTO `bk_action_log` VALUES ('214', 'admin', '1', '127.0.0.1', '', '1436169909', '管理员', '改变了用户组的权限：test');
+INSERT INTO `bk_action_log` VALUES ('215', 'test', '2', '127.0.0.1', '', '1436169949', 'test', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('216', 'admin', '1', '127.0.0.1', '', '1436170007', '管理员', '改变了用户组的权限：test');
+INSERT INTO `bk_action_log` VALUES ('217', 'test', '2', '127.0.0.1', '', '1436170015', 'test', '登录系统成功');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify`
@@ -711,12 +759,13 @@ CREATE TABLE `bk_group` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否禁用',
   `level` int(11) NOT NULL DEFAULT '0' COMMENT '用户组等级，低等级的不能对高等级的用户做修改',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_group
 -- ----------------------------
-INSERT INTO `bk_group` VALUES ('1', '超级用户组', '123123', '1', '1');
+INSERT INTO `bk_group` VALUES ('1', '超级用户组', '123123a', '1', '1');
+INSERT INTO `bk_group` VALUES ('2', 'test', '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `bk_permission`
@@ -738,46 +787,45 @@ CREATE TABLE `bk_permission` (
   KEY `module` (`module`) USING BTREE,
   KEY `class` (`class`) USING BTREE,
   KEY `action` (`action`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_permission
 -- ----------------------------
 INSERT INTO `bk_permission` VALUES ('1', 'foundation', '系统管理', '系统管理', '系统管理', '1', '0', '0', '1', '系统管理页面，不作权限验证，只用做菜单显示', '0');
-INSERT INTO `bk_permission` VALUES ('2', 'foundation', 'group', 'index', '用户组管理', '1', '1', '0', '2', '用户组管理页面', '0');
-INSERT INTO `bk_permission` VALUES ('3', 'foundation', 'acl', 'index', '菜单功能管理', '1', '1', '0', '2', '功能管理页面', '0');
-INSERT INTO `bk_permission` VALUES ('4', 'foundation', 'user', 'index', '用户管理', '1', '1', '0', '2', '用户管理页面', '0');
+INSERT INTO `bk_permission` VALUES ('2', 'foundation', 'group', 'index', '用户组管理', '1', '67', '1', '3', '用户组管理页面', '0');
+INSERT INTO `bk_permission` VALUES ('3', 'foundation', 'acl', 'index', '功能管理', '1', '67', '2', '3', '功能管理页面', '0');
+INSERT INTO `bk_permission` VALUES ('4', 'foundation', 'user', 'index', '用户管理', '1', '67', '3', '3', '用户管理页面', '0');
 INSERT INTO `bk_permission` VALUES ('12', 'foundation', 'index', 'index', '我的首页', '0', '0', '0', '1', '系统首页', '0');
-INSERT INTO `bk_permission` VALUES ('20', 'foundation', 'user', 'add', '增加用户', '0', '4', '0', '3', '增加一个用户', '0');
-INSERT INTO `bk_permission` VALUES ('23', 'foundation', 'group', 'add', '增加用户组', '0', '2', '0', '3', '增加用户组', '1406882443');
-INSERT INTO `bk_permission` VALUES ('24', 'foundation', 'group', 'edit', '用户组编辑', '0', '2', '0', '3', '用户组编辑', '1406882515');
-INSERT INTO `bk_permission` VALUES ('25', 'foundation', 'group', 'delete', '用户组删除', '0', '2', '0', '3', '用户组删除、批量删除', '1406882542');
-INSERT INTO `bk_permission` VALUES ('26', 'foundation', 'acl', 'group', '用户组权限管理', '0', '2', '0', '3', '用户组权限管理', '1406882568');
-INSERT INTO `bk_permission` VALUES ('27', 'foundation', 'user', 'edit', '用户编辑', '0', '4', '0', '3', '用户编辑', '1406882640');
-INSERT INTO `bk_permission` VALUES ('28', 'foundation', 'user', 'delete', '用户删除', '0', '4', '0', '3', '用户删除', '1406882664');
-INSERT INTO `bk_permission` VALUES ('29', 'foundation', 'acl', 'user', '用户权限管理', '0', '4', '0', '3', '用户权限管理、设置用户权限', '1406882698');
-INSERT INTO `bk_permission` VALUES ('30', 'foundation', 'acl', 'add', '增加功能菜单', '0', '3', '0', '3', '增加功能菜单', '1406882729');
-INSERT INTO `bk_permission` VALUES ('31', 'foundation', 'acl', 'edit', '功能菜单编辑', '0', '3', '0', '3', '功能菜单编辑', '1406882754');
-INSERT INTO `bk_permission` VALUES ('32', 'foundation', 'acl', 'delete', '功能菜单删除', '0', '3', '0', '3', '功能菜单删除', '1406882775');
-INSERT INTO `bk_permission` VALUES ('33', 'foundation', 'acl', 'sort', '功能菜单排序', '0', '3', '0', '3', '功能菜单排序', '1406882815');
+INSERT INTO `bk_permission` VALUES ('20', 'foundation', 'user', 'add', '增加用户', '0', '4', '0', '4', '增加一个用户', '0');
+INSERT INTO `bk_permission` VALUES ('23', 'foundation', 'group', 'add', '增加用户组', '0', '2', '0', '4', '增加用户组', '1406882443');
+INSERT INTO `bk_permission` VALUES ('24', 'foundation', 'group', 'edit', '用户组编辑', '0', '2', '0', '4', '用户组编辑', '1406882515');
+INSERT INTO `bk_permission` VALUES ('25', 'foundation', 'group', 'delete', '用户组删除', '0', '2', '0', '4', '用户组删除、批量删除', '1406882542');
+INSERT INTO `bk_permission` VALUES ('26', 'foundation', 'acl', 'group', '用户组权限管理', '0', '2', '0', '4', '用户组权限管理', '1406882568');
+INSERT INTO `bk_permission` VALUES ('27', 'foundation', 'user', 'edit', '用户编辑', '0', '4', '0', '4', '用户编辑', '1406882640');
+INSERT INTO `bk_permission` VALUES ('28', 'foundation', 'user', 'delete', '用户删除', '0', '4', '0', '4', '用户删除', '1406882664');
+INSERT INTO `bk_permission` VALUES ('29', 'foundation', 'acl', 'user', '用户权限管理', '0', '4', '0', '4', '用户权限管理、设置用户权限', '1406882698');
+INSERT INTO `bk_permission` VALUES ('30', 'foundation', 'acl', 'add', '增加功能菜单', '0', '3', '0', '4', '增加功能菜单', '1406882729');
+INSERT INTO `bk_permission` VALUES ('31', 'foundation', 'acl', 'edit', '功能菜单编辑', '0', '3', '0', '4', '功能菜单编辑', '1406882754');
+INSERT INTO `bk_permission` VALUES ('32', 'foundation', 'acl', 'delete', '功能菜单删除', '0', '3', '0', '4', '功能菜单删除', '1406882775');
+INSERT INTO `bk_permission` VALUES ('33', 'foundation', 'acl', 'sort', '功能菜单排序', '0', '3', '0', '4', '功能菜单排序', '1406882815');
 INSERT INTO `bk_permission` VALUES ('34', 'blog', '内容管理', '内容管理', '内容管理', '1', '0', '0', '1', '内容管理', '1407374295');
-INSERT INTO `bk_permission` VALUES ('35', 'blog', 'content', 'add', '发表文章', '0', '36', '0', '3', '发表文章', '1407374316');
-INSERT INTO `bk_permission` VALUES ('36', 'blog', 'content', 'index', '文章列表', '1', '34', '0', '2', '文章列表', '1407374358');
-INSERT INTO `bk_permission` VALUES ('37', 'blog', 'category', 'index', '文章分类管理', '1', '34', '0', '2', '文章分类管理', '0');
-INSERT INTO `bk_permission` VALUES ('42', 'blog', 'position', 'index', '推荐位管理', '1', '34', '0', '2', '推荐位管理', '1426735289');
+INSERT INTO `bk_permission` VALUES ('35', 'blog', 'content', 'add', '发表文章', '0', '36', '0', '4', '发表文章', '1407374316');
+INSERT INTO `bk_permission` VALUES ('36', 'blog', 'content', 'index', '文章列表', '1', '69', '0', '3', '文章列表', '1407374358');
+INSERT INTO `bk_permission` VALUES ('37', 'blog', 'category', 'index', '文章分类管理', '1', '69', '0', '3', '文章分类管理', '0');
+INSERT INTO `bk_permission` VALUES ('42', 'blog', 'position', 'index', '推荐位管理', '1', '69', '0', '3', '推荐位管理', '1426735289');
 INSERT INTO `bk_permission` VALUES ('43', 'foundation', 'index', 'cs', '功能示例', '1', '1', '0', '2', '一些小功能的合集，可以用来加快开发的速度。', '1427788812');
-INSERT INTO `bk_permission` VALUES ('44', 'foundation', 'upload', 'index', '弹出窗口上传', '0', '1', '0', '2', '通用的弹出窗口上传。', '1427790345');
-INSERT INTO `bk_permission` VALUES ('45', 'blog', 'category', 'add', '文章分类增加', '0', '37', '0', '3', '', '1429509721');
-INSERT INTO `bk_permission` VALUES ('46', 'blog', 'category', 'edit', '文章分类编辑', '0', '37', '0', '3', '', '1429509748');
+INSERT INTO `bk_permission` VALUES ('44', 'foundation', 'upload', 'index', '弹出窗口上传', '0', '66', '0', '2', '通用的弹出窗口上传。', '1427790345');
+INSERT INTO `bk_permission` VALUES ('45', 'blog', 'category', 'add', '文章分类增加', '0', '37', '0', '4', '', '1429509721');
+INSERT INTO `bk_permission` VALUES ('46', 'blog', 'category', 'edit', '文章分类编辑', '0', '37', '0', '4', '', '1429509748');
 INSERT INTO `bk_permission` VALUES ('47', 'blog', 'category', 'delete', '文章分类删除', '0', '37', '0', '3', '', '1429509769');
-INSERT INTO `bk_permission` VALUES ('48', 'blog', 'content', 'edit', '编辑文章', '0', '36', '0', '3', '', '1429509849');
+INSERT INTO `bk_permission` VALUES ('48', 'blog', 'content', 'edit', '编辑文章', '0', '36', '0', '4', '', '1429509849');
 INSERT INTO `bk_permission` VALUES ('49', 'blog', 'content', 'delete', '删除文章', '0', '36', '0', '3', '', '1429509889');
-INSERT INTO `bk_permission` VALUES ('50', 'blog', 'position', 'add', '推荐位增加', '0', '42', '0', '3', '', '1429509926');
-INSERT INTO `bk_permission` VALUES ('51', 'blog', 'position', 'edit', '推荐位编辑', '0', '42', '0', '3', '', '1429509949');
-INSERT INTO `bk_permission` VALUES ('52', 'blog', 'position', 'delete', '推荐位删除', '0', '42', '0', '3', '', '1429509972');
-INSERT INTO `bk_permission` VALUES ('53', 'foundation', 'log', 'action', '操作日志', '1', '1', '0', '2', '查看操作日志', '1433319136');
-INSERT INTO `bk_permission` VALUES ('54', '工作流', '工作流', '工作流', '工作流', '1', '0', '0', '1', '', '1434093036');
-INSERT INTO `bk_permission` VALUES ('55', 'workflow', 'index', 'index', '工作流管理', '1', '54', '0', '2', '', '1434093108');
+INSERT INTO `bk_permission` VALUES ('50', 'blog', 'position', 'add', '推荐位增加', '0', '42', '0', '4', '', '1429509926');
+INSERT INTO `bk_permission` VALUES ('51', 'blog', 'position', 'edit', '推荐位编辑', '0', '42', '0', '4', '', '1429509949');
+INSERT INTO `bk_permission` VALUES ('52', 'blog', 'position', 'delete', '推荐位删除', '0', '42', '0', '4', '', '1429509972');
+INSERT INTO `bk_permission` VALUES ('53', 'foundation', 'log', 'action', '操作日志', '1', '68', '0', '3', '查看操作日志', '1433319136');
+INSERT INTO `bk_permission` VALUES ('55', 'workflow', 'index', 'index', '工作流管理', '1', '1', '0', '2', '', '1434093108');
 INSERT INTO `bk_permission` VALUES ('56', 'workflow', 'index', 'add', '工作流增加', '0', '55', '0', '3', '增加新的工作流程', '1434333268');
 INSERT INTO `bk_permission` VALUES ('57', 'workflow', 'index', 'edit', '工作流编辑', '0', '55', '0', '3', '修改工作流信息', '1434336714');
 INSERT INTO `bk_permission` VALUES ('58', 'workflow', 'index', 'delete', '工作流删除', '0', '55', '0', '3', '删除工作流', '1434338279');
@@ -786,8 +834,10 @@ INSERT INTO `bk_permission` VALUES ('60', 'workflow', 'step', 'add', '增加工�
 INSERT INTO `bk_permission` VALUES ('61', 'workflow', 'step', 'edit', '编辑工作流步骤', '0', '59', '0', '4', '编辑工作流步骤', '1434353110');
 INSERT INTO `bk_permission` VALUES ('62', 'workflow', 'step', 'delete', '工作流步骤删除', '0', '59', '0', '4', '工作流步骤删除', '1434354926');
 INSERT INTO `bk_permission` VALUES ('63', 'workflow', 'step', 'relation', '工作流设置关联人员', '0', '59', '0', '4', '工作流设置关联人员', '1434422499');
-INSERT INTO `bk_permission` VALUES ('64', '1', '1', '1', '测试菜单', '1', '2', '0', '3', '', '1435126599');
-INSERT INTO `bk_permission` VALUES ('65', '1', '1', '2', '测试菜单2', '1', '2', '0', '3', '', '1435126614');
+INSERT INTO `bk_permission` VALUES ('66', '通用功能', '通用功能', '通用功能', '通用功能', '0', '0', '0', '1', '通用功能，一般会开发这些功能给用户。', '1435545336');
+INSERT INTO `bk_permission` VALUES ('67', '用户与权限管理', '用户与权限管理', '用户与权限管理', '用户与权限管理', '1', '1', '0', '2', '包括功能用户管理、用户组管理、功能管理，权限管理。', '1436147892');
+INSERT INTO `bk_permission` VALUES ('68', '系统日志', '系统日志', '系统日志', '系统日志', '1', '1', '0', '2', '主要是各类的系统日志', '1436147908');
+INSERT INTO `bk_permission` VALUES ('69', '文章管理', '文章管理', '文章管理', '文章管理', '1', '34', '0', '2', '文章管理', '1436150232');
 
 -- ----------------------------
 -- Table structure for `bk_search_index`
@@ -869,8 +919,8 @@ CREATE TABLE `bk_users` (
 -- ----------------------------
 -- Records of bk_users
 -- ----------------------------
-INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '4', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '1', '1', '超级用户组', '127.0.0.1', '1435129351');
-INSERT INTO `bk_users` VALUES ('2', 'test', '96e79218965eb72c92a549dd5a330112', '4', 'test', '', '1427273006', '0', '1', '1', '1', '127.0.0.1', '1434523662');
+INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '1', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '12', '1', '超级用户组', '127.0.0.1', '1436156479');
+INSERT INTO `bk_users` VALUES ('2', 'test', 'c4ca4238a0b923820dcc509a6f75849b', '2', 'test', '', '1436169648', '0', '11', '1', '1', '127.0.0.1', '1436170015');
 
 -- ----------------------------
 -- Table structure for `bk_workflow`
@@ -930,7 +980,7 @@ CREATE TABLE `bk_workflow_user` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `workflow_step_id` (`workflow_step_id`) USING BTREE,
   KEY `workflow_id` (`workflow_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_workflow_user
@@ -939,5 +989,5 @@ INSERT INTO `bk_workflow_user` VALUES ('6', '1', '2', '2');
 INSERT INTO `bk_workflow_user` VALUES ('9', '2', '2', '2');
 INSERT INTO `bk_workflow_user` VALUES ('10', '2', '1', '2');
 INSERT INTO `bk_workflow_user` VALUES ('11', '3', '1', '2');
-INSERT INTO `bk_workflow_user` VALUES ('17', '9', '2', '8');
 INSERT INTO `bk_workflow_user` VALUES ('18', '10', '1', '8');
+INSERT INTO `bk_workflow_user` VALUES ('19', '9', '1', '8');
