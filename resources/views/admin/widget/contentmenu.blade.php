@@ -1,4 +1,4 @@
-<?php if( ! empty($contentMenu) and is_array($contentMenu)): ?>
+<?php if( ! empty($contentMenu) and is_array($contentMenu) and count($contentMenu) > 1): ?>
 <?php
 	$mcaName = \App\Services\Admin\MCAManager::MAC_BIND_NAME;
     $MCA = app()->make($mcaName);
