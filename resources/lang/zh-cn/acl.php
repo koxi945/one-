@@ -9,4 +9,5 @@ return array(
     'acl_pid_empty' => '没有选择父级功能！',
     'acl_action_empty' => '函数名为空！',
     'acl_exists' => '该功能已经存在！',
+    'acl_has_son' => '该功能包括子功能，请先删除或移动到别的组！',
 );

@@ -208,6 +208,30 @@ class MCAManager {
     }
 
     /**
+     * 当前请求所对应的三级菜单，这里只考虑三层的情况
+     * 
+     * @param  string $module 模块
+     * @param  string $class  类
+     * @param  string $action 函数
+     * @return true|false
+     */
+    public function matchThirdMenu($module, $class, $action)
+    {
+        $currentMCAInfo = $this->currentMCAInfo();
+        if($currentMCAInfo['level'] == self::MENU_LEVEL_THIRD)
+        {
+            $menuInfo = $currentMCAInfo;
+        }
+        else
+        {
+            $menuInfo = $this->searchMCAMatchMenuLevelForCurrentMCA(self::MENU_LEVEL_THIRD, $currentMCAInfo);
+        }
+        if(empty($menuInfo)) return false;
+        if($module == $menuInfo['module'] and $class == $menuInfo['class'] and $action == $menuInfo['action']) return true;
+        return false;
+    }
+
+    /**
      * 根据当前的请求查找符合要求的权限信息
      * 
      * @param int $level 几级菜单但不是一级菜单

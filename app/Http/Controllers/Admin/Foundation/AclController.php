@@ -29,10 +29,11 @@ class AclController extends Controller
     public function index()
     {
         Session::flashInput(['http_referer' => Request::fullUrl()]);
+        $pid = (int) Request::input('pid', 'all');
         $permissionModel = new PermissionModel();
-        $list = $permissionModel->getAllAccessPermissionByPage();
-        $page = $list->setPath('')->appends(Request::all())->render();
-        return view('admin.acl.index', compact('list', 'page'));
+        $list = $permissionModel->getAllAccessPermission();
+        $list = Tree::genTree($list);
+        return view('admin.acl.index', compact('list', 'pid'));
     }
 
     /**
@@ -82,7 +83,7 @@ class AclController extends Controller
         $id = array_map('intval', $id);
         $manager = new AclActionProcess();
         if($manager->detele($id) !== false) return responseJson(Lang::get('common.action_success'), true);;
-        return Js::error($manager->getErrorMessage());
+        return responseJson($manager->getErrorMessage());
     }
     
     /**
@@ -160,7 +161,7 @@ class AclController extends Controller
         //分菜单来查询
         $pid = intval(Request::input('pid'));
         //取回用户所拥有的权限列表
-        $tree = Tree::genPermissionTree(SC::getUserPermissionSession());
+        $tree = Tree::genTree(SC::getUserPermissionSession());
         //当前用户的权限
         $userAcl = (new AccessModel())->getUserAccessPermission(intval($id));
         $hasPermissions = array();
@@ -215,7 +216,7 @@ class AclController extends Controller
         $pid = intval(Request::input('pid'));
         //取回用户组所拥有的权限列表
         $list = (array) SC::getUserPermissionSession();
-        $tree = Tree::genPermissionTree($list);
+        $tree = Tree::genTree($list);
         //当前所要编辑的用户组的权限，用于标识是否已经勾选
         $groupAcl = (new AccessModel())->getGroupAccessPermission(intval($id));
         $hasPermissions = array();

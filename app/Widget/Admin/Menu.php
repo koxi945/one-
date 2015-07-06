@@ -55,15 +55,14 @@ class Menu
     public function ztreeNode()
     {
         $this->list = SC::getUserPermissionSession();
-        $result = []; $i = 1;
+        $result = [];
         foreach($this->list as $key => $value) {
             if($value['display'] == self::DISABLE_NONE) continue;
             $url = R('common', $value['module'].'.'.$value['class'].'.'.$value['action']);
             if($value['pid'] == 0) $url = 'javascript:;';
             $arr = ['id' => $value['id'], 'pId' => $value['pid'], 'name' => $value['name'], 'url' => $url, 'target' => '_self'];
-            if($i === 1) $arr['open'] = true;
+            $arr['open'] = true;
             $result[] = $arr;
-            $i++;
         }
         return json_encode($result);
     }

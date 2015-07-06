@@ -4,6 +4,9 @@
     <div class="content">
         <?php echo widget('Admin.Menu')->contentMenu(); ?>
         <?php echo widget('Admin.Common')->crumbs('Acl'); ?>
+        <style type="text/css">
+          table.table-striped th, table.table-striped td {background-color:#fff!important;border-bottom-width:1px!important;}
+        </style>
         <div class="main-content">
           <div id="sys-list">
           <form id="aclListForm" target="hiddenwin" method="post" action="<?php echo R('common', 'foundation.acl.'.$router); ?>">
@@ -17,7 +20,6 @@
                   </li>
                   <?php
                       $son = App\Services\Admin\Tree::getSonKey();
-                      $all = array();
                       foreach($tree as $key => $value):
                         if( ! isset($value[$son])) continue;
                                   
@@ -76,9 +78,27 @@
                                   foreach($value2[$son] as $key3 => $value3):
                                     $all[] = $value3['id'];
                           ?>
-                          <div class="group-item">
-                              <input type="checkbox" <?php if(in_array($value3['id'], $hasPermissions)) echo 'checked'; ?> value="<?php echo $value3['id']; ?>" name="permission[]">
-                              <span id="index-index" class="priv"><?php echo $value3['name']; ?></span>
+                          <div class="third-container" id="m<?php echo $value3['id']; ?>">
+                          <div class="j-group-hearder">
+                              <input class="check-self-m<?php echo $value3['id']; ?>" type="checkbox" <?php if(in_array($value3['id'], $hasPermissions)) echo 'checked'; ?> value="<?php echo $value3['id']; ?>" name="permission[]">
+                              <a onclick="$('#h_<?php echo $value3['id']; ?>').click();" class="acl-set-all" href="javascript:;" title="点击我全选">
+                                <?php echo $value3['name']; ?>
+                              </a>
+
+                              <input id="h_<?php echo $value3['id']; ?>" type="checkbox" onclick="selectAllPermission(this, 'm<?php echo $value3['id']; ?>', 'checkbox')" style="display:none;">
+                          </div>
+                          
+                          <?php if(isset($value3[$son])): ?>
+                            <br/><hr class="permission-hr" />
+                            <?php foreach($value3[$son] as $keyf => $valuef): ?>
+                                    <?php $all[] = $valuef['id']; ?>
+                                    <div class="group-item">
+                                        <input type="checkbox" <?php if(in_array($valuef['id'], $hasPermissions)) echo 'checked'; ?> value="<?php echo $valuef['id']; ?>" name="permission[]">
+                                        <span class="priv"><?php echo $valuef['name']; ?></span>
+                                    </div>
+                            <?php endforeach; ?>
+
+                          <?php endif; ?>
                           </div>
                           <?php
                                   endforeach;

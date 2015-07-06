@@ -9,6 +9,28 @@
           <form id="aclListForm" target="hiddenwin" method="post" action="<?php echo R('common', 'foundation.acl.sort');?>">
           <div class="row">
               <div class=" col-md-12">
+                  <div id="featurebar">
+                    <div class="heading">admin : </div>
+                    <ul class="nav">
+                      <li class="active">
+                        <a href="http://admin.opcache.net:8080/foundation-acl-index.html?pid=all">所有权限</a>
+                      </li>
+                      <?php
+                        $son = App\Services\Admin\Tree::getSonKey();
+                        $all = array();
+                        foreach($list as $key => $value):
+                          if( ! isset($value[$son])) continue;
+                                      
+                      ?>
+                            <li class="active">
+                              <a <?php if($pid == $value['id']) echo 'style="background: #ddd; color: #333"'; ?> href="<?php echo R('common', 'foundation.acl.index', ['pid' => $value['id'] ]); ?>"><?php echo $value['name']; ?></a>
+                            </li>
+                      <?php
+                        endforeach;
+                      ?>
+                    </ul>
+                  </div>
+
                   <div class="panel panel-default">
                     <div class="table-responsive">
                       <table class="table table-bordered table-striped">
@@ -23,19 +45,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <?php foreach($list as $key => $value): ?>
-                            <tr>
-                              <td><input type="text" name="sort[<?php echo $value['id']; ?>]" value="<?php echo $value['sort']; ?>" style="width:50px;text-align:center;"></td>
-                              <td><?php echo $value['name']; ?></td>
-                              <td><?php echo $value['module'].'-'.$value['class'].'-'.$value['action']; ?></td>
-                              <td><?php echo $value['display'] == 1 ? '<i class="fa fa-check" style="color:green;"></i>' : '<i class="fa fa-times" style="color:red;"></i>'; ?></td>
-                              <td><?php echo $value['mark']; ?></td>
-                              <td>
-                                <?php echo widget('Admin.Acl')->edit($value); ?>
-                                <?php echo widget('Admin.Acl')->delete($value); ?>
-                              </td>
-                            </tr>
-                          <?php endforeach; ?>
+                          <?php echo widget('Admin.Acl')->acllist($list, $pid); ?>
                         </tbody>
                       </table>
                       </div>
@@ -44,7 +54,6 @@
           </div>
           <?php echo widget('Admin.Acl')->sort(); ?>
           </form>
-          <?php echo $page; ?>
           </div>
           <?php echo widget('Admin.Common')->footer(); ?>
         </div>

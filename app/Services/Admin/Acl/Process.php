@@ -75,6 +75,7 @@ class Process extends BaseProcess
     public function detele($ids)
     {
         if( ! is_array($ids)) return false;
+        if($this->permissionModel->getSon($ids)) return $this->setErrorMsg(Lang::get('acl.acl_has_son'));
         if($this->permissionModel->deletePermission($ids) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }

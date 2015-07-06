@@ -112,5 +112,15 @@ class Permission extends Base
         if( ! $checkSelf) $search->where('id', '!=', intval($selfId));
         return $search->first();
     }
+
+    /**
+     * 查找指定ID的子项目
+     * 
+     * @return array
+     */
+    public function getSon($ids)
+    {
+        return $this->whereIn('pid', $ids)->get()->toArray();
+    }
     
 }

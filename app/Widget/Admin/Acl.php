@@ -71,4 +71,40 @@ class Acl extends AbstractBase
         return $html;
     }
 
+    /**
+     * 子项目用到的key
+     * 
+     * @var string
+     */
+    private $son;
+
+    /**
+     * 递归select中的option下拉表单，用于权限增加和编辑
+     * 
+     * @param  array $datas 数据源
+     * @param  mixed $prefix 下拉表单的线，只能传false
+     * @return html 返回组装好的option代码
+     */
+    public function acllist(array $datas, $pid, $prefix = false)
+    {
+        $html = '';
+
+        if( ! $this->son) $this->son = \App\Services\Admin\Tree::getSonKey();
+        
+        foreach($datas as $key => $value)
+        {
+            if($prefix === false)
+            {
+                if($pid != $value['id'] && $pid != 'all') continue;
+            }
+            $line = ($prefix === false ? '' : $prefix).'┆┄┄┄';
+            $html .= view('admin.acl.list', compact('value', 'prefix'));
+            if(isset($value[$this->son]) && is_array($value[$this->son]))
+            {
+                $html .= $this->acllist($value[$this->son], $pid, $line);
+            }
+        }
+        return $html;
+    }
+
 }

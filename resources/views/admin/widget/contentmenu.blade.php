@@ -1,9 +1,23 @@
 <?php if( ! empty($contentMenu) and is_array($contentMenu)): ?>
+<?php
+	$mcaName = \App\Services\Admin\MCAManager::MAC_BIND_NAME;
+    $MCA = app()->make($mcaName);
+?>
 <div class="content-menu">
-	<?php foreach($contentMenu as $key => $value): ?>
-	<?php $urlParam = $value['module'] .'.'. $value['class'] .'.'. $value['action']; ?>
-	<?php $arrData[] = '<a href="'.R('common', $urlParam).'" style="color:#333;">'.$value['name'].'</a>'; ?>
-	<?php endforeach; ?>
-	<?php if(isset($arrData) and is_array($arrData)) echo implode('&nbsp;&nbsp;|&nbsp;&nbsp;', $arrData); ?>
+    <div class="btn-group" role="group" aria-label="...">
+        <?php foreach($contentMenu as $key => $value): ?>
+        <?php $urlParam = $value['module'] .'.'. $value['class'] .'.'. $value['action']; ?>
+        <?php $checkThird = $MCA->matchThirdMenu($value['module'], $value['class'], $value['action']); ?>
+        <?php
+        	$style = '';
+        	if($checkThird)
+        	{
+        		$style = 'background-color:#ebebeb; color:#333;';
+        	}
+        ?>
+        <?php $arrData[] = '<button style="'.$style.'" type="button" class="btn btn-default content-menu-button" data-href="'.R('common', $urlParam).'" >'.$value['name'].'</button>'; ?>
+        <?php endforeach; ?>
+        <?php if(isset($arrData) and is_array($arrData)) echo implode('', $arrData); ?>
+    </div>
 </div>
 <?php endif; ?>

@@ -20,9 +20,15 @@
                         <ul class="dashboard-menu-<?php echo $key;?> nav nav-list collapse <?php if($checkFirst or $lessThenThree) echo 'in'; ?>">
                             <?php foreach($value[$son] as $skey => $svalue): ?>
                                 <?php $checkSecond = $MCA->matchSecondMenu($svalue['module'], $svalue['class'], $svalue['action']); ?>
-                                <?php $urlParam = $svalue['module'] .'.'. $svalue['class'] .'.'. $svalue['action']; ?>
+
+                                <?php $url = R('common', $svalue['module'] .'.'. $svalue['class'] .'.'. $svalue['action']); ?>
+                                <?php if(isset($svalue[$son]) && is_array($svalue[$son]) && !empty($svalue[$son])): ?>
+                                    <?php $randomThreeMenu = current($svalue[$son]); ?>
+                                    <?php $url = R('common', $randomThreeMenu['module'] .'.'. $randomThreeMenu['class'] .'.'. $randomThreeMenu['action']); ?>
+                                <?php endif; ?>
+                                
                                 <li <?php if($checkSecond): ?>style="border-left:4px solid #8989a6;overflow:hidden;"<?php endif; ?>>
-                                    <a data-sid="<?php echo $skey;?>" data-pid="<?php echo $key;?>" data-href="<?php echo R('common', $urlParam); ?>" href="javascript:;" class="nav-sub-menu" <?php if($checkSecond): ?>style="background:#d2d2dd;margin-left:-4px"<?php endif; ?>>
+                                    <a href="<?php echo $url; ?>" class="nav-sub-menu" <?php if($checkSecond): ?>style="background:#d2d2dd;margin-left:-4px"<?php endif; ?>>
                                         <span class="fa fa-caret-right"></span> <?php echo $svalue['name']; ?>
                                     </a>
                                 </li>
@@ -44,11 +50,10 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        $(document).on('click', '.nav-sub-menu', function(){
-            var nav_pid = $(this).attr('data-pid');
-            var nav_sid = $(this).attr('data-sid');
+        $(document).on('click', '.content-menu-button', function(){
             var nav_href = $(this).attr('data-href');
             window.location.href = nav_href;
         });
+        
     });
 </script>
