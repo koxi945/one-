@@ -47,17 +47,6 @@ function setformSubmitButton() {
         return false;
     });
 
-    //ajax submit
-    var __old_ajax_btn_submit_str = $('.sys-ajax-btn-submit').find('.sys-btn-submit-str').html();
-    $(document).bind('ajaxStart', '.sys-ajax-btn-submit',function(){
-        var loading = $('.sys-ajax-btn-submit').attr('data-loading') || 'loading...';
-        $('.sys-ajax-btn-submit').find('.sys-btn-submit-str').html(loading);
-        $('.sys-ajax-btn-submit').attr('disabled', 'disabled');
-    }).bind('ajaxComplete', '.sys-ajax-btn-submit',function(){
-        $('.sys-ajax-btn-submit').removeAttr('disabled');
-        $('.sys-ajax-btn-submit').find('.sys-btn-submit-str').html(__old_ajax_btn_submit_str);
-    });
-
 }
 
 /**
@@ -223,6 +212,36 @@ function changeLeftMenuHeight() {
     divContent.css('min-height', winHeight);
     var contentHeight = divContent.height();
     $('div.sidebar-nav').css('min-height', contentHeight+15);
+}
+
+/**
+ * 简单的a标签ajax提交
+ * @param {string} url       所要提交的地址
+ * @param {object} paramObj  传递的参数
+ * @param {string} ajaxType  post|get
+ * @param {object} selectObj 当前按钮的选择器
+ */
+function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj) {
+    //ajax submit
+    var _oldstr = selectObj.find('.sys-btn-submit-str').html();
+    $.ajax({
+        type: ajaxType, 
+        url: url,
+        data: paramObj,
+        dataType: 'json',
+        success:  function(data) {
+            alertNotic(data.message);
+        },
+        beforeSend: function() {
+            var loading = selectObj.attr('data-loading') || 'loading...';
+            selectObj.find('.sys-btn-submit-str').html(loading);
+            selectObj.attr('disabled', 'disabled');
+        },
+        complete: function() {
+            selectObj.removeAttr('disabled');
+            selectObj.find('.sys-btn-submit-str').html(_oldstr);
+        }
+    });
 }
 
 $(document).ready(function(){
