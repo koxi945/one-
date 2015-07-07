@@ -1,15 +1,96 @@
 # laravel5 后台基础系统
 
-这是一个基于laravel 5.1框架的后台基础系统
+这是一个基于laravel 5.1框架的后台基础系统，**不定期更新**，如果你有好的idea，欢迎email我：mylampblog@163.com
 
-一、如何安装
+**适用对象：**
+
+* phper
+* 正在使用laravel5.1或正在学习它的朋友
+* 相信php是世界上最好的语言（梗）
+
+一、功能说明
+--------------------------
+
+主要包括：
+
+* 登录验证
+* 用户（组）管理
+* 用户（组）权限
+* 功能管理（同是也是后台菜单来源）
+* 系统日志
+* 文件上传
+* 工作流
+* 目前还附加了简单的blog功能
+
+可以快速基于此系统进行laravel5的快速开发，免去每次都写一次后台基础的痛苦
+
+**1、用户组的层级关系**
+
+用户（组）的管理有等级的层级关系，底等级的或评级的用户是无法修改高等级的用户（组）信息。
+
+**2、权限给予**
+
+对用户进行权限给予的时候只能给予自己所拥有的权限。
+
+**3、关于工作流**
+
+工作流暴露给外面的接口主要有：
+
+* App\Services\Admin\Workflow\Check::checkAcl();
+* App\Services\Admin\Workflow\Check::getComfirmStatus();
+
+在使用前请先在**工作流管理**中进行设置
+
+使用demo
+
+	$check = new \App\Services\Admin\Workflow\Check();
+	//检测有没有权限
+	//W_sdfg代表的是工作流管理中的调用代码
+	//第二个参数代表得是当前的审核的值
+	//一般来说或有一个字段来保存这个值，进行判断的时候拿出来，传到第二个参数即可
+	$is = $check->checkAcl('W_sdfg', [0]);
+	//如果有权限，会返回true，反之false
+	var_dump($is);
+	//下一步所要设置的信息
+	//参数和上面的一个意思，只不过第二个参数不是array
+	$next = $check->getComfirmStatus('W_sdfg', 1);
+	//返回
+	// <code>
+    //     $result = ['is_final' => false, 'status' => 2];
+    // </code
+
+    //is_final代表是不是到了最终一步了，status是这一步要设置的值，如果是最后一步，值为99
+	var_dump($next);
+
+**4、日志**
+
+只需在你想使用日志记录的时候，手动调用
+
+	$this->setActionLog(['groupInfos' => $groupInfos]);
+
+这里可以传入一个参数。
+
+具体的实现则在app/services/admin/actionlog/中，里面的命名规则为
+
+	$logNamespace = '\\App\\Services\\Admin\\ActionLog\\';
+    $manager = $logNamespace.$module.'\\'.$class.'\\'.$action;
+
+ 里面的实现必须继承
+
+ 	App\Services\Admin\AbstractActionLog
+
+ **5、博客**
+
+ 博客只实现了发布以评论。
+
+二、如何安装
 --------------------------
 
 1、建立数据库名为：mrblog
 
 2、把包目录下的mrblog.sql导到库mrblog中。
 
-3、修改包目录下的.env文件，修改数据库连接为你的信息。
+3、复制doc/.env文件到根目录下，修改数据库连接为你的信息。
 
 4、默认使用的域名为admin.opcache.net和www.opcache.net，如果你需要修改，那么修改文件
 
@@ -25,19 +106,36 @@
 
 5、配置你的域名并指向目录public
 
-6、自行安装与配置sphinx（如果你使用blog的搜索功能的话），下面是建议的配置
 
-    doc/sphinx.conf
-
-二、需要的一些扩展（如果你使用blog的搜索功能的话）
+三、额外的
 --------------------------------
-* sphinx 主要用于博客的搜索
 
-三、需要的环境要求
+如果你使用blog的搜索功能的话，你需要安装php扩展sphinx，同时安装sphinx服务
+
+* sphinx 主要用于博客的搜索
+* 自行安装与配置sphinx（如果你使用blog的搜索功能的话），这是建议的配置 doc/sphinx.conf
+
+在mrblog.sql文件里面也有相关文章，安装后再内容管理中可以查看。
+
+四、需要的环境要求
 ---------------------------------
 至少满足laravel 5.1框架的要求。
 
-四、一点预览
+五、更新日志
+------------------------------------
+
+**release/v0.1.0.20150707**
+
+* 登录验证
+* 用户（组）管理
+* 用户（组）权限
+* 功能管理（同是也是后台菜单来源）
+* 系统日志
+* 文件上传
+* 工作流
+* 目前还附加了简单的blog功能
+
+六、一点预览
 ------------------------------------
 
 ![enter image description here](http://static.oschina.net/uploads/space/2015/0707/125515_Kdi6_1777357.png)
@@ -53,20 +151,3 @@
 ![enter image description here](http://static.oschina.net/uploads/space/2015/0707/125517_c5sd_1777357.png)
 
 ![enter image description here](http://static.oschina.net/uploads/space/2015/0707/125517_D1Ra_1777357.png)
-
-五、说明
-------------------------------------
-其实本来是想做一个自己用的blog的，但是时间有限，做得更多的是系统的一些基本的东西。所以就是这样咯。
-
-基于laravel 5 框架的后台基础系统。包括登录验证、用户管理，修改密码，用户权限，用户组权限，功能管理，系统日志，文件上传、工作流。目前还附加了简单的blog功能。可以快速基于此系统进行laravel5的快速开发，免去每次都写一次后台基础的痛苦。
-
-关于用户组权限这一块，其实是有层级关系的，也就是建立用户组的时候的“用户组等级”，这样用户组等级低的用户是不能修改等级高的用户组信息或用户信息的。
-
-关于给用户或用户组权限的时候，有一点要注意的是，只能给自己所拥有的权限。
-
-关于工作流的应用，可以在app/http/admin/foundation/indexController.php中可以看到。
-
-关于系统日志，其实只需要在业务逻辑里手动开启，实现是在另外的地方实现的，当前这个实现需要你自己来写（其实改变的只是所要记录的字符串而已）。
-
-至于博客的功能，目前还是比较简单的，只是发表和展示以及评论的功能。当然你需要的话可以基于此进行扩展。
-
