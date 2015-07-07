@@ -9,129 +9,72 @@
         </style>
         <div class="main-content">
           <div id="sys-list">
-          <form id="aclListForm" target="hiddenwin" method="post" action="<?php echo R('common', 'foundation.acl.'.$router); ?>">
           <div class="row">
             <div class=" col-md-12">
               <div id="featurebar">
-                <div class="heading"><?php echo isset($info['name']) ? $info['name'] : ''; ?><?php echo isset($info['group_name']) ? $info['group_name'] : ''; ?> : </div>
-                <ul class="nav">
-                  <li class="active">
-                    <a href="<?php echo R('common', 'foundation.acl.'.$router, ['id' => url_param_encode($id)]); ?>">所有权限</a>
-                  </li>
-                  <?php
-                      $son = App\Services\Admin\Tree::getSonKey();
-                      foreach($tree as $key => $value):
-                        if( ! isset($value[$son])) continue;
-                                  
-                  ?>
-                  <li class="active">
-                    <a href="<?php echo R('common', 'foundation.acl.'.$router, ['id' => url_param_encode($id), 'pid' => $value['id'] ]); ?>"><?php echo $value['name']; ?></a>
-                  </li>
-                  <?php
-                      endforeach;
-                  ?>
-                </ul>
+                <div class="heading">设置权限 : <?php echo isset($info['name']) ? $info['name'] : ''; ?><?php echo isset($info['group_name']) ? $info['group_name'] : ''; ?></div>
               </div>
-                <table class="table table-striped table-bordered table-form "> 
-                  <thead>
-                    <tr>
-                      <th colspan="2" class="bg-w">选项</th>
-                      <th class="bg-w" width="70%">配置</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  
-                  <!-- begin -->
-                  <?php
-                      $all = array();
-                      foreach($tree as $key => $value):
-                          if( ! isset($value[$son]) or ($pid && $value['id'] != $pid)) continue;
-                              $all[] = $value['id'];
-                              $count = count($value[$son]);
-                              $mark = 0;
-                              foreach($value[$son] as $key2 => $value2):
-                                $all[] = $value2['id'];
-                                  
-                  ?>
-                  <tr class="even" id="m<?php echo $value['id']; ?>">
-                      <?php if($mark == 0): ?>
-                      <th class="text-right w-100px bg-w" rowspan="<?php echo $count;?>">
-                          <!-- b -->
-                          <a onclick="$('#h_<?php echo $value['id']; ?>').click();" class="acl-set-all" href="javascript:;" title="点击我全选"><?php echo $value['name']; ?></a>
-                          <input id="h_<?php echo $value['id']; ?>" type="checkbox" onclick="selectAllPermission(this, 'm<?php echo $value['id']; ?>', 'checkbox')" style="display:none;" />
-                          <!-- e -->
-                          
-                          <input type="checkbox" <?php if(in_array($value['id'], $hasPermissions)) echo 'checked'; ?>  value="<?php echo $value['id']; ?>" name="permission[]">
-                      </th>
-                      <?php endif; ?>
-                      <td class="pv-10px w-130px bg-w" style="padding-left:10px;line-height: 30px;">
-                          <!-- b -->
-                          <a onclick="$('#h_<?php echo $value2['id']; ?>').click();" class="acl-set-all" href="javascript:;" title="点击我全选"><?php echo $value2['name']; ?></a>
-                          <input class="check-self-m<?php echo $value2['id']; ?>" type="checkbox" <?php if(in_array($value2['id'], $hasPermissions)) echo 'checked'; ?>  value="<?php echo $value2['id']; ?>" name="permission[]" style="float:right;">
-                          <!-- e -->
-                          
-                          <input id="h_<?php echo $value2['id']; ?>" type="checkbox" onclick="selectAllPermission(this, 'm<?php echo $value2['id']; ?>', 'checkbox')" style="display:none;">
-                      </td>
-                      <td class="pv-10px" id="m<?php echo $value2['id']; ?>">
-                          <?php
-                              if(isset($value2[$son])):
-                                  foreach($value2[$son] as $key3 => $value3):
-                                    $all[] = $value3['id'];
-                          ?>
-                          <div class="third-container" id="m<?php echo $value3['id']; ?>">
-                          <div class="j-group-hearder">
-                              <input class="check-self-m<?php echo $value3['id']; ?>" type="checkbox" <?php if(in_array($value3['id'], $hasPermissions)) echo 'checked'; ?> value="<?php echo $value3['id']; ?>" name="permission[]">
-                              <a onclick="$('#h_<?php echo $value3['id']; ?>').click();" class="acl-set-all" href="javascript:;" title="点击我全选">
-                                <?php echo $value3['name']; ?>
-                              </a>
+              <?php
+                $zTree_Node = json_encode($zTree);
+              ?>
+              <div id="zTree-container" class="ztree"></div>
+              <script type="text/javascript">
+                var __zTree_Node = <?php echo $zTree_Node; ?>;
+                var __setting = {
+                  check: {
+                    enable: true,
+                    chkboxType: { "Y" : "p", "N" : "ps" }
+                  },
+                  data: {
+                    simpleData: {
+                      enable: true
+                    }
+                  }
+                };
+                $(document).ready(function(){
 
-                              <input id="h_<?php echo $value3['id']; ?>" type="checkbox" onclick="selectAllPermission(this, 'm<?php echo $value3['id']; ?>', 'checkbox')" style="display:none;">
-                          </div>
-                          
-                          <?php if(isset($value3[$son])): ?>
-                            <br/><hr class="permission-hr" />
-                            <?php foreach($value3[$son] as $keyf => $valuef): ?>
-                                    <?php $all[] = $valuef['id']; ?>
-                                    <div class="group-item">
-                                        <input type="checkbox" <?php if(in_array($valuef['id'], $hasPermissions)) echo 'checked'; ?> value="<?php echo $valuef['id']; ?>" name="permission[]">
-                                        <span class="priv"><?php echo $valuef['name']; ?></span>
-                                    </div>
-                            <?php endforeach; ?>
+                  $.fn.zTree.init($("#zTree-container"), __setting, __zTree_Node);
 
-                          <?php endif; ?>
-                          </div>
-                          <?php
-                                  endforeach;
-                              endif;
-                          ?>
-                      </td>
-                  </tr>
-                  
-                  <?php
-                              $mark++;
-                          endforeach;
-                      endforeach;
-                  ?>
-                  <!-- end --> 
-                  
-                  <tr>
-                    <th class="text-right bg-w" colspan="2">全选
-                    <input type="checkbox" onclick="selectAllPermission(this, '', 'checkbox')" >
-                    </th>
-                    <td>
-                      <a class="btn btn-primary sys-btn-submit" data-loading="保存中..." ><i class="fa fa-save"></i> <span class="sys-btn-submit-str">保存</span></a>
-                      <button class="btn btn-default" onclick="javascript:history.go(-1);" type="button">返回</button>
-                      <input type="hidden" name="id" value="<?php echo $id;?>" />
-                      <input type="hidden" name="all" value="<?php echo implode(',', $all); ?>" />
-                      <input type="hidden" name="_form_hash" value="<?php echo form_hash([ 'id' => $id, 'all' => implode(',', $all) ]); ?>" />
-                    </td>
-                  </tr>
-                              
-                </tbody>
-              </table>
+                  //获取所有选中节点的值
+                  function getCheckedAll() {
+                      var treeObj = $.fn.zTree.getZTreeObj("zTree-container");
+                      var nodes = treeObj.getCheckedNodes(true);
+                      var checkNodes = new Array();
+                      for (var i = 0; i < nodes.length; i++) {
+                          checkNodes.push(nodes[i].id);
+                      }
+                      return checkNodes;
+                  }
+
+                  //save
+                  $('.sys-ajax-btn-submit').click(function(){
+                    var _url = '<?php echo R('common', 'foundation.acl.'.$router); ?>';
+                    var _id = $('input[name="id"]').val();
+                    var _all = $('input[name="all"]').val();
+                    var _form_hash = $('input[name="_form_hash"]').val();
+                    var _nodes = getCheckedAll();
+                    $.ajax({
+                      type: 'POST', 
+                      url: _url,
+                      data: {permission:_nodes, id:_id, all:_all, _form_hash:_form_hash},
+                      dataType: 'json',
+                      success:  function(data) {
+                        alertNotic(data.message);
+                      }
+                    });
+                  });
+
+                });
+              </script>
+              <div class="btn-toolbar list-toolbar">
+                <a class="btn btn-primary sys-ajax-btn-submit" data-loading="保存中..." ><i class="fa fa-save"></i> <span class="sys-btn-submit-str">保存</span></a>
+                <button class="btn btn-default" onclick="javascript:history.go(-1);" type="button">返回</button>
+                <input type="hidden" name="id" value="<?php echo $id;?>" />
+                <input type="hidden" name="all" value="<?php echo implode(',', $all); ?>" />
+                <input type="hidden" name="_form_hash" value="<?php echo form_hash([ 'id' => $id, 'all' => implode(',', $all) ]); ?>" />
+              </div>
             </div>
           </div>
-          </form>
           </div>
           <?php echo widget('Admin.Common')->footer(); ?>
         </div>

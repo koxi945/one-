@@ -158,10 +158,10 @@ class AclController extends Controller
         $info = (new UserModel())->getOneUserById(intval($id));
         if(empty($info)) return Js::error(Lang::get('common.illegal_operation'), true);
         if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'), true);
-        //分菜单来查询
-        $pid = intval(Request::input('pid'));
+
         //取回用户所拥有的权限列表
-        $tree = Tree::genTree(SC::getUserPermissionSession());
+        $list = SC::getUserPermissionSession();
+
         //当前用户的权限
         $userAcl = (new AccessModel())->getUserAccessPermission(intval($id));
         $hasPermissions = array();
@@ -169,9 +169,20 @@ class AclController extends Controller
         {
             $hasPermissions[] = $value['permission_id'];
         }
+
+        //为ztree做数据准备
+        $zTree = []; $all = [];
+        foreach($list as $key => $value)
+        {
+            $arr = ['id' => $value['id'], 'pId' => $value['pid'], 'name' => $value['name'], 'open' => true];
+            if(in_array($value['id'], $hasPermissions)) $arr['checked'] = true;
+            $zTree[] = $arr;
+            $all[] = $value['id'];
+        }
+
         $router = 'user';
         return view('admin.acl.setpermission',
-            compact('tree', 'hasPermissions', 'id', 'info', 'pid', 'router')
+            compact('zTree', 'id', 'info', 'router', 'all')
         );
     }
 
@@ -186,7 +197,7 @@ class AclController extends Controller
         $permissions = (array) Request::input('permission');
         $id = Request::input('id');
         $all = Request::input('all');
-        if( ! $id or ! is_numeric($id) or ! $all) return Js::error(Lang::get('common.illegal_operation'));
+        if( ! $id or ! is_numeric($id) or ! $all) return responseJson(Lang::get('common.illegal_operation'));
         $params = new \App\Services\Admin\Acl\Param\AclSet();
         $params->setPermission($permissions)->setAll($all)->setId($id);
         $manager = new AclActionProcess();
@@ -194,9 +205,9 @@ class AclController extends Controller
         if($result)
         {
             $this->setActionLog();
-            return Js::error(Lang::get('common.action_success'));
+            return responseJson(Lang::get('common.action_success'));
         }
-        return Js::error($manager->getErrorMessage());
+        return responseJson($manager->getErrorMessage());
     }
     
     /**
@@ -212,11 +223,10 @@ class AclController extends Controller
         $info = (new GroupModel())->getOneGroupById(intval($id));
         if(empty($info)) return Js::error(Lang::get('common.illegal_operation'), true);
         if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'), true);
-        //分菜单来查询
-        $pid = intval(Request::input('pid'));
+        
         //取回用户组所拥有的权限列表
         $list = (array) SC::getUserPermissionSession();
-        $tree = Tree::genTree($list);
+
         //当前所要编辑的用户组的权限，用于标识是否已经勾选
         $groupAcl = (new AccessModel())->getGroupAccessPermission(intval($id));
         $hasPermissions = array();
@@ -224,9 +234,20 @@ class AclController extends Controller
         {
             $hasPermissions[] = $value['permission_id'];
         }
+
+        //为ztree做数据准备
+        $zTree = []; $all = [];
+        foreach($list as $key => $value)
+        {
+            $arr = ['id' => $value['id'], 'pId' => $value['pid'], 'name' => $value['name'], 'open' => true];
+            if(in_array($value['id'], $hasPermissions)) $arr['checked'] = true;
+            $zTree[] = $arr;
+            $all[] = $value['id'];
+        }
+
         $router = 'group';
         return view('admin.acl.setpermission',
-            compact('tree', 'hasPermissions', 'id', 'info', 'pid', 'router')
+            compact('zTree', 'id', 'info', 'router', 'all')
         );
     }
 
@@ -241,8 +262,8 @@ class AclController extends Controller
         $permissions = (array) Request::input('permission');
         $id = Request::input('id');
         $all = Request::input('all');
-        if( ! $id or ! is_numeric($id) or ! $all) return Js::error(Lang::get('common.illegal_operation'));
-        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'));
+        if( ! $id or ! is_numeric($id) or ! $all) return responseJson(Lang::get('common.illegal_operation'));
+        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return responseJson(Lang::get('common.account_level_deny'));
         $params = new \App\Services\Admin\Acl\Param\AclSet();
         $params->setPermission($permissions)->setAll($all)->setId($id);
         $manager = new AclActionProcess();
@@ -250,9 +271,9 @@ class AclController extends Controller
         if($result)
         {
             $this->setActionLog();
-            return Js::error(Lang::get('common.action_success'));
+            return responseJson(Lang::get('common.action_success'));
         }
-        return Js::error($manager->getErrorMessage());
+        return responseJson($manager->getErrorMessage());
     }
 
 }

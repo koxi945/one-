@@ -4,7 +4,7 @@
  * @return void
  */
 function setformSubmitButton() {
-    //模拟submit
+    //form submit
     $(document).on('click', '.sys-btn-submit', function () {
         var isClick = false;
         var sysBtnSubmitObject = $(this);
@@ -15,12 +15,18 @@ function setformSubmitButton() {
 
         //处理表单提交
         if( ! has_Object_Form_Init) {
-            sysBtnSubmitObject.closest('form').submit(function(){
+
+            function initLoding() {
                 var loading = sysBtnSubmitObject.attr('data-loading') || 'loading...';
                 sysBtnSubmitObject.find('.sys-btn-submit-str').html(loading);
                 sysBtnSubmitObject.attr('disabled', 'disabled');
+            }
+
+            sysBtnSubmitObject.closest('form').submit(function(){
+                initLoding();
                 isClick = true;
             });
+
             sysBtnSubmitObject.data('form-init', true);
         }
 
@@ -40,7 +46,18 @@ function setformSubmitButton() {
 
         return false;
     });
-    
+
+    //ajax submit
+    var __old_ajax_btn_submit_str = $('.sys-ajax-btn-submit').find('.sys-btn-submit-str').html();
+    $(document).bind('ajaxStart', '.sys-ajax-btn-submit',function(){
+        var loading = $('.sys-ajax-btn-submit').attr('data-loading') || 'loading...';
+        $('.sys-ajax-btn-submit').find('.sys-btn-submit-str').html(loading);
+        $('.sys-ajax-btn-submit').attr('disabled', 'disabled');
+    }).bind('ajaxComplete', '.sys-ajax-btn-submit',function(){
+        $('.sys-ajax-btn-submit').removeAttr('disabled');
+        $('.sys-ajax-btn-submit').find('.sys-btn-submit-str').html(__old_ajax_btn_submit_str);
+    });
+
 }
 
 /**
@@ -143,37 +160,6 @@ function loading() {
  */
 function unloading() {
     $.unblockUI();
-}
-
-/**
- * 权限给予页面专用的批量选择函数
- *
- * @return {void}
- */
-function selectAllPermission(checker, scope, type) { 
-    if(scope) {
-        if(type == 'button') {
-            $('#' + scope + ' input').each(function() {
-                $(this).prop("checked", true)
-            });
-        }
-        else if(type == 'checkbox') {
-            $('#' + scope + ' input').each(function() {
-                $(this).prop("checked", checker.checked)
-            });
-            $('.check-self-'+scope).prop("checked", checker.checked);
-         }
-    } else {
-        if(type == 'button') {
-            $('input:checkbox').each(function() {
-                $(this).prop("checked", true)
-            });
-        } else if(type == 'checkbox') { 
-            $('input:checkbox').each(function() {
-                $(this).prop("checked", checker.checked)
-            });
-        }
-    }
 }
 
 /**
