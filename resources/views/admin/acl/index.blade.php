@@ -10,7 +10,6 @@
           <div class="row">
               <div class=" col-md-12">
                   <div id="featurebar">
-                    <div class="heading">admin : </div>
                     <ul class="nav">
                       <li class="active">
                         <a href="http://admin.opcache.net:8080/foundation-acl-index.html?pid=all">所有权限</a>
