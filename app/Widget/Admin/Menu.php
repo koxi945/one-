@@ -57,14 +57,28 @@ class Menu
         $this->list = SC::getUserPermissionSession();
         $result = [];
         foreach($this->list as $key => $value) {
-            if($value['display'] == self::DISABLE_NONE) continue;
+            if($value['display'] == self::DISABLE_NONE or $value['level'] == 4) continue;
             $url = R('common', $value['module'].'.'.$value['class'].'.'.$value['action']);
-            if($value['pid'] == 0) $url = 'javascript:;';
+            if($value['pid'] == 0 or $this->isSecondFatherNode($value)) $url = 'javascript:;';
             $arr = ['id' => $value['id'], 'pId' => $value['pid'], 'name' => $value['name'], 'url' => $url, 'target' => '_self'];
             $arr['open'] = true;
             $result[] = $arr;
         }
         return json_encode($result);
+    }
+
+    /**
+     * 是不是第二级父菜单
+     * 
+     * @return boolean
+     */
+    private function isSecondFatherNode($currentNode)
+    {
+        if($currentNode['level'] != 2) return false;
+        foreach($this->list as $key => $value) {
+            if($value['pid'] == $currentNode['id']) return true;
+        }
+        return false;
     }
 
     /**
