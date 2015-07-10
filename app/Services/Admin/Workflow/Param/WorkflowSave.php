@@ -19,4 +19,6 @@ class WorkflowSave extends AbstractParam
 
     protected $code;
 
+    protected $type;
+
 }

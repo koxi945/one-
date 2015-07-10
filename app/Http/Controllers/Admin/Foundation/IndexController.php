@@ -33,11 +33,14 @@ class IndexController extends Controller
     {
         $check = new \App\Services\Admin\Workflow\Check();
         //检测有没有权限
-        $is = $check->checkAcl('W_sdfg', [0]);
+        $is = $check->checkAcl('W_sdfg', [2]);
         var_dump($is);
         //下一步所要设置的信息
         $next = $check->getComfirmStatus('W_sdfg', 1);
         var_dump($next);
+
+        $checkStep = $check->checkStepAcl('W_fu', 'W_fuus');
+        var_dump($checkStep);
     }
 
 }

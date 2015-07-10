@@ -72,21 +72,33 @@ class Check extends BaseProcess
      */
     public function checkAcl($code, $status = [])
     {
-        if( ! is_array($status)) return false;
+        if( ! is_array($status) or ! is_string($code)) return false;
         $userInfo = SC::getLoginSession();
-        //为了避免多次查询的情况，先把它缓存起来，但要注意的系不要重新实例化，widget()方法是不会重新实例化的
-        if( ! isset($this->userWorkflow[$code])) $this->userWorkflow[$code] = $this->workflowModel->getCurrentUserWorkflow($userInfo->id, $code);
+        if( ! isset($this->userWorkflow[$code])) $this->userWorkflow[$code] = $this->workflowModel->getCurrentUserWorkflowLevel($userInfo->id, $code);
+        $this->getFinalLevel($code);
         $isCheck = false;
         foreach($status as $s)
         {
             if($s == self::DEFAULT_STATUS) $s = self::DEFAULT_STATUS_REPLACE;
-            if(in_array($s, $this->userWorkflow[$code]))
+            if(in_array($s, $this->userWorkflow[$code]) or $this->otherness($s) )
             {
                 $isCheck = true;
                 break;
             }
         }
         return $isCheck;
+    }
+
+    /**
+     * 检测工作流的步骤是否有修改过，且步骤少于之前的。
+     *
+     * 需要注意的是如果你修改过工作流的步骤，无论如何请保持它们的连续性，即按照第一步，第二步，第三步……的顺序
+     * 
+     * @return boolean
+     */
+    private function otherness($currentStatus)
+    {
+        return ($currentStatus > $this->finalLevel and $currentStatus != self::DEFAULT_STATUS_FINAL_PASS);
     }
 
     /**
@@ -103,6 +115,7 @@ class Check extends BaseProcess
      */
     public function getComfirmStatus($code, $currentStatus)
     {
+        if( ! is_numeric($currentStatus) or ! is_string($code)) return false;
         if($this->isFinal($code, $currentStatus)) return ['is_final' => true, 'status' => self::DEFAULT_STATUS_FINAL_PASS];
         if($currentStatus == self::DEFAULT_STATUS) $currentStatus = self::DEFAULT_STATUS_REPLACE;
         return ['is_final' => false, 'status' => ++$currentStatus];
@@ -115,8 +128,30 @@ class Check extends BaseProcess
      */
     private function isFinal($code, $currentStatus)
     {
+        $this->getFinalLevel($code);
+        return $this->finalLevel <= $currentStatus;
+    }
+
+    /**
+     * 取得最后一步的step_level值
+     */
+    private function getFinalLevel($code)
+    {
         if( ! isset($this->finalLevel)) $this->finalLevel = $this->workflowModel->worflowFinalLevel($code);
-        return $this->finalLevel == $currentStatus;
+    }
+
+    /**
+     * 检测指定的工作流的指定的步骤是否有权限
+     * 
+     * @return true|false
+     */
+    public function checkStepAcl($workflowCode, $workflowStepCode)
+    {
+        if( ! is_string($workflowCode) or ! is_string($workflowStepCode)) return false;
+        $key = md5($workflowCode.$workflowStepCode);
+        $userInfo = SC::getLoginSession();
+        if( ! isset($this->userWorkflow[$key])) $this->userWorkflow[$key] = $this->workflowModel->getCurrentUserWorkflowStep($userInfo->id, $workflowCode, $workflowStepCode);
+        return ! empty($this->userWorkflow[$key]);
     }
 
 }

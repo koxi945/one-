@@ -10,4 +10,5 @@ return array(
     'relation_user_empty' => '关联用户没有选择',
     'code_exists' => '调用代码已存在',
     'workflow_code_empty' => '调用代码没有填写',
+    'workflow_type_empty' => '工作流类型没有填写',
 );

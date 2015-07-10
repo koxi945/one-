@@ -21,7 +21,7 @@ class WorkflowStep extends Base
      *
      * @var string
      */
-    protected $fillable = array('workflow_id', 'name', 'description', 'step_level', 'addtime');
+    protected $fillable = array('workflow_id', 'name', 'description', 'step_level', 'addtime', 'code');
     
     /**
      * 取得所有的工作流步骤
@@ -54,9 +54,17 @@ class WorkflowStep extends Base
      */
     public function getWorkflowStepInfo($where)
     {
-        if(isset($where['id'])) $search = $this->where('id', '=', intval($where['id']));
-        if(isset($search)) return $search->first();
-        return [];
+        $search = $this->select(array('*'));
+        if(isset($where['id'])) $search->where('id', '=', intval($where['id']));
+        if(isset($where['code']))
+        {
+            $search->where('code', '=', $where['code']);
+            if(isset($where['self'], $where['self_id']) and $where['self'] === false)
+            {
+                $search->where('id', '!=', $where['self_id']);
+            }
+        }
+        return $search->first();
     }
 
     /**

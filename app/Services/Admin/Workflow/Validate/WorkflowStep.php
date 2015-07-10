@@ -20,18 +20,26 @@ class WorkflowStep extends BaseValidate
         // 创建验证规则
         $rules = array(
             'name' => 'required',
-            'description' => 'required',
+            'code' => 'required',
             'step_level' => 'required',
+            'description' => 'required',
             'workflow_id' => 'required',
         );
-        
+
         // 自定义验证消息
         $messages = array(
             'name.required' => Lang::get('workflow.workflow_name_empty'),
             'description.required' => Lang::get('workflow.workflow_description_empty'),
             'step_level.required' => Lang::get('workflow.workflow_step_level_empty'),
             'workflow_id.required' => Lang::get('workflow.workflow_id_empty'),
+            'code.required' => Lang::get('workflow.workflow_code_empty'),
         );
+
+        //如果是辅助权限，不检测step_level
+        if( ! empty($data->code)) unset($rules['step_level'], $messages['step_level.required']);
+
+        //如果是多层级，不检测code
+        if( ! empty($data->step_level)) unset($rules['code'], $messages['code.required']);
         
         //开始验证
         $validator = Validator::make($data->toArray(), $rules, $messages);

@@ -36,9 +36,11 @@ class StepController extends Controller
         $workflowId = Request::input('id');
         if( ! $workflowId or ! is_numeric($workflowId)) return Js::error(Lang::get('common.illegal_operation'), true);
         $manger = new Process();
+        $workflowInfo = $manger->workflowInfo(['id' => $workflowId]);
+        if(empty($workflowInfo)) return Js::error(Lang::get('common.illegal_operation'), true);
         $stepList = $manger->workflowStepLevelList();
         $formUrl = R('common', 'workflow.step.add');
-        return view('admin.workflow_step.add', compact('formUrl', 'workflowId', 'stepList'));
+        return view('admin.workflow_step.add', compact('formUrl', 'workflowId', 'stepList', 'workflowInfo'));
     }
 
     /**
@@ -76,11 +78,13 @@ class StepController extends Controller
         $workflow_Id = (int) Request::input('workflow_id');
         if( ! $stepId or ! is_numeric($stepId)) return Js::error(Lang::get('common.illegal_operation'), true);
         $manger = new Process();
+        $workflowInfo = $manger->workflowInfo(['id' => $workflow_Id]);
+        if(empty($workflowInfo)) return Js::error(Lang::get('common.illegal_operation'), true);
         $stepList = $manger->workflowStepLevelList();
         $info = $manger->workflowStepInfo(['id' => $stepId]);
         if(empty($info)) return Js::error(Lang::get('workflow.step_not_found'), true);
         $formUrl = R('common', 'workflow.step.edit');
-        return view('admin.workflow_step.add', compact('info', 'formUrl', 'stepId', 'stepList', 'workflow_Id'));
+        return view('admin.workflow_step.add', compact('info', 'formUrl', 'stepId', 'stepList', 'workflow_Id', 'workflowInfo'));
     }
     
     /**

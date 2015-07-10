@@ -21,7 +21,21 @@ class Workflow extends Base
      *
      * @var string
      */
-    protected $fillable = array('name', 'description', 'addtime', 'code');
+    protected $fillable = array('name', 'description', 'addtime', 'code', 'type');
+
+    /**
+     * 多用户的类OA审核标识
+     *
+     * @var int
+     */
+    CONST W_TYPE_TIER = 1;
+
+    /**
+     * 辅助审核标识
+     *
+     * @var int
+     */
+    CONST W_TYPE_ASSIST = 2;
     
     /**
      * 取得所有的工作流
@@ -104,7 +118,7 @@ class Workflow extends Base
      * @param string $code 调用的code
      * @access public
      */
-    public function getCurrentUserWorkflow($userId, $code)
+    public function getCurrentUserWorkflowLevel($userId, $code)
     {
         $workflow = \DB::table('workflow_user')->select('workflow_step.step_level')
                     ->leftJoin('workflow_step', 'workflow_user.workflow_step_id', '=', 'workflow_step.id')
@@ -131,6 +145,26 @@ class Workflow extends Base
                     ->orderBy('workflow_step.step_level', 'desc')
                     ->first();
         return $workflow->step_level;
+    }
+
+    /**
+     * 指定工作流指定工作流步骤的信息
+     *
+     * @param int $userId 用户的ID
+     * @param string $workflowCode 调用的工作流code
+     * @param string $workflowStepCode 调用的工作流步骤code
+     * @access public
+     */
+    public function getCurrentUserWorkflowStep($userId, $workflowCode, $workflowStepCode)
+    {
+        $result = \DB::table('workflow_user')->select('workflow_step.id')
+                    ->leftJoin('workflow_step', 'workflow_user.workflow_step_id', '=', 'workflow_step.id')
+                    ->leftJoin('workflow', 'workflow_step.workflow_id', '=', 'workflow.id')
+                    ->where('workflow_user.user_id', '=', $userId)
+                    ->where('workflow.code', '=', $workflowCode)
+                    ->where('workflow_step.code', '=', $workflowStepCode)
+                    ->first();
+        return $result;
     }
 
     

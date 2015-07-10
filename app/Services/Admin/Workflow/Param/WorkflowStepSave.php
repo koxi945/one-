@@ -21,4 +21,6 @@ class WorkflowStepSave extends AbstractParam
 
     protected $step_level;
 
+    protected $code;
+
 }

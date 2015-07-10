@@ -22,6 +22,7 @@ class Workflow extends BaseValidate
             'name' => 'required',
             'description' => 'required',
             'code' => 'required',
+            'type' => 'required',
         );
         
         // 自定义验证消息
@@ -29,6 +30,7 @@ class Workflow extends BaseValidate
             'name.required' => Lang::get('workflow.workflow_name_empty'),
             'description.required' => Lang::get('workflow.workflow_description_empty'),
             'code.required' => Lang::get('workflow.workflow_code_empty'),
+            'type.required' => Lang::get('workflow.workflow_type_empty'),
         );
         
         //开始验证

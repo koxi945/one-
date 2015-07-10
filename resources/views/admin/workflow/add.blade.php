@@ -28,6 +28,13 @@
                       <label>备注</label>
                       <textarea name="data[description]" rows="3" class="form-control"><?php if(isset($info['description'])) echo $info['description']; ?></textarea>
                     </div>
+                    <div class="form-group">
+                      <label>工作流类型</label>
+                      <select name="data[type]" class="form-control">
+                        <option value="1" <?php if(isset($info['type']) && $info['type'] == 1) echo 'selected'; ?>>多层级审核</option>
+                        <option value="2" <?php if(isset($info['type']) && $info['type'] == 2) echo 'selected'; ?>>辅助权限</option>
+                      </select>
+                    </div>
                     <div class="btn-toolbar list-toolbar">
                       <a class="btn btn-primary sys-btn-submit" data-loading="保存中..." ><i class="fa fa-save"></i> <span class="sys-btn-submit-str">保存</span></a>
                     </div>
