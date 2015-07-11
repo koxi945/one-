@@ -6,7 +6,7 @@
     <span class="icon-bar"></span>
     <span class="icon-bar"></span>
   </button>
-  <a class="" href="index.html"><span class="navbar-brand">管理系统</span></a></div>
+  <a class="" href="/"><span class="navbar-brand">管理系统</span></a></div>
 
 <div class="navbar-collapse collapse" style="height: 1px;">
   <ul id="main-menu" class="nav navbar-nav navbar-right">

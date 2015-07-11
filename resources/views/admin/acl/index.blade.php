@@ -12,7 +12,7 @@
                   <div id="featurebar">
                     <ul class="nav">
                       <li class="active">
-                        <a href="http://admin.opcache.net:8080/foundation-acl-index.html?pid=all">所有权限</a>
+                        <a href="<?php echo R('common', 'foundation.acl.index', ['pid' => 'all' ]); ?>">所有权限</a>
                       </li>
                       <?php
                         $son = App\Services\Admin\Tree::getSonKey();
