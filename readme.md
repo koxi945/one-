@@ -1,8 +1,8 @@
 # laravel5 后台基础系统
 
-这是一个基于laravel 5.1框架的后台基础系统，**不定期更新**，如果你有好的idea，欢迎email我：mylampblog@163.com
+这是一个基于laravel 5.1框架的后台基础系统，不定期更新，如果你有好的idea，欢迎email我：mylampblog@163.com
 
-请大家在分支中下载稳定版本，不要拉master的代码。
+**请大家在分支中下载最新稳定版本，不要拉master的代码。**
 
 **适用对象：**
 
@@ -26,24 +26,34 @@
 
 可以快速基于此系统进行laravel5的快速开发，免去每次都写一次后台基础的痛苦
 
-**1、用户组的层级关系**
+### 1、用户组的层级关系
 
 用户（组）的管理有等级的层级关系，底等级的或评级的用户是无法修改高等级的用户（组）信息。
 
-**2、权限给予**
+### 2、权限给予
 
 对用户进行权限给予的时候只能给予自己所拥有的权限。
 
-**3、关于工作流**
+目前登录后权限会缓存在session中，所以重新给权限后需要重新登录，新的权限才会生效。
+
+### 3、关于工作流
+
+需要说明的是，目前工作流只提供接口，不参与具体的业务。现在会有两种模式：
+
+* 多层级审核，即多人参与的类OA审核的模式。
+* 辅助权限。
 
 工作流暴露给外面的接口主要有：
 
-* App\Services\Admin\Workflow\Check::checkAcl();
-* App\Services\Admin\Workflow\Check::getComfirmStatus();
+* App\Services\Admin\Workflow\Check::checkAcl($workflowCode, $status = []);
+* App\Services\Admin\Workflow\Check::getComfirmStatus($workflowCode, $currentStatus);
+* App\Services\Admin\Workflow\Check::checkStepAcl($workflowCode, $workflowStepCode);
 
 在使用前请先在**工作流管理**中进行设置
 
-使用demo
+**1）多层级审核**
+
+使用说明：
 
 	$check = new \App\Services\Admin\Workflow\Check();
 	//检测有没有权限
@@ -64,7 +74,24 @@
     //is_final代表是不是到了最终一步了，status是这一步要设置的值，如果是最后一步，值为99
 	var_dump($next);
 
-**4、日志**
+具体说明请见：http://git.oschina.net/ctk/laravel5_backend/issues/3
+
+**2）辅助权限**
+
+使用说明：
+
+	$checkStep = $check->checkStepAcl('W_fu', 'W_fuus');
+    var_dump($checkStep);
+
+参数1代表的是工作流的调用代码
+
+参数2代表的是工作流步骤的调用代码
+
+如果当前用户拥有某工作流的某工作流步骤的审核的话，$checkStep会返回true，反之false。
+
+该功能只要用于基本用户权限无法满足需求的时候，或需要多种权限验证的情况。
+
+### 4、日志
 
 只需在你想使用日志记录的时候，手动调用
 
@@ -81,13 +108,9 @@
 
  	App\Services\Admin\AbstractActionLog
 
- **5、博客**
+### 5、博客
 
- 博客只实现了发布以评论。
-
- **6、关于权限缓存**
-
- 目前登录后权限会缓存在session中，所以重新给权限后需要重新登录。
+ 博客只实现了发布以评论，以及基于sphinx的搜索。
 
 二、如何安装
 --------------------------
@@ -130,10 +153,28 @@
 
 四、需要的环境要求
 ---------------------------------
+
 至少满足laravel 5.1框架的要求。
+
+- PHP >= 5.5.9
+- OpenSSL PHP 扩展
+- PDO PHP 扩展
+- Mbstring PHP 扩展
+- Tokenizer PHP 扩展
 
 五、更新日志
 ------------------------------------
+
+**release/v0.1.0.20150710**
+
+小更新，强化了工作流，现在有两种模式:
+
+* 1、多层级审核：即多人参与的类OA审核的模式。
+* 2、辅助权限。
+
+修正了
+
+* 1、修正了功能地图第二级菜单的连接问题。
 
 **release/v0.1.0.20150707**
 
