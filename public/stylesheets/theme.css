@@ -928,7 +928,7 @@ div.content-menu {
   background: #f9f9f9;
   border: 1px dashed #ddd;
   border-radius: 0;
-  padding: 0.5em;
+  padding: 0.5em 0.5em 0 0.5em;
   margin-bottom: 15px;
 }
 
@@ -958,4 +958,8 @@ div.group-item {
   margin-bottom: 20px;
   height: 350px;
   overflow-y: auto; 
+}
+
+div.content-menu .content-menu-button {
+  margin-bottom: 0.5em;
 }
