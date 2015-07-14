@@ -140,6 +140,10 @@
 帐号：admin
 密码：11
 
+7、要注意的是mysql_model不能开启严格模式，建议设置为：
+
+	sql_mode=NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+
 
 三、额外的
 --------------------------------

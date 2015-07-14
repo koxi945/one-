@@ -21,7 +21,9 @@ class IndexController extends Controller
     	$contentModel = new ContentModel();
     	$articleList = $contentModel->activeArticleInfo($object);
     	$page = $articleList->setPath('')->appends(Request::all())->render();
-        return response(view('home.index.index', compact('articleList', 'page', 'object')));
+        $cacheSecond = config('home.cache_control');
+        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+        return response(view('home.index.index', compact('articleList', 'page', 'object')))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
     }
 
     /**

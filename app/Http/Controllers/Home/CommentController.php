@@ -18,7 +18,7 @@ class CommentController extends Controller
     {
         $objectId = (int) Request::input('objectid');
         $view = widget('Home.Common')->comment($objectId);
-        return $view;
+        return response($view);
     }
 
     /**
@@ -33,8 +33,8 @@ class CommentController extends Controller
         $data['replyid'] = (int) Request::input('replyid');
 
         $commentProcess = new CommentProcess();
-        if($commentProcess->addComment($data) !== false) return Js::execute('window.parent.reloadComment();');
-        return Js::error($commentProcess->getErrorMessage());
+        if($commentProcess->addComment($data) !== false) return response(Js::execute('window.parent.reloadComment();'));
+        return response(Js::error($commentProcess->getErrorMessage()));
     }
 
 }

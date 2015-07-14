@@ -15,11 +15,11 @@ use Route;
  */
 class Routes
 {
-    private $adminDomain = 'admin.opcache.net';
+    private $adminDomain;
 
-    private $wwwDomain = 'www.opcache.net';
+    private $wwwDomain;
 
-    private $noPreDomain = 'opcache.net';
+    private $noPreDomain;
 
     /**
      * 初始化，取得配置
@@ -99,7 +99,12 @@ class Routes
                         if(method_exists($classObject, $action))
                         {
                             $return = call_user_func(array($classObject, $action));
-                            if( ! $return instanceof \Illuminate\Http\Response) return response($return);
+                            if( ! $return instanceof \Illuminate\Http\Response)
+                            {
+                                $cacheSecond = config('home.cache_control');
+                                $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+                                return response($return)->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+                            }
                             return $return;
                         }
                     }
