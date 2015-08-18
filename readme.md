@@ -1,10 +1,12 @@
 # laravel5 后台基础系统
 
-这是一个基于laravel 5.1框架的后台基础系统，不定期更新，如果你有好的idea，欢迎email我：mylampblog@163.com
+这是一个基于laravel 5.1框架的后台基础系统，不定期更新，如果你有好的idea，欢迎email我：mylampblog@163.com或提交issues
 
-**请大家在分支中下载最新稳定版本，不要拉master的代码。**
+如果你喜欢本系统附带的blog功能，但是功能需要更强大的，请关注分支中的laravel_blog（from: 2015-8-18）。
 
-**适用对象：**
+***请大家在tag中下载最新稳定版本，不要拉master的代码。***
+
+适用对象：
 
 * phper
 * 正在使用laravel5.1或正在学习它的朋友
@@ -93,7 +95,7 @@
 
 ### 4、日志
 
-只需在你想使用日志记录的时候，手动调用
+只需在你想使用日志记录的时候，手动调用(controller内)
 
 	$this->setActionLog(['groupInfos' => $groupInfos]);
 
@@ -117,7 +119,7 @@
 
 1、建立数据库名为：mrblog
 
-2、把包目录下的mrblog.sql导到库mrblog中。
+2、把包目录下的mrblog.sql导到库mrblog中，建议使用mysql source命令导入。
 
 3、复制doc/.env文件到根目录下，修改数据库连接为你的信息。
 
@@ -166,41 +168,19 @@
 - Mbstring PHP 扩展
 - Tokenizer PHP 扩展
 
+此外测试mysql5.6通过。或使用可以兼容的版本。
+
 五、更新日志
 ------------------------------------
 
-**release/v0.1.0.20150710**
-
-小更新，强化了工作流，现在有两种模式:
-
-* 1、多层级审核：即多人参与的类OA审核的模式。
-* 2、辅助权限。
-
-修正了
-
-* 1、修正了功能地图第二级菜单的连接问题。
-
-**release/v0.1.0.20150707**
-
-* 登录验证
-* 用户（组）管理
-* 用户（组）权限
-* 功能管理（同是也是后台菜单来源）
-* 系统日志
-* 文件上传
-* 工作流
-* 目前还附加了简单的blog功能
+请查看[changelog.md](changelog.md)
 
 六、一点预览
 ------------------------------------
 
-![enter image description here](http://static.oschina.net/uploads/space/2015/0707/125515_Kdi6_1777357.png)
-
 ![enter image description here](http://static.oschina.net/uploads/space/2015/0707/125516_rtVg_1777357.png)
 
 ![enter image description here](http://static.oschina.net/uploads/space/2015/0707/125516_7Kqi_1777357.png)
-
-![enter image description here](http://static.oschina.net/uploads/space/2015/0707/125516_Eboi_1777357.png)
 
 ![enter image description here](http://static.oschina.net/uploads/space/2015/0707/125516_HeWC_1777357.png)
 
