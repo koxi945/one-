@@ -62,10 +62,21 @@ class Tags extends Base
     /**
      * 还没有删除的标签
      */
-    public function activeTagsList()
+    public function undeleteTagsList()
     {
         $currentQuery = $this->orderBy('id', 'desc')->where('is_delete', self::TAGS_LIB_IS_DELETE_NO)->paginate(15);
         return $currentQuery;
+    }
+
+    /**
+     * 取得未删除，已激活的推荐位信息
+     *
+     * @return array
+     */
+    public function activeTags()
+    {
+        $currentQuery = $this->orderBy('id', 'desc')->where('is_delete', self::TAGS_LIB_IS_DELETE_NO)->where('is_active', self::TAGS_LIB_ACTIVE_YES);
+        return $currentQuery->get()->toArray();
     }
 
     /**

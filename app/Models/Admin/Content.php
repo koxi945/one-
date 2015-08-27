@@ -1,6 +1,8 @@
 <?php namespace App\Models\Admin;
 
 use App\Models\Admin\Base;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * 文章表模型
@@ -37,12 +39,39 @@ class Content extends Base
      * 取得未删除的信息
      *
      * @return array
+     * @todo 数据量多时，查找属于指定分类，推荐位，标签三个的文章时使用redis集合交集处理，避免查询消耗。
      */
-    public function AllContents()
+    public function AllContents($search = [])
     {
-        $currentQuery = $this->select(array('article_main.*','users.name'))->leftJoin('users', 'article_main.user_id', '=', 'users.id')
-                            ->orderBy('article_main.id', 'desc')->where('article_main.is_delete', self::IS_DELETE_NO)->paginate(15);
-        return $currentQuery;
+        $prefix = \DB:: getTablePrefix();
+        $currentQuery = $this->select(\DB::raw('distinct '.$prefix.'article_main.*, '.$prefix.'users.name, '.'group_concat(DISTINCT '.$prefix.'article_classify.name) as classnames'))
+                             ->leftJoin('users', 'article_main.user_id', '=', 'users.id')
+                             ->leftJoin('article_classify_relation', 'article_main.id', '=', 'article_classify_relation.article_id')
+                             ->leftJoin('article_classify', 'article_classify_relation.classify_id', '=', 'article_classify.id')
+                             ->leftJoin('article_position_relation', 'article_main.id', '=', 'article_position_relation.article_id')
+                             ->leftJoin('article_tag_relation', 'article_main.id', '=', 'article_tag_relation.article_id')
+                             ->orderBy('article_main.id', 'desc')->where('article_main.is_delete', self::IS_DELETE_NO)
+                             ->groupBy('article_main.id');
+        if(isset($search['keyword']) && ! empty($search['keyword'])) $currentQuery->where('article_main.title', 'like', "%{$search['keyword']}%");
+        if(isset($search['username']) && ! empty($search['username'])) $currentQuery->where('article_main.user_id', $search['username']);
+        if(isset($search['classify']) && ! empty($search['classify'])) $currentQuery->where('article_classify_relation.classify_id', $search['classify']);
+        if(isset($search['position']) && ! empty($search['position'])) $currentQuery->where('article_position_relation.position_id', $search['position']);
+        if(isset($search['tag']) && ! empty($search['tag'])) $currentQuery->where('article_tag_relation.tag_id', $search['tag']);
+        if(isset($search['timeFrom'], $search['timeTo']) and ! empty($search['timeFrom']) and ! empty($search['timeTo']))
+        {
+            $search['timeFrom'] = strtotime($search['timeFrom']);
+            $search['timeTo'] = strtotime($search['timeTo']);
+            $currentQuery->whereBetween('article_main.write_time', [$search['timeFrom'], $search['timeTo']]);
+        }
+        $total = count($currentQuery->get()->all());
+        $currentQuery->forPage(
+            $page = Paginator::resolveCurrentPage(),
+            $perPage = self::PAGE_NUMS
+        );
+        $result = $currentQuery->get()->all();
+        return new LengthAwarePaginator($result, $total, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath()
+        ]);
     }
 
     /**

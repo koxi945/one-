@@ -19,7 +19,7 @@ class TagsController extends Controller
     public function index()
     {
         $manager = new Process();
-    	$list = $manager->activeTagsList();
+    	$list = $manager->undeleteTagsList();
     	$page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.content.tags', compact('list', 'page'));
     }

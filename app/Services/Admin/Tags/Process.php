@@ -47,9 +47,9 @@ class Process extends BaseProcess
     /**
      * 取得标签列表信息
      */
-    public function activeTagsList()
+    public function undeleteTagsList()
     {
-        $tags = $this->tagsModel->activeTagsList();
+        $tags = $this->tagsModel->undeleteTagsList();
         $tagsIds = [];
         foreach ($tags as $key => $value) {
             $tagsIds[] = $value['id'];

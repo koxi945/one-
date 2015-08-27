@@ -3,6 +3,9 @@
 use Request, Lang;
 use App\Models\Admin\Content as ContentModel;
 use App\Models\Admin\Category as CategoryModel;
+use App\Models\Admin\User as UserModel;
+use App\Models\Admin\Position as PositionModel;
+use App\Models\Admin\Tags as TagsModel;
 use App\Services\Admin\Content\Process as ContentActionProcess;
 use App\Libraries\Js;
 use App\Http\Controllers\Admin\Controller;
@@ -19,9 +22,23 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $list = (new ContentModel())->AllContents();
+        $search['keyword'] = strip_tags(Request::input('keyword'));
+        $search['username'] = strip_tags(Request::input('username'));
+        $search['classify'] = (int) Request::input('classify');
+        $search['position'] = (int) Request::input('position');
+        $search['tag'] = (int) Request::input('tag');
+        $search['timeFrom'] = strip_tags(Request::input('time_from'));
+        $search['timeTo'] = strip_tags(Request::input('time_to'));
+
+        $list = (new ContentModel())->AllContents($search);
         $page = $list->setPath('')->appends(Request::all())->render();
-        return view('admin.content.index', compact('list', 'page'));
+        $users = (new UserModel())->userNameList();
+        $classifyInfo = (new CategoryModel())->activeCategory();
+        $positionInfo = (new PositionModel())->activePosition();
+        $tagInfo = (new TagsModel())->activeTags();
+        return view('admin.content.index',
+            compact('list', 'page', 'users', 'classifyInfo', 'positionInfo', 'tagInfo', 'search')
+        );
     }
 
     /**
