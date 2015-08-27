@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers\Admin\Blog;
 
-use Request, Lang;
+use Request, Lang, Session;
 use App\Models\Admin\Position as PositionModel;
 use App\Services\Admin\Position\Process as PositionActionProcess;
 use App\Libraries\Js;
@@ -18,6 +18,7 @@ class PositionController extends Controller
      */
     public function index()
     {
+        Session::flashInput(['http_referer' => Request::fullUrl()]);
     	$list = (new PositionModel())->unDeletePosition();
     	$page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.content.position', compact('list', 'page'));
@@ -54,6 +55,7 @@ class PositionController extends Controller
     public function edit()
     {
     	if(Request::method() == 'POST') return $this->updateDatasToDatabase();
+        Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
         $id = Request::input('id');
         if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
         $info = (new PositionModel())->getOneById($id);
@@ -69,12 +71,17 @@ class PositionController extends Controller
      */
     private function updateDatasToDatabase()
     {
+        $httpReferer = Session::getOldInput('http_referer');
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
         $param = new \App\Services\Admin\Position\Param\PositionSave();
         $param->setAttributes($data);
         $manager = new PositionActionProcess();
-        if($manager->editPosition($param)) return Js::locate(R('common', 'blog.position.index'), 'parent');
+        if($manager->editPosition($param))
+        {
+            $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.position.index');
+            return Js::locate($backUrl, 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
 

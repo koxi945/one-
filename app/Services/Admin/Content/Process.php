@@ -6,6 +6,7 @@ use App\Models\Admin\TagsRelation as TagsRelationModel;
 use App\Models\Admin\Tags as TagsModel;
 use App\Models\Admin\ClassifyRelation as ClassifyRelationModel;
 use App\Models\Admin\ContentDetail as ContentDetailModel;
+use App\Models\Admin\PositionRelation as PositionRelationModel;
 use App\Models\Admin\SearchIndex as SearchIndexModel;
 use App\Services\Admin\Content\Validate\Content as ContentValidate;
 use App\Services\Admin\SC;
@@ -61,10 +62,19 @@ class Process extends BaseProcess
      */
     public function addContent(\App\Services\Admin\Content\Param\ContentSave $data)
     {
-        if( ! $this->contentValidate->add($data)) return $this->setErrorMsg($this->contentValidate->getErrorMessage());
+        //检测必须的参数
+        if( ! $this->contentValidate->add($data))
+        {
+            return $this->setErrorMsg($this->contentValidate->getErrorMessage());
+        }
+
+        //将要入表的数据
         $object = new \stdClass();
+        //写作时间
         $object->time = time();
+        //文章的作者
         $object->userId = SC::getLoginSession()->id;
+
         try
         {
             $result = \DB::transaction(function() use ($data, $object)
@@ -81,7 +91,13 @@ class Process extends BaseProcess
         {
             $result = false;
         }
-        return  ! $result ? $this->setErrorMsg(Lang::get('common.action_error')) : true;
+
+        if( ! $result)
+        {
+            return $this->setErrorMsg(Lang::get('common.action_error'));
+        }
+
+        return true;
     }
 
     /**
@@ -93,12 +109,25 @@ class Process extends BaseProcess
     private function saveArticleClassify($object, $classify)
     {
         $articleId = $object->contentAutoId;
-        $result = $this->deleteArticleClassifyById($articleId);
+
+        //删除旧的关系
+        $result = $this->deleteArticleClassifyById(array($articleId));
         if($result === false) throw new \Exception("delete article classify error.");
+
+        //保存新的关系
+        $inserData = array();
         foreach($classify as $key => $classifyId)
         {
-            $result = (new ClassifyRelationModel())->addClassifyArticleRelation($articleId, $classifyId);
-            if( ! $result) throw new \Exception("add classify article relation error.");
+            $inserData[] = array(
+                'article_id' => intval($articleId),
+                'classify_id' => intval($classifyId),
+                'time' => time()
+            );
+        }
+        $result = (new ClassifyRelationModel())->addClassifyArticleRelations($inserData);
+        if( ! $result)
+        {
+            throw new \Exception("add classify article relation error.");
         }
     }
 
@@ -107,47 +136,61 @@ class Process extends BaseProcess
      * 
      * @return boolean true|false
      */
-    public function deleteArticleClassifyById($articleId)
+    private function deleteArticleClassifyById($articleIds)
     {
-        if( ! is_numeric($articleId)) throw new \Exception("article id is not num.");
-        $articleId = array($articleId);
-        return (new ClassifyRelationModel())->deleteClassifyRelation($articleId);
+        if( ! is_array($articleIds)) throw new \Exception("article ids is not array.");
+        $articleIds = array_map('intval', $articleIds);
+        return (new ClassifyRelationModel())->deleteClassifyRelation($articleIds);
     }
 
     /**
-     * 保存文章的标签
+     * 保存文章的标签，因为使用了事务，如果没有成功请手动跑出异常
      *
-     * @param int $articleId 文章的ID
+     * @param int $object->contentAutoId 文章的ID
      * @param array $tags 标签
      */
     private function saveArticleTags($object, $tags)
     {
         $articleId = $object->contentAutoId;
-        $result = $this->deleteArticleTagsById($articleId);
-        if($result === false) throw new \Exception("delete article tags error.");
+
+        //先删除旧的标签
+        if($this->deleteArticleTagsById(array($articleId)) === false)
+        {
+            throw new \Exception("delete article tags error.");
+        }
+
+        //保存新的关系
+        $inserData = array();
         foreach($tags as $tagName)
         {
+            //如果还没有这个标签，那么增加它
             $tagInfo = (new TagsModel())->addTagsIfNotExistsByName($tagName);
             if( ! $tagInfo->id) throw new \Exception("add tags if not exists by name error.");
-            $result = (new TagsRelationModel())->addTagsArticleRelation($articleId, $tagInfo->id);
-            if( ! $result) throw new \Exception("add tags article relation error.");
+            //保存文章标签的关系用到的数据
+            $inserData[] = ['article_id' => $articleId, 'tag_id' => $tagInfo->id, 'time' => time()];
+        }
+
+        //批量保存关系
+        if( ! (new TagsRelationModel())->addTagsArticleRelations($inserData))
+        {
+            throw new \Exception("add tags article relation error.");
         }
     }
 
     /**
-     * 根据文章的ID删除它的标签
+     * 根据文章的ID删除它的标签，，因为使用了事务，如果没有成功请手动跑出异常
      * 
      * @return boolean true|false
      */
-    public function deleteArticleTagsById($articleId)
+    private function deleteArticleTagsById($articleIds)
     {
-        if( ! is_numeric($articleId)) throw new \Exception("article id is not num.");
-        $articleId = array($articleId);
-        return (new TagsRelationModel())->deleteTagsRelation($articleId);
+        if( ! is_array($articleIds)) throw new \Exception("article ids is not array.");
+        $articleIds = array_map('intval', $articleIds);
+        return (new TagsRelationModel())->deleteTagsRelation($articleIds);
     }
 
     /**
-     * 保存到主表
+     * 保存到主表，因为使用了事务，如果没有成功请手动跑出异常
      * 
      * @param  array $data
      * @return int 自增的ID
@@ -161,12 +204,15 @@ class Process extends BaseProcess
         $dataContet['status'] = $data['status'];
         $dataContet['summary'] = $data['summary'];
         $insertObject = $this->contentModel->addContent($dataContet);
-        if( ! $insertObject->id) throw new \Exception("save content error");
+        if( ! $insertObject->id)
+        {
+            throw new \Exception("save content error");
+        }
         return $insertObject->id;
     }
 
     /**
-     * 保存到副表
+     * 保存到副表，因为使用了事务，如果没有成功请手动跑出异常
      * 
      * @param  array $data
      * @return object
@@ -178,14 +224,17 @@ class Process extends BaseProcess
         $detailData['time'] = $object->time;
         $detailData['article_id'] = $object->contentAutoId;
         $insertObject = $this->contentDetailModel->addContentDetail($detailData);
-        if( ! $insertObject) throw new \Exception("save content detail error");
+        if( ! $insertObject)
+        {
+            throw new \Exception("save content detail error");
+        }
         return $insertObject;
     }
 
     /**
-     * 删除文章
+     * 删除文章，因为使用了事务，如果没有成功请手动跑出异常
      * 
-     * @param array $ids
+     * @param array $ids 要删除的文章的id
      * @access public
      * @return boolean true|false
      */
@@ -193,12 +242,44 @@ class Process extends BaseProcess
     {
         if( ! is_array($ids)) return false;
         $data['is_delete'] = ContentModel::IS_DELETE_YES;
-        if($this->contentModel->solfDeleteContent($data, $ids) !== false) return true;
-        return $this->setErrorMsg(Lang::get('common.action_error'));
+        try
+        {
+            $result = \DB::transaction(function() use ($data, $ids)
+            {
+                $this->contentModel->solfDeleteContent($data, $ids);
+                $this->deleteArticleClassifyById($ids);
+                $this->deleteArticleTagsById($ids);
+                $this->deleteArticlePositionById($ids);
+                return true;
+            });
+        }
+        catch (\Exception $e)
+        {
+            $result = false;
+        }
+
+        if( ! $result)
+        {
+            return $this->setErrorMsg(Lang::get('common.action_error'));
+        }
+        return true;
     }
 
     /**
-     * 编辑文章
+     * 根据文章的ID删除它的推荐位的文章，因为使用了事务，如果没有成功请手动跑出异常
+     *
+     * @param array $articleIds 文章的id组
+     * @return boolean true|false
+     */
+    private function deleteArticlePositionById($articleIds)
+    {
+        if( ! is_array($articleIds)) throw new \Exception("article ids is not array.");
+        $articleIds = array_map('intval', $articleIds);
+        return (new PositionRelationModel())->deletePositionRelation($articleIds);
+    }
+
+    /**
+     * 编辑文章，因为使用了事务，如果没有成功请手动跑出异常
      *
      * @param string $data
      * @access public
@@ -206,9 +287,14 @@ class Process extends BaseProcess
      */
     public function editContent(\App\Services\Admin\Content\Param\ContentSave $data, $id)
     {
-        if( ! $this->contentValidate->edit($data)) return $this->setErrorMsg($this->contentValidate->getErrorMessage());
+        if( ! $this->contentValidate->edit($data))
+        {
+            return $this->setErrorMsg($this->contentValidate->getErrorMessage());
+        }
+
         $object = new \stdClass();
         $object->contentAutoId = $id;
+
         try
         {
             $result = \DB::transaction(function() use ($data, $id, $object)
@@ -225,11 +311,16 @@ class Process extends BaseProcess
         {
             $result = false;
         }
-        return  ! $result ? $this->setErrorMsg(Lang::get('common.action_error')) : true;
+
+        if( ! $result)
+        {
+            return $this->setErrorMsg(Lang::get('common.action_error'));
+        }
+        return true;
     }
 
     /**
-     * 保存到主表
+     * 保存到主表，因为使用了事务，如果没有成功请手动跑出异常
      * 
      * @param  array $data
      * @return int 自增的ID
@@ -240,12 +331,15 @@ class Process extends BaseProcess
         $dataContet['status'] = $data['status'];
         $dataContet['summary'] = $data['summary'];
         $result = $this->contentModel->editContent($dataContet, $id);
-        if($result === false) throw new \Exception("save content error");
+        if($result === false)
+        {
+            throw new \Exception("save content error");
+        }
         return $result;
     }
 
     /**
-     * 保存到副表
+     * 保存到副表，因为使用了事务，如果没有成功请手动跑出异常
      * 
      * @param  array $data
      * @return object
@@ -259,7 +353,7 @@ class Process extends BaseProcess
     }
 
     /**
-     * 更新查询索引表
+     * 更新查询索引表，因为使用了事务，如果没有成功请手动跑出异常
      * 
      * @param  object $object
      * @param  array $data
@@ -282,7 +376,10 @@ class Process extends BaseProcess
 
         $indexModel = new SearchIndexModel();
         $result = $indexModel->saveIndex($checkIndex, $index);
-        if($result === false) throw new Exception("save article dict index error.");
+        if($result === false)
+        {
+            throw new Exception("save article dict index error.");
+        }
     }
 
 }

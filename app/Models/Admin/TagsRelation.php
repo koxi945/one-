@@ -41,13 +41,22 @@ class TagsRelation extends Base
     }
 
     /**
+     * 批量增加数据
+     */
+    public function addTagsArticleRelations(array $datas)
+    {
+        return $this->insert($datas);
+    }
+
+    /**
      * 取得所有指定标签的文章数
      */
     public function articleNumsGroupByTagId(array $tagIds)
     {
         $tagIds = array_map('intval', $tagIds);
         $tags = implode(',', $tagIds);
-        $sqlString = "SELECT COUNT(1) AS total, tag_id FROM `bk_article_tag_relation` WHERE tag_id IN ($tags) GROUP BY tag_id;";
+        $prefix = \DB:: getTablePrefix();
+        $sqlString = "SELECT COUNT(1) AS total, tag_id FROM `{$prefix}article_tag_relation` WHERE tag_id IN ($tags) GROUP BY tag_id;";
         return \DB::select($sqlString);
     }
 

@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers\Admin\Blog;
 
-use Request, Lang;
+use Request, Lang, Session;
 use App\Models\Admin\Content as ContentModel;
 use App\Models\Admin\Category as CategoryModel;
 use App\Models\Admin\User as UserModel;
@@ -22,6 +22,8 @@ class ContentController extends Controller
      */
     public function index()
     {
+        Session::flashInput(['http_referer' => Request::fullUrl()]);
+
         $search['keyword'] = strip_tags(Request::input('keyword'));
         $search['username'] = strip_tags(Request::input('username'));
         $search['classify'] = (int) Request::input('classify');
@@ -92,6 +94,7 @@ class ContentController extends Controller
     public function edit()
     {
         if(Request::method() == 'POST') return $this->updateDatasToDatabase();
+        Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
         $id = Request::input('id');
         if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
         $info = (new ContentModel())->getContentDetailByArticleId($id);
@@ -146,13 +149,18 @@ class ContentController extends Controller
      */
     private function updateDatasToDatabase()
     {
+        $httpReferer = Session::getOldInput('http_referer');
         $data = (array) Request::input('data');
         $id = intval(Request::input('id'));
         $data['tags'] = explode(';', $data['tags']);
         $param = new \App\Services\Admin\Content\Param\ContentSave();
         $param->setAttributes($data);
         $manager = new ContentActionProcess();
-        if($manager->editContent($param, $id) !== false) return Js::locate(R('common', 'blog.content.index'), 'parent');
+        if($manager->editContent($param, $id) !== false)
+        {
+            $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.content.index');
+            return Js::locate($backUrl, 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
 

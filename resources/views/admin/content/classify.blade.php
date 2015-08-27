@@ -15,16 +15,18 @@
                           <tr>
                             <th>分类名字</th>
                             <th>状态</th>
+                            <th>文章数</th>
                             <th>操作</th>
                           </tr>
                         </thead>
                         <tbody>
                           <?php foreach($list as $key => $value): ?>
                             <tr>
-                              <td><?php echo $value['name']; ?></td>
+                              <td><a target="_blank" href="<?php echo R('common', 'blog.content.index', ['classify' => $value['id']]); ?>"><?php echo $value['name']; ?></a></td>
                               <td>
                                 <?php echo $value['is_active'] == 1 ? '<i class="fa fa-check" style="color:green;"></i>' : '<i class="fa fa-times" style="color:red;"></i>'; ?>
                               </td>
+                              <td><?php echo $value['articleNums']; ?></td>
                               <td>
                                 <?php echo widget('Admin.Category')->edit($value); ?>
                                 <?php echo widget('Admin.Category')->delete($value); ?>

@@ -21,7 +21,7 @@
                         <tbody>
                           <?php foreach($list as $key => $value): ?>
                             <tr>
-                              <td><?php echo $value['name']; ?></td>
+                              <td><a target="_blank" href="<?php echo R('common', 'blog.content.index', ['tag' => $value['id']]); ?>"><?php echo $value['name']; ?></a></td>
                               <td>
                                 <?php echo isset($value['articleNums']) ? $value['articleNums'] : 0; ?>
                               </td>

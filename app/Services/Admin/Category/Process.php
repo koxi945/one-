@@ -2,6 +2,7 @@
 
 use Lang;
 use App\Models\Admin\Category as CategoryModel;
+use App\Models\Admin\ClassifyRelation as ClassifyRelationModel;
 use App\Services\Admin\Category\Validate\Category as CategoryValidate;
 use App\Services\Admin\BaseProcess;
 
@@ -82,6 +83,27 @@ class Process extends BaseProcess
         if( ! $this->categoryValidate->edit($data)) return $this->setErrorMsg($this->categoryValidate->getErrorMessage());
         if($this->categoryModel->editCategory($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
+    }
+
+    /**
+     * 取得分类列表信息
+     */
+    public function unDeleteCategory()
+    {
+        $category = $this->categoryModel->unDeleteCategory();
+        $categoryIds = [];
+        foreach ($category as $key => $value) {
+            $categoryIds[] = $value['id'];
+        }
+        $articleNums = with(new ClassifyRelationModel())->articleNumsGroupByClassifyId($categoryIds);
+        foreach ($category as $key => $value) {
+            foreach ($articleNums as $articleNum) {
+                if($articleNum->classify_id == $value['id']) {
+                    $category[$key]['articleNums'] = $articleNum->total;
+                }
+            }
+        }
+        return $category;
     }
 
 }
