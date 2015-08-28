@@ -56,4 +56,18 @@ class Content extends AbstractBase
         return $html;
     }
 
+    /**
+     * 批量删除
+     *
+     * @access public
+     */
+    public function deleteSelect()
+    {
+        $this->setCurrentAction('content', 'delete', 'blog')->checkPermission();
+        $html = $this->hasPermission ?
+                    '<div class="btn-group" style="float:left;margin:10px 0;margin-right:20px;"><a class="btn btn-primary pl-delete" data-loading="处理中..." ><i class="fa fa-trash-o"></i> <span class="sys-btn-submit-str">批量删除</span></a></div>'
+                        : '';
+        return $html;
+    }
+
 }

@@ -70,17 +70,18 @@
                   </div>
 
                   <div class="form-group f-g">
-                    <input class="btn btn-primary" type="submit" value="查询">
+                    <input class="btn btn-default" type="submit" value="查询">
                   </div>
                 </form>
               </div>
               <div style="margin-bottom:5px; clear:both;"></div>
-              <div class=" col-md-12">
+              <div class="col-md-12" id="ajax-reload">
                   <div class="panel panel-default">
                     <div class="table-responsive">
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
+                            <th>选择</th>
                             <th width="50%">标题</th>
                             <th>分类</th>
                             <th>作者</th>
@@ -93,6 +94,7 @@
                           <?php if( ! empty($list)): ?>
                           <?php foreach($list as $key => $value): ?>
                             <tr>
+                              <td><input autocomplete="off" type="checkbox" name="ids[]" class="ids" value="<?php echo $value['id']; ?>"></td>
                               <td><a target="_blank" href="<?php echo route('home', ['class' => 'index', 'action' => 'detail', 'id' => $value['id']]); ?>"><?php echo $value['title']; ?></a></td>
                               <td><?php echo $value['classnames']; ?></td>
                               <td><?php echo $value['name']; ?></td>
@@ -113,6 +115,7 @@
                   </div>
               </div>
           </div>
+          <?php echo $deleteSelect = widget('Admin.Content')->deleteSelect(); ?>
           <?php echo $page; ?>
         </div>
         <?php echo widget('Admin.Common')->footer(); ?>
@@ -145,5 +148,20 @@
           startView: 2,
           forceParse: 0
       });
+
+      <?php if( ! empty($deleteSelect)): ?>
+      $('.pl-delete').click(function() {
+          var ids = plSelectValue('ids');
+          if(ids.length == 0) {
+              alertNotic('请先选择需要删除的文章');
+              return false;
+          }
+          confirmNotic('确定删除吗？', function() {
+            var url = '<?php echo R('common', 'blog.content.delete'); ?>';
+            var params = {id:ids};
+            Atag_Ajax_Submit(url, params, 'POST', $('.pl-delete'), 'ajax-reload');
+          });
+      });
+      <?php endif; ?>
     </script>
 <?php echo widget('Admin.Common')->htmlend(); ?>

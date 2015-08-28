@@ -11,7 +11,7 @@
           <div id="sys-list">
           <div class="row">
             <div class=" col-md-12">
-              <div id="featurebar">
+              <div id="featurebar" style="padding:3px;">
                 <div class="heading">设置权限 : <?php echo isset($info['name']) ? $info['name'] : ''; ?><?php echo isset($info['group_name']) ? $info['group_name'] : ''; ?></div>
               </div>
               <?php

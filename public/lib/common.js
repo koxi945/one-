@@ -204,6 +204,8 @@ function removeDialogIframe(uploadid) {
 
 /**
  * onload的时候改变菜单的高度
+ *
+ * @return {void}
  */
 function changeLeftMenuHeight() {
     var divContent = $('div.content');
@@ -221,7 +223,7 @@ function changeLeftMenuHeight() {
  * @param {string} ajaxType  post|get
  * @param {object} selectObj 当前按钮的选择器
  */
-function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj) {
+function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj, replaceID) {
     //ajax submit
     var _oldstr = selectObj.find('.sys-btn-submit-str').html();
     $.ajax({
@@ -230,7 +232,14 @@ function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj) {
         data: paramObj,
         dataType: 'json',
         success:  function(data) {
-            alertNotic(data.message);
+            if(data.result == 'success' && replaceID) {
+                $('#' + replaceID).wrap("<div id='tmpDiv'></div>");
+                $('#tmpDiv').load(document.location.href + ' #' + replaceID, function(){
+                    $('#tmpDiv').replaceWith($('#tmpDiv').html());
+                });
+            } else {
+                alertNotic(data.message);
+            }
         },
         beforeSend: function() {
             var loading = selectObj.attr('data-loading') || 'loading...';
@@ -244,6 +253,26 @@ function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj) {
     });
 }
 
+/**
+ * 批量操作的时候取得checkbox的值
+ *
+ * @param {string} _class 即css的class名
+ * @return {array}
+ */
+function plSelectValue(_class) {
+    var c = _class || 'ids';
+    var ids = new Array();
+    var current_var;
+    $('input.'+c+':checked').each(function(i, n){
+        current_var = $(n).val();
+        ids.push(current_var);
+    });
+    return ids;
+}
+
+/**
+ * 初始化
+ */
 $(document).ready(function(){
     setformSubmitButton();
     changeLeftMenuHeight();

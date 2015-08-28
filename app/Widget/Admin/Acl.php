@@ -97,7 +97,7 @@ class Acl extends AbstractBase
             {
                 if($pid != $value['id'] && $pid != 'all') continue;
             }
-            $line = ($prefix === false ? '' : $prefix).'┆┄┄┄';
+            $line = ($prefix === false ? '' : $prefix).'┆┄';
             $html .= view('admin.acl.list', compact('value', 'prefix'));
             if(isset($value[$this->son]) && is_array($value[$this->son]))
             {

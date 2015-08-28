@@ -171,7 +171,7 @@ label {
   position: relative;
   min-height: 800px;
   /*background: #fff;*/
-  margin-left: 210px;
+  margin-left: 190px;
   /*border-left: 1px solid #cccccc;*/
   padding: 15px 15px 0px 15px;
 }
@@ -372,7 +372,7 @@ a.panel-heading:hover,
 }
 /*Navigation*/
 .sidebar-nav {
-  width: 210px;
+  width: 190px;
   position: absolute;
   float: left;
   border-top: none;
@@ -956,7 +956,7 @@ div.group-item {
 #zTree-container {
   border: 1px solid #ddd;
   margin-bottom: 20px;
-  height: 350px;
+  height: 500px;
   overflow-y: auto; 
 }
 
