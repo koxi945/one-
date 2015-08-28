@@ -65,9 +65,35 @@ class Content extends AbstractBase
     {
         $this->setCurrentAction('content', 'delete', 'blog')->checkPermission();
         $html = $this->hasPermission ?
-                    '<div class="btn-group" style="float:left;margin:10px 0;margin-right:20px;"><a class="btn btn-primary pl-delete" data-loading="处理中..." ><i class="fa fa-trash-o"></i> <span class="sys-btn-submit-str">批量删除</span></a></div>'
+                    '<div class="btn-group" style="float:left;margin:10px 0;margin-right:10px;"><a class="btn btn-primary pl-delete" data-loading="处理中..." ><i class="fa fa-trash-o"></i> <span class="sys-btn-submit-str">批量删除</span></a></div>'
                         : '';
         return $html;
+    }
+
+    /**
+     * 文章推到推荐位
+     *
+     * @access public
+     */
+    public function position()
+    {
+        $this->setCurrentAction('content', 'position', 'blog')->checkPermission();
+        $html = $this->hasPermission ?
+                    '<div class="btn-group" style="float:left;margin:10px 0;margin-right:10px;"><a class="btn btn-primary pl-position" data-loading="处理中..." ><i class="fa fa-exchange"></i> <span class="sys-btn-submit-str">关联推荐位</span></a></div>'
+                        : '';
+        return $html;
+    }
+
+    /**
+     * 推荐位弹窗的内容
+     */
+    public function positionDialogContent()
+    {
+        $this->setCurrentAction('content', 'position', 'blog')->checkPermission();
+        $html = $this->hasPermission ?
+                        view('admin.widget.position_dialog_content')->render()
+                        : '';
+        return json_encode(['content' => $html]);
     }
 
 }

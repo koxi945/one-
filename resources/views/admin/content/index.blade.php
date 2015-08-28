@@ -70,7 +70,7 @@
                   </div>
 
                   <div class="form-group f-g">
-                    <input class="btn btn-default" type="submit" value="查询">
+                    <input class="btn btn-default" type="submit" value="查询记录">
                   </div>
                 </form>
               </div>
@@ -115,7 +115,8 @@
                   </div>
               </div>
           </div>
-          <?php echo $deleteSelect = widget('Admin.Content')->deleteSelect(); ?>
+          <?php echo $deleteSelectButton = widget('Admin.Content')->deleteSelect(); ?>
+          <?php echo $positionButton = widget('Admin.Content')->position(); ?>
           <?php echo $page; ?>
         </div>
         <?php echo widget('Admin.Common')->footer(); ?>
@@ -149,19 +150,46 @@
           forceParse: 0
       });
 
-      <?php if( ! empty($deleteSelect)): ?>
-      $('.pl-delete').click(function() {
-          var ids = plSelectValue('ids');
-          if(ids.length == 0) {
-              alertNotic('请先选择需要删除的文章');
-              return false;
-          }
-          confirmNotic('确定删除吗？', function() {
-            var url = '<?php echo R('common', 'blog.content.delete'); ?>';
-            var params = {id:ids};
-            Atag_Ajax_Submit(url, params, 'POST', $('.pl-delete'), 'ajax-reload');
-          });
-      });
+      <?php if( ! empty($deleteSelectButton)): ?>
+        $('.pl-delete').click(function() {
+            var ids = plSelectValue('ids');
+            if(ids.length == 0) {
+                alertNotic('请先选择需要删除的文章');
+                return false;
+            }
+            confirmNotic('确定删除吗？', function() {
+              var url = '<?php echo R('common', 'blog.content.delete'); ?>';
+              var params = {id:ids};
+              Atag_Ajax_Submit(url, params, 'POST', $('.pl-delete'), 'ajax-reload');
+            });
+        });
       <?php endif; ?>
+
+      <?php if( ! empty($positionButton)): ?>
+        $('.pl-position').click(function() {
+            var ids = plSelectValue('ids');
+            if(ids.length == 0) {
+                alertNotic('请先选择需要关联的文章');
+                return false;
+            }
+            var _content = <?php echo widget('Admin.Content')->positionDialogContent(); ?>;
+            var _d = dialog({
+                title: '关联推荐位',
+                id: 'pl-position',
+                fixed: true,
+                content: _content.content,
+                width: 600,
+                height: 300,
+                okValue: '确定',
+                ok: function() {
+                  
+                },
+                cancelValue: '取消',
+                cancel: function () {}
+            });
+            _d.showModal();
+        });
+      <?php endif; ?>
+
     </script>
 <?php echo widget('Admin.Common')->htmlend(); ?>

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-07-10 14:49:36
+Date: 2015-08-28 15:30:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,26 +27,57 @@ CREATE TABLE `bk_access` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`) USING BTREE,
   KEY `node_id` (`permission_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=383 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=440 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_access
 -- ----------------------------
-INSERT INTO `bk_access` VALUES ('368', '3', '1', '2');
-INSERT INTO `bk_access` VALUES ('369', '3', '55', '2');
-INSERT INTO `bk_access` VALUES ('370', '3', '73', '2');
-INSERT INTO `bk_access` VALUES ('371', '3', '56', '2');
-INSERT INTO `bk_access` VALUES ('372', '3', '57', '2');
-INSERT INTO `bk_access` VALUES ('373', '3', '58', '2');
-INSERT INTO `bk_access` VALUES ('374', '3', '59', '2');
-INSERT INTO `bk_access` VALUES ('375', '3', '60', '2');
-INSERT INTO `bk_access` VALUES ('376', '3', '61', '2');
-INSERT INTO `bk_access` VALUES ('377', '3', '62', '2');
-INSERT INTO `bk_access` VALUES ('378', '3', '63', '2');
-INSERT INTO `bk_access` VALUES ('379', '2', '1', '1');
-INSERT INTO `bk_access` VALUES ('380', '2', '67', '1');
-INSERT INTO `bk_access` VALUES ('381', '2', '4', '1');
-INSERT INTO `bk_access` VALUES ('382', '2', '29', '1');
+INSERT INTO `bk_access` VALUES ('394', '2', '1', '1');
+INSERT INTO `bk_access` VALUES ('395', '2', '43', '1');
+INSERT INTO `bk_access` VALUES ('396', '2', '55', '1');
+INSERT INTO `bk_access` VALUES ('397', '2', '73', '1');
+INSERT INTO `bk_access` VALUES ('398', '2', '56', '1');
+INSERT INTO `bk_access` VALUES ('399', '2', '57', '1');
+INSERT INTO `bk_access` VALUES ('400', '2', '58', '1');
+INSERT INTO `bk_access` VALUES ('401', '2', '59', '1');
+INSERT INTO `bk_access` VALUES ('402', '2', '60', '1');
+INSERT INTO `bk_access` VALUES ('403', '2', '61', '1');
+INSERT INTO `bk_access` VALUES ('404', '2', '62', '1');
+INSERT INTO `bk_access` VALUES ('405', '2', '63', '1');
+INSERT INTO `bk_access` VALUES ('406', '2', '67', '1');
+INSERT INTO `bk_access` VALUES ('407', '2', '4', '1');
+INSERT INTO `bk_access` VALUES ('408', '2', '20', '1');
+INSERT INTO `bk_access` VALUES ('409', '2', '27', '1');
+INSERT INTO `bk_access` VALUES ('410', '2', '28', '1');
+INSERT INTO `bk_access` VALUES ('411', '2', '29', '1');
+INSERT INTO `bk_access` VALUES ('412', '2', '2', '1');
+INSERT INTO `bk_access` VALUES ('413', '2', '23', '1');
+INSERT INTO `bk_access` VALUES ('414', '2', '24', '1');
+INSERT INTO `bk_access` VALUES ('415', '2', '25', '1');
+INSERT INTO `bk_access` VALUES ('416', '2', '26', '1');
+INSERT INTO `bk_access` VALUES ('417', '2', '3', '1');
+INSERT INTO `bk_access` VALUES ('418', '2', '30', '1');
+INSERT INTO `bk_access` VALUES ('419', '2', '31', '1');
+INSERT INTO `bk_access` VALUES ('420', '2', '32', '1');
+INSERT INTO `bk_access` VALUES ('421', '2', '33', '1');
+INSERT INTO `bk_access` VALUES ('422', '2', '68', '1');
+INSERT INTO `bk_access` VALUES ('423', '2', '53', '1');
+INSERT INTO `bk_access` VALUES ('424', '2', '34', '1');
+INSERT INTO `bk_access` VALUES ('425', '2', '69', '1');
+INSERT INTO `bk_access` VALUES ('426', '2', '36', '1');
+INSERT INTO `bk_access` VALUES ('427', '2', '35', '1');
+INSERT INTO `bk_access` VALUES ('428', '2', '48', '1');
+INSERT INTO `bk_access` VALUES ('429', '2', '49', '1');
+INSERT INTO `bk_access` VALUES ('430', '2', '37', '1');
+INSERT INTO `bk_access` VALUES ('431', '2', '45', '1');
+INSERT INTO `bk_access` VALUES ('432', '2', '46', '1');
+INSERT INTO `bk_access` VALUES ('433', '2', '47', '1');
+INSERT INTO `bk_access` VALUES ('434', '2', '42', '1');
+INSERT INTO `bk_access` VALUES ('435', '2', '50', '1');
+INSERT INTO `bk_access` VALUES ('436', '2', '51', '1');
+INSERT INTO `bk_access` VALUES ('437', '2', '52', '1');
+INSERT INTO `bk_access` VALUES ('438', '2', '66', '1');
+INSERT INTO `bk_access` VALUES ('439', '2', '44', '1');
 
 -- ----------------------------
 -- Table structure for `bk_action_log`
@@ -65,7 +96,7 @@ CREATE TABLE `bk_action_log` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `username` (`username`) USING BTREE,
   KEY `addtime` (`add_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=330 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=350 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_action_log
@@ -399,6 +430,26 @@ INSERT INTO `bk_action_log` VALUES ('326', 'admin', '1', '127.0.0.1', '', '14365
 INSERT INTO `bk_action_log` VALUES ('327', 'admin', '1', '127.0.0.1', '', '1436510925', '管理员', '编辑了工作流步骤：123123');
 INSERT INTO `bk_action_log` VALUES ('328', 'admin', '1', '127.0.0.1', '', '1436510933', '管理员', '关联了用户：管理员 到工作流：123123ffffffff 中的审核步骤：123123');
 INSERT INTO `bk_action_log` VALUES ('329', 'admin', '1', '127.0.0.1', '', '1436510945', '管理员', '删除了工作流：123123ffffffff');
+INSERT INTO `bk_action_log` VALUES ('330', 'admin', '1', '127.0.0.1', '', '1439442301', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('331', 'admin', '1', '127.0.0.1', '', '1439442348', '管理员', '改变了用户的权限：test2');
+INSERT INTO `bk_action_log` VALUES ('332', 'admin', '1', '127.0.0.1', '', '1439881984', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('333', 'admin', '1', '127.0.0.1', '', '1439958807', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('334', 'admin', '1', '127.0.0.1', '', '1440127383', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('335', 'admin', '1', '127.0.0.1', '', '1440141329', '管理员', '编辑了用户组：test');
+INSERT INTO `bk_action_log` VALUES ('336', 'admin', '1', '127.0.0.1', '', '1440141343', '管理员', '编辑了用户组：test');
+INSERT INTO `bk_action_log` VALUES ('337', 'admin', '1', '127.0.0.1', '', '1440141382', '管理员', '改变了用户组的权限：test');
+INSERT INTO `bk_action_log` VALUES ('338', 'admin', '1', '127.0.0.1', '', '1440141971', '管理员', '删除了系统用户：test2');
+INSERT INTO `bk_action_log` VALUES ('339', 'admin', '1', '127.0.0.1', '', '1440142130', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('340', 'admin', '1', '127.0.0.1', '', '1440143103', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('341', 'admin', '1', '127.0.0.1', '', '1440144726', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('342', 'test', '2', '127.0.0.1', '', '1440400566', 'test', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('343', 'admin', '1', '127.0.0.1', '', '1440553533', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('344', 'admin', '1', '127.0.0.1', '', '1440732870', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('345', 'admin', '1', '127.0.0.1', '', '1440732901', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('346', 'admin', '1', '127.0.0.1', '', '1440733134', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('347', 'admin', '1', '127.0.0.1', '', '1440733178', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('348', 'admin', '1', '127.0.0.1', '', '1440733192', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('349', 'admin', '1', '127.0.0.1', '', '1440747027', '管理员', '登录系统成功');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify`
@@ -448,46 +499,11 @@ CREATE TABLE `bk_article_classify_relation` (
   PRIMARY KEY (`id`),
   KEY `classify_id` (`classify_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=253 DEFAULT CHARSET=utf8 COMMENT='文章所属分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=269 DEFAULT CHARSET=utf8 COMMENT='文章所属分类表';
 
 -- ----------------------------
 -- Records of bk_article_classify_relation
 -- ----------------------------
-INSERT INTO `bk_article_classify_relation` VALUES ('1', '1', '1', '0');
-INSERT INTO `bk_article_classify_relation` VALUES ('2', '2', '1', '0');
-INSERT INTO `bk_article_classify_relation` VALUES ('3', '11', '1', '0');
-INSERT INTO `bk_article_classify_relation` VALUES ('24', '7', '4', '1421745548');
-INSERT INTO `bk_article_classify_relation` VALUES ('25', '6', '2', '1421745590');
-INSERT INTO `bk_article_classify_relation` VALUES ('35', '13', '3', '1421916884');
-INSERT INTO `bk_article_classify_relation` VALUES ('36', '15', '5', '1421981555');
-INSERT INTO `bk_article_classify_relation` VALUES ('37', '9', '3', '1421983993');
-INSERT INTO `bk_article_classify_relation` VALUES ('42', '8', '2', '1421984146');
-INSERT INTO `bk_article_classify_relation` VALUES ('43', '10', '3', '1421984187');
-INSERT INTO `bk_article_classify_relation` VALUES ('44', '10', '4', '1421984187');
-INSERT INTO `bk_article_classify_relation` VALUES ('45', '12', '1', '1421984213');
-INSERT INTO `bk_article_classify_relation` VALUES ('46', '12', '2', '1421984213');
-INSERT INTO `bk_article_classify_relation` VALUES ('47', '17', '1', '1421995588');
-INSERT INTO `bk_article_classify_relation` VALUES ('50', '19', '1', '1422261564');
-INSERT INTO `bk_article_classify_relation` VALUES ('51', '19', '5', '1422261564');
-INSERT INTO `bk_article_classify_relation` VALUES ('52', '18', '5', '1422264857');
-INSERT INTO `bk_article_classify_relation` VALUES ('53', '21', '1', '1422269285');
-INSERT INTO `bk_article_classify_relation` VALUES ('54', '22', '5', '1422330735');
-INSERT INTO `bk_article_classify_relation` VALUES ('55', '23', '5', '1422352131');
-INSERT INTO `bk_article_classify_relation` VALUES ('56', '24', '1', '1422356202');
-INSERT INTO `bk_article_classify_relation` VALUES ('57', '26', '5', '1422413723');
-INSERT INTO `bk_article_classify_relation` VALUES ('58', '16', '1', '1422418172');
-INSERT INTO `bk_article_classify_relation` VALUES ('59', '16', '2', '1422418172');
-INSERT INTO `bk_article_classify_relation` VALUES ('60', '49', '4', '1426756312');
-INSERT INTO `bk_article_classify_relation` VALUES ('61', '49', '3', '1426756312');
-INSERT INTO `bk_article_classify_relation` VALUES ('62', '50', '4', '1426756397');
-INSERT INTO `bk_article_classify_relation` VALUES ('63', '50', '3', '1426756397');
-INSERT INTO `bk_article_classify_relation` VALUES ('69', '51', '4', '1426819574');
-INSERT INTO `bk_article_classify_relation` VALUES ('70', '51', '3', '1426819574');
-INSERT INTO `bk_article_classify_relation` VALUES ('71', '51', '2', '1426819574');
-INSERT INTO `bk_article_classify_relation` VALUES ('83', '52', '5', '1426823650');
-INSERT INTO `bk_article_classify_relation` VALUES ('84', '52', '4', '1426823650');
-INSERT INTO `bk_article_classify_relation` VALUES ('85', '52', '3', '1426823650');
-INSERT INTO `bk_article_classify_relation` VALUES ('86', '52', '2', '1426823650');
 INSERT INTO `bk_article_classify_relation` VALUES ('142', '53', '5', '1427198477');
 INSERT INTO `bk_article_classify_relation` VALUES ('143', '54', '5', '1427198491');
 INSERT INTO `bk_article_classify_relation` VALUES ('144', '55', '5', '1427198506');
@@ -504,7 +520,6 @@ INSERT INTO `bk_article_classify_relation` VALUES ('155', '58', '5', '1427198609
 INSERT INTO `bk_article_classify_relation` VALUES ('156', '58', '4', '1427198609');
 INSERT INTO `bk_article_classify_relation` VALUES ('157', '64', '5', '1427206381');
 INSERT INTO `bk_article_classify_relation` VALUES ('159', '65', '5', '1427206660');
-INSERT INTO `bk_article_classify_relation` VALUES ('160', '66', '4', '1427206838');
 INSERT INTO `bk_article_classify_relation` VALUES ('162', '68', '3', '1427207602');
 INSERT INTO `bk_article_classify_relation` VALUES ('163', '69', '4', '1427207907');
 INSERT INTO `bk_article_classify_relation` VALUES ('164', '67', '4', '1427208041');
@@ -523,8 +538,8 @@ INSERT INTO `bk_article_classify_relation` VALUES ('230', '79', '4', '1427944600
 INSERT INTO `bk_article_classify_relation` VALUES ('231', '80', '4', '1427960404');
 INSERT INTO `bk_article_classify_relation` VALUES ('233', '81', '4', '1427961629');
 INSERT INTO `bk_article_classify_relation` VALUES ('240', '76', '4', '1427968979');
-INSERT INTO `bk_article_classify_relation` VALUES ('250', '82', '4', '1427981466');
-INSERT INTO `bk_article_classify_relation` VALUES ('252', '83', '4', '1433904944');
+INSERT INTO `bk_article_classify_relation` VALUES ('259', '66', '4', '1440727900');
+INSERT INTO `bk_article_classify_relation` VALUES ('263', '82', '4', '1440742952');
 
 -- ----------------------------
 -- Table structure for `bk_article_detail`
@@ -539,7 +554,7 @@ CREATE TABLE `bk_article_detail` (
   PRIMARY KEY (`id`),
   KEY `article_id` (`article_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8 COMMENT='文章副表';
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COMMENT='文章副表';
 
 -- ----------------------------
 -- Records of bk_article_detail
@@ -574,7 +589,9 @@ INSERT INTO `bk_article_detail` VALUES ('66', '1', '79', '<p>1、OpenVPN连接�
 INSERT INTO `bk_article_detail` VALUES ('67', '1', '80', '<p>1、如何抓网卡的包</p><pre class=\"brush:bash;toolbar:false\">tcpdump&nbsp;-i&nbsp;eth0&nbsp;#代表侦听网卡eth0的流量包。</pre><p>2、<br/></p>', '1427960404');
 INSERT INTO `bk_article_detail` VALUES ('68', '1', '81', '<pre class=\"brush:bash;toolbar:false\">#!/bin/bash\r\nPATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin\r\nexport&nbsp;PATH\r\ndbuser=&#39;root&#39;\r\ndbpasswd=&#39;xx&#39;\r\ndbname=&#39;db1&nbsp;db2&#39;\r\nbacktime=`date&nbsp;+%Y%m%d%H%M%S`\r\nlogpath=&#39;/root/mysql_backup/log&#39;\r\ndatapath=&#39;/root/mysql_backup&#39;\r\necho&nbsp;&quot;backup&nbsp;time:${backtime},database:${dbname}&nbsp;touching...&quot;&nbsp;&gt;&gt;&nbsp;${logpath}/mysqllog.log\r\nfor&nbsp;table&nbsp;in&nbsp;$dbname;&nbsp;do\r\nsource=`/usr/local/mysql/bin/mysqldump&nbsp;-u${dbuser}&nbsp;-p${dbpasswd}&nbsp;${table}&gt;&nbsp;${datapath}/${table}${backtime}.sql`&nbsp;2&gt;&gt;&nbsp;${logpath}/mysqllog.log;\r\nif&nbsp;[&nbsp;&quot;$?&quot;&nbsp;==&nbsp;0&nbsp;];then\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cd&nbsp;${datapath}\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tar&nbsp;czf&nbsp;${table}${backtime}.tar.gz&nbsp;${table}${backtime}.sql&nbsp;&gt;&nbsp;/dev/null\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mv&nbsp;${table}${backtime}.tar.gz&nbsp;backup/\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cd&nbsp;${datapath}/backup\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;svn&nbsp;add&nbsp;${table}${backtime}.tar.gz\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;&quot;database&nbsp;${dbname}&nbsp;backup&nbsp;success!!&quot;&nbsp;&gt;&gt;&nbsp;${logpath}/mysqllog.log\r\nelse\r\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;&quot;database&nbsp;${dbname}&nbsp;backup&nbsp;error!!&quot;&nbsp;&gt;&gt;&nbsp;${logpath}/mysqllog.log\r\nfi\r\ndone\r\ncd&nbsp;${datapath}/backup\r\nsvn&nbsp;commit&nbsp;-m&nbsp;&quot;mysql&nbsp;auto&nbsp;backup&quot;</pre><p><br/></p>', '1427961483');
 INSERT INTO `bk_article_detail` VALUES ('69', '1', '82', '<p>1、安装apr apr-util</p><pre class=\"brush:bash;toolbar:false\">#安装apr\r\ncd&nbsp;./apr-1.5.1\r\n./configure&nbsp;--prefix=/usr/local/apr\r\nmake&nbsp;&amp;&amp;&nbsp;make&nbsp;install\r\n\r\n#安装apr-util\r\ncd&nbsp;../apr-util-1.5.3\r\n./configure&nbsp;--prefix=/usr/local/apr-util&nbsp;--with-apr=/usr/local/apr/\r\nmake&nbsp;&amp;&amp;&nbsp;make&nbsp;install</pre><p>2.1安装sqlite-autoconf</p><pre class=\"brush:bash;toolbar:false\">wget&nbsp;&nbsp;\r\ntar&nbsp;xzf&nbsp;sqlite-autoconf-xxx.tar.gz\r\n./configure&nbsp;--prefix=/usr/local/sqlite_autoconf\r\nmake&nbsp;&amp;&amp;&nbsp;make&nbsp;install</pre><p>2.2如果没有expat</p><pre class=\"brush:bash;toolbar:false\">yum&nbsp;install&nbsp;expat</pre><p>2.3安装zlib</p><pre class=\"brush:bash;toolbar:false\">/configure&nbsp;--prefix=/usr/local/zlib\r\nmake&nbsp;&amp;&amp;&nbsp;make&nbsp;install</pre><p>3、</p><pre class=\"brush:bash;toolbar:false\">./configure&nbsp;--prefix=/usr/local/subversion&nbsp;--with-apr=/usr/local/apr&nbsp;\\\r\n--with-apr-util=/usr/local/apr-util&nbsp;--with-zlib&nbsp;--with-openssl&nbsp;\\\r\n--enable-maintainer-mode&nbsp;--with-sqlite=/usr/local/sqlite_autoconf</pre><pre class=\"brush:bash;toolbar:false\">make&nbsp;&amp;&amp;&nbsp;make&nbsp;install</pre><p>4、check</p><pre class=\"brush:bash;toolbar:false\">/usr/local/subversion/bin/svn&nbsp;--version</pre><p><span style=\"color: rgb(255, 0, 0);\">5、如果有问题的话，下载rpm安装包,以rpm的方式安装</span></p><pre class=\"brush:bash;toolbar:false\"><a _src=\"http://www.collab.net/downloads/subversion#tab-1\" href=\"http://www.collab.net/downloads/subversion#tab-1\">http://www.collab.net/downloads/subversion#tab-1</a> <br/></pre><p>下载CollabNetSubversion-client-1.8.11-1.x86_64.rpm</p><p>安装rpm -ivh CollabNetSubversion-client-1.8.11-1.x86_64.rpm</p><p>默认安装在/opt/下，不过你可以复制到任何地方。<br/></p><p><br/></p><p><br/></p>', '1427964450');
-INSERT INTO `bk_article_detail` VALUES ('70', '1', '83', '<p>123<br/></p>', '1433904915');
+INSERT INTO `bk_article_detail` VALUES ('75', '1', '88', '<p>123<br/></p>', '1440742967');
+INSERT INTO `bk_article_detail` VALUES ('76', '1', '89', '<p>123<br/></p>', '1440744971');
+INSERT INTO `bk_article_detail` VALUES ('77', '1', '90', '<p>123<br/></p>', '1440746457');
 
 -- ----------------------------
 -- Table structure for `bk_article_main`
@@ -601,7 +618,7 @@ CREATE TABLE `bk_article_main` (
   KEY `conunt_comment` (`count_comment`) USING BTREE,
   KEY `is_delete` (`is_delete`) USING BTREE,
   KEY `status` (`status`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COMMENT='文章主表';
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COMMENT='文章主表';
 
 -- ----------------------------
 -- Records of bk_article_main
@@ -636,7 +653,9 @@ INSERT INTO `bk_article_main` VALUES ('79', '1', 'OpenVPN使用问题总结。',
 INSERT INTO `bk_article_main` VALUES ('80', '1', 'centos 使用过程中遇到的问题笔记', 'centos 使用过程中遇到的问题笔记', '', '', '1427960404', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('81', '1', '自动备份mysql数据库脚本', '在用的mysql数据库备份脚本，适合小量的。', '', '', '1427961483', '0', '0', '0', '0', '1', '1');
 INSERT INTO `bk_article_main` VALUES ('82', '1', 'subversion的编译安装', 'subversion的编译安装subversion-1.8.13', '', '', '1427964450', '0', '0', '0', '0', '1', '1');
-INSERT INTO `bk_article_main` VALUES ('83', '1', '123', '123', '', '', '1433904915', '0', '0', '0', '0', '0', '0');
+INSERT INTO `bk_article_main` VALUES ('88', '1', '123', '123', '', '', '1440742967', '0', '0', '0', '0', '0', '1');
+INSERT INTO `bk_article_main` VALUES ('89', '1', '简介简介简介简介简介简介简介简介简介简介简介简介简介简介', '123', '', '', '1440744971', '0', '0', '0', '0', '0', '0');
+INSERT INTO `bk_article_main` VALUES ('90', '1', '1231123', '123', '', '', '1440746457', '0', '0', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `bk_article_position`
@@ -654,18 +673,19 @@ CREATE TABLE `bk_article_position` (
   KEY `classify_id` (`classify_id`) USING BTREE,
   KEY `is_delete` (`is_delete`) USING BTREE,
   KEY `is_active` (`is_active`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='文章推荐位表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='文章推荐位表';
 
 -- ----------------------------
 -- Records of bk_article_position
 -- ----------------------------
-INSERT INTO `bk_article_position` VALUES ('1', '测试推荐位', '1', '0', '0', '0');
+INSERT INTO `bk_article_position` VALUES ('1', '测试推荐位', '0', '1', '0', '0');
 INSERT INTO `bk_article_position` VALUES ('2', '原创首页金融头条', '0', '0', '1', '0');
 INSERT INTO `bk_article_position` VALUES ('3', '原创首页汽车头条', '0', '0', '2', '0');
 INSERT INTO `bk_article_position` VALUES ('4', '原创首页时尚头条', '0', '0', '3', '0');
 INSERT INTO `bk_article_position` VALUES ('5', '原创首页房地产头条', '0', '0', '4', '0');
 INSERT INTO `bk_article_position` VALUES ('6', '原创首页移动互联网头条', '0', '0', '5', '0');
 INSERT INTO `bk_article_position` VALUES ('18', 'd1', '0', '0', '0', '0');
+INSERT INTO `bk_article_position` VALUES ('19', '测试', '1', '1', '0', '0');
 
 -- ----------------------------
 -- Table structure for `bk_article_position_relation`
@@ -680,33 +700,11 @@ CREATE TABLE `bk_article_position_relation` (
   PRIMARY KEY (`id`),
   KEY `Position_id` (`position_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COMMENT='文章与推荐位关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='文章与推荐位关系表';
 
 -- ----------------------------
 -- Records of bk_article_position_relation
 -- ----------------------------
-INSERT INTO `bk_article_position_relation` VALUES ('1', '1', '2', '0', '0');
-INSERT INTO `bk_article_position_relation` VALUES ('4', '1', '1', '0', '0');
-INSERT INTO `bk_article_position_relation` VALUES ('5', '2', '1', '0', '1421810822');
-INSERT INTO `bk_article_position_relation` VALUES ('6', '2', '3', '0', '1421810823');
-INSERT INTO `bk_article_position_relation` VALUES ('7', '1', '3', '0', '1421810823');
-INSERT INTO `bk_article_position_relation` VALUES ('8', '12', '3', '0', '1421813804');
-INSERT INTO `bk_article_position_relation` VALUES ('9', '6', '3', '1', '1421813804');
-INSERT INTO `bk_article_position_relation` VALUES ('10', '7', '3', '0', '1421813804');
-INSERT INTO `bk_article_position_relation` VALUES ('11', '8', '3', '0', '1421813804');
-INSERT INTO `bk_article_position_relation` VALUES ('12', '9', '3', '0', '1421813804');
-INSERT INTO `bk_article_position_relation` VALUES ('13', '10', '3', '0', '1421813804');
-INSERT INTO `bk_article_position_relation` VALUES ('14', '11', '3', '0', '1421813805');
-INSERT INTO `bk_article_position_relation` VALUES ('15', '13', '1', '0', '1421917211');
-INSERT INTO `bk_article_position_relation` VALUES ('16', '15', '6', '0', '1421984274');
-INSERT INTO `bk_article_position_relation` VALUES ('17', '1', '6', '0', '1421984297');
-INSERT INTO `bk_article_position_relation` VALUES ('18', '19', '1', '0', '1422261973');
-INSERT INTO `bk_article_position_relation` VALUES ('19', '19', '2', '0', '1422261973');
-INSERT INTO `bk_article_position_relation` VALUES ('20', '19', '6', '0', '1422261973');
-INSERT INTO `bk_article_position_relation` VALUES ('21', '22', '1', '1', '1422330844');
-INSERT INTO `bk_article_position_relation` VALUES ('22', '22', '6', '0', '1422330844');
-INSERT INTO `bk_article_position_relation` VALUES ('23', '23', '1', '1', '1422352277');
-INSERT INTO `bk_article_position_relation` VALUES ('24', '23', '6', '1', '1422352277');
 
 -- ----------------------------
 -- Table structure for `bk_article_tags`
@@ -724,7 +722,7 @@ CREATE TABLE `bk_article_tags` (
   KEY `is_delete` (`is_delete`) USING BTREE,
   KEY `sort` (`sort`) USING BTREE,
   KEY `name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 COMMENT='文章标签配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COMMENT='文章标签配置表';
 
 -- ----------------------------
 -- Records of bk_article_tags
@@ -746,7 +744,8 @@ INSERT INTO `bk_article_tags` VALUES ('53', 'opcache', '0', '1', '1', '142738396
 INSERT INTO `bk_article_tags` VALUES ('54', '软件安装', '0', '1', '1', '1427444712');
 INSERT INTO `bk_article_tags` VALUES ('55', 'openvpn', '0', '1', '1', '1427939462');
 INSERT INTO `bk_article_tags` VALUES ('56', 'mysql', '0', '1', '1', '1427961483');
-INSERT INTO `bk_article_tags` VALUES ('57', '123', '0', '1', '1', '1433904916');
+INSERT INTO `bk_article_tags` VALUES ('57', '123', '0', '1', '0', '1433904916');
+INSERT INTO `bk_article_tags` VALUES ('58', '测试', '0', '1', '0', '1440661859');
 
 -- ----------------------------
 -- Table structure for `bk_article_tag_relation`
@@ -760,7 +759,7 @@ CREATE TABLE `bk_article_tag_relation` (
   PRIMARY KEY (`id`),
   KEY `article_id` (`article_id`) USING BTREE,
   KEY `tag_id` (`tag_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=358 DEFAULT CHARSET=utf8 COMMENT='文章所属标签表';
+) ENGINE=InnoDB AUTO_INCREMENT=371 DEFAULT CHARSET=utf8 COMMENT='文章所属标签表';
 
 -- ----------------------------
 -- Records of bk_article_tag_relation
@@ -792,7 +791,6 @@ INSERT INTO `bk_article_tag_relation` VALUES ('244', '58', '44', '1427198609');
 INSERT INTO `bk_article_tag_relation` VALUES ('245', '58', '45', '1427198609');
 INSERT INTO `bk_article_tag_relation` VALUES ('246', '64', '41', '1427206381');
 INSERT INTO `bk_article_tag_relation` VALUES ('248', '65', '41', '1427206660');
-INSERT INTO `bk_article_tag_relation` VALUES ('249', '66', '47', '1427206838');
 INSERT INTO `bk_article_tag_relation` VALUES ('252', '68', '50', '1427207602');
 INSERT INTO `bk_article_tag_relation` VALUES ('253', '69', '47', '1427207907');
 INSERT INTO `bk_article_tag_relation` VALUES ('254', '69', '51', '1427207907');
@@ -818,8 +816,8 @@ INSERT INTO `bk_article_tag_relation` VALUES ('335', '79', '55', '1427944600');
 INSERT INTO `bk_article_tag_relation` VALUES ('336', '80', '47', '1427960404');
 INSERT INTO `bk_article_tag_relation` VALUES ('338', '81', '56', '1427961629');
 INSERT INTO `bk_article_tag_relation` VALUES ('345', '76', '47', '1427968979');
-INSERT INTO `bk_article_tag_relation` VALUES ('355', '82', '48', '1427981466');
-INSERT INTO `bk_article_tag_relation` VALUES ('357', '83', '57', '1433904944');
+INSERT INTO `bk_article_tag_relation` VALUES ('361', '66', '47', '1440727900');
+INSERT INTO `bk_article_tag_relation` VALUES ('365', '82', '48', '1440742952');
 
 -- ----------------------------
 -- Table structure for `bk_comment`
@@ -874,13 +872,13 @@ CREATE TABLE `bk_group` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否禁用',
   `level` int(11) NOT NULL DEFAULT '0' COMMENT '用户组等级，低等级的不能对高等级的用户做修改',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户组表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_group
 -- ----------------------------
 INSERT INTO `bk_group` VALUES ('1', '超级用户组', '123123a', '1', '1');
-INSERT INTO `bk_group` VALUES ('2', 'test', '1', '1', '1');
+INSERT INTO `bk_group` VALUES ('2', 'test', '1 ', '1', '1');
 
 -- ----------------------------
 -- Table structure for `bk_permission`
@@ -902,7 +900,7 @@ CREATE TABLE `bk_permission` (
   KEY `module` (`module`) USING BTREE,
   KEY `class` (`class`) USING BTREE,
   KEY `action` (`action`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_permission
@@ -953,6 +951,9 @@ INSERT INTO `bk_permission` VALUES ('67', '用户与权限管理', '用户与权
 INSERT INTO `bk_permission` VALUES ('68', '系统日志', '系统日志', '系统日志', '系统日志', '1', '1', '0', '2', '主要是各类的系统日志', '1436147908');
 INSERT INTO `bk_permission` VALUES ('69', '文章管理', '文章管理', '文章管理', '文章管理', '1', '34', '0', '2', '文章管理', '1436150232');
 INSERT INTO `bk_permission` VALUES ('73', 'workflow', 'index', 'index', '工作流列表', '1', '55', '2', '3', '', '1436232634');
+INSERT INTO `bk_permission` VALUES ('74', 'blog', 'tags', 'index', '标签管理', '1', '69', '0', '3', '', '1440142122');
+INSERT INTO `bk_permission` VALUES ('75', 'blog', 'tags', 'delete', '删除文章标签', '0', '74', '0', '4', '', '1440144715');
+INSERT INTO `bk_permission` VALUES ('76', 'blog', 'content', 'position', '关联推荐位', '0', '36', '0', '4', '', '1440747006');
 
 -- ----------------------------
 -- Table structure for `bk_search_index`
@@ -970,7 +971,7 @@ CREATE TABLE `bk_search_index` (
   UNIQUE KEY `article_id` (`article_id`) USING BTREE,
   KEY `added_date` (`added_date`) USING BTREE,
   FULLTEXT KEY `content` (`title`,`summary`,`content`)
-) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_search_index
@@ -987,7 +988,7 @@ INSERT INTO `bk_search_index` VALUES ('30', '61', ' [ centos 36719 20214 23433 3
 INSERT INTO `bk_search_index` VALUES ('36', '67', ' [ svn 30456 20851 ] 20351 29992 35760 24405 ', ' 36825 37324 35760 24405 20102 26377 20851 20010 20154 22312 20351 29992 svn 30340 19968 20123 38382 39064 65292 20197 21450 35299 20915 26041 27861 12290 ', ' 1 12289 22914 20309 22312 26356 26032 svn 20195 30721 30340 26102 20505 21516 26102 26356 26032 21644 svn 21516 19968 21488 26426 30340 web 31243 24207 12290 35299 20915 65306 22312 20179 24211 30446 24405 hooks 19979 24314 31435 19968 20010 25991 20214 post-commit 22686 21152 20197 19979 20869 23481 # ! /bin/sh \r \n export.utf-8 \r \n svn&nbsp ; update&nbsp ; --username&nbsp ; xx&nbsp ; --password&nbsp ; xxxx&nbsp ; /home/www/xx 22312 20351 29992 36825 20010 20195 30721 20043 21069 65292 38656 35201 22312 36335 24452 /home/www/xx 20808 25226 36825 20010 24211 25289 19979 26469 65292 20197 21518 27599 27425 26356 26032 20195 30721 21040 svn 30340 26102 20505 65292 20250 21516 26102 25191 34892 36825 27573 hooks 20195 30721 12290 36825 26679 23601 21487 20197 21516 26102 26356 26032 web 20013 30340 20195 30721 20102 12290 2 12289 22914 20309 22312 25552 20132 26356 26032 30340 26102 20505 24378 21046 20889 26085 24535 35299 20915 65306 22312 hooks 30446 24405 19979 25191 34892 19979 38754 30340 21629 20196 cp&nbsp ; pre-commit-tmpl&nbsp ; pre-commit \r \n chmod&nbsp ; + x&nbsp ; pre-commit 28982 21518 20462 25913 pre-commit 25991 20214 repos = &quot ; $ 1&quot ; \r \n txn = &quot ; $ 2&quot ; \r \n &nbsp ; \r \n # &nbsp ; make&nbsp ; sure&nbsp ; that&nbsp ; the&nbsp ; log&nbsp ; message&nbsp ; contains&nbsp ; some&nbsp ; text. \r \n svnlook = /usr/bin/svnlook \r \n logmsg = ` $ svnlook&nbsp ; log&nbsp ; -t&nbsp ; &quot ; $ txn&quot ; &nbsp ; &quot ; $ repos&quot ; &nbsp ; | &nbsp ; grep&nbsp ; &quot ; [ a-za-z0-9 ] &quot ; &nbsp ; | &nbsp ; wc&nbsp ; -c ` \r \n if&nbsp ; [ &nbsp ; &quot ; $ logmsg&quot ; &nbsp ; -lt&nbsp ; 10&nbsp ; ] ; \r \n then \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; echo&nbsp ; & # 39 ; 26085 24535 21834 65281 20146 65281 & # 39 ; &nbsp ; 1&gt ; &amp ; 2 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; exit&nbsp ; 1 \r \n fi \r \n &nbsp ; \r \n # &nbsp ; check&nbsp ; that&nbsp ; the&nbsp ; author&nbsp ; of&nbsp ; this&nbsp ; commit&nbsp ; has&nbsp ; the&nbsp ; rights&nbsp ; to&nbsp ; perform \r \n # &nbsp ; the&nbsp ; commit&nbsp ; on&nbsp ; the&nbsp ; files&nbsp ; and&nbsp ; directories&nbsp ; being&nbsp ; modified. \r \n # &nbsp ; commit-access-control.pl&nbsp ; &quot ; $ repos&quot ; &nbsp ; &quot ; $ txn&quot ; &nbsp ; commit-access-control.cfg&nbsp ; | | &nbsp ; exit&nbsp ; 1 \r \n &nbsp ; \r \n # &nbsp ; all&nbsp ; checks&nbsp ; passed , &nbsp ; so&nbsp ; allow&nbsp ; the&nbsp ; commit. \r \n exit&nbsp ; 0 ', '1427207199', '1427208041');
 INSERT INTO `bk_search_index` VALUES ('37', '68', ' zeroclipboard 25554 20214 22914 20309 25209 37327 21021 22987 21270 12290 ', ' 35760 24405 20102 zeroclipboard 25554 20214 25209 37327 21021 22987 21270 30340 26041 27861 12290 ', ' js 20195 30721 65306 &nbsp ; &nbsp ; zeroclipboard.config ( { &nbsp ; swfpath:&nbsp ; & # 39 ; /static/js/zeroclipboard/zeroclipboard.swf& # 39 ; &nbsp ; } ) ; &nbsp ; &nbsp ; \r \n &nbsp ; \r \n &nbsp ; &nbsp ; function&nbsp ; initcopy ( $ o ) &nbsp ; { &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; var&nbsp ; text&nbsp ; = &nbsp ; $ o.html ( ) ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; var&nbsp ; k&nbsp ; = &nbsp ; $ o.attr ( & # 39 ; ids& # 39 ; ) ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; if&nbsp ; ( text ) &nbsp ; { &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; new&nbsp ; zeroclipboard ( $ ( & # 39 ; # cpbtn& # 39 ; + k ) ) .on ( &quot ; copy&quot ; , &nbsp ; function&nbsp ; ( event ) &nbsp ; { &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; var&nbsp ; clipboard&nbsp ; = &nbsp ; event.clipboarddata ; &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; clipboard.setdata ( &quot ; text/plain&quot ; , &nbsp ; text ) ; &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; alert ( & # 39 ; 22797 21046 25104 21151 & # 39 ; ) ; &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; } ) ; &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; } &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; } &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; $ ( & # 39 ; .cpcontent& # 39 ; ) .each ( function&nbsp ; ( i , &nbsp ; o ) &nbsp ; { &nbsp ; &nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; initcopy ( $ ( o ) ) ; \r \n &nbsp ; &nbsp ; } ) ; html 20195 30721 65288 23454 38469 20013 65292 21487 33021 26377 22810 27573 24046 19981 22810 30340 20195 30721 65289 65306 &lt ; span&nbsp ; ids = &quot ; 1&quot ; &nbsp ; class = &quot ; cpcontent&quot ; &gt ; 25152 35201 22797 21046 30340 25991 23383 &lt ; /span&gt ; // 25991 23383 \r \n &lt ; input&nbsp ; id = &quot ; cpbtn1&quot ; &nbsp ; type = &quot ; button&quot ; &nbsp ; class = &quot ; chobtn&nbsp ; btn&nbsp ; cpbtn&quot ; &nbsp ; value = &quot ; 22797 21046 25991 26412 &quot ; &nbsp ; /&gt ; // 25353 38062 &lt ; span&nbsp ; ids = &quot ; 2&quot ; &nbsp ; class = &quot ; cpcontent&quot ; &gt ; 25152 35201 22797 21046 30340 25991 23383 &lt ; /span&gt ; // 25991 23383 \r \n &lt ; input&nbsp ; id = &quot ; cpbtn2&quot ; &nbsp ; type = &quot ; button&quot ; &nbsp ; class = &quot ; chobtn&nbsp ; btn&nbsp ; cpbtn&quot ; &nbsp ; value = &quot ; 22797 21046 25991 26412 &quot ; &nbsp ; /&gt ; // 25353 38062 20854 20013 65306 $ ( & # 39 ; .cpcontent& # 39 ; ) 20195 34920 30340 26159 38656 35201 22797 21046 30340 25991 23383 $ ( & # 39 ; # cpbtn& # 39 ; + k ) 20195 34920 26159 25991 23383 25152 32465 23450 30340 22797 21046 25353 38062 12290 ', '1427207602', '1427207602');
 INSERT INTO `bk_search_index` VALUES ('38', '69', ' [ centos 36719 20214 23433 35013 ] iftop 30340 23433 35013 ', ' 31616 21333 30340 20171 32461 20102 22914 20309 23433 35013 iftop 36719 20214 12290 ', ' wget   http://www.ex-parrot.com/ ~ pdw/iftop/download/iftop-0.17.tar.gz 19979 36733 21518 35299 21387 tar&nbsp ; xzf&nbsp ; iftop-0.17.tar.gz 23433 35013 24517 35201 30340 25903 25345 yum&nbsp ; install&nbsp ; libpcap&nbsp ; flex&nbsp ; byacc&nbsp ; &nbsp ; libpcap&nbsp ; ncurses&nbsp ; ncurses-devel&nbsp ; libpcap-devel 28982 21518 ./configure&nbsp ; \r \n make \r \n make&nbsp ; install 21040 20123 24212 35813 23601 22909 20102 12290 ', '1427207907', '1427207907');
-INSERT INTO `bk_search_index` VALUES ('35', '66', ' [ centos 38382 39064 38598 ] yum   install 26102 25253 warning:   rpmts_hdrfromfdno:   header   v3   rsa/sha256   signature ,   key   id   c105b9de:   nokey ', ' 35299 20915 65306 rpm   --import   /etc/pki/rpm-gpg/rpm-gpg-key-centos-6   ', ' 35299 20915 26041 27861 65306 rpm&nbsp ; --import&nbsp ; /etc/pki/rpm-gpg/rpm-gpg-key-centos-6 21518 38754 30340 6 35201 21644 20320 24403 21069 30340 31995 32479 29256 26412 26377 20851 ', '1427206838', '1427206838');
+INSERT INTO `bk_search_index` VALUES ('35', '66', ' [ centos 38382 39064 38598 ] yum   install 26102 25253 warning:   rpmts_hdrfromfdno:   header   v3   rsa/sha256   signature ,   key   id   c105b9de:   nokey ', ' 35299 20915 65306 rpm   --import   /etc/pki/rpm-gpg/rpm-gpg-key-centos-6   ', ' 35299 20915 26041 27861 65306 rpm&nbsp ; --import&nbsp ; /etc/pki/rpm-gpg/rpm-gpg-key-centos-6 21518 38754 30340 6 35201 21644 20320 24403 21069 30340 31995 32479 29256 26412 26377 20851 ', '1427206838', '1440727900');
 INSERT INTO `bk_search_index` VALUES ('34', '65', ' [ 38382 39064 38598 ] 37325 20889 session 31867 30340 26102 20505 21487 33021 20250 23548 33267 nginx   502 30340 38382 39064 30340 21407 22240 ', ' 37325 20889 session 31867 30340 26102 20505 21487 33021 20250 23548 33267 nginx   502 30340 38382 39064 30340 21407 22240 65292 22312 36825 37324 21487 20197 25214 21040 31572 26696 65306 http://cn2.php.net/manual/zh/function.session-set-save-handler.php # refsect1-function.session-set-save-handler-notes ', ' $ handler&nbsp ; = &nbsp ; new&nbsp ; filesessionhandler ( ) ; \r \n session_set_save_handler ( \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; array ( $ handler , &nbsp ; & # 39 ; open& # 39 ; ) , \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; array ( $ handler , &nbsp ; & # 39 ; close& # 39 ; ) , \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; array ( $ handler , &nbsp ; & # 39 ; read& # 39 ; ) , \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; array ( $ handler , &nbsp ; & # 39 ; write& # 39 ; ) , \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; array ( $ handler , &nbsp ; & # 39 ; destroy& # 39 ; ) , \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; array ( $ handler , &nbsp ; & # 39 ; gc& # 39 ; ) \r \n ) ; \r \n &nbsp ; \r \n //&nbsp ; 36825 20010 26159 37325 28857 20851 38190 22788 , 22914 26524 27809 26377 21152 36825 20010 35821 21477 65292 37027 20040 21487 33021 20250 26377 26426 29575 36896 25104 nginx&nbsp ; 502 30340 38382 39064 12290 \r \n register_shutdown_function ( & # 39 ; session_write_close& # 39 ; ) ; \r \n &nbsp ; \r \n session_start ( ) ; 25163 20876 37324 26377 35828 26126 65306 http://cn2.php.net/manual/zh/function.session-set-save-handler.php # refsect1-function.session-set-save-handler-notes&nbsp ; ', '1427206635', '1427206660');
 INSERT INTO `bk_search_index` VALUES ('33', '64', ' [ 38382 39064 38598 ] 20004 20010 19981 21516 29992 25143 25191 34892 29983 25104 21516 19968 20010 25991 20214 25152 23548 33267 30340 35835 21462 26435 38480 38382 39064 12290 ', ' 35831 27880 24847 19981 21516 29992 25143 29992 25143 25805 20316 21516 19968 20010 25991 20214 30340 26102 20505 21487 33021 20250 23548 33268 31243 24207 27809 26377 26435 38480 36827 34892 25805 20316 12290 ', ' 26368 36817 22312 20351 29992 31243 24207 29983 25104 32531 23384 30340 26102 20505 21457 29616 26377 26102 20505 29983 25104 25104 21151 65292 26377 26102 20505 29983 25104 19981 25104 21151 65311 26816 26597 31243 24207 26159 27809 26377 38382 39064 30340 12290 26368 21518 26597 20986 26159 22240 20026 26377 33050 26412 22312 20197 root 29992 25143 26469 36305 php 33050 26412 29983 25104 21516 19968 20010 32531 23384 25991 20214 12290 32780 25105 20204 35775 38382 apache 30340 29992 25143 26159 21364 26159 www 12290 27604 22914 65306 24403 25105 20204 22312 20351 29992 26576 19968 31995 32479 21151 33021 30340 26102 20505 65292 20250 29983 25104 19968 20010 32531 23384 25991 20214 65292 24182 23545 36825 20010 25991 20214 26377 20889 30340 26435 38480 12290 20294 26159 30001 20110 26576 31181 21407 22240 65292 25105 20204 38656 35201 19968 20010 23450 26102 20219 21153 26469 23450 26102 26356 26032 36825 20010 32531 23384 25991 20214 12290 20294 26159 30001 20110 22312 36305 33050 26412 30340 26102 20505 29992 30340 26159 root 30340 29992 25143 26469 36305 30340 65292 32780 22240 20026 root 30340 umask 21407 22240 65292 21019 24314 25991 20214 30340 26102 20505 20250 20250 20943 25481 26435 38480 0022 65292 21363 755 12290 36825 26679 30340 19968 20010 32531 23384 25991 20214 65292 24403 apache 29992 www 29992 25143 20877 26469 29983 25104 30340 26102 20505 65292 20250 22240 20026 27809 26377 20889 30340 26435 38480 32780 26356 26032 22833 36133 12290 ', '1427206381', '1427206381');
 INSERT INTO `bk_search_index` VALUES ('31', '62', ' [ centos 36719 20214 23433 35013 ] sphinx 30340 23433 35013 19982 37197 32622 20197 21450 php 26041 38754 30340 22788 29702 ', ' 31616 21333 30340 20171 32461 sphinx 30340 23433 35013 19982 37197 32622 20197 21450 php 26041 38754 30340 22788 29702 12290 ', ' 1 12289 19979 36733 sphinx:wget&nbsp ; http://sphinxsearch.com/files/sphinx-2.2.8-release.tar.gz2 12289 24320 22987 32534 35793 $ &nbsp ; tar&nbsp ; xzvf&nbsp ; sphinx-2.2.8-release.tar.gz \r \n $ &nbsp ; cd&nbsp ; sphinx \r \n $ &nbsp ; ./configure \r \n $ &nbsp ; make \r \n $ &nbsp ; make&nbsp ; install 32534 35793 30340 26102 20505 26377 20960 20010 21442 25968 21487 20197 36873 25321 65292 25105 23433 35013 30340 26102 20505 26159 40664 35748 30340 65292 27809 26377 21152 20197 19979 20219 20309 30340 21442 25968 65306 there& # 39 ; s&nbsp ; a&nbsp ; number&nbsp ; of&nbsp ; options&nbsp ; to&nbsp ; configure.&nbsp ; the&nbsp ; complete&nbsp ; listing&nbsp ; may&nbsp ; be&nbsp ; obtained&nbsp ; by&nbsp ; using&nbsp ; --help&nbsp ; switch.&nbsp ; the&nbsp ; most&nbsp ; important&nbsp ; ones&nbsp ; are: \r \n \r \n --prefix , &nbsp ; which&nbsp ; specifies&nbsp ; where&nbsp ; to&nbsp ; install&nbsp ; sphinx ; &nbsp ; such&nbsp ; as&nbsp ; --prefix = /usr/local/sphinx&nbsp ; ( all&nbsp ; of&nbsp ; the&nbsp ; examples&nbsp ; use&nbsp ; this&nbsp ; prefix ) \r \n \r \n --with-mysql , &nbsp ; which&nbsp ; specifies&nbsp ; where&nbsp ; to&nbsp ; look&nbsp ; for&nbsp ; mysql&nbsp ; include&nbsp ; and&nbsp ; library&nbsp ; files , &nbsp ; if&nbsp ; auto-detection&nbsp ; fails ; \r \n \r \n --with-static-mysql , &nbsp ; which&nbsp ; builds&nbsp ; sphinx&nbsp ; with&nbsp ; statically&nbsp ; linked&nbsp ; mysql&nbsp ; support ; \r \n \r \n --with-pgsql , &nbsp ; which&nbsp ; specifies&nbsp ; where&nbsp ; to&nbsp ; look&nbsp ; for&nbsp ; postgresql&nbsp ; include&nbsp ; and&nbsp ; library&nbsp ; files. \r \n \r \n --with-static-pgsql , &nbsp ; which&nbsp ; builds&nbsp ; sphinx&nbsp ; with&nbsp ; statically&nbsp ; linked&nbsp ; postgresql&nbsp ; support ; 22914 26524 24819 30693 36947 65292 23433 35013 30340 25991 20214 22312 21738 65311 21487 20197 20351 29992 20197 19979 30340 21629 20196 26597 30475 65306 $ &nbsp ; ./configure&nbsp ; --help 22914 26524 20320 19979 36733 30340 26159 rpm 21253 21487 20197 20351 29992 20197 19979 21629 20196 26597 30475 23433 35013 36335 24452 65306 $ &nbsp ; rpm&nbsp ; -qpl&nbsp ; sphinx-2.2.8-1.rhel7.x86_64.rpm&nbsp ; # 26597 30475 25991 20214 23433 35013 22312 21738 3 12289 37197 32622 25991 20214 22312 /usr/local/etc/sphinx.conf 65292 40664 35748 36825 20010 25991 20214 19981 23384 22312 65292 20294 26159 /usr/local/etc/ 30446 24405 19979 26377 sphinx.conf.distcopy&nbsp ; sphinx.conf.dist&nbsp ; sphinx.conf 37197 32622 25991 20214 31616 21333 30340 22914 19979 65306 # 28304 \r \n source&nbsp ; mrblog_article \r \n { \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; type&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; mysql \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_host&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; localhost \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_user&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; root \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_pass&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; qqq111 ! ! ! \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_db&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; mrblog \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_port&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 3306 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_query_pre&nbsp ; &nbsp ; &nbsp ; = &nbsp ; set&nbsp ; names&nbsp ; utf8 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_sock&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; /tmp/mysql.sock \r \n \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_query&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; \\ \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; select&nbsp ; id , &nbsp ; article_id , &nbsp ; title , &nbsp ; summary , &nbsp ; content , &nbsp ; added_date&nbsp ; \\ \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; from&nbsp ; bk_search_index \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; # # warning:&nbsp ; attribute&nbsp ; & # 39 ; id& # 39 ; &nbsp ; not&nbsp ; found&nbsp ; -&nbsp ; ignoring \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; # 20986 29616 36825 20010 30340 21407 22240 26159 22240 20026 19981 33021 20351 29992 20027 38190 , 19988 19978 38754 30340 26597 35810 35821 21477 40664 35748 19988 24517 38656 31532 19968 20010 23383 27573 26159 id \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_attr_uint&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; article_id&nbsp ; \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_attr_timestamp&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; added_date \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_ranged_throttle&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 100 \r \n } \r \n # 32034 24341 \r \n index&nbsp ; mrblog_article_1 \r \n { \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; source&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; mrblog_article \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; path&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; /alidata/sphinx/data/mrblog_article_1 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; docinfo&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; extern \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; dict&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; keywords \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; mlock&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 0 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; morphology&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; none \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; min_word_len&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 1 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; ngram_len&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 1 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; ngram_chars&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; u + 3000..u + 2fa1f \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; html_strip&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 100 \r \n } \r \n \r \n \r \n source&nbsp ; mrblog_articlethrottled&nbsp ; :&nbsp ; mrblog_article \r \n { \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; sql_ranged_throttle&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 100 \r \n } \r \n \r \n index&nbsp ; rt \r \n { \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; type&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; rt \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; path&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; /alidata/sphinx/data/rt \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; rt_field&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; title \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; rt_field&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; content \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; rt_attr_uint&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; gid \r \n } \r \n \r \n indexer \r \n { \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; mem_limit&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 128m \r \n } \r \n \r \n searchd \r \n { \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; listen&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 9312 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; log&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; /alidata/sphinx/log/searchd.log \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; query_log&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; /alidata/sphinx/log/query.log \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; read_timeout&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 5 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; client_timeout&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 300 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; max_children&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 30 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; persistent_connections_limit&nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 30 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; pid_file&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; /alidata/sphinx/data/searchd.pid \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; preopen_indexes&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 1 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; unlink_old&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 1 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; mva_updates_pool&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 1m \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; max_packet_size&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 8m \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; max_filters&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 256 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; max_filter_values&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 4096 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; max_batch_queries&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; 32 \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; workers&nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; = &nbsp ; threads&nbsp ; # &nbsp ; for&nbsp ; rt&nbsp ; to&nbsp ; work \r \n } \r \n \r \n common \r \n { \r \n \r \n } 4 12289 29983 25104 32034 24341 /usr/local/bin/indexer&nbsp ; --config&nbsp ; /usr/local/etc/sphinx.conf&nbsp ; --all&nbsp ; --rotate6 12289 21551 21160 sphinx/usr/local/bin/searchd&nbsp ; --config&nbsp ; /usr/local/etc/sphinx.conf7 12289 23433 35013 php 25193 23637 65306 35831 31227 27493 65306 http://www.opcache.net/index/detail.html?id = 638 12289 php 22914 26524 22788 29702 65292 35831 31227 27493 65306 http://www.opcache.net/index/detail.html?id = 64&nbsp ;   ', '1427186776', '1427198558');
@@ -1004,8 +1005,15 @@ INSERT INTO `bk_search_index` VALUES ('47', '78', ' openvpn   server 31471 37197
 INSERT INTO `bk_search_index` VALUES ('48', '79', ' openvpn 20351 29992 38382 39064 24635 32467 12290 ', ' 26412 25991 20171 32461 20102 openvpn 30340 19968 20123 20351 29992 12290 ', ' 1 12289 openvpn 36830 25509 25104 21151 21518 26080 27861 ping 36890 26381 21153 22120 30340 21407 22240 20043 19968 12290 21407 22240 65306 23458 25143 31471 30340 26102 38388 19981 33021 22823 20110 26381 21153 22120 30340 65292 35831 20462 25913 33258 24049 30005 33041 30340 26102 38388 12290 2 12289 22914 20309 23433 35013 22312 65306 http://www.opcache.net/index/detail.html?id = 76   3 12289 37197 32622 25991 20214 30340 35828 26126 22312 65306 http://www.opcache.net/index/detail.html?id = 78   ', '1427942466', '1427944600');
 INSERT INTO `bk_search_index` VALUES ('49', '80', ' centos   20351 29992 36807 31243 20013 36935 21040 30340 38382 39064 31508 35760 ', ' centos   20351 29992 36807 31243 20013 36935 21040 30340 38382 39064 31508 35760 ', ' 1 12289 22914 20309 25235 32593 21345 30340 21253 tcpdump&nbsp ; -i&nbsp ; eth0&nbsp ; # 20195 34920 20390 21548 32593 21345 eth0 30340 27969 37327 21253 12290 2 12289 ', '1427960404', '1427960404');
 INSERT INTO `bk_search_index` VALUES ('50', '81', ' 33258 21160 22791 20221 mysql 25968 25454 24211 33050 26412 ', ' 22312 29992 30340 mysql 25968 25454 24211 22791 20221 33050 26412 65292 36866 21512 23567 37327 30340 12290 ', ' # ! /bin/bash \r \n path = /bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin: ~ /bin \r \n export&nbsp ; path \r \n dbuser = & # 39 ; root& # 39 ; \r \n dbpasswd = & # 39 ; xx& # 39 ; \r \n dbname = & # 39 ; db1&nbsp ; db2& # 39 ; \r \n backtime = ` date&nbsp ; + % y % m % d % h % m % s ` \r \n logpath = & # 39 ; /root/mysql_backup/log& # 39 ; \r \n datapath = & # 39 ; /root/mysql_backup& # 39 ; \r \n echo&nbsp ; &quot ; backup&nbsp ; time: $ { backtime } , database: $ { dbname } &nbsp ; touching...&quot ; &nbsp ; &gt ; &gt ; &nbsp ; $ { logpath } /mysqllog.log \r \n for&nbsp ; table&nbsp ; in&nbsp ; $ dbname ; &nbsp ; do \r \n source = ` /usr/local/mysql/bin/mysqldump&nbsp ; -u $ { dbuser } &nbsp ; -p $ { dbpasswd } &nbsp ; $ { table } &gt ; &nbsp ; $ { datapath } / $ { table } $ { backtime } .sql ` &nbsp ; 2&gt ; &gt ; &nbsp ; $ { logpath } /mysqllog.log ; \r \n if&nbsp ; [ &nbsp ; &quot ; $ ?&quot ; &nbsp ; = = &nbsp ; 0&nbsp ; ] ; then \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; cd&nbsp ; $ { datapath } \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; tar&nbsp ; czf&nbsp ; $ { table } $ { backtime } .tar.gz&nbsp ; $ { table } $ { backtime } .sql&nbsp ; &gt ; &nbsp ; /dev/null \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; mv&nbsp ; $ { table } $ { backtime } .tar.gz&nbsp ; backup/ \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; cd&nbsp ; $ { datapath } /backup \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; svn&nbsp ; add&nbsp ; $ { table } $ { backtime } .tar.gz \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; echo&nbsp ; &quot ; database&nbsp ; $ { dbname } &nbsp ; backup&nbsp ; success ! ! &quot ; &nbsp ; &gt ; &gt ; &nbsp ; $ { logpath } /mysqllog.log \r \n else \r \n &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; &nbsp ; echo&nbsp ; &quot ; database&nbsp ; $ { dbname } &nbsp ; backup&nbsp ; error ! ! &quot ; &nbsp ; &gt ; &gt ; &nbsp ; $ { logpath } /mysqllog.log \r \n fi \r \n done \r \n cd&nbsp ; $ { datapath } /backup \r \n svn&nbsp ; commit&nbsp ; -m&nbsp ; &quot ; mysql&nbsp ; auto&nbsp ; backup&quot ; ', '1427961483', '1427961629');
-INSERT INTO `bk_search_index` VALUES ('51', '82', ' subversion 30340 32534 35793 23433 35013 ', ' subversion 30340 32534 35793 23433 35013 subversion-1.8.13 ', ' 1 12289 23433 35013 apr   apr-util # 23433 35013 apr \r \n cd&nbsp ; ./apr-1.5.1 \r \n ./configure&nbsp ; --prefix = /usr/local/apr \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install \r \n \r \n # 23433 35013 apr-util \r \n cd&nbsp ; ../apr-util-1.5.3 \r \n ./configure&nbsp ; --prefix = /usr/local/apr-util&nbsp ; --with-apr = /usr/local/apr/ \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install2.1 23433 35013 sqlite-autoconfwget&nbsp ; &nbsp ; \r \n tar&nbsp ; xzf&nbsp ; sqlite-autoconf-xxx.tar.gz \r \n ./configure&nbsp ; --prefix = /usr/local/sqlite_autoconf \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install2.2 22914 26524 27809 26377 expatyum&nbsp ; install&nbsp ; expat2.3 23433 35013 zlib/configure&nbsp ; --prefix = /usr/local/zlib \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install3 12289 ./configure&nbsp ; --prefix = /usr/local/subversion&nbsp ; --with-apr = /usr/local/apr&nbsp ; \\ \r \n --with-apr-util = /usr/local/apr-util&nbsp ; --with-zlib&nbsp ; --with-openssl&nbsp ; \\ \r \n --enable-maintainer-mode&nbsp ; --with-sqlite = /usr/local/sqlite_autoconfmake&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install4 12289 check/usr/local/subversion/bin/svn&nbsp ; --version5 12289 22914 26524 26377 38382 39064 30340 35805 65292 19979 36733 rpm 23433 35013 21253 , 20197 rpm 30340 26041 24335 23433 35013 http://www.collab.net/downloads/subversion # tab-1   19979 36733 collabnetsubversion-client-1.8.11-1.x86_64.rpm 23433 35013 rpm   -ivh   collabnetsubversion-client-1.8.11-1.x86_64.rpm 40664 35748 23433 35013 22312 /opt/ 19979 65292 19981 36807 20320 21487 20197 22797 21046 21040 20219 20309 22320 26041 12290 ', '1427964450', '1427981466');
+INSERT INTO `bk_search_index` VALUES ('51', '82', ' subversion 30340 32534 35793 23433 35013 ', ' subversion 30340 32534 35793 23433 35013 subversion-1.8.13 ', ' 1 12289 23433 35013 apr   apr-util # 23433 35013 apr \r \n cd&nbsp ; ./apr-1.5.1 \r \n ./configure&nbsp ; --prefix = /usr/local/apr \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install \r \n \r \n # 23433 35013 apr-util \r \n cd&nbsp ; ../apr-util-1.5.3 \r \n ./configure&nbsp ; --prefix = /usr/local/apr-util&nbsp ; --with-apr = /usr/local/apr/ \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install2.1 23433 35013 sqlite-autoconfwget&nbsp ; &nbsp ; \r \n tar&nbsp ; xzf&nbsp ; sqlite-autoconf-xxx.tar.gz \r \n ./configure&nbsp ; --prefix = /usr/local/sqlite_autoconf \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install2.2 22914 26524 27809 26377 expatyum&nbsp ; install&nbsp ; expat2.3 23433 35013 zlib/configure&nbsp ; --prefix = /usr/local/zlib \r \n make&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install3 12289 ./configure&nbsp ; --prefix = /usr/local/subversion&nbsp ; --with-apr = /usr/local/apr&nbsp ; \\ \r \n --with-apr-util = /usr/local/apr-util&nbsp ; --with-zlib&nbsp ; --with-openssl&nbsp ; \\ \r \n --enable-maintainer-mode&nbsp ; --with-sqlite = /usr/local/sqlite_autoconfmake&nbsp ; &amp ; &amp ; &nbsp ; make&nbsp ; install4 12289 check/usr/local/subversion/bin/svn&nbsp ; --version5 12289 22914 26524 26377 38382 39064 30340 35805 65292 19979 36733 rpm 23433 35013 21253 , 20197 rpm 30340 26041 24335 23433 35013 http://www.collab.net/downloads/subversion # tab-1   19979 36733 collabnetsubversion-client-1.8.11-1.x86_64.rpm 23433 35013 rpm   -ivh   collabnetsubversion-client-1.8.11-1.x86_64.rpm 40664 35748 23433 35013 22312 /opt/ 19979 65292 19981 36807 20320 21487 20197 22797 21046 21040 20219 20309 22320 26041 12290 ', '1427964450', '1440742952');
 INSERT INTO `bk_search_index` VALUES ('52', '83', ' 123 ', ' 123 ', ' 123 ', '1433904916', '1433904944');
+INSERT INTO `bk_search_index` VALUES ('53', '84', ' 27979 35797 19968 19979 ', ' 27979 35797 19968 19979 ', ' 27979 35797 19968 19979 ', '1440661859', '1440661859');
+INSERT INTO `bk_search_index` VALUES ('54', '85', ' 123123 ', ' 123123 ', ' 123 ', '1440732217', '1440732217');
+INSERT INTO `bk_search_index` VALUES ('55', '86', ' 123 ', ' 123 ', ' 123 ', '1440732235', '1440732235');
+INSERT INTO `bk_search_index` VALUES ('56', '87', ' 123 ', ' 123 ', ' 123123 ', '1440732252', '1440732252');
+INSERT INTO `bk_search_index` VALUES ('57', '88', ' 123 ', ' 123 ', ' 123 ', '1440742967', '1440742967');
+INSERT INTO `bk_search_index` VALUES ('58', '89', ' 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 31616 20171 ', ' 123 ', ' 123 ', '1440744971', '1440744981');
+INSERT INTO `bk_search_index` VALUES ('59', '90', ' 1231123 ', ' 123 ', ' 123 ', '1440746457', '1440746468');
 
 -- ----------------------------
 -- Table structure for `bk_users`
@@ -1029,14 +1037,13 @@ CREATE TABLE `bk_users` (
   UNIQUE KEY `name` (`name`) USING BTREE,
   KEY `password` (`password`) USING BTREE,
   KEY `group_id` (`group_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_users
 -- ----------------------------
-INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '1', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '12', '1', '超级用户组', '127.0.0.1', '1436500439');
-INSERT INTO `bk_users` VALUES ('2', 'test', 'c4ca4238a0b923820dcc509a6f75849b', '2', 'test', '', '1436169648', '0', '11', '1', '1', '127.0.0.1', '1436241545');
-INSERT INTO `bk_users` VALUES ('3', 'test2', 'c4ca4238a0b923820dcc509a6f75849b', '3', '1', '', '1436170910', '0', '1', '1', '1', '', '0');
+INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '1', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '12', '1', '超级用户组', '127.0.0.1', '1440747027');
+INSERT INTO `bk_users` VALUES ('2', 'test', 'c4ca4238a0b923820dcc509a6f75849b', '2', 'test', '', '1436169648', '0', '11', '1', '1', '127.0.0.1', '1440400566');
 
 -- ----------------------------
 -- Table structure for `bk_workflow`
@@ -1052,7 +1059,7 @@ CREATE TABLE `bk_workflow` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`) USING BTREE,
   KEY `type` (`type`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='工作流表';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='工作流表';
 
 -- ----------------------------
 -- Records of bk_workflow
@@ -1076,7 +1083,7 @@ CREATE TABLE `bk_workflow_step` (
   KEY `workflow_id` (`workflow_id`) USING BTREE,
   KEY `step_level` (`step_level`) USING BTREE,
   KEY `code` (`code`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='工作流的详细步骤';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='工作流的详细步骤';
 
 -- ----------------------------
 -- Records of bk_workflow_step
@@ -1098,7 +1105,7 @@ CREATE TABLE `bk_workflow_user` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `workflow_step_id` (`workflow_step_id`) USING BTREE,
   KEY `workflow_id` (`workflow_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_workflow_user

@@ -164,4 +164,12 @@ class ContentController extends Controller
         return Js::error($manager->getErrorMessage());
     }
 
+    /**
+     * 把文章关联到推荐位
+     */
+    public function position()
+    {
+
+    }
+
 }

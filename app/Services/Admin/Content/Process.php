@@ -95,6 +95,80 @@ class Process extends BaseProcess
     }
 
     /**
+     * 编辑文章，因为使用了事务，如果没有成功请手动抛出异常
+     *
+     * @param string $data
+     * @access public
+     * @return boolean true|false
+     */
+    public function editContent(\App\Services\Admin\Content\Param\ContentSave $data, $id)
+    {
+        if( ! $this->contentValidate->edit($data))
+        {
+            $unValidateMsg = $this->contentValidate->getErrorMessage();
+            return $this->setErrorMsg($unValidateMsg);
+        }
+
+        $object = new \stdClass();
+        $object->contentAutoId = $id;
+
+        try
+        {
+            $result = \DB::transaction(function() use ($data, $id, $object)
+            {
+                $this->updateContent($data, $id);
+                $this->updateContentDetail($data, $id);
+                $this->saveArticleTags($object, $data['tags']);
+                $this->saveArticleClassify($object, $data['classify']);
+                $this->saveSeachFullText($object, $data, true);
+                return true;
+            });
+        }
+        catch (\Exception $e)
+        {
+            $result = false;
+        }
+
+        if( ! $result)
+        {
+            return $this->setErrorMsg(Lang::get('common.action_error'));
+        }
+        return true;
+    }
+
+    /**
+     * 删除文章，因为使用了事务，如果没有成功请手动抛出异常
+     * 
+     * @param array $ids 要删除的文章的id
+     * @access public
+     * @return boolean true|false
+     */
+    public function detele($ids)
+    {
+        if( ! is_array($ids)) return false;
+        $data['is_delete'] = ContentModel::IS_DELETE_YES;
+        try
+        {
+            $result = \DB::transaction(function() use ($data, $ids)
+            {
+                $this->contentModel->solfDeleteContent($data, $ids);
+                $this->deleteArticleClassifyById($ids);
+                $this->deleteArticleTagsById($ids);
+                $this->deleteArticlePositionById($ids);
+                return true;
+            });
+        }
+        catch (\Exception $e)
+        {
+            $result = false;
+        }
+
+        if( ! $result) return $this->setErrorMsg(Lang::get('common.action_error'));
+
+        return $result;
+    }
+
+    /**
      * 保存到主表，因为使用了事务，如果没有成功请手动抛出异常
      * 
      * @param  array $data
@@ -227,38 +301,6 @@ class Process extends BaseProcess
     }
 
     /**
-     * 删除文章，因为使用了事务，如果没有成功请手动抛出异常
-     * 
-     * @param array $ids 要删除的文章的id
-     * @access public
-     * @return boolean true|false
-     */
-    public function detele($ids)
-    {
-        if( ! is_array($ids)) return false;
-        $data['is_delete'] = ContentModel::IS_DELETE_YES;
-        try
-        {
-            $result = \DB::transaction(function() use ($data, $ids)
-            {
-                $this->contentModel->solfDeleteContent($data, $ids);
-                $this->deleteArticleClassifyById($ids);
-                $this->deleteArticleTagsById($ids);
-                $this->deleteArticlePositionById($ids);
-                return true;
-            });
-        }
-        catch (\Exception $e)
-        {
-            $result = false;
-        }
-
-        if( ! $result) return $this->setErrorMsg(Lang::get('common.action_error'));
-
-        return $result;
-    }
-
-    /**
      * 根据文章的ID删除它的推荐位的文章，因为使用了事务，如果没有成功请手动抛出异常
      *
      * @param array $articleIds 文章的id组
@@ -274,48 +316,6 @@ class Process extends BaseProcess
             throw new \Exception("delete article position error.");
         }
         return $result;
-    }
-
-    /**
-     * 编辑文章，因为使用了事务，如果没有成功请手动抛出异常
-     *
-     * @param string $data
-     * @access public
-     * @return boolean true|false
-     */
-    public function editContent(\App\Services\Admin\Content\Param\ContentSave $data, $id)
-    {
-        if( ! $this->contentValidate->edit($data))
-        {
-            $unValidateMsg = $this->contentValidate->getErrorMessage();
-            return $this->setErrorMsg($unValidateMsg);
-        }
-
-        $object = new \stdClass();
-        $object->contentAutoId = $id;
-
-        try
-        {
-            $result = \DB::transaction(function() use ($data, $id, $object)
-            {
-                $this->updateContent($data, $id);
-                $this->updateContentDetail($data, $id);
-                $this->saveArticleTags($object, $data['tags']);
-                $this->saveArticleClassify($object, $data['classify']);
-                $this->saveSeachFullText($object, $data, true);
-                return true;
-            });
-        }
-        catch (\Exception $e)
-        {
-            $result = false;
-        }
-
-        if( ! $result)
-        {
-            return $this->setErrorMsg(Lang::get('common.action_error'));
-        }
-        return true;
     }
 
     /**
