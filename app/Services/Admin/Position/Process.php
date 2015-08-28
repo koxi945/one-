@@ -2,6 +2,7 @@
 
 use Lang;
 use App\Models\Admin\Position as PositionModel;
+use App\Models\Admin\PositionRelation as PositionRelationModel;
 use App\Services\Admin\Position\Validate\Position as PositionValidate;
 use App\Services\Admin\BaseProcess;
 
@@ -64,7 +65,11 @@ class Process extends BaseProcess
     {
         if( ! is_array($ids)) return false;
         $data['is_delete'] = PositionModel::IS_DELETE_YES;
-        if($this->positionModel->deletePositions($data, $ids) !== false) return true;
+        if($this->positionModel->deletePositions($data, $ids) !== false)
+        {
+            $result = with(new PositionRelationModel())->deletePositionRelationByPosId($ids);
+            if($result !== false) return true;
+        }
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 

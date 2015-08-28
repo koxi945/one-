@@ -24,11 +24,19 @@ class PositionRelation extends Base
     protected $fillable = array('id', 'article_id', 'position_id', 'sort', 'time');
     
     /**
-     * 批量删除
+     * 批量根据文章id删除关联
      */
     public function deletePositionRelation(array $articleIds)
     {
         return $this->whereIn('article_id', $articleIds)->delete();
+    }
+
+    /**
+     * 批量根据id删除关联
+     */
+    public function deletePositionRelationByPosId(array $posIds)
+    {
+        return $this->whereIn('position_id', $posIds)->delete();
     }
 
 }
