@@ -5,6 +5,7 @@ body {
   background-repeat: initial initial;
   margin: 0px;
   padding: 0px;
+  -ms-overflow-style: scrollbar;
 }
 body,
 h1,
