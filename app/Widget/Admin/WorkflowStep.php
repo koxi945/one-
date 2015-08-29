@@ -22,7 +22,7 @@ class WorkflowStep extends AbstractBase
         $this->setCurrentAction('step', 'add', 'workflow')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => \Request::input('id') ]);
         $html = $this->hasPermission ?
-                    '<div class="btn-group" style="float:right;"><a href="'.$url.'" title="增加新的工作流步骤" class="btn btn-primary btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>增加新的工作流步骤</a></div>'
+                    '<div class="btn-group" style="float:right;"><a href="'.$url.'" title="增加工作流步骤" class="btn btn-primary btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>增加工作流步骤</a></div>'
                         : '';
         return $html;
     }
@@ -81,7 +81,7 @@ class WorkflowStep extends AbstractBase
     {
         $this->setCurrentAction('step', 'relation', 'workflow')->checkPermission();
         $html = $this->hasPermission ?
-                    '<div class="btn-group" style="float:left;margin:10px 0;margin-right:20px;"><a class="btn btn-primary sys-btn-submit" data-loading="处理中..." ><i class="fa fa-user"></i> <span class="sys-btn-submit-str">关联审核人员</span></a></div>'
+                    '<div class="btn-group btn-group-sm" style="float:left;margin:10px 0;margin-right:20px;"><a class="btn btn-primary sys-btn-submit" data-loading="处理中..." ><i class="fa fa-user"></i> <span class="sys-btn-submit-str">关联审核人员</span></a></div>'
                         : '';
         return $html;
     }

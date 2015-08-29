@@ -4,7 +4,7 @@
     $MCA = app()->make($mcaName);
 ?>
 <div class="content-menu">
-    <div class="btn-group" role="group" aria-label="...">
+    <div class="btn-group btn-group-sm" role="group" aria-label="...">
         <?php foreach($contentMenu as $key => $value): ?>
         <?php $urlParam = $value['module'] .'.'. $value['class'] .'.'. $value['action']; ?>
         <?php $checkThird = $MCA->matchThirdMenu($value['module'], $value['class'], $value['action']); ?>

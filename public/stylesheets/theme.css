@@ -6,6 +6,7 @@ body {
   margin: 0px;
   padding: 0px;
   -ms-overflow-style: scrollbar;
+  font-size: 12px;
 }
 body,
 h1,
@@ -206,7 +207,7 @@ label {
   margin-bottom: 0em;
   padding-left: 0em;
   padding-right: 0em;
-  font-size: .75em;
+  font-size: 12px;
 }
 .page-content {
   padding: 1em;
@@ -964,3 +965,5 @@ div.group-item {
 div.content-menu .content-menu-button {
   margin-bottom: 0.5em;
 }
+
+.dropdown-menu { font-size: 12px;}

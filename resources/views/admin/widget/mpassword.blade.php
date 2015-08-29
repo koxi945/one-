@@ -1,13 +1,13 @@
 <div class="none modify-password-content">
-  <div class="form-group">
+  <div class="form-group  input-group-sm">
     <label>旧密码</label>
     <input type="password" value="" name="old_password" class="form-control">
   </div>
-  <div class="form-group">
+  <div class="form-group  input-group-sm">
     <label>新密码</label>
     <input type="password" value="" name="new_password" class="form-control">
   </div>
-  <div class="form-group">
+  <div class="form-group  input-group-sm">
     <label>确认新密码</label>
     <input type="password" value="" name="new_password_repeat" class="form-control">
   </div>
@@ -19,7 +19,7 @@
     mpcontent: $('.modify-password-content'),
     dialogConf: {
       width: 390,
-      height: 300,
+      height: 230,
       title: '修改密码',
       okValue: '确定',
       cancelValue: '取消',

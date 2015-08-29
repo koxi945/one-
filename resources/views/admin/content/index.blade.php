@@ -9,12 +9,12 @@
           <div class="row">
               <div class="col-md-12">
                 <form method="get" action="" class="form-inline">
-                  <div class="form-group f-g">
+                  <div class="form-group input-group-sm f-g">
                     <label for="search-keyword">关键词</label>
                     <input type="text" value="<?php if(isset($search['keyword'])) echo $search['keyword']; ?>" name="keyword" id="search-keyword" class="form-control" placeholder="请输入关键词" >
                   </div>
 
-                  <div class="form-group f-g">
+                  <div class="form-group input-group-sm f-g">
                     <label for="search-username">作者</label>
                     <select name="username" id="DropDownTimezone" class="form-control">
                       <option value="">请选择</option>
@@ -26,7 +26,7 @@
                     </select>
                   </div>
 
-                  <div class="form-group f-g">
+                  <div class="form-group input-group-sm f-g">
                     <label for="search-classify">分类</label>
                     <select name="classify" id="DropDownTimezone" class="form-control">
                       <option value="">请选择</option>
@@ -38,7 +38,7 @@
                     </select>
                   </div>
 
-                  <div class="form-group f-g">
+                  <div class="form-group input-group-sm f-g">
                     <label for="search-position">推荐位</label>
                     <select name="position" id="DropDownTimezone" class="form-control">
                       <option value="">请选择</option>
@@ -50,7 +50,7 @@
                     </select>
                   </div>
 
-                  <div class="form-group f-g">
+                  <div class="form-group input-group-sm f-g">
                     <label for="search-tag">标签</label>
                     <select name="tag" id="DropDownTimezone" class="form-control">
                       <option value="">请选择</option>
@@ -62,14 +62,14 @@
                     </select>
                   </div>
 
-                  <div class="form-group f-g">
+                  <div class="form-group input-group-sm f-g">
                     <label for="search-time">写作时间</label>
                     <input type="text" value="<?php if(isset($search['timeFrom'])) echo $search['timeFrom']; ?>" name="time_from" id="search-time" class="form-control">
                     到
                     <input type="text" value="<?php if(isset($search['timeTo'])) echo $search['timeTo']; ?>" name="time_to" id="search-time-to" class="form-control">
                   </div>
 
-                  <div class="form-group f-g">
+                  <div class="form-group btn-group-sm f-g">
                     <input class="btn btn-default" type="submit" value="查询记录">
                   </div>
                 </form>
@@ -87,7 +87,7 @@
                             <th>作者</th>
                             <th>写作时间</th>
                             <th>状态</th>
-                            <th>操作</th>
+                            <th width="70">操作</th>
                           </tr>
                         </thead>
                         <tbody>

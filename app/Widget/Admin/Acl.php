@@ -66,7 +66,7 @@ class Acl extends AbstractBase
     {
         $this->setCurrentAction('acl', 'sort', 'foundation')->checkPermission();
         $html = $this->hasPermission ?
-                    '<div class="btn-group" style="float:left;margin:10px 0;margin-right:20px;"><a class="btn btn-primary sys-btn-submit" data-loading="处理中..." ><i class="fa fa-sort"></i> <span class="sys-btn-submit-str">排序</span></a></div>'
+                    '<div class="btn-group" style="float:left;margin:10px 0;margin-right:20px;"><a class="btn btn-primary btn-sm sys-btn-submit" data-loading="处理中..." ><i class="fa fa-sort"></i> <span class="sys-btn-submit-str">排序</span></a></div>'
                         : '';
         return $html;
     }

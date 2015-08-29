@@ -51,7 +51,7 @@ class Category extends AbstractBase
         $this->setCurrentAction('category', 'add', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function);
         $html = $this->hasPermission ?
-                    '<div class="btn-group" style="float:right;"><a href="'.$url.'" title="增加新的文章分类" class="btn btn-primary btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>增加新的文章分类</a></div>'
+                    '<div class="btn-group" style="float:right;"><a href="'.$url.'" title="增加分类" class="btn btn-primary btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>增加分类</a></div>'
                         : '';
         return $html;
     }

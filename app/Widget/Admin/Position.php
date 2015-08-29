@@ -51,7 +51,7 @@ class Position extends AbstractBase
         $this->setCurrentAction('position', 'add', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function);
         $html = $this->hasPermission ?
-                    '<div class="btn-group" style="float:right;"><a href="'.$url.'" title="增加新的文章推荐位" class="btn btn-primary btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>增加新的文章推荐位</a></div>'
+                    '<div class="btn-group" style="float:right;"><a href="'.$url.'" title="增加推荐位" class="btn btn-primary btn-xs"><span aria-hidden="true" class="glyphicon glyphicon-plus"></span>增加推荐位</a></div>'
                         : '';
         return $html;
     }
