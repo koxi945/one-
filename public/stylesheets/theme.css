@@ -297,7 +297,7 @@ footer hr {
   margin-bottom: 0px;
   text-shadow: none;
   text-transform: none;
-  font-size: .85em;
+  font-size: 12px;
   line-height: 1.5em;
   background: #efefef;
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #efefef), color-stop(1, #fafafa));
