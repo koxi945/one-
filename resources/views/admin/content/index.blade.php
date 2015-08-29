@@ -10,7 +10,7 @@
               <div class="col-md-12">
                 <form method="get" action="" class="form-inline">
                   <div class="form-group input-group-sm f-g">
-                    <label for="search-keyword">关键词</label>
+                    <label for="search-keyword"></label>
                     <input type="text" value="<?php if(isset($search['keyword'])) echo $search['keyword']; ?>" name="keyword" id="search-keyword" class="form-control" placeholder="请输入关键词" >
                   </div>
 
@@ -70,7 +70,7 @@
                   </div>
 
                   <div class="form-group btn-group-sm f-g">
-                    <input class="btn btn-default" type="submit" value="查询记录">
+                    <input class="btn btn-default" type="submit" value="查询">
                   </div>
                 </form>
               </div>
