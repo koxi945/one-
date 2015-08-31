@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-08-28 15:30:47
+Date: 2015-08-31 14:56:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,7 +27,7 @@ CREATE TABLE `bk_access` (
   PRIMARY KEY (`id`),
   KEY `role_id` (`role_id`) USING BTREE,
   KEY `node_id` (`permission_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=440 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=444 DEFAULT CHARSET=utf8 COMMENT='权限表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_access
@@ -78,6 +78,10 @@ INSERT INTO `bk_access` VALUES ('436', '2', '51', '1');
 INSERT INTO `bk_access` VALUES ('437', '2', '52', '1');
 INSERT INTO `bk_access` VALUES ('438', '2', '66', '1');
 INSERT INTO `bk_access` VALUES ('439', '2', '44', '1');
+INSERT INTO `bk_access` VALUES ('440', '2', '1', '2');
+INSERT INTO `bk_access` VALUES ('441', '2', '55', '2');
+INSERT INTO `bk_access` VALUES ('442', '2', '73', '2');
+INSERT INTO `bk_access` VALUES ('443', '2', '58', '2');
 
 -- ----------------------------
 -- Table structure for `bk_action_log`
@@ -96,7 +100,7 @@ CREATE TABLE `bk_action_log` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `username` (`username`) USING BTREE,
   KEY `addtime` (`add_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=350 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=359 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_action_log
@@ -450,6 +454,15 @@ INSERT INTO `bk_action_log` VALUES ('346', 'admin', '1', '127.0.0.1', '', '14407
 INSERT INTO `bk_action_log` VALUES ('347', 'admin', '1', '127.0.0.1', '', '1440733178', '管理员', '改变了用户的权限：test');
 INSERT INTO `bk_action_log` VALUES ('348', 'admin', '1', '127.0.0.1', '', '1440733192', '管理员', '改变了用户的权限：test');
 INSERT INTO `bk_action_log` VALUES ('349', 'admin', '1', '127.0.0.1', '', '1440747027', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('350', 'admin', '1', '127.0.0.1', '', '1440752422', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('351', 'admin', '1', '127.0.0.1', '', '1440752521', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('352', 'admin', '1', '127.0.0.1', '', '1440986204', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('353', 'admin', '1', '127.0.0.1', '', '1440987027', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('354', 'admin', '1', '127.0.0.1', '', '1440987038', '管理员', '改变了用户的权限：test');
+INSERT INTO `bk_action_log` VALUES ('355', 'admin', '1', '127.0.0.1', '', '1440990388', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('356', 'admin', '1', '172.16.1.16', '', '1440996634', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('357', 'admin', '1', '172.16.1.29', '', '1440997574', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('358', 'admin', '1', '172.16.1.29', '', '1440998409', '管理员', '登录系统成功');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify`
@@ -467,25 +480,26 @@ CREATE TABLE `bk_article_classify` (
   KEY `is_delete` (`is_delete`) USING BTREE,
   KEY `sort` (`sort`) USING BTREE,
   KEY `name` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='文章分类配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COMMENT='文章分类配置表';
 
 -- ----------------------------
 -- Records of bk_article_classify
 -- ----------------------------
-INSERT INTO `bk_article_classify` VALUES ('1', '金融', '0', '1', '0', '0');
-INSERT INTO `bk_article_classify` VALUES ('2', '汽车', '0', '1', '0', '0');
-INSERT INTO `bk_article_classify` VALUES ('3', 'js', '0', '1', '1', '0');
-INSERT INTO `bk_article_classify` VALUES ('4', 'centos', '0', '1', '1', '0');
+INSERT INTO `bk_article_classify` VALUES ('1', '金融', '0', '1', '0', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('2', '汽车', '0', '1', '0', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('3', 'js', '0', '1', '1', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('4', 'centos', '0', '1', '1', '1440989164');
 INSERT INTO `bk_article_classify` VALUES ('5', 'php', '0', '1', '1', '1421918154');
 INSERT INTO `bk_article_classify` VALUES ('6', '测试分类1', '0', '1', '0', '1421898630');
 INSERT INTO `bk_article_classify` VALUES ('7', '123131a', '0', '0', '0', '1421900997');
 INSERT INTO `bk_article_classify` VALUES ('8', '12311a', '0', '1', '0', '1421917477');
-INSERT INTO `bk_article_classify` VALUES ('9', '测试分类', '0', '0', '0', '0');
-INSERT INTO `bk_article_classify` VALUES ('10', '123123aa', '0', '1', '0', '0');
-INSERT INTO `bk_article_classify` VALUES ('11', '测试分类', '0', '1', '0', '0');
-INSERT INTO `bk_article_classify` VALUES ('12', '测试分类账1', '0', '1', '0', '0');
-INSERT INTO `bk_article_classify` VALUES ('24', '测试测试', '0', '1', '0', '0');
-INSERT INTO `bk_article_classify` VALUES ('25', 'd1', '0', '0', '0', '0');
+INSERT INTO `bk_article_classify` VALUES ('9', '测试分类', '0', '0', '0', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('10', '123123aa', '0', '1', '0', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('11', '测试分类', '0', '1', '0', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('12', '测试分类账1', '0', '1', '0', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('24', '测试测试', '0', '1', '0', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('25', 'd1', '0', '0', '0', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('26', 'test', '0', '0', '1', '1440989164');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify_relation`
@@ -497,9 +511,10 @@ CREATE TABLE `bk_article_classify_relation` (
   `classify_id` int(11) NOT NULL COMMENT '分类ID',
   `time` int(11) NOT NULL COMMENT '操作时间',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `a_c_id` (`article_id`,`classify_id`) USING BTREE,
   KEY `classify_id` (`classify_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=269 DEFAULT CHARSET=utf8 COMMENT='文章所属分类表';
+) ENGINE=InnoDB AUTO_INCREMENT=264 DEFAULT CHARSET=utf8 COMMENT='文章所属分类表';
 
 -- ----------------------------
 -- Records of bk_article_classify_relation
@@ -673,19 +688,21 @@ CREATE TABLE `bk_article_position` (
   KEY `classify_id` (`classify_id`) USING BTREE,
   KEY `is_delete` (`is_delete`) USING BTREE,
   KEY `is_active` (`is_active`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='文章推荐位表';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='文章推荐位表';
 
 -- ----------------------------
 -- Records of bk_article_position
 -- ----------------------------
-INSERT INTO `bk_article_position` VALUES ('1', '测试推荐位', '0', '1', '0', '0');
-INSERT INTO `bk_article_position` VALUES ('2', '原创首页金融头条', '0', '0', '1', '0');
-INSERT INTO `bk_article_position` VALUES ('3', '原创首页汽车头条', '0', '0', '2', '0');
-INSERT INTO `bk_article_position` VALUES ('4', '原创首页时尚头条', '0', '0', '3', '0');
-INSERT INTO `bk_article_position` VALUES ('5', '原创首页房地产头条', '0', '0', '4', '0');
-INSERT INTO `bk_article_position` VALUES ('6', '原创首页移动互联网头条', '0', '0', '5', '0');
-INSERT INTO `bk_article_position` VALUES ('18', 'd1', '0', '0', '0', '0');
-INSERT INTO `bk_article_position` VALUES ('19', '测试', '1', '1', '0', '0');
+INSERT INTO `bk_article_position` VALUES ('1', '测试推荐位', '1', '1', '0', '0');
+INSERT INTO `bk_article_position` VALUES ('2', '原创首页金融头条', '1', '1', '1', '0');
+INSERT INTO `bk_article_position` VALUES ('3', '原创首页汽车头条', '1', '1', '2', '0');
+INSERT INTO `bk_article_position` VALUES ('4', '原创首页时尚头条', '1', '1', '3', '0');
+INSERT INTO `bk_article_position` VALUES ('5', '原创首页房地产头条', '1', '1', '4', '0');
+INSERT INTO `bk_article_position` VALUES ('6', '原创首页移动互联网头条', '1', '1', '5', '0');
+INSERT INTO `bk_article_position` VALUES ('19', '原创首页房地产头条1', '1', '1', '0', '0');
+INSERT INTO `bk_article_position` VALUES ('20', '原创首页房地产头条2', '1', '1', '0', '0');
+INSERT INTO `bk_article_position` VALUES ('21', '原创首页房地产头条3', '1', '1', '0', '0');
+INSERT INTO `bk_article_position` VALUES ('22', '推荐位2', '1', '1', '0', '1440989464');
 
 -- ----------------------------
 -- Table structure for `bk_article_position_relation`
@@ -698,9 +715,10 @@ CREATE TABLE `bk_article_position_relation` (
   `sort` int(11) NOT NULL COMMENT '排序',
   `time` int(11) NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `p_a_id` (`article_id`,`position_id`) USING BTREE,
   KEY `Position_id` (`position_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='文章与推荐位关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章与推荐位关系表';
 
 -- ----------------------------
 -- Records of bk_article_position_relation
@@ -757,9 +775,10 @@ CREATE TABLE `bk_article_tag_relation` (
   `tag_id` int(11) NOT NULL COMMENT '标签ID',
   `time` int(11) NOT NULL COMMENT '操作时间',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `a_t_id` (`article_id`,`tag_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE,
   KEY `tag_id` (`tag_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=371 DEFAULT CHARSET=utf8 COMMENT='文章所属标签表';
+) ENGINE=InnoDB AUTO_INCREMENT=366 DEFAULT CHARSET=utf8 COMMENT='文章所属标签表';
 
 -- ----------------------------
 -- Records of bk_article_tag_relation
@@ -1042,7 +1061,7 @@ CREATE TABLE `bk_users` (
 -- ----------------------------
 -- Records of bk_users
 -- ----------------------------
-INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '1', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '12', '1', '超级用户组', '127.0.0.1', '1440747027');
+INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '1', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '12', '1', '超级用户组', '172.16.1.29', '1440998409');
 INSERT INTO `bk_users` VALUES ('2', 'test', 'c4ca4238a0b923820dcc509a6f75849b', '2', 'test', '', '1436169648', '0', '11', '1', '1', '127.0.0.1', '1440400566');
 
 -- ----------------------------

@@ -178,8 +178,6 @@
                 id: 'pl-position',
                 fixed: true,
                 content: _content.content,
-                width: 600,
-                height: 300,
                 okValue: '确定',
                 ok: function() {
                   var pids = plSelectValue('pl-position-id');
@@ -187,6 +185,9 @@
                     alertNotic('请先选择需要关联的推荐位');
                     return false;
                   }
+                  var url = '<?php echo R('common', 'blog.content.position'); ?>';
+                  var params = {ids:ids,pids:pids};
+                  Atag_Ajax_Submit(url, params, 'POST', $('.pl-position'), 'ajax-reload', true);
                 },
                 cancelValue: '取消',
                 cancel: function () {}

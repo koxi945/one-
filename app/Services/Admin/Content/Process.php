@@ -169,6 +169,19 @@ class Process extends BaseProcess
     }
 
     /**
+     * 文章和推荐位的关联
+     * 
+     * @param  array $ids  文章的ID
+     * @param  array $pids 推荐位的ID
+     * @return return       true|false
+     */
+    public function articlePositionRelation($ids, $pids)
+    {
+        $model = new PositionRelationModel();
+        return $model->articlePositionRelation($ids, $pids);
+    }
+
+    /**
      * 保存到主表，因为使用了事务，如果没有成功请手动抛出异常
      * 
      * @param  array $data

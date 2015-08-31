@@ -39,4 +39,29 @@ class PositionRelation extends Base
         return $this->whereIn('position_id', $posIds)->delete();
     }
 
+    /**
+     * 文章和推荐位的关联
+     * 
+     * @param  array $ids  文章的ID
+     * @param  array $pids 推荐位的ID
+     * @return return       true|false
+     */
+    public function articlePositionRelation($ids, $pids)
+    {
+        $prefix = \DB:: getTablePrefix();
+        $sql = "INSERT IGNORE INTO {$prefix}article_position_relation VALUES (NULL, ?, ?, ?, ?)";
+        $error = 0; $time = time();
+        foreach($ids as $articleId)
+        {
+            foreach($pids as $positionId)
+            {
+                $data = [$articleId, $positionId, 0, $time];
+                $result = \DB::insert($sql, $data);
+                if($result === false) $error++;
+            }
+        }
+        if($error !== 0) return false;
+        return true;
+    }
+
 }

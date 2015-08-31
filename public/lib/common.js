@@ -79,16 +79,21 @@ function confirmNotic(content, callback) {
  * 自定义的alert提示弹窗
  * 
  * @param  string content 提示的内容
+ * @param  function callback 回调函数
  * @return void
  */
-function alertNotic(content) {
+function alertNotic(content, callback) {
     var d = dialog({
         title: '提示',
         fixed: true,
         content: content,
         okValue: '确定',
         width: 250,
-        ok: function () {}
+        ok: function () {
+            if(callback && typeof callback === 'function') {
+                callback();
+            }
+        }
     });
     d.showModal();
 }
@@ -225,7 +230,7 @@ function changeLeftMenuHeight() {
  * @param {string} ajaxType  post|get
  * @param {object} selectObj 当前按钮的选择器
  */
-function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj, replaceID) {
+function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj, replaceID, showSuccessMsg) {
     //ajax submit
     var _oldstr = selectObj.find('.sys-btn-submit-str').html();
     $.ajax({
@@ -239,6 +244,9 @@ function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj, replaceID) {
                 $('#tmpDiv').load(document.location.href + ' #' + replaceID, function(){
                     $('#tmpDiv').replaceWith($('#tmpDiv').html());
                 });
+                if(showSuccessMsg) {
+                    alertNotic(data.message);
+                }
             } else {
                 alertNotic(data.message);
             }

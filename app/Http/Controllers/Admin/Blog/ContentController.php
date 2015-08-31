@@ -169,7 +169,14 @@ class ContentController extends Controller
      */
     public function position()
     {
-
+        $ids = array_map('intval', (array) Request::input('ids'));
+        $pids = array_map('intval', (array) Request::input('pids'));
+        $manager = new ContentActionProcess();
+        if($manager->articlePositionRelation($ids, $pids) !== false)
+        {
+            return responseJson(Lang::get('common.action_success'), true);
+        }
+        return responseJson(Lang::get('common.action_error'));
     }
 
 }
