@@ -26,6 +26,7 @@
       var _d = dialog({
         title: _this.d.title,
         id: _this.menMap.attr('data-dialog-id'),
+        fixed: true,
         content: _this.content,
         width: _this.d.width,
         height: _this.d.height,

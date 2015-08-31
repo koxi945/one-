@@ -59,6 +59,7 @@ function setformSubmitButton() {
 function confirmNotic(content, callback) {
     var d = dialog({
         title: '提示',
+        fixed: true,
         content: content,
         okValue: '确定',
         width: 250,
@@ -83,6 +84,7 @@ function confirmNotic(content, callback) {
 function alertNotic(content) {
     var d = dialog({
         title: '提示',
+        fixed: true,
         content: content,
         okValue: '确定',
         width: 250,
@@ -271,9 +273,27 @@ function plSelectValue(_class) {
 }
 
 /**
+ * select 下拉选择的自适应
+ */
+function formSelectWidth() {
+    var _f = function(){
+        var _w = $(window).width();
+        var o = $('.zdy-form-select-obj');
+        if(_w <= 751) {
+            o.removeClass('zdy-form-select');
+        } else {
+            o.addClass('zdy-form-select');
+        }
+    };
+    $(window).resize(_f);
+    $(window).ready(_f);
+}
+
+/**
  * 初始化
  */
 $(document).ready(function(){
     setformSubmitButton();
     changeLeftMenuHeight();
+    formSelectWidth();
 });

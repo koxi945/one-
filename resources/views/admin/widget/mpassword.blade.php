@@ -34,6 +34,7 @@
       var _d = dialog({
         title: _this.dialogConf.title,
         id: _this.mpobj.attr('data-dialog-id'),
+        fixed: true,
         content: _this.mpcontent.html(),
         width: _this.dialogConf.width,
         height: _this.dialogConf.height,

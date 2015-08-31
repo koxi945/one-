@@ -32,7 +32,7 @@
 
                     <div class="form-group input-group-sm">
                       <label>类别</label><br/>
-                      <select data-placeholder="请选择分类" class="chosen-select" multiple style="width:350px;" name="data[classify][]">
+                      <select data-placeholder="请选择分类" class="form-control chosen-select" multiple name="data[classify][]">
                           <option value=""></option>
                           <?php if(isset($classifyInfo) && is_array($classifyInfo)): ?>
                               <?php foreach($classifyInfo as $key => $value): ?>

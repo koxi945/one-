@@ -967,3 +967,5 @@ div.content-menu .content-menu-button {
 }
 
 .dropdown-menu { font-size: 12px;}
+.chosen-container { width: 100%!important;}
+.zdy-form-select { width: 100px!important;}

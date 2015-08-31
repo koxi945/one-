@@ -40,7 +40,7 @@
 
                   <div class="form-group input-group-sm f-g">
                     <label for="search-position">推荐位</label>
-                    <select name="position" id="DropDownTimezone" class="form-control">
+                    <select name="position" id="DropDownTimezone" class="form-control zdy-form-select zdy-form-select-obj">
                       <option value="">请选择</option>
                       <?php if(isset($positionInfo) and is_array($positionInfo)): ?>
                         <?php foreach($positionInfo as $key => $value): ?>
@@ -182,7 +182,11 @@
                 height: 300,
                 okValue: '确定',
                 ok: function() {
-                  
+                  var pids = plSelectValue('pl-position-id');
+                  if(pids.length == 0) {
+                    alertNotic('请先选择需要关联的推荐位');
+                    return false;
+                  }
                 },
                 cancelValue: '取消',
                 cancel: function () {}

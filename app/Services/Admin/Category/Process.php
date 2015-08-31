@@ -50,6 +50,7 @@ class Process extends BaseProcess
         if( ! $this->categoryValidate->add($data)) return $this->setErrorMsg($this->categoryValidate->getErrorMessage());
         $data = $data->toArray();
         $data['is_delete'] = CategoryModel::IS_DELETE_NO;
+        $data['time'] = time();
         if($this->categoryModel->addCategory($data) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }

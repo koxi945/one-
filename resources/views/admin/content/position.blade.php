@@ -16,7 +16,8 @@
                           <tr>
                             <th>分类名字</th>
                             <th>状态</th>
-                            <th>操作</th>
+                            <th>增加时间</th>
+                            <th width="70">操作</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -26,6 +27,7 @@
                               <td>
                                 <?php echo $value['is_active'] == 1 ? '<i class="fa fa-check" style="color:green;"></i>' : '<i class="fa fa-times" style="color:red;"></i>'; ?>
                               </td>
+                              <td><?php echo date('Y-m-d H:i', $value['time']); ?></td>
                               <td>
                                 <?php echo widget('Admin.Position')->edit($value); ?>
                                 <?php echo widget('Admin.Position')->delete($value); ?>

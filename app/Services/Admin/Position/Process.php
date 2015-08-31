@@ -50,6 +50,7 @@ class Process extends BaseProcess
         if( ! $this->positionValidate->add($data)) return $this->setErrorMsg($this->positionValidate->getErrorMessage());
         $data = $data->toArray();
         $data['is_delete'] = PositionModel::IS_DELETE_NO;
+        $data['time'] = time();
         if($this->positionModel->addPosition($data) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }

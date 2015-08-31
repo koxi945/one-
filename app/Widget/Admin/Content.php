@@ -3,6 +3,7 @@
 namespace App\Widget\Admin;
 
 use App\Widget\Admin\AbstractBase;
+use App\Models\Admin\Position as PositionModel;
 
 /**
  * 文章列表小组件
@@ -90,8 +91,9 @@ class Content extends AbstractBase
     public function positionDialogContent()
     {
         $this->setCurrentAction('content', 'position', 'blog')->checkPermission();
+        $list = with(new PositionModel())->activePosition();
         $html = $this->hasPermission ?
-                        view('admin.widget.position_dialog_content')->render()
+                        view('admin.content.position_dialog_content', compact('list'))->render()
                         : '';
         return json_encode(['content' => $html]);
     }
