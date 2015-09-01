@@ -29,6 +29,7 @@
                               </td>
                               <td><?php echo date('Y-m-d H:i', $value['time']); ?></td>
                               <td>
+                                <?php echo widget('Admin.Position')->relation($value); ?>
                                 <?php echo widget('Admin.Position')->edit($value); ?>
                                 <?php echo widget('Admin.Position')->delete($value); ?>
                               </td>

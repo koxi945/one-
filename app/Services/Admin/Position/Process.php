@@ -90,4 +90,30 @@ class Process extends BaseProcess
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
+    /**
+     * 删除推荐位
+     * 
+     * @param array $ids
+     * @access public
+     * @return boolean true|false
+     */
+    public function delRelation($prid)
+    {
+        if( ! is_array($prid)) return false;
+        $result = with(new PositionRelationModel())->deletePositionRelationById($prid);
+        if($result !== false) return true;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
+    }
+
+    /**
+     * 关联文章排序
+     */
+    public function sortRelation($prid, $sort)
+    {
+        $prid = intval($prid); $sort = intval($sort);
+        $result = with(new PositionRelationModel())->sortRelation($prid, $sort);
+        if($result !== false) return true;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
+    }
+
 }

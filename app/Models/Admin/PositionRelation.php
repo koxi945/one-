@@ -32,11 +32,27 @@ class PositionRelation extends Base
     }
 
     /**
-     * 批量根据id删除关联
+     * 批量根据positionid删除关联
      */
     public function deletePositionRelationByPosId(array $posIds)
     {
         return $this->whereIn('position_id', $posIds)->delete();
+    }
+
+    /**
+     * 批量根据id删除关联
+     */
+    public function deletePositionRelationById(array $prIds)
+    {
+        return $this->whereIn('id', $prIds)->delete();
+    }
+
+    /**
+     * 关联文章的排序
+     */
+    public function sortRelation($prid, $sort)
+    {
+        return $this->where('id', '=', intval($prid))->update(array('sort' => $sort));
     }
 
     /**

@@ -13,7 +13,6 @@
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th class="hidden">ID</th>
                             <th>真实姓名</th>
                             <th>用户名</th>
                             <th>用户组</th>
@@ -25,7 +24,6 @@
                         <tbody>
                           <?php foreach($userList as $key => $value): ?>
                             <tr>
-                              <td class="hidden"><input type="checkbox" name="ids[]" class="ids" value="<?php echo $value['id']; ?>"> <?php echo $value['id']; ?></td>
                               <td><?php echo $value['realname']; ?></td>
                               <td><?php echo $value['name']; ?></td>
                               <td><?php echo $value['group_name']; ?></td>

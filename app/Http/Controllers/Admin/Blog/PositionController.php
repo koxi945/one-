@@ -2,6 +2,7 @@
 
 use Request, Lang, Session;
 use App\Models\Admin\Position as PositionModel;
+use App\Models\Admin\Content as ContentModel;
 use App\Services\Admin\Position\Process as PositionActionProcess;
 use App\Libraries\Js;
 use App\Http\Controllers\Admin\Controller;
@@ -97,6 +98,46 @@ class PositionController extends Controller
         $manager = new PositionActionProcess();
         if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
         return responseJson($manager->getErrorMessage());
+    }
+
+    /**
+     * 查看文章关联
+     */
+    public function relation()
+    {
+        $positionId = (int) Request::input('position');
+        $list = (new ContentModel())->positionArticle($positionId);
+        $page = $list->setPath('')->appends(Request::all())->render();
+        $positionInfo = (new PositionModel())->activePosition();
+        return view('admin.content.positionarticle',
+            compact('list', 'page', 'positionInfo', 'positionId')
+        );
+    }
+
+    /**
+     * 删除推荐位关联文章
+     */
+    public function delrelation()
+    {
+        if( ! $prid = Request::input('prid')) return responseJson(Lang::get('common.action_error'));
+        if( ! is_array($prid)) $prid = array($prid);
+        $manager = new PositionActionProcess();
+        if($manager->delRelation($prid)) return responseJson(Lang::get('common.action_success'), true);
+        return responseJson($manager->getErrorMessage());
+    }
+
+    /**
+     * 排序关联的文章
+     */
+    public function sortrelation()
+    {
+        $data = (array) Request::input('data');
+        foreach($data as $key => $value)
+        {
+            if(with(new PositionActionProcess())->sortRelation($value['prid'], $value['sort']) === false) $err = true;
+        }
+        if(isset($err)) return responseJson(Lang::get('common.action_error'));
+        return responseJson(Lang::get('common.action_success'), true);
     }
 
 }

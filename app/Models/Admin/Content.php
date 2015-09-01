@@ -75,6 +75,22 @@ class Content extends Base
     }
 
     /**
+     * 取得未删除的信息
+     *
+     * @return array
+     * @todo 数据量多时，查找属于指定分类，推荐位，标签三个的文章时使用redis集合交集处理，避免查询消耗。
+     */
+    public function positionArticle($positionId)
+    {
+        $currentQuery = $this->select(array('article_position_relation.id', 'article_main.title', 'article_position_relation.sort'))
+                             ->leftJoin('article_position_relation', 'article_main.id', '=', 'article_position_relation.article_id')
+                             ->where('article_position_relation.position_id', $positionId)
+                             ->where('article_main.is_delete', self::IS_DELETE_NO)
+                             ->orderBy('article_position_relation.sort', 'desc');
+        return $currentQuery->paginate(self::PAGE_NUMS);
+    }
+
+    /**
      * 增加文章
      * 
      * @param array $data 所需要插入的信息
