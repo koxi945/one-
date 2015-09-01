@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-08-31 14:56:13
+Date: 2015-09-01 12:43:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -100,7 +100,7 @@ CREATE TABLE `bk_action_log` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `username` (`username`) USING BTREE,
   KEY `addtime` (`add_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=359 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_action_log
@@ -463,6 +463,17 @@ INSERT INTO `bk_action_log` VALUES ('355', 'admin', '1', '127.0.0.1', '', '14409
 INSERT INTO `bk_action_log` VALUES ('356', 'admin', '1', '172.16.1.16', '', '1440996634', '管理员', '登录系统成功');
 INSERT INTO `bk_action_log` VALUES ('357', 'admin', '1', '172.16.1.29', '', '1440997574', '管理员', '登录系统成功');
 INSERT INTO `bk_action_log` VALUES ('358', 'admin', '1', '172.16.1.29', '', '1440998409', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('359', 'admin', '1', '172.16.1.16', '', '1441010130', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('360', 'admin', '1', '127.0.0.1', '', '1441072471', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('361', 'admin', '1', '127.0.0.1', '', '1441073024', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('362', 'admin', '1', '127.0.0.1', '', '1441076322', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('363', 'admin', '1', '127.0.0.1', '', '1441076696', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('364', 'admin', '1', '127.0.0.1', '', '1441076910', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('365', 'admin', '1', '127.0.0.1', '', '1441078414', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('366', 'admin', '1', '127.0.0.1', '', '1441078679', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('367', 'admin', '1', '127.0.0.1', '', '1441078735', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('368', 'admin', '1', '127.0.0.1', '', '1441078764', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('369', 'admin', '1', '127.0.0.1', '', '1441081431', '管理员', '登录系统成功');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify`
@@ -718,11 +729,29 @@ CREATE TABLE `bk_article_position_relation` (
   UNIQUE KEY `p_a_id` (`article_id`,`position_id`) USING BTREE,
   KEY `Position_id` (`position_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章与推荐位关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='文章与推荐位关系表';
 
 -- ----------------------------
 -- Records of bk_article_position_relation
 -- ----------------------------
+INSERT INTO `bk_article_position_relation` VALUES ('1', '69', '3', '0', '1441005464');
+INSERT INTO `bk_article_position_relation` VALUES ('2', '69', '1', '0', '1441005464');
+INSERT INTO `bk_article_position_relation` VALUES ('3', '68', '3', '0', '1441005464');
+INSERT INTO `bk_article_position_relation` VALUES ('4', '68', '1', '0', '1441005464');
+INSERT INTO `bk_article_position_relation` VALUES ('6', '69', '2', '0', '1441005532');
+INSERT INTO `bk_article_position_relation` VALUES ('9', '68', '2', '0', '1441005532');
+INSERT INTO `bk_article_position_relation` VALUES ('35', '68', '21', '0', '1441006540');
+INSERT INTO `bk_article_position_relation` VALUES ('37', '73', '22', '0', '1441006596');
+INSERT INTO `bk_article_position_relation` VALUES ('38', '68', '22', '0', '1441006596');
+INSERT INTO `bk_article_position_relation` VALUES ('40', '76', '3', '0', '1441009619');
+INSERT INTO `bk_article_position_relation` VALUES ('44', '80', '6', '6', '1441075445');
+INSERT INTO `bk_article_position_relation` VALUES ('45', '79', '6', '0', '1441075445');
+INSERT INTO `bk_article_position_relation` VALUES ('46', '71', '6', '2', '1441075445');
+INSERT INTO `bk_article_position_relation` VALUES ('47', '70', '6', '3', '1441075445');
+INSERT INTO `bk_article_position_relation` VALUES ('48', '82', '6', '0', '1441077737');
+INSERT INTO `bk_article_position_relation` VALUES ('50', '78', '6', '5', '1441077737');
+INSERT INTO `bk_article_position_relation` VALUES ('51', '77', '6', '0', '1441077737');
+INSERT INTO `bk_article_position_relation` VALUES ('52', '76', '6', '0', '1441077737');
 
 -- ----------------------------
 -- Table structure for `bk_article_tags`
@@ -919,7 +948,7 @@ CREATE TABLE `bk_permission` (
   KEY `module` (`module`) USING BTREE,
   KEY `class` (`class`) USING BTREE,
   KEY `action` (`action`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_permission
@@ -973,6 +1002,9 @@ INSERT INTO `bk_permission` VALUES ('73', 'workflow', 'index', 'index', '工作�
 INSERT INTO `bk_permission` VALUES ('74', 'blog', 'tags', 'index', '标签管理', '1', '69', '0', '3', '', '1440142122');
 INSERT INTO `bk_permission` VALUES ('75', 'blog', 'tags', 'delete', '删除文章标签', '0', '74', '0', '4', '', '1440144715');
 INSERT INTO `bk_permission` VALUES ('76', 'blog', 'content', 'position', '关联推荐位', '0', '36', '0', '4', '', '1440747006');
+INSERT INTO `bk_permission` VALUES ('77', 'blog', 'position', 'relation', '查看推荐位文章', '0', '42', '0', '4', '', '1441073014');
+INSERT INTO `bk_permission` VALUES ('78', 'blog', 'position', 'delrelation', '取消关联文章', '0', '42', '0', '4', '', '1441076899');
+INSERT INTO `bk_permission` VALUES ('79', 'blog', 'position', 'sortrelation', '推荐位文章排序', '0', '42', '0', '4', '', '1441078668');
 
 -- ----------------------------
 -- Table structure for `bk_search_index`
@@ -1061,7 +1093,7 @@ CREATE TABLE `bk_users` (
 -- ----------------------------
 -- Records of bk_users
 -- ----------------------------
-INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '1', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '12', '1', '超级用户组', '172.16.1.29', '1440998409');
+INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '1', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '12', '1', '超级用户组', '127.0.0.1', '1441081431');
 INSERT INTO `bk_users` VALUES ('2', 'test', 'c4ca4238a0b923820dcc509a6f75849b', '2', 'test', '', '1436169648', '0', '11', '1', '1', '127.0.0.1', '1440400566');
 
 -- ----------------------------
