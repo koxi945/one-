@@ -7,9 +7,9 @@
         <div class="main-content">
         <div id="sys-list">
           <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-12" id="ajax-reload">
                   <div class="panel panel-default">
-                    <div class="table-responsive" id="ajax-reload">
+                    <div class="table-responsive">
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
@@ -27,12 +27,12 @@
                               <td><input autocomplete="off" type="checkbox" name="ids[]" class="ids" value="<?php echo $value['id']; ?>"></td>
                               <td><?php echo $value['content']; ?></td>
                               <td><a target="_blank" href="<?php echo route('home', ['class' => 'index', 'action' => 'detail', 'id' => $value['object_id']]); ?>"><?php echo '查看'; ?></a></td>
-                              <td><?php echo $value['nickname']; ?></td>
+                              <td><?php echo $value['nickname'] == '__blog.author__' ? '<span style="color:red;">博主</span>' : $value['nickname']; ?></td>
                               <td>
                                 <?php echo date('Y-m-d H:i', $value['time']); ?>
                               </td>
                               <td>
-                                <?php echo widget('Admin.Comment')->reply($value); ?>
+                                <?php $result = widget('Admin.Comment')->reply($value); echo $result['html']; ?>
                                 <?php echo widget('Admin.Comment')->delete($value); ?>
                               </td>
                             </tr>
@@ -65,22 +65,43 @@
       });
     <?php endif; ?>
 
-    $('.comment-reply').click(function() {
+    <?php if($result['hasPermission']): ?>
+    var __d;
+    $(document).on('click', '.comment-reply', function() {
         var _id = $(this).attr('data-id');
-        var _d = dialog({
+        __d = dialog({
           title: '回复评论',
           id: 'comment-reply',
           fixed: true,
-          width: 500,
-          height: 300,
+          width: 600,
+          height: 500,
           okValue: '确定',
           ok: function() {
-            
+            var _this = this;
+            _this.title('提交中...');
+            $('#article-comment-reply-form').submit();
+            setTimeout(function(){
+              _this.title('回复评论');
+            },1000)
+            return false;
+          },
+          onshow: function () {
+            loadComment(_id, this);
           },
           cancelValue: '取消',
           cancel: function () {}
         });
-        _d.showModal();
+        __d.showModal();
     });
+
+    //load 内容到弹窗中
+    function loadComment(commentid, dialogObj) {
+      var url = '<?php echo R('common', 'blog.comment.reply'); ?>';
+      $.get(url, {commentid: commentid}, function(data){
+        if( ! dialogObj) dialogObj = __d;
+        dialogObj.content(data);
+      });
+    }
+    <?php endif; ?>
     </script>
 <?php echo widget('Admin.Common')->htmlend(); ?>

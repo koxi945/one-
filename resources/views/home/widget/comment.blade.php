@@ -31,7 +31,7 @@
 			}
 			if( ! empty($value))
 			{
-				$html .= '<div class="comment-content"><span class="blue f12"><span class="comment-nickname">'.$value['nickname'].'</span><span class="comment-date">于 '.showWriteTime($value['time']).'发布</span></span><br/><span>'.$value['content'].'</span></div>';
+				$html .= '<div class="comment-content"><span class="blue f12"><span class="comment-nickname">'.($value['nickname'] == '__blog.author__' ? '<span style="color:red;">博主</span>' : $value['nickname']).'</span><span class="comment-date">于 '.showWriteTime($value['time']).'发布</span></span><br/><span>'.$value['content'].'</span></div>';
 			}
 			else
 			{
@@ -54,7 +54,7 @@
 		<div class="main">
 			<span><?php echo $value['content']; ?></span>
 			<div class="pull-right small comment-action" style="width:100%;text-align:right;">
-				<span class="color-hui"><span class="comment-nickname"><?php echo $value['nickname']; ?></span>于 <?php echo showWriteTime($value['time']); ?>发布</span>
+				<span class="color-hui"><span class="comment-nickname"><?php echo $value['nickname'] == '__blog.author__' ? '<span style="color:red;">博主</span>' : $value['nickname']; ?></span>于 <?php echo showWriteTime($value['time']); ?>发布</span>
 				<a data-reply-id="<?php echo $value['id']; ?>" class="comment-reply" href="javascript:void(0)">回复</a>
 				<!--<a href="javascript:void(0)">支持</a>（<font id="support_3">0</font>）-->
 			</div>

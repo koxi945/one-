@@ -50,8 +50,8 @@ class Comment extends AbstractBase
         $this->setCurrentAction('comment', 'reply', 'blog')->checkPermission();
         $html = $this->hasPermission ?
                     '<a title="回复" href="javascript:;" class="comment-reply" data-id="'.$data['id'].'"><i class="fa fa-reply"></i></a>'
-                        : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
-        return $html;
+                        : '<i class="fa fa-reply" style="color:#ccc"></i>';
+        return ['html' => $html, 'hasPermission' => $this->hasPermission];
     }
 
 }

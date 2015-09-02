@@ -38,4 +38,34 @@ class CommentController extends Controller
         return responseJson($manager->getErrorMessage());
     }
 
+    /**
+     * 评论
+     *
+     * @todo 和前台的使用通过的接口来，不用写两套代码。
+     */
+    public function reply()
+    {
+        if(Request::method() == 'POST') return $this->commentReply();
+        $commentId = (int) Request::input('commentid');
+        $manager = new Process();
+        $view = $manager->getReplyInfo($commentId);
+        return response($view);
+    }
+
+    /**
+     * 回复评论
+     */
+    private function commentReply()
+    {
+        $data['object_id'] = (int) Request::input('objectid');
+        $data['object_type'] = (int) Request::input('object_type');
+        $data['nickname'] = strip_tags(Request::input('nickname'));
+        $data['content'] = strip_tags(Request::input('comment'));
+        $data['replyid'] = (int) Request::input('replyid');
+        $manager = new Process();
+        $insertId = $manager->addComment($data);
+        if($insertId !== false) return Js::execute('window.parent.loadComment('.$insertId.');');
+        return Js::error($manager->getErrorMessage());
+    }
+
 }
