@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2015-09-01 12:43:47
+Date: 2015-09-02 12:12:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -100,7 +100,7 @@ CREATE TABLE `bk_action_log` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `username` (`username`) USING BTREE,
   KEY `addtime` (`add_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=378 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_action_log
@@ -474,6 +474,14 @@ INSERT INTO `bk_action_log` VALUES ('366', 'admin', '1', '127.0.0.1', '', '14410
 INSERT INTO `bk_action_log` VALUES ('367', 'admin', '1', '127.0.0.1', '', '1441078735', '管理员', '登录系统成功');
 INSERT INTO `bk_action_log` VALUES ('368', 'admin', '1', '127.0.0.1', '', '1441078764', '管理员', '登录系统成功');
 INSERT INTO `bk_action_log` VALUES ('369', 'admin', '1', '127.0.0.1', '', '1441081431', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('370', 'admin', '1', '127.0.0.1', '', '1441089446', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('371', 'admin', '1', '127.0.0.1', '', '1441089832', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('372', 'admin', '1', '127.0.0.1', '', '1441091508', '管理员', '编辑了工作流步骤：测试辅助权限工作流步骤');
+INSERT INTO `bk_action_log` VALUES ('373', 'admin', '1', '127.0.0.1', '', '1441095278', '管理员', '关联了用户：test 到工作流：辅助权限测试2 中的审核步骤：测试辅助权限工作流步骤');
+INSERT INTO `bk_action_log` VALUES ('374', 'admin', '1', '127.0.0.1', '', '1441095278', '管理员', '关联了用户：管理员 到工作流：辅助权限测试2 中的审核步骤：测试辅助权限工作流步骤');
+INSERT INTO `bk_action_log` VALUES ('375', 'admin', '1', '127.0.0.1', '', '1441164748', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('376', 'admin', '1', '127.0.0.1', '', '1441165379', '管理员', '登录系统成功');
+INSERT INTO `bk_action_log` VALUES ('377', 'admin', '1', '127.0.0.1', '', '1441166728', '管理员', '登录系统成功');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify`
@@ -510,7 +518,7 @@ INSERT INTO `bk_article_classify` VALUES ('11', '测试分类', '0', '1', '0', '
 INSERT INTO `bk_article_classify` VALUES ('12', '测试分类账1', '0', '1', '0', '1440989164');
 INSERT INTO `bk_article_classify` VALUES ('24', '测试测试', '0', '1', '0', '1440989164');
 INSERT INTO `bk_article_classify` VALUES ('25', 'd1', '0', '0', '0', '1440989164');
-INSERT INTO `bk_article_classify` VALUES ('26', 'test', '0', '0', '1', '1440989164');
+INSERT INTO `bk_article_classify` VALUES ('26', 'test', '0', '0', '0', '1440989164');
 
 -- ----------------------------
 -- Table structure for `bk_article_classify_relation`
@@ -729,7 +737,7 @@ CREATE TABLE `bk_article_position_relation` (
   UNIQUE KEY `p_a_id` (`article_id`,`position_id`) USING BTREE,
   KEY `Position_id` (`position_id`) USING BTREE,
   KEY `article_id` (`article_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='文章与推荐位关系表';
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COMMENT='文章与推荐位关系表';
 
 -- ----------------------------
 -- Records of bk_article_position_relation
@@ -741,17 +749,16 @@ INSERT INTO `bk_article_position_relation` VALUES ('4', '68', '1', '0', '1441005
 INSERT INTO `bk_article_position_relation` VALUES ('6', '69', '2', '0', '1441005532');
 INSERT INTO `bk_article_position_relation` VALUES ('9', '68', '2', '0', '1441005532');
 INSERT INTO `bk_article_position_relation` VALUES ('35', '68', '21', '0', '1441006540');
-INSERT INTO `bk_article_position_relation` VALUES ('37', '73', '22', '0', '1441006596');
 INSERT INTO `bk_article_position_relation` VALUES ('38', '68', '22', '0', '1441006596');
 INSERT INTO `bk_article_position_relation` VALUES ('40', '76', '3', '0', '1441009619');
 INSERT INTO `bk_article_position_relation` VALUES ('44', '80', '6', '6', '1441075445');
 INSERT INTO `bk_article_position_relation` VALUES ('45', '79', '6', '0', '1441075445');
 INSERT INTO `bk_article_position_relation` VALUES ('46', '71', '6', '2', '1441075445');
 INSERT INTO `bk_article_position_relation` VALUES ('47', '70', '6', '3', '1441075445');
-INSERT INTO `bk_article_position_relation` VALUES ('48', '82', '6', '0', '1441077737');
 INSERT INTO `bk_article_position_relation` VALUES ('50', '78', '6', '5', '1441077737');
-INSERT INTO `bk_article_position_relation` VALUES ('51', '77', '6', '0', '1441077737');
-INSERT INTO `bk_article_position_relation` VALUES ('52', '76', '6', '0', '1441077737');
+INSERT INTO `bk_article_position_relation` VALUES ('51', '77', '6', '99', '1441077737');
+INSERT INTO `bk_article_position_relation` VALUES ('52', '76', '6', '7', '1441077737');
+INSERT INTO `bk_article_position_relation` VALUES ('53', '82', '6', '100', '1441159739');
 
 -- ----------------------------
 -- Table structure for `bk_article_tags`
@@ -879,8 +886,9 @@ CREATE TABLE `bk_comment` (
   `content` text NOT NULL COMMENT '评论的内容',
   `reply_ids` varchar(255) NOT NULL COMMENT '所评论的内容',
   `time` int(11) NOT NULL COMMENT '评论的时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `object_type_id` (`object_type`,`object_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_comment
@@ -907,7 +915,6 @@ INSERT INTO `bk_comment` VALUES ('32', '1', '74', '阿君', '不懂为什么用a
 INSERT INTO `bk_comment` VALUES ('33', '1', '81', '美女', '可以', '', '1428027488');
 INSERT INTO `bk_comment` VALUES ('34', '1', '81', '刘洋', '你好', '', '1428027537');
 INSERT INTO `bk_comment` VALUES ('35', '1', '82', '风', '建议使用第5点的方法安装。', '', '1428034649');
-INSERT INTO `bk_comment` VALUES ('36', '1', '82', '123123', '123123', '', '1433904890');
 
 -- ----------------------------
 -- Table structure for `bk_group`
@@ -948,7 +955,7 @@ CREATE TABLE `bk_permission` (
   KEY `module` (`module`) USING BTREE,
   KEY `class` (`class`) USING BTREE,
   KEY `action` (`action`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8 COMMENT='权限节点表_by_jiang';
 
 -- ----------------------------
 -- Records of bk_permission
@@ -1005,6 +1012,9 @@ INSERT INTO `bk_permission` VALUES ('76', 'blog', 'content', 'position', '关联
 INSERT INTO `bk_permission` VALUES ('77', 'blog', 'position', 'relation', '查看推荐位文章', '0', '42', '0', '4', '', '1441073014');
 INSERT INTO `bk_permission` VALUES ('78', 'blog', 'position', 'delrelation', '取消关联文章', '0', '42', '0', '4', '', '1441076899');
 INSERT INTO `bk_permission` VALUES ('79', 'blog', 'position', 'sortrelation', '推荐位文章排序', '0', '42', '0', '4', '', '1441078668');
+INSERT INTO `bk_permission` VALUES ('80', 'blog', 'comment', 'index', '评论管理', '1', '69', '0', '3', '', '1441089433');
+INSERT INTO `bk_permission` VALUES ('81', 'blog', 'comment', 'delete', '删除文章评论', '0', '80', '0', '4', '', '1441164701');
+INSERT INTO `bk_permission` VALUES ('82', 'blog', 'comment', 'reply', '回复文章评论', '0', '80', '0', '4', '', '1441164737');
 
 -- ----------------------------
 -- Table structure for `bk_search_index`
@@ -1093,7 +1103,7 @@ CREATE TABLE `bk_users` (
 -- ----------------------------
 -- Records of bk_users
 -- ----------------------------
-INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '1', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '12', '1', '超级用户组', '127.0.0.1', '1441081431');
+INSERT INTO `bk_users` VALUES ('1', 'admin', '6512bd43d9caa6e02c990b0a82652dca', '1', '管理员', 'oyzzO7YxmgJHlAfdK5HaZMscegJPcTrw5drPQRS6bjlfAkTB6NELPvqpc12q', '0', '0', '12', '1', '超级用户组', '127.0.0.1', '1441166728');
 INSERT INTO `bk_users` VALUES ('2', 'test', 'c4ca4238a0b923820dcc509a6f75849b', '2', 'test', '', '1436169648', '0', '11', '1', '1', '127.0.0.1', '1440400566');
 
 -- ----------------------------
@@ -1156,11 +1166,12 @@ CREATE TABLE `bk_workflow_user` (
   KEY `user_id` (`user_id`) USING BTREE,
   KEY `workflow_step_id` (`workflow_step_id`) USING BTREE,
   KEY `workflow_id` (`workflow_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bk_workflow_user
 -- ----------------------------
 INSERT INTO `bk_workflow_user` VALUES ('19', '9', '1', '8');
 INSERT INTO `bk_workflow_user` VALUES ('23', '10', '3', '8');
-INSERT INTO `bk_workflow_user` VALUES ('24', '15', '2', '10');
+INSERT INTO `bk_workflow_user` VALUES ('25', '15', '2', '10');
+INSERT INTO `bk_workflow_user` VALUES ('26', '15', '1', '10');

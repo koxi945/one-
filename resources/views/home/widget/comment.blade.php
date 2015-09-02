@@ -46,7 +46,7 @@
 	<h3>评论内容：</h3>
 </div>
 	<?php foreach($commentList as $key => $value): ?>
-	<div class="comment-main">
+	<div class="comment-main" id="comment-<?php echo $value['id']; ?>">
 		<?php $replyComment = $value['reply_content']; ?>
 		<?php if($replyComment !== false and is_array($replyComment) and ! empty($replyComment)): ?>
 			<?php echo showCommentReply($replyComment); ?>

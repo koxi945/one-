@@ -82,7 +82,7 @@ class Content extends Base
      */
     public function positionArticle($positionId)
     {
-        $currentQuery = $this->select(array('article_position_relation.id', 'article_main.title', 'article_position_relation.sort'))
+        $currentQuery = $this->select(array('article_position_relation.id', 'article_main.title', 'article_position_relation.sort', 'article_position_relation.article_id'))
                              ->leftJoin('article_position_relation', 'article_main.id', '=', 'article_position_relation.article_id')
                              ->where('article_position_relation.position_id', $positionId)
                              ->where('article_main.is_delete', self::IS_DELETE_NO)
