@@ -49,6 +49,16 @@ class User extends Base
     }
 
     /**
+     * 取得所有的用户的名字和id
+     *
+     * @return array
+     */
+    public function userNameList()
+    {
+        return $this->get()->toArray();
+    }
+
+    /**
      * 增加用户
      * 
      * @param array $data 所需要插入的信息

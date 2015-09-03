@@ -1,16 +1,10 @@
 # laravel5 后台基础系统
 
-这是一个基于laravel 5.1框架的后台基础系统，不定期更新，如果你有好的idea，欢迎email我：mylampblog@163.com或提交issues
+这是一个基于laravel 5.1框架的后台基础系统，不定期更新，如果你有好的idea，欢迎email我：mylampblog@163.com 或提交issues
 
-如果你喜欢本系统附带的blog功能，但是功能需要更强大的，请关注分支中的laravel_blog（from: 2015-8-18）。
+如果你喜欢本系统附带的blog功能，但是功能需要更强大的，请关注分支中的[laravel_blog](/ctk/laravel5_backend/tree/laravel_blog/)
 
-***请大家在tag中下载最新稳定版本，不要拉master的代码。***
-
-适用对象：
-
-* phper
-* 正在使用laravel5.1或正在学习它的朋友
-* 相信php是世界上最好的语言（梗）
+***请大家在tag中下载最新稳定版本，不要拉master的代码，因为公司家中都有在码代码，master用来做代码的同步了，所以不一定是完善的。***
 
 一、功能说明
 --------------------------
@@ -51,7 +45,7 @@
 * App\Services\Admin\Workflow\Check::getComfirmStatus($workflowCode, $currentStatus);
 * App\Services\Admin\Workflow\Check::checkStepAcl($workflowCode, $workflowStepCode);
 
-在使用前请先在**工作流管理**中进行设置
+在使用前请先在==工作流管理==中进行设置
 
 **1）多层级审核**
 
@@ -95,7 +89,7 @@
 
 ### 4、日志
 
-只需在你想使用日志记录的时候，手动调用(controller内)
+只需在你想使用日志记录的时候，手动在controller内调用
 
 	$this->setActionLog(['groupInfos' => $groupInfos]);
 
@@ -112,7 +106,12 @@
 
 ### 5、博客
 
- 博客只实现了发布以评论，以及基于sphinx的搜索。
+* 1、基于sphinx的搜索
+* 2、文章发布及管理
+* 3、文章分类管理
+* 4、文章推荐位管理
+* 5、tag管理
+* 6、评论及管理
 
 二、如何安装
 --------------------------
@@ -139,8 +138,8 @@
 
 6、默认后台密码，其实是md5，你可以改你想要的。
 
-帐号：admin
-密码：11
+* 帐号：admin
+* 密码：11
 
 7、要注意的是mysql_model不能开启严格模式，建议设置为：
 

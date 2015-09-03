@@ -8,6 +8,7 @@ p.p_h_summary {color:#999;}
 #blog-posts .p_h_info {color:#999;}
 .h-detail-summary {border: 1px dashed #E0E0E0; padding: 20px; background: #FCFCFC; margin-bottom: 20px; margin-top: 20px; color: #999;}
 
+/** 回到顶部*/
 #scrolltop {
     background: none repeat scroll 0 0 #fff;
     border-radius: 3px;
@@ -24,6 +25,7 @@ p.p_h_summary {color:#999;}
     width: 20px;
 }
 
+/** 评论*/
 div.comment {background: #FCFCFC;border: 1px solid #E0E0E0;padding: 5px;}
 .comment-nickname {color:#21598A;}
 .comment-date {color:#999;}
@@ -36,3 +38,6 @@ div.write-comment-main {border-top: 1px solid #E0E0E0; margin-top: 50px;}
 .delete-reply-comment {color: #999;text-decoration:line-through;}
 
 div#detail-comment {margin-bottom: 20px;}
+/** 评论end*/
+
+.label { font-weight: normal;}

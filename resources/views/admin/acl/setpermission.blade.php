@@ -10,8 +10,8 @@
         <div class="main-content">
           <div id="sys-list">
           <div class="row">
-            <div class=" col-md-12">
-              <div id="featurebar">
+            <div class="col-md-12">
+              <div id="featurebar" style="padding:0px;">
                 <div class="heading">设置权限 : <?php echo isset($info['name']) ? $info['name'] : ''; ?><?php echo isset($info['group_name']) ? $info['group_name'] : ''; ?></div>
               </div>
               <?php
@@ -60,8 +60,8 @@
                 });
               </script>
               <div class="btn-toolbar list-toolbar">
-                <a class="btn btn-primary sys-ajax-btn-submit" data-loading="保存中..." ><i class="fa fa-save"></i> <span class="sys-btn-submit-str">保存</span></a>
-                <button class="btn btn-default" onclick="javascript:history.go(-1);" type="button">返回</button>
+                <a class="btn btn-primary btn-sm sys-ajax-btn-submit" data-loading="保存中..." ><i class="fa fa-save"></i> <span class="sys-btn-submit-str">保存</span></a>
+                <button class="btn btn-default btn-sm" onclick="javascript:history.go(-1);" type="button">返回</button>
                 <input type="hidden" name="id" value="<?php echo $id;?>" />
                 <input type="hidden" name="all" value="<?php echo implode(',', $all); ?>" />
                 <input type="hidden" name="_form_hash" value="<?php echo form_hash([ 'id' => $id, 'all' => implode(',', $all) ]); ?>" />

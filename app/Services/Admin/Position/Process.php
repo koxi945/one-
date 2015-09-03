@@ -2,6 +2,7 @@
 
 use Lang;
 use App\Models\Admin\Position as PositionModel;
+use App\Models\Admin\PositionRelation as PositionRelationModel;
 use App\Services\Admin\Position\Validate\Position as PositionValidate;
 use App\Services\Admin\BaseProcess;
 
@@ -49,6 +50,7 @@ class Process extends BaseProcess
         if( ! $this->positionValidate->add($data)) return $this->setErrorMsg($this->positionValidate->getErrorMessage());
         $data = $data->toArray();
         $data['is_delete'] = PositionModel::IS_DELETE_NO;
+        $data['time'] = time();
         if($this->positionModel->addPosition($data) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
@@ -64,7 +66,11 @@ class Process extends BaseProcess
     {
         if( ! is_array($ids)) return false;
         $data['is_delete'] = PositionModel::IS_DELETE_YES;
-        if($this->positionModel->deletePositions($data, $ids) !== false) return true;
+        if($this->positionModel->deletePositions($data, $ids) !== false)
+        {
+            $result = with(new PositionRelationModel())->deletePositionRelationByPosId($ids);
+            if($result !== false) return true;
+        }
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
@@ -81,6 +87,32 @@ class Process extends BaseProcess
         $id = intval($data['id']); unset($data['id']);
         if( ! $this->positionValidate->edit($data)) return $this->setErrorMsg($this->positionValidate->getErrorMessage());
         if($this->positionModel->editPosition($data->toArray(), $id) !== false) return true;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
+    }
+
+    /**
+     * 删除推荐位
+     * 
+     * @param array $ids
+     * @access public
+     * @return boolean true|false
+     */
+    public function delRelation($prid)
+    {
+        if( ! is_array($prid)) return false;
+        $result = with(new PositionRelationModel())->deletePositionRelationById($prid);
+        if($result !== false) return true;
+        return $this->setErrorMsg(Lang::get('common.action_error'));
+    }
+
+    /**
+     * 关联文章排序
+     */
+    public function sortRelation($prid, $sort)
+    {
+        $prid = intval($prid); $sort = intval($sort);
+        $result = with(new PositionRelationModel())->sortRelation($prid, $sort);
+        if($result !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 

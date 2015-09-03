@@ -55,6 +55,16 @@ class Category extends Base
     }
 
     /**
+     * 取得所有的分类信息
+     *
+     * @return array
+     */
+    public function allCategory()
+    {
+        return $this->get()->toArray();
+    }
+
+    /**
      * 增加文章分类
      * 
      * @param array $data 所需要插入的信息

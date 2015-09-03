@@ -29,6 +29,8 @@ class Position extends Base
     CONST IS_DELETE_NO = 1;
 
     CONST IS_DELETE_YES = 0;
+
+    CONST IS_ACTIVE_YES = 1;
     
     /**
      * 取得未删除的推荐位信息
@@ -39,6 +41,17 @@ class Position extends Base
     {
         $currentQuery = $this->orderBy('id', 'desc')->where('is_delete', self::IS_DELETE_NO)->paginate(15);
         return $currentQuery;
+    }
+
+    /**
+     * 取得未删除，已激活的推荐位信息
+     *
+     * @return array
+     */
+    public function activePosition()
+    {
+        $currentQuery = $this->orderBy('id', 'desc')->where('is_delete', self::IS_DELETE_NO)->where('is_active', self::IS_ACTIVE_YES);
+        return $currentQuery->get()->toArray();
     }
 
     /**

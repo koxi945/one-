@@ -4,9 +4,9 @@
 	<form target="hiddenwin" method="post" action="<?php echo route('home', ['class' => 'comment', 'action' => 'add', 'objectid' => $objectID, 'object_type' => $objectType]); ?>" >
 		<textarea name="comment" rows="3" class="form-control" placeholder="三人行，必有我师。"></textarea>
         <br/>
-		<input class="form-control" name="nickname" placeholder="如何称呼您？" style="width:200px;float:left;" />
+		<input class="form-control input-sm" name="nickname" placeholder="如何称呼您？" style="width:200px;float:left;" />
         <div class="btn-toolbar list-toolbar" style="float:right;margin:0;">
-          <a class="btn btn-primary sys-btn-submit" data-loading="保存中..." ><span class="sys-btn-submit-str">提交</span></a>
+          <a class="btn btn-primary btn-sm sys-btn-submit" data-loading="保存中..." ><span class="sys-btn-submit-str">提交</span></a>
         </div>
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 	</form>
@@ -31,7 +31,7 @@
 			}
 			if( ! empty($value))
 			{
-				$html .= '<div class="comment-content"><span class="blue f12"><span class="comment-nickname">'.$value['nickname'].'</span><span class="comment-date">于 '.showWriteTime($value['time']).'发布</span></span><br/><span>'.$value['content'].'</span></div>';
+				$html .= '<div class="comment-content"><span class="blue f12"><span class="comment-nickname">'.($value['nickname'] == '__blog.author__' ? '<span style="color:red;">博主</span>' : $value['nickname']).'</span><span class="comment-date">于 '.showWriteTime($value['time']).'发布</span></span><br/><span>'.$value['content'].'</span></div>';
 			}
 			else
 			{
@@ -46,7 +46,7 @@
 	<h3>评论内容：</h3>
 </div>
 	<?php foreach($commentList as $key => $value): ?>
-	<div class="comment-main">
+	<div class="comment-main" id="comment-<?php echo $value['id']; ?>">
 		<?php $replyComment = $value['reply_content']; ?>
 		<?php if($replyComment !== false and is_array($replyComment) and ! empty($replyComment)): ?>
 			<?php echo showCommentReply($replyComment); ?>
@@ -54,7 +54,7 @@
 		<div class="main">
 			<span><?php echo $value['content']; ?></span>
 			<div class="pull-right small comment-action" style="width:100%;text-align:right;">
-				<span class="color-hui"><span class="comment-nickname"><?php echo $value['nickname']; ?></span>于 <?php echo showWriteTime($value['time']); ?>发布</span>
+				<span class="color-hui"><span class="comment-nickname"><?php echo $value['nickname'] == '__blog.author__' ? '<span style="color:red;">博主</span>' : $value['nickname']; ?></span>于 <?php echo showWriteTime($value['time']); ?>发布</span>
 				<a data-reply-id="<?php echo $value['id']; ?>" class="comment-reply" href="javascript:void(0)">回复</a>
 				<!--<a href="javascript:void(0)">支持</a>（<font id="support_3">0</font>）-->
 			</div>

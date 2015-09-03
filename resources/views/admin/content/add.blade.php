@@ -15,7 +15,7 @@
               <div id="myTabContent" class="tab-content">
                 <div class="tab-pane active in" id="home">
                   <form id="tab" target="hiddenwin" method="post" action="<?php echo $formUrl; ?>">
-                    <div class="form-group">
+                    <div class="form-group input-group-sm">
                       <label>标题</label>
                       <input type="text" value="<?php if(isset($info['title'])) echo $info['title']; ?>" name="data[title]" class="form-control">
                     </div>
@@ -25,14 +25,14 @@
                       <textarea name="data[summary]" rows="3" class="form-control"><?php if(isset($info['summary'])) echo $info['summary']; ?></textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group input-group-sm">
                       <label>标签</label>
                       <input type="text" value="<?php if(isset($info['tagsInfo'])) echo implode(';', $info['tagsInfo']); ?>" name="data[tags]" class="form-control" placeholder="标签与标签之间请用“;”符号隔开。例如：PHP;LAMP">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group input-group-sm">
                       <label>类别</label><br/>
-                      <select data-placeholder="请选择分类" class="chosen-select" multiple style="width:350px;" name="data[classify][]">
+                      <select data-placeholder="请选择分类" class="form-control chosen-select" multiple name="data[classify][]">
                           <option value=""></option>
                           <?php if(isset($classifyInfo) && is_array($classifyInfo)): ?>
                               <?php foreach($classifyInfo as $key => $value): ?>
@@ -42,18 +42,18 @@
                       </select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group input-group-sm">
                       <label>正文</label>
                       <script id="container" name="data[content]" type="text/plain"><?php if(isset($info['content'])) echo $info['content']; ?></script>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group input-group-sm">
                       <label>是否发布</label>
                       <label class="radio-inline"><input type="radio" id="genderm" <?php if(isset($info['status']) && $info['status'] == 1) echo 'checked="checked"'; ?> value="1" name="data[status]"> 是</label>
                       <label class="radio-inline"><input type="radio" id="genderf" <?php if(isset($info['status']) && $info['status'] == 0) echo 'checked="checked"'; ?> value="0" name="data[status]"> 否</label>
                     </div>
                     <div class="btn-toolbar list-toolbar">
-                      <a id="save-buttom" class="btn btn-primary sys-btn-submit" data-loading="保存中..." ><i class="fa fa-save"></i> <span class="sys-btn-submit-str">保存</span></a>
+                      <a id="save-buttom" class="btn btn-primary btn-sm sys-btn-submit" data-loading="保存中..." ><i class="fa fa-save"></i> <span class="sys-btn-submit-str">保存</span></a>
                     </div>
                     <?php if(isset($id)): ?>
                       <input name="id" type="hidden" value="<?php echo $id;?>" />

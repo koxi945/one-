@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers\Admin\Blog;
 
-use Request, Lang;
+use Request, Lang, Session;
 use App\Models\Admin\Category as CategoryModel;
 use App\Services\Admin\Category\Process as CategoryActionProcess;
 use App\Libraries\Js;
@@ -18,7 +18,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-    	$list = (new CategoryModel())->unDeleteCategory();
+        Session::flashInput(['http_referer' => Request::fullUrl()]);
+        $manager = new CategoryActionProcess();
+    	$list = $manager->unDeleteCategory();
     	$page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.content.classify', compact('list', 'page'));
     }
@@ -54,6 +56,7 @@ class CategoryController extends Controller
     public function edit()
     {
     	if(Request::method() == 'POST') return $this->updateDatasToDatabase();
+        Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
         $id = Request::input('id');
         if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
         $info = (new CategoryModel())->getOneById($id);
@@ -69,12 +72,17 @@ class CategoryController extends Controller
      */
     private function updateDatasToDatabase()
     {
+        $httpReferer = Session::getOldInput('http_referer');
         $data = Request::input('data');
         if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
         $param = new \App\Services\Admin\Category\Param\CategorySave();
         $param->setAttributes($data);
         $manager = new CategoryActionProcess();
-        if($manager->editCategory($param)) return Js::locate(R('common', 'blog.category.index'), 'parent');
+        if($manager->editCategory($param)) 
+        {
+            $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.category.index');
+            return Js::locate($backUrl, 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
 

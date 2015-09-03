@@ -59,6 +59,7 @@ function setformSubmitButton() {
 function confirmNotic(content, callback) {
     var d = dialog({
         title: '提示',
+        fixed: true,
         content: content,
         okValue: '确定',
         width: 250,
@@ -78,15 +79,21 @@ function confirmNotic(content, callback) {
  * 自定义的alert提示弹窗
  * 
  * @param  string content 提示的内容
+ * @param  function callback 回调函数
  * @return void
  */
-function alertNotic(content) {
+function alertNotic(content, callback) {
     var d = dialog({
         title: '提示',
+        fixed: true,
         content: content,
         okValue: '确定',
         width: 250,
-        ok: function () {}
+        ok: function () {
+            if(callback && typeof callback === 'function') {
+                callback();
+            }
+        }
     });
     d.showModal();
 }
@@ -204,6 +211,8 @@ function removeDialogIframe(uploadid) {
 
 /**
  * onload的时候改变菜单的高度
+ *
+ * @return {void}
  */
 function changeLeftMenuHeight() {
     var divContent = $('div.content');
@@ -221,7 +230,7 @@ function changeLeftMenuHeight() {
  * @param {string} ajaxType  post|get
  * @param {object} selectObj 当前按钮的选择器
  */
-function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj) {
+function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj, replaceID, showSuccessMsg) {
     //ajax submit
     var _oldstr = selectObj.find('.sys-btn-submit-str').html();
     $.ajax({
@@ -230,7 +239,17 @@ function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj) {
         data: paramObj,
         dataType: 'json',
         success:  function(data) {
-            alertNotic(data.message);
+            if(data.result == 'success' && replaceID) {
+                $('#' + replaceID).wrap("<div id='tmpDiv'></div>");
+                $('#tmpDiv').load(document.location.href + ' #' + replaceID, function(){
+                    $('#tmpDiv').replaceWith($('#tmpDiv').html());
+                });
+                if(showSuccessMsg) {
+                    alertNotic(data.message);
+                }
+            } else {
+                alertNotic(data.message);
+            }
         },
         beforeSend: function() {
             var loading = selectObj.attr('data-loading') || 'loading...';
@@ -244,7 +263,45 @@ function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj) {
     });
 }
 
+/**
+ * 批量操作的时候取得checkbox的值
+ *
+ * @param {string} _class 即css的class名
+ * @return {array}
+ */
+function plSelectValue(_class) {
+    var c = _class || 'ids';
+    var ids = new Array();
+    var current_var;
+    $('input.'+c+':checked').each(function(i, n){
+        current_var = $(n).val();
+        ids.push(current_var);
+    });
+    return ids;
+}
+
+/**
+ * select 下拉选择的自适应
+ */
+function formSelectWidth() {
+    var _f = function(){
+        var _w = $(window).width();
+        var o = $('.zdy-form-select-obj');
+        if(_w <= 751) {
+            o.removeClass('zdy-form-select');
+        } else {
+            o.addClass('zdy-form-select');
+        }
+    };
+    $(window).resize(_f);
+    $(window).ready(_f);
+}
+
+/**
+ * 初始化
+ */
 $(document).ready(function(){
     setformSubmitButton();
     changeLeftMenuHeight();
+    formSelectWidth();
 });

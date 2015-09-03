@@ -12,15 +12,6 @@
     <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/stylesheets/premium.css'); ?> ">
     <link rel="stylesheet" type="text/css" href="<?php echo loadStatic('/home/home.css'); ?>">
     <style type="text/css">
-        #line-chart {
-            height:300px;
-            width:800px;
-            margin: 0px auto;
-            margin-top: 1em;
-        }
-        .navbar-default .navbar-brand, .navbar-default .navbar-brand:hover { 
-            color: #fff;
-        }
         .none {
             display: none;
         }

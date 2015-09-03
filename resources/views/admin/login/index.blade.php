@@ -62,15 +62,15 @@
         <div class="panel-body" style="text-align:center;" id="loading"><img src="/images/loading-icons/loading7.gif"></div>
         <div id="login-form" class="panel-body none">
             <div class="form-group notic" id="msg"></div>
-            <div class="form-group">
+            <div class="form-group input-group-sm">
                 <label>用户帐号</label>
                 <input type="text" class="form-control span12 login-form" id="username">
             </div>
-            <div class="form-group">
+            <div class="form-group input-group-sm">
             <label>用户密码</label>
                 <input type="password" class="form-control span12 login-form" id="password">
             </div>
-            <a href="javascript:;" class="btn btn-primary pull-right" id="submit">登陆</a>
+            <a href="javascript:;" class="btn btn-sm btn-primary pull-right" id="submit">登陆</a>
 
             <label class="remember-me none"><input type="checkbox"> 记住</label>
             <div class="clearfix"></div>
