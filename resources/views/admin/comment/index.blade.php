@@ -73,8 +73,8 @@
           title: '回复评论',
           id: 'comment-reply',
           fixed: true,
-          width: 600,
-          height: 500,
+          width: 500,
+          height: 350,
           okValue: '确定',
           ok: function() {
             var _this = this;
