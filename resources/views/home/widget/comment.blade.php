@@ -4,9 +4,9 @@
 	<form target="hiddenwin" method="post" action="<?php echo route('home', ['class' => 'comment', 'action' => 'add', 'objectid' => $objectID, 'object_type' => $objectType]); ?>" >
 		<textarea name="comment" rows="3" class="form-control" placeholder="三人行，必有我师。"></textarea>
         <br/>
-		<input class="form-control" name="nickname" placeholder="如何称呼您？" style="width:200px;float:left;" />
+		<input class="form-control input-sm" name="nickname" placeholder="如何称呼您？" style="width:200px;float:left;" />
         <div class="btn-toolbar list-toolbar" style="float:right;margin:0;">
-          <a class="btn btn-primary sys-btn-submit" data-loading="保存中..." ><span class="sys-btn-submit-str">提交</span></a>
+          <a class="btn btn-primary btn-sm sys-btn-submit" data-loading="保存中..." ><span class="sys-btn-submit-str">提交</span></a>
         </div>
         <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
 	</form>
