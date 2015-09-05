@@ -26,7 +26,7 @@ class Comment extends Base
     /**
      * 代表文章的标识
      */
-    CONST OBJECT_TYPE = 1;
+    CONST OBJECT_TYPE_ARTICLE = 1;
 
     /**
      * 取得评论信息
@@ -35,7 +35,7 @@ class Comment extends Base
      */
     public function allComment()
     {
-        $currentQuery = $this->where('object_type', self::OBJECT_TYPE)->orderBy('id', 'desc')->paginate(self::PAGE_NUMS);
+        $currentQuery = $this->where('object_type', self::OBJECT_TYPE_ARTICLE)->orderBy('id', 'desc')->paginate(self::PAGE_NUMS);
         return $currentQuery;
     }
 
@@ -64,7 +64,7 @@ class Comment extends Base
      * 
      * @return array
      */
-    public function getCommentsByObjectIds($objectIds, $objectType = self::OBJECT_TYPE)
+    public function getCommentsByObjectIds($objectIds, $objectType = self::OBJECT_TYPE_ARTICLE)
     {
         return $this->where('object_type', $objectType)->whereIn('id', $objectIds)->get()->toArray();
     }

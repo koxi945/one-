@@ -41,7 +41,7 @@ class Process extends BaseProcess
     /**
      * 增加新的推荐位
      *
-     * @param string $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */
@@ -77,7 +77,7 @@ class Process extends BaseProcess
     /**
      * 编辑推荐位
      *
-     * @param string $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */
@@ -107,6 +107,9 @@ class Process extends BaseProcess
 
     /**
      * 关联文章排序
+     *
+     * @param int $prid 关联表的id
+     * @param int $sort 排序的值
      */
     public function sortRelation($prid, $sort)
     {

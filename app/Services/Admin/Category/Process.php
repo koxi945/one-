@@ -41,7 +41,7 @@ class Process extends BaseProcess
     /**
      * 增加新的分类
      *
-     * @param array $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */
@@ -73,7 +73,7 @@ class Process extends BaseProcess
     /**
      * 编辑分类
      *
-     * @param array $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */

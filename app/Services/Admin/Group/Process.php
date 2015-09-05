@@ -50,7 +50,7 @@ class Process extends BaseProcess
     /**
      * 增加新的用户组
      *
-     * @param string $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */
@@ -66,7 +66,7 @@ class Process extends BaseProcess
     /**
      * 删除用户组
      * 
-     * @param string $data
+     * @param array $ids 用户组的id
      * @access public
      * @return boolean true|false
      */
@@ -90,7 +90,7 @@ class Process extends BaseProcess
     /**
      * 编辑用户组
      *
-     * @param string $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */

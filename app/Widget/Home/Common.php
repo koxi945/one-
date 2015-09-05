@@ -50,7 +50,7 @@ class Common
     /**
      * comment
      */
-    public function comment($objectID, $objectType = \App\Models\Home\Comment::OBJECT_TYPE)
+    public function comment($objectID, $objectType = \App\Models\Home\Comment::OBJECT_TYPE_ARTICLE)
     {
         $commemtModel = new \App\Models\Home\Comment();
         $commentProcess = new \App\Services\Home\Comment\Process();

@@ -47,8 +47,9 @@ class Process extends BaseProcess
      * 取得回复评论的详细的信息
      *
      * @param int $commentId 评论的id
+     * @param int $object 是什么评论类型
      */
-    public function getReplyInfo($commentId, $objectType = \App\Models\Admin\Comment::OBJECT_TYPE)
+    public function getReplyInfo($commentId, $objectType = \App\Models\Admin\Comment::OBJECT_TYPE_ARTICLE)
     {
         $comment = $this->commentModel->getCommentById($commentId);
         $replyIds = $this->prepareReplyIds($comment);
@@ -59,6 +60,9 @@ class Process extends BaseProcess
 
     /**
      * 增加评论
+     * 
+     * @param array $data 所要增加的评论数据
+     * @return false|insertid
      */
     public function addComment($data)
     {

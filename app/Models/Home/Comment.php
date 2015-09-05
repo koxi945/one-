@@ -19,7 +19,7 @@ class Comment extends Model
     /**
      * 代表文章的标识
      */
-    CONST OBJECT_TYPE = 1;
+    CONST OBJECT_TYPE_ARTICLE = 1;
 
     /**
      * 可以被集体附值的表的字段
@@ -40,7 +40,7 @@ class Comment extends Model
      * 
      * @return array
      */
-    public function getContentByObjectId($objectId, $objectType = self::OBJECT_TYPE)
+    public function getContentByObjectId($objectId, $objectType = self::OBJECT_TYPE_ARTICLE)
     {
         return $this->where('object_type', $objectType)->orderBy('id', 'desc')->where('object_id', $objectId)->get()->toArray();
     }
@@ -50,7 +50,7 @@ class Comment extends Model
      * 
      * @return array
      */
-    public function getContentsByObjectIds($objectIds, $objectType = self::OBJECT_TYPE)
+    public function getContentsByObjectIds($objectIds, $objectType = self::OBJECT_TYPE_ARTICLE)
     {
         return $this->where('object_type', $objectType)->whereIn('id', $objectIds)->get()->toArray();
     }

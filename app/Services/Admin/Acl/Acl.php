@@ -79,8 +79,8 @@ class Acl
     /**
      * 取得当前登录的用户的权限角色对应表中的信息。
      *
-     * @param $userObj
-     * @param intval $userOrGroup
+     * @param object $userObj
+     * @param int $userOrGroup
      * @access public
      * @return array|null
      */
@@ -215,6 +215,7 @@ class Acl
     /**
      * 检测当前URI用户是否有权限进行
      * 
+     * @see self::checkIfHasPermission
      * @return mixed
      */
     public function checkUriPermission($module, $class, $function)
@@ -225,7 +226,7 @@ class Acl
     /**
      * 判断是不是超级用户
      *
-     * @param Kj\Admin\Models\User $userObj
+     * @param object $userObj
      * @access public
      */
     public function isSystemManager($userObj = false)

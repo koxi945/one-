@@ -56,7 +56,7 @@ class Process extends BaseProcess
     /**
      * 增加新的文章
      *
-     * @param string $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */
@@ -97,7 +97,7 @@ class Process extends BaseProcess
     /**
      * 编辑文章，因为使用了事务，如果没有成功请手动抛出异常
      *
-     * @param string $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */
@@ -184,7 +184,8 @@ class Process extends BaseProcess
     /**
      * 保存到主表，因为使用了事务，如果没有成功请手动抛出异常
      * 
-     * @param  array $data
+     * @param object $data 增加文章的信息
+     * @param object $object 增加文章的信息
      * @return int 自增的ID
      */
     private function saveContent(\App\Services\Admin\Content\Param\ContentSave $data, $object)
@@ -206,7 +207,8 @@ class Process extends BaseProcess
     /**
      * 保存到副表，因为使用了事务，如果没有成功请手动抛出异常
      * 
-     * @param  array $data
+     * @param object $data 增加文章的信息
+     * @param object $object 增加文章的信息
      * @return object
      */
     private function saveContentDetail(\App\Services\Admin\Content\Param\ContentSave $data, $object)
@@ -270,7 +272,7 @@ class Process extends BaseProcess
     /**
      * 保存文章的标签，因为使用了事务，如果没有成功请手动抛出异常
      *
-     * @param int $object->contentAutoId 文章的ID
+     * @param object $object->contentAutoId 文章的ID
      * @param array $tags 标签
      */
     private function saveArticleTags($object, $tags)
@@ -299,6 +301,7 @@ class Process extends BaseProcess
     /**
      * 根据文章的ID删除它的标签，，因为使用了事务，如果没有成功请手动抛出异常
      * 
+     * @param array $articleIds 文章的id组
      * @return boolean true|false
      */
     private function deleteArticleTagsById($articleIds)
@@ -334,8 +337,8 @@ class Process extends BaseProcess
     /**
      * 保存到主表，因为使用了事务，如果没有成功请手动抛出异常
      * 
-     * @param  array $data
-     * @return int 自增的ID
+     * @param  object $data 更新文章的数据
+     * @param int 文章的ID
      */
     private function updateContent(\App\Services\Admin\Content\Param\ContentSave $data, $id)
     {
@@ -353,8 +356,8 @@ class Process extends BaseProcess
     /**
      * 保存到副表，因为使用了事务，如果没有成功请手动抛出异常
      * 
-     * @param  array $data
-     * @return object
+     * @param  object $data 更新文章的数据
+     * @param int 文章的ID
      */
     private function updateContentDetail(\App\Services\Admin\Content\Param\ContentSave $data, $id)
     {
@@ -367,8 +370,8 @@ class Process extends BaseProcess
     /**
      * 更新查询索引表，因为使用了事务，如果没有成功请手动抛出异常
      * 
-     * @param  object $object
-     * @param  array $data
+     * @param object $object
+     * @param array $data
      * @param boolean $isEdit false的时候为增加，true的时候为edit
      * @return boolean
      */

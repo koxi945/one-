@@ -98,7 +98,7 @@ class Process extends BaseProcess
     /**
      * 编辑工作流
      *
-     * @param string $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */
@@ -229,7 +229,7 @@ class Process extends BaseProcess
     /**
      * 编辑工作流步骤
      *
-     * @param string $data
+     * @param object $data
      * @access public
      * @return boolean true|false
      */
