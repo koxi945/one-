@@ -120,12 +120,13 @@ class Routes
      */
     public function www()
     {
-        $this->wwwHome();
-        $homeDoaminArray = ['home' => $this->wwwDomain, 'home_empty_prefix' => $this->noPreDomain];
+        $homeDoaminArray = ['home_empty_prefix' => $this->noPreDomain, 'home' => $this->wwwDomain];
         foreach($homeDoaminArray as $key => $value)
         {
             Route::group(['domain' => $value, 'middleware' => ['csrf']], function() use ($key)
             {
+                $this->wwwHome();
+                $this->wwwArticleDetail();
                 $this->wwwCommon($key);
             });
         }
@@ -139,10 +140,17 @@ class Routes
      */
     private function wwwHome()
     {
-        Route::group(['domain' => $this->wwwDomain], function()
-        {
-            Route::get('/', ['as' => 'blog.index.index', 'uses' => 'Home\IndexController@index']);
-        });
+        Route::get('/', ['as' => 'blog.index.index', 'uses' => 'Home\IndexController@index']);
+    }
+
+    /**
+     * 文章详情页
+     * 
+     * @access private
+     */
+    private function wwwArticleDetail()
+    {
+        Route::get('/index/detail/{id}.html', ['as' => 'blog.index.detail', 'uses' => 'Home\IndexController@detail'])->where('id', '[0-9]+');
     }
 
     /**

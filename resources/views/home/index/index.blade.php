@@ -14,7 +14,7 @@
                         <div class="col-md-12">
                             <div class="post-summary">      
                                 <h3 class="h_h3" style="margin-top: 0px;">
-                                    <a href="<?php echo route('home', ['class' => 'index', 'action' => 'detail', 'id' => $value['id']]); ?>">
+                                    <a href="<?php echo route('blog.index.detail', ['id' => $value['id']]); ?>">
                                         <?php echo $value['title']; ?>
                                     </a>
                                 </h3>
@@ -25,7 +25,7 @@
                                 <p class="p_h_summary">
                                   <?php echo $value['summary']; ?>
                                 </p>
-                                <p><a href="<?php echo route('home', ['class' => 'index', 'action' => 'detail', 'id' => $value['id']]); ?>" class="btn btn-default btn-xs">查看详情</a></p>
+                                <p><a href="<?php echo route('blog.index.detail', ['id' => $value['id']]); ?>" class="btn btn-default btn-xs">查看详情</a></p>
                             </div>
                         </div>
                     </div>

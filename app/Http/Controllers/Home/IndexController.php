@@ -31,7 +31,7 @@ class IndexController extends Controller
      */
     public function detail()
     {
-        $articleId = (int) Request::input('id');
+        $articleId = (int) Request::route('id');
         $contentModel = new ContentModel();
         $info = $contentModel->getContentDetailByArticleId($articleId);
         return view('home.index.detail', compact('info'));
