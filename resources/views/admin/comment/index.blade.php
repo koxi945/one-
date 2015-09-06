@@ -26,7 +26,7 @@
                             <tr>
                               <td><input autocomplete="off" type="checkbox" name="ids[]" class="ids" value="<?php echo $value['id']; ?>"></td>
                               <td><?php echo $value['content']; ?></td>
-                              <td><a target="_blank" href="<?php echo route('home', ['class' => 'index', 'action' => 'detail', 'id' => $value['object_id']]); ?>"><?php echo '查看'; ?></a></td>
+                              <td><a target="_blank" href="<?php echo route('blog.index.detail', ['id' => $value['object_id']]); ?>"><?php echo '查看'; ?></a></td>
                               <td><?php echo $value['nickname'] == '__blog.author__' ? '<span style="color:red;">博主</span>' : $value['nickname']; ?></td>
                               <td>
                                 <?php echo date('Y-m-d H:i', $value['time']); ?>
