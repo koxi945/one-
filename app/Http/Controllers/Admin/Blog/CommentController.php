@@ -65,7 +65,7 @@ class CommentController extends Controller
         $manager = new Process();
         $insertId = $manager->addComment($data);
         if($insertId !== false) return Js::execute('window.parent.loadComment('.$insertId.');');
-        return Js::error($manager->getErrorMessage());
+        return Js::error($manager->getErrorMessage()).Js::execute('window.parent.reloadDialogTitle();');
     }
 
 }

@@ -80,9 +80,6 @@
             var _this = this;
             _this.title('提交中...');
             $('#article-comment-reply-form').submit();
-            setTimeout(function(){
-              _this.title('回复评论');
-            },1000)
             return false;
           },
           onshow: function () {
@@ -94,14 +91,22 @@
         __d.showModal();
     });
 
+    
+    //重置dialog的title
+    function reloadDialogTitle() {
+      __d.title('回复评论');
+    }
+
     //load 内容到弹窗中
     function loadComment(commentid, dialogObj) {
       var url = '<?php echo R('common', 'blog.comment.reply'); ?>';
       $.get(url, {commentid: commentid}, function(data){
         if( ! dialogObj) dialogObj = __d;
         dialogObj.content(data);
+        reloadDialogTitle();
       });
     }
+
     <?php endif; ?>
     </script>
 <?php echo widget('Admin.Common')->htmlend(); ?>

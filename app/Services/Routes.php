@@ -21,6 +21,8 @@ class Routes
 
     private $noPreDomain;
 
+    private $soDomain;
+
     /**
      * 初始化，取得配置
      *
@@ -31,6 +33,7 @@ class Routes
         $this->adminDomain = config('sys.sys_admin_domain');
         $this->wwwDomain = config('sys.sys_blog_domain');
         $this->noPreDomain = config('sys.sys_blog_nopre_domain');
+        $this->soDomain = config('sys.sys_blog_search_domain');
     }
 
     /**
@@ -50,25 +53,58 @@ class Routes
     {
         Route::group(['domain' => $this->adminDomain], function()
         {
-            Route::group(['middleware' => ['csrf']], function()
-            {
-                Route::get('/', 'Admin\Foundation\LoginController@index');
-                Route::controller('login', 'Admin\Foundation\LoginController', ['getOut' => 'foundation.login.out']);
-            });
+            $this->adminSigin();
+            $this->adminCommon();
+        });
+        return $this;
+    }
 
-            Route::group(['middleware' => ['auth', 'acl', 'alog']], function()
+    /**
+     * 后台登陆相关
+     * 
+     * @access private
+     */
+    private function adminSigin()
+    {
+        Route::group(['middleware' => ['csrf']], function()
+        {
+            Route::get('/', 'Admin\Foundation\LoginController@index');
+            Route::controller('login', 'Admin\Foundation\LoginController', ['getOut' => 'foundation.login.out']);
+        });
+    }
+
+    /**
+     * 后台通用路由
+     * 
+     * @access private
+     */
+    private function adminCommon()
+    {
+        Route::group(['middleware' => ['auth', 'acl', 'alog']], function()
+        {
+            Route::any('{module}-{class}-{action}.html', ['as' => 'common', function($module, $class, $action)
             {
-                Route::any('{module}-{class}-{action}.html', ['as' => 'common', function($module, $class, $action)
+                $touchClass = 'App\\Http\\Controllers\\Admin\\'.ucfirst(strtolower($module)).'\\'.ucfirst(strtolower($class)).'Controller';
+                if(class_exists($touchClass))
                 {
-                    $class = 'App\\Http\\Controllers\\Admin\\'.ucfirst(strtolower($module)).'\\'.ucfirst(strtolower($class)).'Controller';
-                    if(class_exists($class))
-                    {
-                        $classObject = new $class();
-                        if(method_exists($classObject, $action)) return call_user_func(array($classObject, $action));
-                    }
-                    return abort(404);
-                }])->where(['module' => '[0-9a-z]+', 'class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
-            });
+                    $classObject = new $touchClass();
+                    if(method_exists($classObject, $action)) return call_user_func(array($classObject, $action));
+                }
+                return abort(404);
+            }])->where(['module' => '[0-9a-z]+', 'class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
+        });
+    }
+
+    /**
+     * 博客查询页面
+     * 
+     * @access public
+     */
+    public function search()
+    {
+        Route::group(['domain' => $this->soDomain], function()
+        {
+            Route::get('/search.html', ['as' => 'blog.search.index', 'uses' => 'Home\SearchController@index']);
         });
         return $this;
     }
@@ -84,35 +120,77 @@ class Routes
      */
     public function www()
     {
+        $this->wwwHome();
         $homeDoaminArray = ['home' => $this->wwwDomain, 'home_empty_prefix' => $this->noPreDomain];
         foreach($homeDoaminArray as $key => $value)
         {
             Route::group(['domain' => $value, 'middleware' => ['csrf']], function() use ($key)
             {
-                Route::get('/', 'Home\IndexController@index');
-                Route::any('{class}/{action}.html', ['as' => $key, function($class, $action)
-                {
-                    $class = 'App\\Http\\Controllers\\Home\\'.ucfirst(strtolower($class)).'Controller';
-                    if(class_exists($class))
-                    {
-                        $classObject = new $class();
-                        if(method_exists($classObject, $action))
-                        {
-                            $return = call_user_func(array($classObject, $action));
-                            if( ! $return instanceof \Illuminate\Http\Response)
-                            {
-                                $cacheSecond = config('home.cache_control');
-                                $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
-                                return response($return)->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
-                            }
-                            return $return;
-                        }
-                    }
-                    return abort(404);
-                }])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
+                $this->wwwCommon($key);
             });
         }
         return $this;
+    }
+
+    /**
+     * 博客首页
+     * 
+     * @access private
+     */
+    private function wwwHome()
+    {
+        Route::group(['domain' => $this->wwwDomain], function()
+        {
+            Route::get('/', ['as' => 'blog.index.index', 'uses' => 'Home\IndexController@index']);
+        });
+    }
+
+    /**
+     * 博客通用路由
+     * 
+     * @access private
+     */
+    private function wwwCommon($key)
+    {
+        Route::any('{class}/{action}.html', ['as' => $key, function($class, $action)
+        {
+            return $this->wwwTouch($class, $action);
+        }])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
+    }
+
+    /**
+     * 检测路由是不是正常的
+     * 
+     * @access private
+     */
+    private function wwwTouch($class, $action)
+    {
+        $touchClass = 'App\\Http\\Controllers\\Home\\'.ucfirst(strtolower($class)).'Controller';
+        if( ! class_exists($touchClass)) {
+            return abort(404);
+        }
+        $classObject = new $touchClass();
+        if( ! method_exists($classObject, $action)) {
+            return abort(404);
+        }
+        $result = $this->wwwWithCacheControl(call_user_func(array($classObject, $action)));
+        return $result;
+    }
+
+    /**
+     * 加上header cache control
+     *
+     * @access private
+     */
+    private function wwwWithCacheControl($result)
+    {
+        if( ! $result instanceof \Illuminate\Http\Response)
+        {
+            $cacheSecond = config('home.cache_control');
+            $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+            return response($result)->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+        }
+        return $result;
     }
 
 }

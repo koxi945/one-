@@ -17,8 +17,9 @@ p.p_h_summary {color:#999;}
     cursor: pointer;
     display: none;
     font-size: 14px;
-    left: 54%;
-    margin-left: 501px;
+    /**left: 54%;*/
+    /**margin-left: 501px;*/
+    right: 50px;
     padding: 2px;
     position: fixed;
     text-align: center;
