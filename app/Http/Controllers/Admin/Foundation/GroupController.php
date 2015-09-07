@@ -100,7 +100,10 @@ class GroupController extends Controller
         if( ! $groupId or ! is_numeric($groupId)) return Js::error(Lang::get('common.illegal_operation'));
         $groupInfo = (new GroupModel())->getOneGroupById($groupId);
         if(empty($groupInfo)) return Js::error(Lang::get('group.group_not_found'));
-        if( ! (new Acl())->checkGroupLevelPermission($groupId, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'), true);
+
+        if( ! (new Acl())->checkGroupLevelPermission($groupId, Acl::GROUP_LEVEL_TYPE_GROUP))
+            return Js::error(Lang::get('common.account_level_deny'), true);
+        
         $formUrl = R('common', 'foundation.group.edit');
         return view('admin.group.add', compact('groupInfo', 'formUrl', 'id'));
     }

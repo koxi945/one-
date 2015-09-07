@@ -35,7 +35,11 @@ class TagsController extends Controller
         if( ! is_array($id)) $id = array($id);
         $id = array_map('intval', $id);
         $manager = new Process();
-        if($manager->delete($id)) return responseJson(Lang::get('common.action_success'), true);
+        if($manager->delete($id))
+        {
+            $this->setActionLog(['id' => $id]);
+            return responseJson(Lang::get('common.action_success'), true);
+        }
         return responseJson($manager->getErrorMessage());
     }
 

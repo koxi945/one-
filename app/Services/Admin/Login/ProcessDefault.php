@@ -5,15 +5,15 @@ use App\Models\Admin\Permission as PermissionModel;
 use App\Services\Admin\SC;
 use App\Services\Admin\Login\AbstractProcess;
 use Validator, Lang;
-use Request;
+use Request, Session;
 
 /**
  * 登录处理
  *
  * @author jiang <mylampblog@163.com>
  */
-class ProcessDefault extends AbstractProcess {
-
+class ProcessDefault extends AbstractProcess
+{
     /**
      * 用户模型
      * 
@@ -52,17 +52,23 @@ class ProcessDefault extends AbstractProcess {
         $userInfo = $this->userModel->InfoByName($username);
         $sign = md5($userInfo['password'].$this->getPublicKey());
         $this->delPublicKey();
-        if($sign == strtolower($password))
-        {
-            $data['last_login_time'] = time();
-            $data['last_login_ip'] = Request::ip();
-            $this->userModel->updateLastLoginInfo($userInfo->id, $data);
-            SC::setLoginSession($userInfo);
-            SC::setAllPermissionSession($this->permissionModel->getAllAccessPermission());
-            event(new \App\Events\Admin\ActionLog(Lang::get('login.login_sys'), ['userInfo' => $userInfo]));
-            return $userInfo;
-        }
-        return false;
+        if($sign != strtolower($password)) return false;
+
+        //更新最后登陆状态
+        $data['last_login_time'] = time();
+        $data['last_login_ip'] = Request::ip();
+        $this->userModel->updateLastLoginInfo($userInfo->id, $data);
+
+        //设置一些session待用
+        SC::setLoginSession($userInfo);
+        SC::setUserCurrentTime();
+        SC::setAllPermissionSession($this->permissionModel->getAllAccessPermission());
+
+        //记录日志
+        $log = new \App\Events\Admin\ActionLog(Lang::get('login.login_sys'), ['userInfo' => $userInfo]);
+        event($log);
+
+        return $userInfo;
     }
 
     /**
@@ -90,6 +96,34 @@ class ProcessDefault extends AbstractProcess {
             return $validator->messages()->first();
         }
         return false;
+    }
+
+    /**
+     * 判断是否已经登录
+     *
+     * @return boolean true|false
+     */
+    public function hasLogin()
+    {
+        $hasLogin = SC::getLoginSession();
+        
+        return $hasLogin && $this->checkLeftTime();
+    }
+
+    /**
+     * 判断用户多久没有操作了，是否需要退出
+     * 
+     * @return boolean
+     */
+    private function checkLeftTime()
+    {
+        $userTime = SC::getUserCurrentTime();
+        $now = time();
+        if($now - $userTime > config('sys.sys_session_lefttime'))
+        {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -129,16 +163,6 @@ class ProcessDefault extends AbstractProcess {
     public function delPublicKey()
     {
         return SC::delPublicKey();
-    }
-
-    /**
-     * 判断是否已经登录
-     *
-     * @return boolean true|false
-     */
-    public function hasLogin()
-    {
-        return SC::getLoginSession();
     }
 
     /**

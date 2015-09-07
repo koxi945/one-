@@ -56,13 +56,22 @@ class Process extends BaseProcess
      */
     public function addAcl(\App\Services\Admin\Acl\Param\AclSave $data)
     {
-        if( ! $this->aclValidate->add($data)) return $this->setErrorMsg($this->aclValidate->getErrorMessage());
-        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action)) return $this->setErrorMsg(Lang::get('acl.acl_exists'));
+        if( ! $this->aclValidate->add($data))
+        {
+            return $this->setErrorMsg($this->aclValidate->getErrorMessage());
+        }
+        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action))
+        {
+            return $this->setErrorMsg(Lang::get('acl.acl_exists'));
+        }
         $info = $this->permissionModel->getOnePermissionById(intval($data->pid));
         $data = $data->toArray();
         $data['level'] = $info['level'] + 1;
-        if($this->permissionModel->addPermission($data) !== false) return true;
-        return $this->setErrorMsg(Lang::get('common.action_error'));
+        if($this->permissionModel->addPermission($data) !== false)
+        {
+            return $this->setErrorMsg(Lang::get('common.action_error'));
+        }
+        return true;
     }
 
     /**
@@ -91,13 +100,22 @@ class Process extends BaseProcess
     {
         $id = intval(url_param_decode($data->id)); unset($data->id);
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
-        if( ! $this->aclValidate->edit($data)) return $this->setErrorMsg($this->aclValidate->getErrorMessage());
-        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action, false, $id)) return $this->setErrorMsg(Lang::get('acl.acl_exists'));
+        if( ! $this->aclValidate->edit($data))
+        {
+            return $this->setErrorMsg($this->aclValidate->getErrorMessage());
+        }
+        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action, false, $id))
+        {
+            return $this->setErrorMsg(Lang::get('acl.acl_exists'));
+        }
         $info = $this->permissionModel->getOnePermissionById(intval($data->pid));
         $data = $data->toArray();
         $data['level'] = $info['level'] + 1;
-        if($this->permissionModel->editPermission($data, intval($id)) !== false) return true;
-        return $this->setErrorMsg(Lang::get('common.action_error'));
+        if($this->permissionModel->editPermission($data, intval($id)) === false)
+        {
+            return $this->setErrorMsg(Lang::get('common.action_error'));
+        }
+        return true;
     }
 
     /**
@@ -109,7 +127,10 @@ class Process extends BaseProcess
      */
     private function setAcl(\App\Services\Admin\Acl\Param\AclSet $data, $type)
     {
-        if( ! (new Acl())->checkGroupLevelPermission($data->id, Acl::GROUP_LEVEL_TYPE_USER)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        if( ! (new Acl())->checkGroupLevelPermission($data->id, Acl::GROUP_LEVEL_TYPE_USER))
+        {
+            return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        }
         //当前列表中的所有权限信息
         $allArr = array_map('intval', explode(',', $data->all));
         //需要作更改的权限信息

@@ -46,7 +46,11 @@ class CategoryController extends Controller
         $param = new \App\Services\Admin\Category\Param\CategorySave();
         $param->setAttributes($data);
         $manager = new CategoryActionProcess();
-        if($manager->addCategory($param) !== false) return Js::locate(R('common', 'blog.category.index'), 'parent');
+        if($manager->addCategory($param) !== false)
+        {
+            $this->setActionLog(['param' => $param]);
+            return Js::locate(R('common', 'blog.category.index'), 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
 
@@ -80,6 +84,7 @@ class CategoryController extends Controller
         $manager = new CategoryActionProcess();
         if($manager->editCategory($param)) 
         {
+            $this->setActionLog(['param' => $param]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.category.index');
             return Js::locate($backUrl, 'parent');
         }
@@ -96,7 +101,11 @@ class CategoryController extends Controller
         if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
         if( ! is_array($id)) $id = array($id);
         $manager = new CategoryActionProcess();
-        if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
+        if($manager->detele($id))
+        {
+            $this->setActionLog(['id' => $id]);
+            return responseJson(Lang::get('common.action_success'), true);
+        }
         return responseJson($manager->getErrorMessage());
     }
 

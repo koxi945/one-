@@ -29,6 +29,13 @@ class SC {
     CONST ALL_PERMISSION_KEY = 'ALL_PERMISSION_KEY';
 
     /**
+     * 当前的时间，用于判断用户是否已经超时了，避免浏览器缓存cookie导至的再次打开浏览器的时候session还在的情况
+     *
+     * @var string
+     */
+    CONST USER_CURRENT_TIME = 'USER_CURRENT_TIME';
+
+    /**
      * 设置登录成功的session
      * 
      * @param array $userInfo 用户的相关信息
@@ -133,6 +140,27 @@ class SC {
     static public function getAllPermissionSession()
     {
         return Session::get(self::ALL_PERMISSION_KEY);
+    }
+
+    /**
+     * 把当前时间保存到session中
+     * 
+     * @access public
+     * @return true|false
+     */
+    static public function setUserCurrentTime()
+    {
+        return Session::put(self::USER_CURRENT_TIME, time());
+    }
+
+    /**
+     * 返回保存在session中的当前时间
+     *
+     * @access public
+     */
+    static public function getUserCurrentTime()
+    {
+        return Session::get(self::USER_CURRENT_TIME);
     }
 
 }

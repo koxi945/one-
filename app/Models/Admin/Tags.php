@@ -87,4 +87,16 @@ class Tags extends Base
         return $this->whereIn('id', $ids)->update($data);
     }
 
+    /**
+     * 取得指定ID组的标签信息
+     * 
+     * @param intval $ids 标签的ID
+     * @return array
+     */
+    public function getTagsInIds($ids)
+    {
+        if( ! is_array($ids)) return [];
+        return $this->whereIn('id', $ids)->get()->toArray();
+    }
+
 }

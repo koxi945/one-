@@ -68,7 +68,11 @@ class ContentController extends Controller
         $param = new \App\Services\Admin\Content\Param\ContentSave();
         $param->setAttributes($data);
         $manager = new ContentActionProcess();
-        if($manager->addContent($param) !== false) return Js::locate(R('common', 'blog.content.index'), 'parent');
+        if($manager->addContent($param) !== false)
+        {
+            $this->setActionLog(['param' => $param]);
+            return Js::locate(R('common', 'blog.content.index'), 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
 
@@ -82,7 +86,12 @@ class ContentController extends Controller
         if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
         if( ! is_array($id)) $id = array($id);
         $manager = new ContentActionProcess();
-        if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
+        if($manager->detele($id))
+        {
+            $info = (new ContentModel())->getArticleInIds($id);
+            $this->setActionLog(['info' => $info]);
+            return responseJson(Lang::get('common.action_success'), true);
+        }
         return responseJson($manager->getErrorMessage());
     }
 
@@ -158,6 +167,7 @@ class ContentController extends Controller
         $manager = new ContentActionProcess();
         if($manager->editContent($param, $id) !== false)
         {
+            $this->setActionLog(['param' => $param]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.content.index');
             return Js::locate($backUrl, 'parent');
         }
@@ -174,6 +184,9 @@ class ContentController extends Controller
         $manager = new ContentActionProcess();
         if($manager->articlePositionRelation($ids, $pids) !== false)
         {
+            $info = (new ContentModel())->getArticleInIds($ids);
+            $position = (new PositionModel())->getPositionInIds($pids);
+            $this->setActionLog(['info' => $info, 'position' => $position]);
             return responseJson(Lang::get('common.action_success'), true);
         }
         return responseJson(Lang::get('common.action_error'));

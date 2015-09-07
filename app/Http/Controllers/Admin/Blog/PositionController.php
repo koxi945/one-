@@ -2,6 +2,7 @@
 
 use Request, Lang, Session;
 use App\Models\Admin\Position as PositionModel;
+use App\Models\Admin\PositionRelation as PositionRelationModel;
 use App\Models\Admin\Content as ContentModel;
 use App\Services\Admin\Position\Process as PositionActionProcess;
 use App\Libraries\Js;
@@ -46,7 +47,11 @@ class PositionController extends Controller
         $param = new \App\Services\Admin\Position\Param\PositionSave();
         $param->setAttributes($data);
         $manager = new PositionActionProcess();
-        if($manager->addPosition($param) !== false) return Js::locate(R('common', 'blog.position.index'), 'parent');
+        if($manager->addPosition($param) !== false)
+        {
+            $this->setActionLog(['param' => $param]);
+            return Js::locate(R('common', 'blog.position.index'), 'parent');
+        }
         return Js::error($manager->getErrorMessage());
     }
 
@@ -80,6 +85,7 @@ class PositionController extends Controller
         $manager = new PositionActionProcess();
         if($manager->editPosition($param))
         {
+            $this->setActionLog(['param' => $param]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.position.index');
             return Js::locate($backUrl, 'parent');
         }
@@ -96,7 +102,11 @@ class PositionController extends Controller
         if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
         if( ! is_array($id)) $id = array($id);
         $manager = new PositionActionProcess();
-        if($manager->detele($id)) return responseJson(Lang::get('common.action_success'), true);
+        if($manager->detele($id))
+        {
+            $this->setActionLog(['id' => $id]);
+            return responseJson(Lang::get('common.action_success'), true);
+        }
         return responseJson($manager->getErrorMessage());
     }
 
@@ -122,7 +132,12 @@ class PositionController extends Controller
         if( ! $prid = Request::input('prid')) return responseJson(Lang::get('common.action_error'));
         if( ! is_array($prid)) $prid = array($prid);
         $manager = new PositionActionProcess();
-        if($manager->delRelation($prid)) return responseJson(Lang::get('common.action_success'), true);
+        $posArticle = (new PositionRelationModel())->getPositionArticleInIds($prid);
+        if($manager->delRelation($prid))
+        {
+            $this->setActionLog(['posArticle' => $posArticle]);
+            return responseJson(Lang::get('common.action_success'), true);
+        }
         return responseJson($manager->getErrorMessage());
     }
 
@@ -132,11 +147,14 @@ class PositionController extends Controller
     public function sortrelation()
     {
         $data = (array) Request::input('data');
+        $prid = '';
         foreach($data as $key => $value)
         {
+            $prid = $value['prid'];
             if(with(new PositionActionProcess())->sortRelation($value['prid'], $value['sort']) === false) $err = true;
         }
         if(isset($err)) return responseJson(Lang::get('common.action_error'));
+        $this->setActionLog(['prid' => $prid]);
         return responseJson(Lang::get('common.action_success'), true);
     }
 

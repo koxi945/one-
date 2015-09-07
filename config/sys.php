@@ -5,6 +5,9 @@ return [
     //登录处理用哪个处理器来处理
     'login_process' => 'default',
 
+    //用户多久(秒)不操作后会注销登陆
+    'sys_session_lefttime' => 7200,
+
     //图片的域名，必须以http://开头
     'sys_images_domain' => 'http://img.opcache.net',
 
@@ -26,7 +29,7 @@ return [
     //水印图片
     'sys_water_file' => __DIR__ . '/../storage/water/water.png',
 
-    //不需要验证权限的功能，*号代表全部, module不能为*号
+    //不需要验证权限的功能，*号代表全部, module不能为*号，module和class都不能为数组
     'access_public' => [
         ['module' => 'foundation', 'class' => 'index', 'function' => '*'],
         ['module' => 'foundation', 'class' => 'user', 'function' => ['mpassword']],

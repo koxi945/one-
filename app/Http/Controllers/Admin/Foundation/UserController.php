@@ -114,7 +114,10 @@ class UserController extends Controller
         $userModel = new User(); $groupModel = new Group();
         $userInfo = $userModel->getOneUserById($userId);
         if(empty($userInfo)) return Js::error(Lang::get('user.user_not_found'), true);
-        if( ! (new Acl())->checkGroupLevelPermission($userId, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'), true);
+
+        if( ! (new Acl())->checkGroupLevelPermission($userId, Acl::GROUP_LEVEL_TYPE_USER))
+            return Js::error(Lang::get('common.account_level_deny'), true);
+
         //根据当前用户的权限获取用户组列表
         $groupInfo = $groupModel->getOneGroupById(SC::getLoginSession()->group_id);
         $isSuperSystemManager = (new Acl())->isSuperSystemManager();
@@ -152,7 +155,11 @@ class UserController extends Controller
     public function mpassword()
     {
         $params = new \App\Services\Admin\User\Param\UserModifyPassword();
-        $params->setOldPassword(Request::input('old_password'))->setNewPassword(Request::input('new_password'))->setNewPasswordRepeat(Request::input('new_password_repeat'));
+
+        $params->setOldPassword(Request::input('old_password'))
+               ->setNewPassword(Request::input('new_password'))
+               ->setNewPasswordRepeat(Request::input('new_password_repeat'));
+               
         $manager = new UserActionProcess();
         if($manager->modifyPassword($params))
         {

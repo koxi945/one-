@@ -177,4 +177,16 @@ class Content extends Base
         return $tags;
     }
 
+    /**
+     * 取得指定ID组的文章信息
+     * 
+     * @param intval $ids 文章的ID
+     * @return array
+     */
+    public function getArticleInIds($ids)
+    {
+        if( ! is_array($ids)) return [];
+        return $this->whereIn('id', $ids)->get()->toArray();
+    }
+
 }

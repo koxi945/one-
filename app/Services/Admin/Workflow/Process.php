@@ -90,7 +90,8 @@ class Process extends BaseProcess
         if( ! $this->workflowValidate->add($data)) return $this->setErrorMsg($this->workflowValidate->getErrorMessage());
         $checkCode = $this->workflowModel->getWorkflowInfo(['code' => $data->code]);
         if( ! empty($checkCode)) return $this->setErrorMsg(Lang::get('workflow.code_exists'));
-        if( ! in_array($data->type, [WorkflowModel::W_TYPE_TIER, WorkflowModel::W_TYPE_ASSIST])) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+        if( ! in_array($data->type, [WorkflowModel::W_TYPE_TIER, WorkflowModel::W_TYPE_ASSIST]))
+            return $this->setErrorMsg(Lang::get('common.illegal_operation'));
         if($this->workflowModel->addWorkflow($data->toArray()) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
@@ -109,7 +110,8 @@ class Process extends BaseProcess
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
         $checkCode = $this->workflowModel->getWorkflowInfo(['code' => $data->code, 'self' => false, 'self_id' => $id]);
         if( ! empty($checkCode)) return $this->setErrorMsg(Lang::get('workflow.code_exists'));
-        if( ! in_array($data->type, [WorkflowModel::W_TYPE_TIER, WorkflowModel::W_TYPE_ASSIST])) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+        if( ! in_array($data->type, [WorkflowModel::W_TYPE_TIER, WorkflowModel::W_TYPE_ASSIST]))
+            return $this->setErrorMsg(Lang::get('common.illegal_operation'));
         if( ! $this->workflowValidate->edit($data)) return $this->setErrorMsg($this->workflowValidate->getErrorMessage());
         if($this->workflowModel->editWorkflow($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
@@ -200,7 +202,8 @@ class Process extends BaseProcess
     {
         if( ! empty($data['step_level']))
         {
-            if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') )) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+            if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') ))
+                return $this->setErrorMsg(Lang::get('common.illegal_operation'));
         }
         
         if( ! $this->workflowStepValidate->add($data)) return $this->setErrorMsg($this->workflowStepValidate->getErrorMessage());
@@ -238,7 +241,8 @@ class Process extends BaseProcess
         if( ! isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
         if( ! empty($data['step_level']))
         {
-            if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') )) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+            if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') ))
+                return $this->setErrorMsg(Lang::get('common.illegal_operation'));
         }
         $id = $data->id; unset($data->id);
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));

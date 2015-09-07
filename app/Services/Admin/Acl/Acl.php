@@ -75,7 +75,7 @@ class Acl
      * @var string
      */
     CONST GROUP_LEVEL_TYPE_GROUP = 'group';
-    
+
     /**
      * 取得当前登录的用户的权限角色对应表中的信息。
      *
@@ -87,12 +87,18 @@ class Acl
     public function getUserAccessPermission($userObj, $userOrGroup = false)
     {
         $permission = new Permission(); $access = new Access();
-        //如果是超级管理员，那么返回所有的权限
-        if($userObj->group_id == self::ADMIN_ROLE_ID or $userObj->id == self::ADMIN_ID) return $permission->getAllAccessPermission();
+
+        //如果是超级管理员或者创始人登陆，那么返回所有的权限
+        if($userObj->group_id == self::ADMIN_ROLE_ID or $userObj->id == self::ADMIN_ID)
+        {
+            return $permission->getAllAccessPermission();
+        }
         
         //如果需要对比用户和用户组的权限或者返回用户的权限
         if($userOrGroup == self::AP_USER or ! $userOrGroup)
+        {
             $userAccessPermissionInfo = $access->getUserAccessPermission($userObj->id);
+        }
         
         //如果用户的权限数据为空或者指定了需要查询的权限的类型为用户组，或者需要对比用户和用户组的权限
         if($userOrGroup == self::AP_GROUP or ! $userAccessPermissionInfo or ! $userOrGroup)
@@ -109,6 +115,58 @@ class Acl
     }
 
     /**
+     * 检测当前用户的用户组的等级是否比其它用户或用户组的高，如果低于，则不能操作。
+     * 该函数只要用于用户列表和用户组列表的相关操作。
+     * 
+     * @param  intval $id   用户或用户组的ID
+     * @param  string $type 标识传进来的ID是用户ID('user')还是用户组ID('group'),还是level值(level)
+     * @return boolean
+     */
+    public function checkGroupLevelPermission($id, $type)
+    {
+        if( ! $id) return false;
+
+        //如果是超级用户，那么直接返回true
+        if($this->isSuperSystemManager()) return true;
+
+        //当前登陆用户的信息
+        $userObj = SC::getLoginSession();
+
+        $groupModel = new Group(); $userModel = new User();
+
+        //当前登陆用户的用户组信息
+        $currentGroupInfo = $groupModel->getOneGroupById($userObj->group_id);
+        if(empty($currentGroupInfo)) return false;
+
+        //通过用户组的level来做判断
+        if($type === self::GROUP_LEVEL_TYPE_LEVEL)
+        {
+            return ($id <= $currentGroupInfo['level']) ? false : true;
+        }
+
+        //通过用户来做判断
+        if($type === self::GROUP_LEVEL_TYPE_USER)
+        {
+            $userInfo = $userModel->getOneUserById($id);
+            if($userInfo['name'] == self::ADMIN_NAME) return false;
+            $toGroupInfo = $groupModel->getOneGroupById($userInfo['group_id']);
+        }
+
+        //通过用户组来做判断
+        if($type === self::GROUP_LEVEL_TYPE_GROUP)
+        {
+            $toGroupInfo = $groupModel->getOneGroupById($id);
+        }
+
+        //开始判断他们的level情况
+        if(isset($toGroupInfo) and $toGroupInfo['level'] <= $currentGroupInfo['level'])
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 判断当前操作是不是有权限
      * 
      * @param  string  $module   模块
@@ -118,19 +176,26 @@ class Acl
      */
     public function checkIfHasPermission($module, $class, $function)
     {
-        $module = (string) $module; $class = (string) $class; $function = (string) $function; 
+        $module = (string) $module; $class = (string) $class; $function = (string) $function;
+
         //判断是不是超级用户
         if($this->isSystemManager()) return true;
+
         //默认为配置文件中指定的后台模块
         if( ! $module) $module = '';
         //是否不需要验证的操作
         if($this->isNoNeedCheckPermission($module, $class, $function)) return true;
+
         //取回保存在session中的权限信息
         $permissionList = SC::getUserPermissionSession();
+
+        //验证用户权限
         foreach($permissionList as $value)
         {
-            //验证用户权限
-            if($value['module'] == $module && $value['class'] == $class && $value['action'] == $function) return true;
+            if($value['module'] == $module && $value['class'] == $class && $value['action'] == $function)
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -145,46 +210,28 @@ class Acl
      */
     public function isNoNeedCheckPermission($module, $class, $function)
     {
+        //取回配置信息
         $info = Config::get('sys.access_public');
+
+        //开始验证是不是需要验证权限
         foreach($info as $key => $value)
         {
-            if( ! isset($value['module']) or !is_string($value['module']) or $value['module'] != $module) continue;
-            if( ! isset($value['class']) or !is_string($value['class']) or ($value['class'] != $class and $value['class'] != '*')) continue;
-            if($value['class'] == '*') return true;
-            if( ! isset($value['function'])) continue;
-            if(is_string($value['function']) and $value['function'] == '*') return true;
-            if(is_string($value['function']) and $value['function'] == $function) return true;
-            if(is_array($value['function']) and in_array($function, $value['function'])) return true;
-        }
-        return false;
-    }
+            //判断module是否符合规则
+            if( ! $this->checkModule($value, $module)) continue;
 
-    /**
-     * 检测当前用户的用户组的等级是否比其它用户或用户组的高，如果低于，则不能操作。
-     * 该函数只要用于用户列表和用户组列表的相关操作。
-     * 
-     * @param  intval $id   用户或用户组的ID
-     * @param  string $type 标识传进来的ID是用户ID('user')还是用户组ID('group'),还是level值(level)
-     * @return boolean
-     */
-    public function checkGroupLevelPermission($id, $type)
-    {
-        if( ! $id) return false;
-        if($this->isSuperSystemManager()) return true;
-        $userObj = SC::getLoginSession();
-        $groupModel = new Group(); $userModel = new User();
-        $currentGroupInfo = $groupModel->getOneGroupById($userObj->group_id);
-        if(empty($currentGroupInfo)) return false;
-        if($type === self::GROUP_LEVEL_TYPE_LEVEL) return ($id <= $currentGroupInfo['level']) ? false : true;
-        if($type === self::GROUP_LEVEL_TYPE_USER)
-        {
-            $userInfo = $userModel->getOneUserById($id);
-            if($userInfo['name'] == self::ADMIN_NAME) return false;
-            $toGroupInfo = $groupModel->getOneGroupById($userInfo['group_id']);
+            //判断class是否符合规则
+            $checkClass = $this->checkClass($value, $class);
+            if($checkClass !== 'null')
+            {
+                if($checkClass === false) continue;
+                if($checkClass === true) return true;
+            }
+
+            //判断function是否符合规则
+            if($this->checkFunc($value, $function)) return true;
         }
-        if($type === self::GROUP_LEVEL_TYPE_GROUP) $toGroupInfo = $groupModel->getOneGroupById($id);
-        if(isset($toGroupInfo) and $toGroupInfo['level'] <= $currentGroupInfo['level']) return false;
-        return true;
+
+        return false;
     }
 
     /**
@@ -209,6 +256,42 @@ class Acl
             if($value['module'] == $module && $value['class'] == $class && $value['action'] == $function)
                 return true;
         }
+        return false;
+    }
+
+    /**
+     * call by self::isNoNeedCheckPermission
+     */
+    private function checkModule($value, $module)
+    {
+        if( ! isset($value['module']) or ! is_string($value['module']) or $value['module'] != $module)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * call by self::isNoNeedCheckPermission
+     */
+    private function checkClass($value, $class)
+    {
+        if( ! isset($value['class']) or ! is_string($value['class'])
+            or ($value['class'] != $class and $value['class'] != '*')) return false;
+
+        if($value['class'] == '*') return true;
+        return 'null';
+    }
+
+    /**
+     * call by self::isNoNeedCheckPermission
+     */
+    private function checkFunc($value, $function)
+    {
+        if( ! isset($value['function'])) return false;
+        if(is_string($value['function']) and $value['function'] == '*') return true;
+        if(is_string($value['function']) and $value['function'] == $function) return true;
+        if(is_array($value['function']) and in_array($function, $value['function'])) return true;
         return false;
     }
 

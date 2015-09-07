@@ -103,4 +103,16 @@ class Category extends Base
         return $this->whereIn('id', $ids)->update($data);
     }
 
+    /**
+     * 取得指定ID组的文章分类信息
+     * 
+     * @param intval $ids 文章分类的ID
+     * @return array
+     */
+    public function getArticleCategorysInIds($ids)
+    {
+        if( ! is_array($ids)) return [];
+        return $this->whereIn('id', $ids)->get()->toArray();
+    }
+
 }

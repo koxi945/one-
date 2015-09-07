@@ -93,4 +93,16 @@ class Position extends Base
         return $this->whereIn('id', $ids)->update($data);
     }
 
+    /**
+     * 取得指定ID组的推荐位信息
+     * 
+     * @param intval $ids 推荐位的ID
+     * @return array
+     */
+    public function getPositionInIds($ids)
+    {
+        if( ! is_array($ids)) return [];
+        return $this->whereIn('id', $ids)->get()->toArray();
+    }
+
 }

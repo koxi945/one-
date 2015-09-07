@@ -58,7 +58,10 @@ class Process extends BaseProcess
     {
         if( ! $this->groupValidate->add($data)) return $this->setErrorMsg($this->groupValidate->getErrorMessage());
         //检查当前用户的权限是否能增加这个用户组
-        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL))
+        {
+            return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        }
         if($this->groupModel->addGroup($data->toArray()) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
@@ -101,7 +104,10 @@ class Process extends BaseProcess
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
         if( ! $this->groupValidate->edit($data)) return $this->setErrorMsg($this->groupValidate->getErrorMessage());
         //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL))
+        {
+            return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        }
         if($this->groupModel->editGroup($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }

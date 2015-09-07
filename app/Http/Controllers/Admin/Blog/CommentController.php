@@ -34,7 +34,12 @@ class CommentController extends Controller
         if( ! is_array($id)) $id = array($id);
         $id = array_map('intval', $id);
         $manager = new Process();
-        if($manager->delete($id)) return responseJson(Lang::get('common.action_success'), true);
+        $comment = with(new CommentModel())->getCommentInIds($id);
+        if($manager->delete($id))
+        {
+            $this->setActionLog(['comment' => $comment]);
+            return responseJson(Lang::get('common.action_success'), true);
+        }
         return responseJson($manager->getErrorMessage());
     }
 
@@ -64,7 +69,11 @@ class CommentController extends Controller
         $data['replyid'] = (int) Request::input('replyid');
         $manager = new Process();
         $insertId = $manager->addComment($data);
-        if($insertId !== false) return Js::execute('window.parent.loadComment('.$insertId.');');
+        if($insertId !== false)
+        {
+            $this->setActionLog(['replyid' => $data['replyid'], 'object_id' => $data['object_id'], 'content' => $data['content']]);
+            return Js::execute('window.parent.loadComment('.$insertId.');');
+        }
         return Js::error($manager->getErrorMessage()).Js::execute('window.parent.reloadDialogTitle();');
     }
 

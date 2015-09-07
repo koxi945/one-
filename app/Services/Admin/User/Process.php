@@ -58,7 +58,8 @@ class Process extends BaseProcess
     {
         if( ! $this->userValidate->add($data)) return $this->setErrorMsg($this->userValidate->getErrorMessage());
         //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($data->group_id, Acl::GROUP_LEVEL_TYPE_GROUP)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        if( ! $this->acl->checkGroupLevelPermission($data->group_id, Acl::GROUP_LEVEL_TYPE_GROUP))
+            return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         //检测当前用户名是否已经存在
         if($this->userModel->getOneUserByName($data->name)) return $this->setErrorMsg(Lang::get('user.account_exists'));
         $data->setPassword(md5($data->password));
@@ -79,7 +80,9 @@ class Process extends BaseProcess
         if( ! is_array($ids)) return false;
         foreach($ids as $key => $value)
         {
-            if( ! $this->acl->checkGroupLevelPermission($value, Acl::GROUP_LEVEL_TYPE_USER)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+            if( ! $this->acl->checkGroupLevelPermission($value, Acl::GROUP_LEVEL_TYPE_USER))
+                return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+
             if($value == Acl::ADMIN_ID) return $this->setErrorMsg(Lang::get('common.sys_account'));
         }
         if($this->userModel->deleteUser($ids) !== false)
@@ -107,7 +110,9 @@ class Process extends BaseProcess
         if( ! empty($data->password)) $data->setPassword(md5($data->password));
         else unset($data->password);
         //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        if( ! $this->acl->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER))
+            return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+        
         if($this->userModel->editUser($data->toArray(), $id) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }

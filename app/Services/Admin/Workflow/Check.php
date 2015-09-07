@@ -74,7 +74,10 @@ class Check extends BaseProcess
     {
         if( ! is_array($status) or ! is_string($code)) return false;
         $userInfo = SC::getLoginSession();
-        if( ! isset($this->userWorkflow[$code])) $this->userWorkflow[$code] = $this->workflowModel->getCurrentUserWorkflowLevel($userInfo->id, $code);
+
+        if( ! isset($this->userWorkflow[$code]))
+            $this->userWorkflow[$code] = $this->workflowModel->getCurrentUserWorkflowLevel($userInfo->id, $code);
+
         $this->getFinalLevel($code);
         $isCheck = false;
         foreach($status as $s)
@@ -150,7 +153,10 @@ class Check extends BaseProcess
         if( ! is_string($workflowCode) or ! is_string($workflowStepCode)) return false;
         $key = md5($workflowCode.$workflowStepCode);
         $userInfo = SC::getLoginSession();
-        if( ! isset($this->userWorkflow[$key])) $this->userWorkflow[$key] = $this->workflowModel->getCurrentUserWorkflowStep($userInfo->id, $workflowCode, $workflowStepCode);
+
+        if( ! isset($this->userWorkflow[$key]))
+            $this->userWorkflow[$key] = $this->workflowModel->getCurrentUserWorkflowStep($userInfo->id, $workflowCode, $workflowStepCode);
+        
         return ! empty($this->userWorkflow[$key]);
     }
 

@@ -80,4 +80,19 @@ class PositionRelation extends Base
         return true;
     }
 
+    /**
+     * 取得对应的文章和推荐位的具体信息
+     *
+     * @param  array $prid  关联表的id
+     */
+    public function getPositionArticleInIds($prid)
+    {
+        if( ! is_array($prid)) return [];
+        $info = $this->select(['article_main.title', 'article_position.name'])->leftJoin('article_position', 'article_position.id', '=', 'article_position_relation.position_id')
+                     ->leftJoin('article_main', 'article_main.id', '=', 'article_position_relation.article_id')
+                     ->whereIn('article_position_relation.id', $prid)
+                     ->get();
+        return $info->toArray();
+    }
+
 }
