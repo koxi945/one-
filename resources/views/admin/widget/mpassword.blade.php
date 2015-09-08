@@ -54,7 +54,7 @@
       var new_password = $('input[name="new_password"]:visible').val();
       var new_password_repeat = $('input[name="new_password_repeat"]:visible').val();
       $.post(_this.postUrl, {old_password:old_password,new_password:new_password,new_password_repeat:new_password_repeat}, function(data) {
-          alertNotic(data.message);
+          org.Common.alert(data.message);
           dialogObj.title(_this.dialogConf.title);
           if(data.result == 'success') {
             dialogObj.close().remove();

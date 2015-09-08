@@ -52,15 +52,15 @@
     <script type="text/javascript">
     <?php if( ! empty($deleteSelectButton)): ?>
       $('.pl-delete').click(function() {
-          var ids = plSelectValue('ids');
+          var ids = org.Common.plSelectValue('ids');
           if(ids.length == 0) {
-              alertNotic('请先选择需要删除的评论');
+              org.Common.alert('请先选择需要删除的评论');
               return false;
           }
-          confirmNotic('确定删除吗？', function() {
+          org.Common.confirm('确定删除吗？', function() {
             var url = '<?php echo R('common', 'blog.comment.delete'); ?>';
             var params = {id:ids};
-            Atag_Ajax_Submit(url, params, 'POST', $('.pl-delete'), 'ajax-reload');
+            org.Common.Atag_Ajax_Submit(url, params, 'POST', $('.pl-delete'), 'ajax-reload');
           });
       });
     <?php endif; ?>

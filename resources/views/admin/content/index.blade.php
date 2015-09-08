@@ -152,24 +152,24 @@
 
       <?php if( ! empty($deleteSelectButton)): ?>
         $('.pl-delete').click(function() {
-            var ids = plSelectValue('ids');
+            var ids = org.Common.plSelectValue('ids');
             if(ids.length == 0) {
-                alertNotic('请先选择需要删除的文章');
+                org.Common.alert('请先选择需要删除的文章');
                 return false;
             }
-            confirmNotic('确定删除吗？', function() {
+            org.Common.confirm('确定删除吗？', function() {
               var url = '<?php echo R('common', 'blog.content.delete'); ?>';
               var params = {id:ids};
-              Atag_Ajax_Submit(url, params, 'POST', $('.pl-delete'), 'ajax-reload');
+              org.Common.Atag_Ajax_Submit(url, params, 'POST', $('.pl-delete'), 'ajax-reload');
             });
         });
       <?php endif; ?>
 
       <?php if( ! empty($positionButton)): ?>
         $('.pl-position').click(function() {
-            var ids = plSelectValue('ids');
+            var ids = org.Common.plSelectValue('ids');
             if(ids.length == 0) {
-                alertNotic('请先选择需要关联的文章');
+                org.Common.alert('请先选择需要关联的文章');
                 return false;
             }
             var _content = <?php echo widget('Admin.Content')->positionDialogContent(); ?>;
@@ -180,14 +180,14 @@
                 content: _content.content,
                 okValue: '确定',
                 ok: function() {
-                  var pids = plSelectValue('pl-position-id');
+                  var pids = org.Common.plSelectValue('pl-position-id');
                   if(pids.length == 0) {
-                    alertNotic('请先选择需要关联的推荐位');
+                    org.Common.alert('请先选择需要关联的推荐位');
                     return false;
                   }
                   var url = '<?php echo R('common', 'blog.content.position'); ?>';
                   var params = {ids:ids,pids:pids};
-                  Atag_Ajax_Submit(url, params, 'POST', $('.pl-position'), 'ajax-reload', true);
+                  org.Common.Atag_Ajax_Submit(url, params, 'POST', $('.pl-position'), 'ajax-reload', true);
                 },
                 cancelValue: '取消',
                 cancel: function () {}

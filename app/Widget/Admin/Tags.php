@@ -21,7 +21,7 @@ class Tags extends AbstractBase
         $this->setCurrentAction('tags', 'delete', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
-                    '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
+                    '<a href="javascript:org.Common.ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
                         : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
         return $html;
     }

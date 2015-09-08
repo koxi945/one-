@@ -21,7 +21,7 @@ class Comment extends AbstractBase
         $this->setCurrentAction('comment', 'delete', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
-                    '<a title="删除" href="javascript:ajaxDelete(\''.$url.'\', \'ajax-reload\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
+                    '<a title="删除" href="javascript:org.Common.ajaxDelete(\''.$url.'\', \'ajax-reload\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
                         : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
         return $html;
     }

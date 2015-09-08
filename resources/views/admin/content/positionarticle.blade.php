@@ -69,15 +69,15 @@
     <script type="text/javascript">
       <?php if( ! empty($deleteSelectButton)): ?>
         $('.pl-delete').click(function() {
-            var ids = plSelectValue('ids');
+            var ids = org.Common.plSelectValue('ids');
             if(ids.length == 0) {
-                alertNotic('请先选择需要取消关联的文章');
+                org.Common.alert('请先选择需要取消关联的文章');
                 return false;
             }
-            confirmNotic('确定取消关联吗？', function() {
+            org.Common.confirm('确定取消关联吗？', function() {
               var url = '<?php echo R('common', 'blog.position.delrelation'); ?>';
               var params = {prid:ids};
-              Atag_Ajax_Submit(url, params, 'POST', $('.pl-delete'), 'ajax-reload');
+              org.Common.Atag_Ajax_Submit(url, params, 'POST', $('.pl-delete'), 'ajax-reload');
             });
         });
       <?php endif; ?>
@@ -92,7 +92,7 @@
             });
             var url = '<?php echo R('common', 'blog.position.sortrelation'); ?>';
             var params = {data:data};
-            Atag_Ajax_Submit(url, params, 'POST', $(this), 'ajax-reload');
+            org.Common.Atag_Ajax_Submit(url, params, 'POST', $(this), 'ajax-reload');
         });
       <?php endif; ?>
     </script>

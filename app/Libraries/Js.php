@@ -65,7 +65,7 @@ class Js
      */
     static public function alert($message = '')
     {
-        return self::start() . "if(window.top) window.top.alertNotic('" . $message . "')" . self::end() . self::resetForm();
+        return self::start() . "if(window.top) window.top.org.Common.alert('" . $message . "')" . self::end() . self::resetForm();
     }
 
     /**

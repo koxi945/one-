@@ -36,7 +36,7 @@ class Position extends AbstractBase
         $this->setCurrentAction('position', 'delete', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['id' => $data['id']]);
         $html = $this->hasPermission ?
-                    '<a href="javascript:ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
+                    '<a href="javascript:org.Common.ajaxDelete(\''.$url.'\', \'sys-list\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
                         : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
         return $html;
     }
@@ -81,7 +81,7 @@ class Position extends AbstractBase
         $this->setCurrentAction('position', 'delrelation', 'blog')->checkPermission();
         $url = R('common', $this->module.'.'.$this->class.'.'.$this->function, ['prid' => $data['id']]);
         $html = $this->hasPermission ?
-                    '<a title="取消关联" href="javascript:ajaxDelete(\''.$url.'\', \'ajax-reload\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
+                    '<a title="取消关联" href="javascript:org.Common.ajaxDelete(\''.$url.'\', \'ajax-reload\', \'确定吗？\');"><i class="fa fa-trash-o"></i></a>'
                         : '<i class="fa fa-trash-o" style="color:#ccc"></i>';
         return $html;
     }

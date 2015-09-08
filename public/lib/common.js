@@ -1,9 +1,16 @@
 /**
+ * 命名空间
+ * @type {Object}
+ */
+var org = {};
+org.Common = {};
+
+/**
  * 处理表单提单按钮，显示loading，禁用，启用。
  * 
  * @return void
  */
-function setformSubmitButton() {
+org.Common.setformSubmitButton = function() {
     //form submit
     $(document).on('click', '.sys-btn-submit', function () {
         var isClick = false;
@@ -56,7 +63,7 @@ function setformSubmitButton() {
  * @param  function callback 回调函数
  * @return void
  */
-function confirmNotic(content, callback) {
+org.Common.confirm = function(content, callback) {
     var d = dialog({
         title: '提示',
         fixed: true,
@@ -82,7 +89,7 @@ function confirmNotic(content, callback) {
  * @param  function callback 回调函数
  * @return void
  */
-function alertNotic(content, callback) {
+org.Common.alert = function(content, callback) {
     var d = dialog({
         title: '提示',
         fixed: true,
@@ -106,8 +113,8 @@ function alertNotic(content, callback) {
  * @param  {string} notice    提示信息
  * @return {void}
  */
-function ajaxDelete(url, replaceID, notice) {
-    confirmNotic(notice, function() {
+org.Common.ajaxDelete = function(url, replaceID, notice) {
+    org.Common.confirm(notice, function() {
         $.ajax({
             type:     'GET', 
             url:      url,
@@ -119,14 +126,14 @@ function ajaxDelete(url, replaceID, notice) {
                         $('#tmpDiv').replaceWith($('#tmpDiv').html());
                     });
                 } else {
-                    alertNotic(data.message);
+                    org.Common.alert(data.message);
                 }
             },
             beforeSend: function() {
-                loading();
+                org.Common.loading();
             },
             complete: function() {
-                unloading();
+                org.Common.unloading();
             }
         });
     });
@@ -137,7 +144,7 @@ function ajaxDelete(url, replaceID, notice) {
  * 
  * @return void
  */
-function loading() {
+org.Common.loading = function() {
     var loading_image = '<img src="'+SYS_DOMAIN+'/images/loading-icons/loading9.gif">';
     $.blockUI({
         message: loading_image,
@@ -154,7 +161,7 @@ function loading() {
  * 
  * @return void
  */
-function unloading() {
+org.Common.unloading = function() {
     $.unblockUI();
 }
 
@@ -170,7 +177,7 @@ function unloading() {
  * @param  {string} upload_url 处理上传的接口
  * @return {void}
  */
-function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_url) {
+org.Common.uploaddialog = function(uploadid, title, itemId, funcName, args, authkey, upload_url) {
     var args = args ? '&args=' + args : '';
     var setting = '&authkey=' + authkey;
     var d = dialog({
@@ -187,13 +194,13 @@ function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_u
                 funcName.apply(this, [uploadid, itemId]);
             }
             this.close().remove();
-            removeDialogIframe(uploadid);
+            org.Common.removeDialogIframe(uploadid);
             return false;
         },
         cancelValue: '取消',
         cancel: function () {
             this.close().remove();
-            removeDialogIframe(uploadid);
+            org.Common.removeDialogIframe(uploadid);
             return false;
         }
     });
@@ -205,7 +212,7 @@ function uploaddialog(uploadid, title, itemId, funcName, args, authkey, upload_u
  * @param  {[string]} uploadid dialog插件的id
  * @return {[void]}
  */
-function removeDialogIframe(uploadid) {
+org.Common.removeDialogIframe = function(uploadid) {
     $('body').find('iframe[name="'+uploadid+'"]').remove();
 }
 
@@ -214,7 +221,7 @@ function removeDialogIframe(uploadid) {
  *
  * @return {void}
  */
-function changeLeftMenuHeight() {
+org.Common.changeLeftMenuHeight = function() {
     var divContent = $('div.content');
     var winHeight = $(window).height();
     if(winHeight < 800) winHeight = 800;
@@ -230,7 +237,7 @@ function changeLeftMenuHeight() {
  * @param {string} ajaxType  post|get
  * @param {object} selectObj 当前按钮的选择器
  */
-function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj, replaceID, showSuccessMsg) {
+org.Common.Atag_Ajax_Submit = function(url, paramObj, ajaxType, selectObj, replaceID, showSuccessMsg) {
     //ajax submit
     var _oldstr = selectObj.find('.sys-btn-submit-str').html();
     $.ajax({
@@ -245,10 +252,10 @@ function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj, replaceID, showSuc
                     $('#tmpDiv').replaceWith($('#tmpDiv').html());
                 });
                 if(showSuccessMsg) {
-                    alertNotic(data.message);
+                    org.Common.alert(data.message);
                 }
             } else {
-                alertNotic(data.message);
+                org.Common.alert(data.message);
             }
         },
         beforeSend: function() {
@@ -269,7 +276,7 @@ function Atag_Ajax_Submit(url, paramObj, ajaxType, selectObj, replaceID, showSuc
  * @param {string} _class 即css的class名
  * @return {array}
  */
-function plSelectValue(_class) {
+org.Common.plSelectValue = function(_class) {
     var c = _class || 'ids';
     var ids = new Array();
     var current_var;
@@ -283,7 +290,7 @@ function plSelectValue(_class) {
 /**
  * select 下拉选择的自适应
  */
-function formSelectWidth() {
+org.Common.formSelectWidth = function() {
     var _f = function(){
         var _w = $(window).width();
         var o = $('.zdy-form-select-obj');
@@ -301,7 +308,7 @@ function formSelectWidth() {
  * 初始化
  */
 $(document).ready(function(){
-    setformSubmitButton();
-    changeLeftMenuHeight();
-    formSelectWidth();
+    org.Common.setformSubmitButton();
+    org.Common.changeLeftMenuHeight();
+    org.Common.formSelectWidth();
 });

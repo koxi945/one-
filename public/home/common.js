@@ -1,5 +1,12 @@
+/**
+ * 命名空间
+ * @type {Object}
+ */
+var org = {};
+org.Common = {};
+
 //处理表单提单按钮，显示loading，禁用，启用。
-function setformSubmitButton() {
+org.Common.setformSubmitButton = function() {
     //模拟submit
     $(document).on('click', '.sys-btn-submit', function () {
         var isClick = false;
@@ -46,7 +53,7 @@ function setformSubmitButton() {
  * @param  function callback 回调函数
  * @return void
  */
-function confirmNotic(content, callback) {
+org.Common.confirmNotic = function(content, callback) {
     var d = dialog({
         title: '提示',
         content: content,
@@ -70,7 +77,7 @@ function confirmNotic(content, callback) {
  * @param  string content 提示的内容
  * @return void
  */
-function alertNotic(content) {
+org.Common.alert = function(content) {
     var d = dialog({
         title: '提示',
         content: content,
@@ -82,5 +89,5 @@ function alertNotic(content) {
 }
 
 $(document).ready(function(){
-    setformSubmitButton();
+    org.Common.setformSubmitButton();
 });

@@ -54,7 +54,7 @@
                     var _form_hash = $('input[name="_form_hash"]').val();
                     var _nodes = getCheckedAll();
                     var params = {permission:_nodes, id:_id, all:_all, _form_hash:_form_hash};
-                    Atag_Ajax_Submit(_url, params, 'POST', $(this));
+                    org.Common.Atag_Ajax_Submit(_url, params, 'POST', $(this));
                   });
 
                 });
