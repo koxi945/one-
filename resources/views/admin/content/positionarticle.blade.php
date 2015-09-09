@@ -44,7 +44,7 @@
                             <tr>
                               <td><input autocomplete="off" type="checkbox" name="ids[]" class="ids" value="<?php echo $value['id']; ?>"></td>
                               <td><input type="text" class="pl-input-sort" data-prid="<?php echo $value['id']; ?>" value="<?php echo $value['sort']; ?>" style="width:50px;text-align:center;"></td>
-                              <td><a target="_blank" href="<?php echo route('home', ['class' => 'index', 'action' => 'detail', 'id' => $value['article_id']]); ?>"><?php echo $value['title']; ?></a></td>
+                              <td><a target="_blank" href="<?php echo route('blog.index.detail', ['id' => $value['article_id']]); ?>"><?php echo $value['title']; ?></a></td>
                               <td>
                                 <?php echo widget('Admin.Position')->deleteRelation($value); ?>
                               </td>
