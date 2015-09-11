@@ -958,7 +958,7 @@ div.group-item {
 #zTree-container {
   border: 1px solid #ddd;
   margin-bottom: 20px;
-  height: 500px;
+  height: 359px;
   overflow-y: auto; 
 }
 
@@ -969,16 +969,3 @@ div.content-menu .content-menu-button {
 .dropdown-menu { font-size: 12px;}
 .chosen-container { width: 100%!important;}
 .zdy-form-select { width: 100px!important;}
-
-/** 评论回复 */
-div.artitle-comment-reply-main div.comment {background: #FCFCFC;border: 1px solid #E0E0E0;padding: 5px;}
-div.artitle-comment-reply-main .comment-nickname {color:#21598A;}
-div.artitle-comment-reply-main .comment-date {color:#999;}
-div.artitle-comment-reply-main div.comment-content {padding-top:5px;padding-left: 5px;}
-div.artitle-comment-reply-main .color-hui {color:#999;}
-div.artitle-comment-reply-main .main {padding-top: 10px;}
-div.artitle-comment-reply-main {border: 1px solid #E0E0E0; padding: 5px;background: #F5F4F9;}
-div.artitle-comment-reply-main .list-toolbar {margin-top: 10px;}
-div.artitle-comment-reply-main .delete-reply-comment {color: #999;text-decoration:line-through;}
-div.artitle-comment-reply-main div#detail-comment {margin-bottom: 20px;}
-div.artitle-comment-reply-main {max-height: 350px; overflow-y: auto; }

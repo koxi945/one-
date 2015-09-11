@@ -29,7 +29,7 @@ class AclController extends Controller
     public function index()
     {
         Session::flashInput(['http_referer' => Request::fullUrl()]);
-        $pid = (int) Request::input('pid', 'all');
+        $pid = (int) Request::input('pid', '1');
         $permissionModel = new PermissionModel();
         $list = $permissionModel->getAllAccessPermission();
         $list = Tree::genTree($list);
