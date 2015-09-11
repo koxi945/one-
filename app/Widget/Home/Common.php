@@ -48,6 +48,38 @@ class Common
     }
 
     /**
+     * 最新评论
+     */
+    public function newComment()
+    {
+        return view('home.widget.newcomment');
+    }
+
+    /**
+     * 七天浏览排行傍
+     */
+    public function servenDayHot()
+    {
+        return view('home.widget.servendayhot');
+    }
+
+    /**
+     * 全部文章的浏览排行
+     */
+    public function totalHot()
+    {
+        return view('home.widget.totalhot');
+    }
+
+    /**
+     * 博客统计
+     */
+    public function tongJi()
+    {
+        return view('home.widget.tongji');
+    }
+
+    /**
      * comment
      */
     public function comment($objectID, $objectType = \App\Models\Home\Comment::OBJECT_TYPE_ARTICLE)

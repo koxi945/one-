@@ -19,5 +19,8 @@
         </p>
 
     </div>
-
+    <?php echo widget('Home.Common')->newComment(); ?>
+    <?php echo widget('Home.Common')->servenDayHot(); ?>
+    <?php echo widget('Home.Common')->totalHot(); ?>
+    <?php echo widget('Home.Common')->tongJi(); ?>
 </div>
