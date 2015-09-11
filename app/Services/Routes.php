@@ -127,6 +127,7 @@ class Routes
             {
                 $this->wwwHome();
                 $this->wwwArticleDetail();
+                $this->callWwwRoute();
                 $this->wwwCommon($key);
             });
         }
@@ -151,6 +152,43 @@ class Routes
     private function wwwArticleDetail()
     {
         Route::get('/index/detail/{id}.html', ['as' => 'blog.index.detail', 'uses' => 'Home\IndexController@detail'])->where('id', '[0-9]+');
+    }
+
+    /**
+     * 统一一个地方来处理吧
+     *
+     * @access private
+     */
+    private function callWwwRoute()
+    {
+        $callArray = ['wwwCategory', 'wwwTag'];
+        foreach ($callArray as $key => $value)
+        {
+            if(method_exists($this, $value))
+            {
+                call_user_func(array($this, $value));
+            }
+        }
+    }
+
+    /**
+     * 分类显示
+     *
+     * @access private
+     */
+    private function wwwCategory()
+    {
+        Route::get('/category/list/{categoryid}.html', ['as' => 'blog.category.list', 'uses' => 'Home\IndexController@index'])->where('categoryid', '[0-9]+');
+    }
+
+    /**
+     * 分标签显示
+     *
+     * @access private
+     */
+    private function wwwTag()
+    {
+        Route::get('/tag/list/{tagid}.html', ['as' => 'blog.tag.list', 'uses' => 'Home\IndexController@index'])->where('tagid', '[0-9]+');
     }
 
     /**
@@ -181,23 +219,7 @@ class Routes
         if( ! method_exists($classObject, $action)) {
             return abort(404);
         }
-        $result = $this->wwwWithCacheControl(call_user_func(array($classObject, $action)));
-        return $result;
-    }
-
-    /**
-     * 加上header cache control
-     *
-     * @access private
-     */
-    private function wwwWithCacheControl($result)
-    {
-        if( ! $result instanceof \Illuminate\Http\Response)
-        {
-            $cacheSecond = config('home.cache_control');
-            $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
-            return response($result)->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
-        }
+        $result = header_cache(call_user_func(array($classObject, $action)), false);
         return $result;
     }
 

@@ -42,9 +42,8 @@ class Content extends Model
      */
     public function activeArticleInfo($object)
     {
-        //\DB::connection()->enableQueryLog();
         $this->prefix = \DB:: getTablePrefix();
-        $currentQuery = $this->select(\DB::raw($this->prefix.'article_main.*, group_concat(DISTINCT '.$this->prefix.'article_classify.name) as classnames, group_concat(DISTINCT '.$this->prefix.'article_tags.name) as tagsnames'))
+        $currentQuery = $this->select(\DB::raw($this->prefix.'article_main.*'))
                         ->leftJoin('article_classify_relation', 'article_classify_relation.article_id', '=', 'article_main.id')
                         ->leftJoin('article_classify', 'article_classify_relation.classify_id', '=', 'article_classify.id')
                         ->leftJoin('article_tag_relation', 'article_tag_relation.article_id', '=', 'article_main.id')
@@ -63,8 +62,6 @@ class Content extends Model
         );
 
         $data = $currentQuery->get()->all();
-        //$queries = \DB::getQueryLog();
-        //dd($total, $queries);
 
         return new LengthAwarePaginator($data, $total, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath()
@@ -81,7 +78,7 @@ class Content extends Model
     {
         $articleId = (int) $articleId;
         $this->prefix = \DB:: getTablePrefix();
-        $currentQuery = $this->select(\DB::raw($this->prefix.'article_main.*, '.$this->prefix.'article_detail.content, group_concat(DISTINCT '.$this->prefix.'article_classify.name) as classnames, group_concat(DISTINCT '.$this->prefix.'article_tags.name) as tagsnames'))
+        $currentQuery = $this->select(\DB::raw($this->prefix.'article_main.*, '.$this->prefix.'article_detail.content'))
                         ->leftJoin('article_detail', 'article_main.id', '=', 'article_detail.article_id')
                         ->leftJoin('article_classify_relation', 'article_classify_relation.article_id', '=', 'article_main.id')
                         ->leftJoin('article_classify', 'article_classify_relation.classify_id', '=', 'article_classify.id')

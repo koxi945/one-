@@ -14,7 +14,8 @@
                         <thead>
                           <tr>
                             <th>标签名字</th>
-                            <th width="100">文章数</th>
+                            <th>文章数</th>
+                            <th>增加时间</th>
                             <th width="80">操作</th>
                           </tr>
                         </thead>
@@ -25,6 +26,7 @@
                               <td>
                                 <?php echo isset($value['articleNums']) ? $value['articleNums'] : 0; ?>
                               </td>
+                              <td><?php echo date('Y-m-d H:i', $value['time']); ?></td>
                               <td>
                                 <?php echo widget('Admin.Tags')->delete($value); ?>
                               </td>

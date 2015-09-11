@@ -19,8 +19,8 @@
                                     </a>
                                 </h3>
                                 <p class="text-sm p_h_info">
-                                  <span class="span_h_info">分类：</span><?php echo $value['classnames']; ?> &nbsp&nbsp&nbsp
-                                  <span class="span_h_info">标签：</span><?php echo $value['tagsnames']; ?> &nbsp&nbsp&nbsp
+                                  <span class="span_h_info">分类：</span><?php echo $value['classify']; ?> &nbsp&nbsp&nbsp
+                                  <span class="span_h_info">标签：</span><?php echo $value['tags']; ?> &nbsp&nbsp&nbsp
                                   <span class="span_h_info">发布时间：</span><?php echo showWriteTime($value['write_time']); ?></p>
                                 <p class="p_h_summary">
                                   <?php echo $value['summary']; ?>

@@ -16,14 +16,12 @@ class IndexController extends Controller
     public function index()
     {
         $object = new \stdClass();
-        $object->category = (int) Request::input('category');
-        $object->tag = (int) Request::input('tag');
+        $object->category = (int) Request::route('categoryid');
+        $object->tag = (int) Request::route('tagid');
     	$contentModel = new ContentModel();
     	$articleList = $contentModel->activeArticleInfo($object);
     	$page = $articleList->setPath('')->appends(Request::all())->render();
-        $cacheSecond = config('home.cache_control');
-        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
-        return response(view('home.index.index', compact('articleList', 'page', 'object')))->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+        return header_cache(view('home.index.index', compact('articleList', 'page', 'object')));
     }
 
     /**
@@ -34,7 +32,7 @@ class IndexController extends Controller
         $articleId = (int) Request::route('id');
         $contentModel = new ContentModel();
         $info = $contentModel->getContentDetailByArticleId($articleId);
-        return view('home.index.detail', compact('info'));
+        return header_cache(view('home.index.detail', compact('info')));
     }
 
 }

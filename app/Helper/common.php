@@ -165,7 +165,7 @@ if( ! function_exists('base64url_decode') )
     function base64url_decode($data)
     {
         return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT)); 
-    } 
+    }
 }
 
 /**
@@ -280,5 +280,29 @@ if( ! function_exists('form_hash'))
     function form_hash($data)
     {
         return (new App\Services\Formhash())->hash($data);
+    }
+}
+
+/**
+ * header 加上cache control，如果为view那么会直接加上，如果为response那么会根据第二个参数来做二次判定。
+ *
+ * @param $view 必须为view或者response，否则原路返回
+ * @return midx view|response
+ */
+if( ! function_exists('header_cache'))
+{
+    function header_cache($view, $allways = false)
+    {
+        $cacheSecond = config('home.cache_control');
+        $time = date('D, d M Y H:i:s', time() + $cacheSecond) . ' GMT';
+        if( ! $view instanceof \Illuminate\Http\Response)
+        {
+            return response($view)->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+        }
+        else
+        {
+            if($allways === true) return $view->header('Cache-Control', 'max-age='.$cacheSecond)->header('Expires', $time);
+        }
+        return $view;
     }
 }
