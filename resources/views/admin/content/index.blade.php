@@ -83,6 +83,7 @@
                             <th>选择</th>
                             <th width="50%">标题</th>
                             <th>分类</th>
+                            <th>标签</th>
                             <th>作者</th>
                             <th>写作时间</th>
                             <th>状态</th>
@@ -95,7 +96,8 @@
                             <tr>
                               <td><input autocomplete="off" type="checkbox" name="ids[]" class="ids" value="<?php echo $value['id']; ?>"></td>
                               <td><a target="_blank" href="<?php echo route('blog.index.detail', ['id' => $value['id']]); ?>"><?php echo $value['title']; ?></a></td>
-                              <td><?php echo $value['classnames']; ?></td>
+                              <td><?php echo $value['classify']; ?></td>
+                              <td><?php echo $value['tags']; ?></td>
                               <td><?php echo $value['name']; ?></td>
                               <td><?php echo date('Y-m-d H:i', $value['write_time']); ?></td>
                               <td>

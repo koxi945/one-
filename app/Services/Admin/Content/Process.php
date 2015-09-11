@@ -8,6 +8,7 @@ use App\Models\Admin\ClassifyRelation as ClassifyRelationModel;
 use App\Models\Admin\ContentDetail as ContentDetailModel;
 use App\Models\Admin\PositionRelation as PositionRelationModel;
 use App\Models\Admin\SearchIndex as SearchIndexModel;
+use App\Models\Admin\Category as CategoryModel;
 use App\Services\Admin\Content\Validate\Content as ContentValidate;
 use App\Services\Admin\SC;
 use App\Libraries\Spliter;
@@ -186,18 +187,39 @@ class Process extends BaseProcess
     private function saveContent(ContentSave $data, $articleObj)
     {
         //最后一步再更新为不删除的状态，主根原因是因为没有使用事务
-        $dataContet['is_delete'] = ContentModel::IS_DELETE_YES;
-        $dataContet['write_time'] = $articleObj->time;
-        $dataContet['user_id'] = $articleObj->userId;
-        $dataContet['title'] = $data['title'];
-        $dataContet['status'] = $data['status'];
-        $dataContet['summary'] = $data['summary'];
-        $insertObject = $this->contentModel->addContent($dataContet);
+        $dataContent['is_delete'] = ContentModel::IS_DELETE_YES;
+        $dataContent['write_time'] = $articleObj->time;
+        $dataContent['user_id'] = $articleObj->userId;
+        $dataContent['title'] = $data['title'];
+        $dataContent['status'] = $data['status'];
+        $dataContent['summary'] = $data['summary'];
+        $dataContent['classify'] = $this->prepareClassifyName($data['classify']);
+        $dataContent['tags'] = implode(',', $data['tags']);
+        $insertObject = $this->contentModel->addContent($dataContent);
         if( ! $insertObject->id)
         {
             throw new Exception("save content error");
         }
         return $insertObject->id;
+    }
+
+    /**
+     * called by self::saveContent()
+     *
+     * @return string
+     */
+    private function prepareClassifyName($classifyIds)
+    {
+        $result = [];
+        $classifyInfo = (new CategoryModel())->activeCategory();
+        foreach($classifyIds as $classifyId)
+        {
+            foreach($classifyInfo as $classify)
+            {
+                if($classifyId == $classify['id']) $result[] = $classify['name'];
+            }
+        }
+        return implode(',', $result);
     }
 
     /**
@@ -336,10 +358,12 @@ class Process extends BaseProcess
      */
     private function updateContent(ContentSave $data, $id)
     {
-        $dataContet['title'] = $data['title'];
-        $dataContet['status'] = $data['status'];
-        $dataContet['summary'] = $data['summary'];
-        $result = $this->contentModel->editContent($dataContet, $id);
+        $dataContent['title'] = $data['title'];
+        $dataContent['status'] = $data['status'];
+        $dataContent['summary'] = $data['summary'];
+        $dataContent['classify'] = $this->prepareClassifyName($data['classify']);
+        $dataContent['tags'] = implode(',', $data['tags']);
+        $result = $this->contentModel->editContent($dataContent, $id);
         if($result === false)
         {
             throw new Exception("save content error");

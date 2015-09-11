@@ -23,7 +23,7 @@ class Content extends Base
      *
      * @var string
      */
-    protected $fillable = array('id', 'user_id', 'title', 'summary', 'head_pic', 'little_head_pic', 'write_time', 'is_delete', 'status');
+    protected $fillable = array('id', 'user_id', 'title', 'summary', 'head_pic', 'little_head_pic', 'classify', 'tags', 'write_time', 'is_delete', 'status');
 
     /**
      * 文章未删除的标识
@@ -44,14 +44,15 @@ class Content extends Base
     public function AllContents($search = [])
     {
         $prefix = \DB:: getTablePrefix();
-        $currentQuery = $this->select(\DB::raw('distinct '.$prefix.'article_main.*, '.$prefix.'users.name, '.'group_concat(DISTINCT '.$prefix.'article_classify.name) as classnames'))
+        $currentQuery = $this->select(['article_main.*', 'users.name'])
                              ->leftJoin('users', 'article_main.user_id', '=', 'users.id')
                              ->leftJoin('article_classify_relation', 'article_main.id', '=', 'article_classify_relation.article_id')
                              ->leftJoin('article_classify', 'article_classify_relation.classify_id', '=', 'article_classify.id')
                              ->leftJoin('article_position_relation', 'article_main.id', '=', 'article_position_relation.article_id')
                              ->leftJoin('article_tag_relation', 'article_main.id', '=', 'article_tag_relation.article_id')
                              ->orderBy('article_main.id', 'desc')->where('article_main.is_delete', self::IS_DELETE_NO)
-                             ->groupBy('article_main.id');
+                             ->groupBy('article_main.id')
+                             ->distinct();
         if(isset($search['keyword']) && ! empty($search['keyword'])) $currentQuery->where('article_main.title', 'like', "%{$search['keyword']}%");
         if(isset($search['username']) && ! empty($search['username'])) $currentQuery->where('article_main.user_id', $search['username']);
         if(isset($search['classify']) && ! empty($search['classify'])) $currentQuery->where('article_classify_relation.classify_id', $search['classify']);
