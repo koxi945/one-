@@ -1,6 +1,6 @@
 <?php namespace App\Services\Admin\Content;
 
-use Lang;
+use Lang, Exception;
 use App\Models\Admin\Content as ContentModel;
 use App\Models\Admin\TagsRelation as TagsRelationModel;
 use App\Models\Admin\Tags as TagsModel;
@@ -12,6 +12,7 @@ use App\Services\Admin\Content\Validate\Content as ContentValidate;
 use App\Services\Admin\SC;
 use App\Libraries\Spliter;
 use App\Services\Admin\BaseProcess;
+use App\Services\Admin\Content\Param\ContentSave;
 
 /**
  * 文章处理
@@ -51,16 +52,17 @@ class Process extends BaseProcess
         if( ! $this->contentModel) $this->contentModel = new ContentModel();
         if( ! $this->contentDetailModel) $this->contentDetailModel = new ContentDetailModel();
         if( ! $this->contentValidate) $this->contentValidate = new ContentValidate();
+        $this->clearDirtyData();
     }
 
     /**
      * 增加新的文章
      *
-     * @param object $data
+     * @param object $data 文章的信息
      * @access public
-     * @return boolean true|false
+     * @return boolean
      */
-    public function addContent(\App\Services\Admin\Content\Param\ContentSave $data)
+    public function addContent(ContentSave $data)
     {
         if( ! $this->contentValidate->add($data))
         {
@@ -68,23 +70,21 @@ class Process extends BaseProcess
             return $this->setErrorMsg($unValidateMsg);
         }
 
-        $object = new \stdClass();
-        $object->time = time();
-        $object->userId = SC::getLoginSession()->id;
+        $articleObj = new \stdClass();
+        $articleObj->time = time();
+        $articleObj->userId = SC::getLoginSession()->id;
 
         try
         {
-            $result = \DB::transaction(function() use ($data, $object)
-            {
-                $object->contentAutoId = $this->saveContent($data, $object);
-                $this->saveContentDetail($data, $object);
-                $this->saveArticleTags($object, $data['tags']);
-                $this->saveArticleClassify($object, $data['classify']);
-                $this->saveSeachFullText($object, $data);
-                return true;
-            });
+            $articleObj->autoId = $this->saveContent($data, $articleObj);
+            $this->saveContentDetail($data, $articleObj);
+            $this->saveArticleTags($articleObj, $data['tags']);
+            $this->saveArticleClassify($articleObj, $data['classify']);
+            $this->saveSeachFullText($articleObj, $data);
+            $this->contentSaveSuccess($articleObj->autoId);
+            $result = true;
         }
-        catch (\Exception $e)
+        catch (Exception $e)
         {
             $result = false;
         }
@@ -95,13 +95,14 @@ class Process extends BaseProcess
     }
 
     /**
-     * 编辑文章，因为使用了事务，如果没有成功请手动抛出异常
+     * 编辑文章
      *
-     * @param object $data
+     * @param object $data 文章的信息
+     * @param int $id 文章的ID
      * @access public
-     * @return boolean true|false
+     * @return boolean
      */
-    public function editContent(\App\Services\Admin\Content\Param\ContentSave $data, $id)
+    public function editContent(ContentSave $data, $id)
     {
         if( ! $this->contentValidate->edit($data))
         {
@@ -109,35 +110,30 @@ class Process extends BaseProcess
             return $this->setErrorMsg($unValidateMsg);
         }
 
-        $object = new \stdClass();
-        $object->contentAutoId = $id;
+        $articleObj = new \stdClass();
+        $articleObj->autoId = $id;
 
         try
         {
-            $result = \DB::transaction(function() use ($data, $id, $object)
-            {
-                $this->updateContent($data, $id);
-                $this->updateContentDetail($data, $id);
-                $this->saveArticleTags($object, $data['tags']);
-                $this->saveArticleClassify($object, $data['classify']);
-                $this->saveSeachFullText($object, $data, true);
-                return true;
-            });
+            $this->updateContent($data, $id);
+            $this->updateContentDetail($data, $id);
+            $this->saveArticleTags($articleObj, $data['tags']);
+            $this->saveArticleClassify($articleObj, $data['classify']);
+            $this->saveSeachFullText($articleObj, $data, true);
+            $result = true;
         }
-        catch (\Exception $e)
+        catch (Exception $e)
         {
             $result = false;
         }
 
-        if( ! $result)
-        {
-            return $this->setErrorMsg(Lang::get('common.action_error'));
-        }
+        if( ! $result) return $this->setErrorMsg(Lang::get('common.action_error'));
+
         return true;
     }
 
     /**
-     * 删除文章，因为使用了事务，如果没有成功请手动抛出异常
+     * 删除文章
      * 
      * @param array $ids 要删除的文章的id
      * @access public
@@ -146,19 +142,18 @@ class Process extends BaseProcess
     public function detele($ids)
     {
         if( ! is_array($ids)) return false;
-        $data['is_delete'] = ContentModel::IS_DELETE_YES;
+
         try
         {
-            $result = \DB::transaction(function() use ($data, $ids)
-            {
-                $this->contentModel->solfDeleteContent($data, $ids);
-                $this->deleteArticleClassifyById($ids);
-                $this->deleteArticleTagsById($ids);
-                $this->deleteArticlePositionById($ids);
-                return true;
-            });
+            $data['is_delete'] = ContentModel::IS_DELETE_YES;
+            $this->contentModel->solfDeleteContent($data, $ids);
+            $this->deleteArticleClassifyById($ids);
+            $this->deleteArticleTagsById($ids);
+            $this->deleteArticlePositionById($ids);
+            $this->deleteArticleDictIndex($ids);
+            $result = true;
         }
-        catch (\Exception $e)
+        catch (Exception $e)
         {
             $result = false;
         }
@@ -173,7 +168,7 @@ class Process extends BaseProcess
      * 
      * @param  array $ids  文章的ID
      * @param  array $pids 推荐位的ID
-     * @return return       true|false
+     * @return boolean
      */
     public function articlePositionRelation($ids, $pids)
     {
@@ -182,64 +177,65 @@ class Process extends BaseProcess
     }
 
     /**
-     * 保存到主表，因为使用了事务，如果没有成功请手动抛出异常
+     * 保存到主表
      * 
      * @param object $data 增加文章的信息
-     * @param object $object 增加文章的信息
+     * @param object $articleObj 增加文章的信息
      * @return int 自增的ID
      */
-    private function saveContent(\App\Services\Admin\Content\Param\ContentSave $data, $object)
+    private function saveContent(ContentSave $data, $articleObj)
     {
-        $dataContet['is_delete'] = ContentModel::IS_DELETE_NO;
-        $dataContet['write_time'] = $object->time;
-        $dataContet['user_id'] = $object->userId;
+        //最后一步再更新为不删除的状态，主根原因是因为没有使用事务
+        $dataContet['is_delete'] = ContentModel::IS_DELETE_YES;
+        $dataContet['write_time'] = $articleObj->time;
+        $dataContet['user_id'] = $articleObj->userId;
         $dataContet['title'] = $data['title'];
         $dataContet['status'] = $data['status'];
         $dataContet['summary'] = $data['summary'];
         $insertObject = $this->contentModel->addContent($dataContet);
         if( ! $insertObject->id)
         {
-            throw new \Exception("save content error");
+            throw new Exception("save content error");
         }
         return $insertObject->id;
     }
 
     /**
-     * 保存到副表，因为使用了事务，如果没有成功请手动抛出异常
+     * 保存到副表
      * 
      * @param object $data 增加文章的信息
-     * @param object $object 增加文章的信息
+     * @param object $articleObj 增加文章的信息
      * @return object
      */
-    private function saveContentDetail(\App\Services\Admin\Content\Param\ContentSave $data, $object)
+    private function saveContentDetail(ContentSave $data, $articleObj)
     {
         $detailData['content'] = $data['content'];
-        $detailData['user_id'] = $object->userId;
-        $detailData['time'] = $object->time;
-        $detailData['article_id'] = $object->contentAutoId;
+        $detailData['user_id'] = $articleObj->userId;
+        $detailData['time'] = $articleObj->time;
+        $detailData['article_id'] = $articleObj->autoId;
         $insertObject = $this->contentDetailModel->addContentDetail($detailData);
         if( ! $insertObject)
         {
-            throw new \Exception("save content detail error");
+            throw new Exception("save content detail error");
         }
         return $insertObject;
     }
 
     /**
-     * 保存文章的分类，因为使用了事务，如果没有成功请手动抛出异常
+     * 保存文章的分类
      * 
-     * @param object $object 文章的信息
+     * @param object $articleObj 文章的信息
      * @param array $classify 分类
      */
-    private function saveArticleClassify($object, $classify)
+    private function saveArticleClassify($articleObj, $classify)
     {
-        $this->deleteArticleClassifyById(array($object->contentAutoId));
+        $this->deleteArticleClassifyById(array($articleObj->autoId));
 
         $insertData = [];
         foreach($classify as $key => $classifyId)
         {
             $insertData[] = array(
-                'article_id' => intval($object->contentAutoId),
+                'article_id' => intval($articleObj->autoId),
                 'classify_id' => intval($classifyId),
                 'time' => time()
             );
@@ -248,99 +244,97 @@ class Process extends BaseProcess
         $model = new ClassifyRelationModel();
         $result = $model->addClassifyArticleRelations($insertData);
 
-        if( ! $result) throw new \Exception("add classify article relation error.");
+        if( ! $result) throw new Exception("relation article classify error.");
+        
+        return $result;
     }
 
     /**
-     * 根据文章的ID删除它的分类关系，因为使用了事务，如果没有成功请手动抛出异常
+     * 根据文章的ID删除它的分类关系
      *
      * @param array $articleIds 文章的id组
-     * @return boolean true|false
+     * @return boolean
      */
     private function deleteArticleClassifyById($articleIds)
     {
-        if( ! is_array($articleIds)) throw new \Exception("article ids is not array.");
+        if( ! is_array($articleIds)) throw new Exception("article ids is not array.");
         $articleIds = array_map('intval', $articleIds);
         $result = with(new ClassifyRelationModel())->deleteClassifyRelation($articleIds);
         if($result === false)
         {
-            throw new \Exception("delete article classify error.");
+            throw new Exception("delete article classify error.");
         }
         return $result;
     }
 
     /**
-     * 保存文章的标签，因为使用了事务，如果没有成功请手动抛出异常
+     * 保存文章的标签
      *
-     * @param object $object->contentAutoId 文章的ID
+     * @param object $articleObj 文章的信息
      * @param array $tags 标签
      */
-    private function saveArticleTags($object, $tags)
+    private function saveArticleTags($articleObj, $tags)
     {
-        $this->deleteArticleTagsById(array($object->contentAutoId));
+        $this->deleteArticleTagsById(array($articleObj->autoId));
 
         $insertData = [];
+        $tagModel = new TagsModel();
         foreach($tags as $tagName)
         {
-            $tagInfo = with(new TagsModel())->addTagsIfNotExistsByName($tagName);
-            if( ! $tagInfo->id) throw new \Exception("add tags if not exists by name error.");
-
-            $insertData[] = [
-                'article_id' => $object->contentAutoId,
-                'tag_id' => $tagInfo->id,
-                'time' => time()
-            ];
+            $tagInfo = $tagModel->addTagsIfNotExistsByName($tagName);
+            if( ! isset($tagInfo->id) or ! $tagInfo->id) throw new Exception("add tags error.");
+            $insertData[] = [ 'article_id' => $articleObj->autoId, 'tag_id' => $tagInfo->id, 'time' => time()];
         }
 
         $result = with(new TagsRelationModel())->addTagsArticleRelations($insertData);
-        if( ! $result) throw new \Exception("add tags article relation error.");
+        if( ! $result) throw new Exception("relation tags article error.");
 
         return $result;
     }
 
     /**
-     * 根据文章的ID删除它的标签，，因为使用了事务，如果没有成功请手动抛出异常
+     * 根据文章的ID删除它的标签，
      * 
      * @param array $articleIds 文章的id组
      * @return boolean true|false
      */
     private function deleteArticleTagsById($articleIds)
     {
-        if( ! is_array($articleIds)) throw new \Exception("article ids is not array.");
+        if( ! is_array($articleIds)) throw new Exception("article ids is not array.");
         $articleIds = array_map('intval', $articleIds);
         $result = with(new TagsRelationModel())->deleteTagsRelation($articleIds);
         if($result === false)
         {
-            throw new \Exception("delete article tags error.");
+            throw new Exception("delete article tags error.");
         }
         return $result;
     }
 
     /**
-     * 根据文章的ID删除它的推荐位的文章，因为使用了事务，如果没有成功请手动抛出异常
+     * 根据文章的ID删除它的推荐位的文章
      *
      * @param array $articleIds 文章的id组
-     * @return boolean true|false
+     * @return boolean
      */
     private function deleteArticlePositionById($articleIds)
     {
-        if( ! is_array($articleIds)) throw new \Exception("article ids is not array.");
+        if( ! is_array($articleIds)) throw new Exception("articleids is not an array.");
         $articleIds = array_map('intval', $articleIds);
         $result = with(new PositionRelationModel())->deletePositionRelation($articleIds);
         if($result === false)
         {
-            throw new \Exception("delete article position error.");
+            throw new Exception("delete article position error.");
         }
         return $result;
     }
 
     /**
-     * 保存到主表，因为使用了事务，如果没有成功请手动抛出异常
+     * 保存到主表
      * 
      * @param  object $data 更新文章的数据
      * @param int 文章的ID
      */
-    private function updateContent(\App\Services\Admin\Content\Param\ContentSave $data, $id)
+    private function updateContent(ContentSave $data, $id)
     {
         $dataContet['title'] = $data['title'];
         $dataContet['status'] = $data['status'];
@@ -348,34 +342,34 @@ class Process extends BaseProcess
         $result = $this->contentModel->editContent($dataContet, $id);
         if($result === false)
         {
-            throw new \Exception("save content error");
+            throw new Exception("save content error");
         }
         return $result;
     }
 
     /**
-     * 保存到副表，因为使用了事务，如果没有成功请手动抛出异常
+     * 保存到副表
      * 
      * @param  object $data 更新文章的数据
      * @param int 文章的ID
      */
-    private function updateContentDetail(\App\Services\Admin\Content\Param\ContentSave $data, $id)
+    private function updateContentDetail(ContentSave $data, $id)
     {
         $detailData['content'] = $data['content'];
         $result = $this->contentDetailModel->editContentDetail($detailData, $id);
-        if($result === false) throw new \Exception("save content detail error");
+        if($result === false) throw new Exception("save content detail error");
         return $result;
     }
 
     /**
-     * 更新查询索引表，因为使用了事务，如果没有成功请手动抛出异常
+     * 更新查询索引表
      * 
-     * @param object $object
+     * @param object $articleObj
      * @param array $data
      * @param boolean $isEdit false的时候为增加，true的时候为edit
      * @return boolean
      */
-    private function saveSeachFullText($object, \App\Services\Admin\Content\Param\ContentSave $data, $isEdit = false)
+    private function saveSeachFullText($articleObj, ContentSave $data, $isEdit = false)
     {
         $spliterObject = new Spliter();
         $titleSplited   = $spliterObject->utf8Split($data['title']);
@@ -384,7 +378,7 @@ class Process extends BaseProcess
         $index['content'] = $contentSplited['words'];
         $summarySplited = $spliterObject->utf8Split(strip_tags($data['summary']));
         $index['summary'] = $summarySplited['words'];
-        $index['article_id'] = $checkIndex['article_id'] = $object->contentAutoId;
+        $index['article_id'] = $checkIndex['article_id'] = $articleObj->autoId;
         
         if($isEdit === false) $index['added_date'] = $index['edited_date'] = time();
         if($isEdit === true) $index['edited_date'] = time();
@@ -395,6 +389,48 @@ class Process extends BaseProcess
         {
             throw new Exception("save article dict index error.");
         }
+    }
+
+    /**
+     * 删除文章的搜索索引
+     *
+     * @param array $articleIds 文章的IDs
+     */
+    private function deleteArticleDictIndex($articleIds)
+    {
+        $indexModel = new SearchIndexModel();
+        $result = $indexModel->deleteArticleDictIndex($articleIds);
+        if($result === false)
+        {
+            throw new Exception("delete article dict index error.");
+        }
+    }
+
+    /**
+     * 标识文章为正常更新成功的
+     *
+     * @param int $id 文章的ID
+     * @return boolean
+     */
+    private function contentSaveSuccess($id)
+    {
+        $dataContet['is_delete'] = ContentModel::IS_DELETE_NO;
+        $result = $this->contentModel->editContent($dataContet, $id);
+        if($result === false) throw new Exception("update article to sucess error");
+        return true;
+    }
+
+    /**
+     * 删除脏数据
+     * 
+     * @return boolean
+     */
+    private function clearDirtyData()
+    {
+        with(new ClassifyRelationModel())->clearDirtyClassifyRelationData();
+        with(new TagsRelationModel())->clearDirtyTagRelationData();
+        with(new PositionRelationModel())->clearDirtyPositionRelationData();
+        with(new SearchIndexModel())->clearDirtySearchIndexData();
     }
 
 }

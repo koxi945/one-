@@ -1,6 +1,7 @@
 <?php namespace App\Models\Admin;
 
 use App\Models\Admin\Base;
+use App\Models\Admin\Content as ContentModel;
 
 /**
  * 推荐位表和文章的关系模型
@@ -88,11 +89,22 @@ class PositionRelation extends Base
     public function getPositionArticleInIds($prid)
     {
         if( ! is_array($prid)) return [];
-        $info = $this->select(['article_main.title', 'article_position.name'])->leftJoin('article_position', 'article_position.id', '=', 'article_position_relation.position_id')
+        $info = $this->select(['article_main.title', 'article_position.name'])
+                     ->leftJoin('article_position', 'article_position.id', '=', 'article_position_relation.position_id')
                      ->leftJoin('article_main', 'article_main.id', '=', 'article_position_relation.article_id')
                      ->whereIn('article_position_relation.id', $prid)
                      ->get();
         return $info->toArray();
+    }
+
+    /**
+     * 用于自动删除脏数据
+     */
+    public function clearDirtyPositionRelationData()
+    {
+        $prefix = \DB:: getTablePrefix();
+        $whereRaw = "article_id in (select id from `{$prefix}article_main` where is_delete=".ContentModel::IS_DELETE_YES.")";
+        return $this->whereRaw($whereRaw)->delete();
     }
 
 }

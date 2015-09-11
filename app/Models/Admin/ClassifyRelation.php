@@ -1,6 +1,7 @@
 <?php namespace App\Models\Admin;
 
 use App\Models\Admin\Base;
+use App\Models\Admin\Content as ContentModel;
 
 /**
  * 文章分类关系表模型
@@ -58,6 +59,16 @@ class ClassifyRelation extends Base
         $prefix = \DB:: getTablePrefix();
         $sqlString = "SELECT COUNT(1) AS total, classify_id FROM `{$prefix}article_classify_relation` WHERE classify_id IN ($categorys) GROUP BY classify_id;";
         return \DB::select($sqlString);
+    }
+
+    /**
+     * 用于自动删除脏数据
+     */
+    public function clearDirtyClassifyRelationData()
+    {
+        $prefix = \DB:: getTablePrefix();
+        $whereRaw = "article_id in (select id from `{$prefix}article_main` where is_delete=".ContentModel::IS_DELETE_YES.")";
+        return $this->whereRaw($whereRaw)->delete();
     }
 
 }

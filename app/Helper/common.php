@@ -47,7 +47,7 @@ if( ! function_exists('widget'))
 /**
  * 返回json
  *
- * @param string $msg 返回的消息
+ * @param string｜array $msg 返回的消息
  * @param boolean $status 是否成功
  */
 if( ! function_exists('responseJson'))

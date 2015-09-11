@@ -35,7 +35,7 @@
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>排序</th>
+                            <th width="80">排序</th>
                             <th>功能名字</th>
                             <th>功能代码（-为分隔线）</th>
                             <th>显示为菜单?</th>

@@ -1,6 +1,7 @@
 <?php namespace App\Models\Admin;
 
 use App\Models\Admin\Base;
+use App\Models\Admin\Content as ContentModel;
 
 /**
  * 文章标签关系表模型
@@ -58,6 +59,16 @@ class TagsRelation extends Base
         $prefix = \DB:: getTablePrefix();
         $sqlString = "SELECT COUNT(1) AS total, tag_id FROM `{$prefix}article_tag_relation` WHERE tag_id IN ($tags) GROUP BY tag_id;";
         return \DB::select($sqlString);
+    }
+
+    /**
+     * 用于自动删除脏数据
+     */
+    public function clearDirtyTagRelationData()
+    {
+        $prefix = \DB:: getTablePrefix();
+        $whereRaw = "article_id in (select id from `{$prefix}article_main` where is_delete=".ContentModel::IS_DELETE_YES.")";
+        return $this->whereRaw($whereRaw)->delete();
     }
 
 }

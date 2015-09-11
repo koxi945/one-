@@ -13,7 +13,7 @@
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>分类名字</th>
+                            <th>标签名字</th>
                             <th width="100">文章数</th>
                             <th width="80">操作</th>
                           </tr>

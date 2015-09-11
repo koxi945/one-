@@ -50,7 +50,8 @@ class Handler extends ExceptionHandler
     {
         if(Request::ajax() and ! config('app.debug'))
         {
-            return response()->json(['error_code' => $e->getStatusCode()]);
+            return responseJson($e->getStatusCode(), false);
+            //return response()->json(['error_code' => $e->getStatusCode()]);
         }
         elseif (view()->exists('error.common') and ! config('app.debug'))
         {

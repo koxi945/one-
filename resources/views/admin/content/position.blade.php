@@ -14,7 +14,7 @@
                       <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
-                            <th>分类名字</th>
+                            <th>推荐位名字</th>
                             <th>状态</th>
                             <th>增加时间</th>
                             <th width="70">操作</th>
