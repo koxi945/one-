@@ -122,4 +122,15 @@ class Content extends Model
         return $tags;
     }
 
+    /**
+     * 根据文章的ID组取得文章的相关信息
+     */
+    public function getContentInIds($articleIds)
+    {
+        if( ! is_array($articleIds)) return [];
+        $articleIds = array_map('intval', $articleIds);
+        $list = $this->select(['id', 'title'])->whereIn('id', $articleIds)->get()->toArray();
+        return $list;
+    }
+
 }

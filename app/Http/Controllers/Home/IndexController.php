@@ -32,6 +32,7 @@ class IndexController extends Controller
         $articleId = (int) Request::route('id');
         $contentModel = new ContentModel();
         $info = $contentModel->getContentDetailByArticleId($articleId);
+        event(new \App\Events\Home\ArticleView($articleId));
         return header_cache(view('home.index.detail', compact('info')));
     }
 

@@ -2,6 +2,9 @@
 
 namespace App\Widget\Home;
 
+use Redis;
+use App\Services\Home\Consts\RedisKey;
+
 /**
  * 小组件
  *
@@ -52,7 +55,9 @@ class Common
      */
     public function newComment()
     {
-        return view('home.widget.newcomment');
+        $commemtModel = new \App\Models\Home\Comment();
+        $list = $commemtModel->getNewComment();
+        return view('home.widget.newcomment', compact('list'));
     }
 
     /**
@@ -68,7 +73,9 @@ class Common
      */
     public function totalHot()
     {
-        return view('home.widget.totalhot');
+        $contentProcess = new \App\Services\Home\Content\Process();
+        $list = $contentProcess->articleTotalHot();
+        return view('home.widget.totalhot', compact('list'));
     }
 
     /**

@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Admin\ActionLog' => [
             'App\Listeners\Admin\ActionLog',
         ],
+        'App\Events\Home\ArticleView' => [
+            'App\Listeners\Home\ArticleView',
+        ],
     ];
 
     /**

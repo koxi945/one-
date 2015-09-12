@@ -75,4 +75,17 @@ class Comment extends Model
         return $this->create($data);
     }
 
+    /**
+     * 取得最新的评论的文章
+     */
+    public function getNewComment($objectType = self::OBJECT_TYPE_ARTICLE, $nums = 10)
+    {
+        return $this->select(['article_main.id', 'comment.content'])
+                    ->leftJoin('article_main', 'comment.object_id', '=', 'article_main.id')
+                    ->where('object_type', $objectType)
+                    ->orderBy('comment.id', 'desc')
+                    ->limit($nums)
+                    ->get()->toArray();
+    }
+
 }
