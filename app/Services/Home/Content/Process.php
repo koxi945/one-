@@ -26,7 +26,17 @@ class Process extends BaseProcess
             $articleIds[] = end($tmp);
         }
         $articleList = with(new ContentModel())->getContentInIds($articleIds);
-        return $articleList;
+        $result = [];
+        foreach ($list as $key => $value) {
+            $tmp = explode(':', $key);
+            $articleId = end($tmp);
+            foreach ($articleList as $akey => $articleInfo) {
+                if ($articleInfo['id'] == $articleId) {
+                    $result[] = $articleInfo;
+                }
+            }
+        }
+        return $result;
     }
 
 }
