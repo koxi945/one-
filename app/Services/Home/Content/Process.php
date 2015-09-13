@@ -18,18 +18,13 @@ class Process extends BaseProcess
      */
     public function articleTotalHot()
     {
-        $list = Redis::zrevrange(RedisKey::ARTICLE_TOTAL_VIEW, 0, 9, 'withscores');
-        if( ! is_array($list)) return [];
         $articleIds = [];
-        foreach ($list as $key => $value) {
-            $tmp = explode(':', $key);
-            $articleIds[] = end($tmp);
-        }
+        try { $articleIds = Redis::zrevrange(RedisKey::ARTICLE_TOTAL_VIEW, 0, 9); } catch (Exception $e) {}
+
+        if(empty($articleIds)) return [];
         $articleList = with(new ContentModel())->getContentInIds($articleIds);
         $result = [];
-        foreach ($list as $key => $value) {
-            $tmp = explode(':', $key);
-            $articleId = end($tmp);
+        foreach ($articleIds as $articleId) {
             foreach ($articleList as $akey => $articleInfo) {
                 if ($articleInfo['id'] == $articleId) {
                     $result[] = $articleInfo;
@@ -49,9 +44,24 @@ class Process extends BaseProcess
             return RedisKey::ARTICLE_EVERY_DAY_VIEW . $date;
         }, $days);
         $weight = [1, 1, 1, 1, 1, 1, 1];
-        $sevenScore = Redis::zunionstore('article_seven_day_view', $keys, [ 'WEIGHTS' => $weight ]);
-        $list = Redis::zrevrange('article_seven_day_view', 0, 9, 'withscores');
-        
+
+        $articleIds = [];
+        try {
+            $sevenScore = Redis::zunionstore(RedisKey::ARTICLE_SEVEN_DAY_HOT, $keys, [ 'WEIGHTS' => $weight ]);
+            $articleIds = Redis::zrevrange(RedisKey::ARTICLE_SEVEN_DAY_HOT, 0, 9);
+        } catch (Exception $e) {}
+
+        if(empty($articleIds)) return [];
+        $articleList = with(new ContentModel())->getContentInIds($articleIds);
+        $result = [];
+        foreach ($articleIds as $articleId) {
+            foreach ($articleList as $akey => $articleInfo) {
+                if ($articleInfo['id'] == $articleId) {
+                    $result[] = $articleInfo;
+                }
+            }
+        }
+        return $result;
     }
 
     /**

@@ -2,16 +2,13 @@
 <h3 style="margin-top: 0px;">七天热傍</h3>
 <div class="widget-body">
     <ul class="icons list-unstyled">
-        <li><a href=""><i class="icon-angle-right"></i> 1、subversion的编译安装</a></li>
-        <li><a href=""><i class="icon-angle-right"></i> 2、自动备份mysql数据库脚本</a></li>
-        <li><a href=""><i class="icon-angle-right"></i> 3、subversion的编译安装</a></li>
-        <li><a href=""><i class="icon-angle-right"></i> 4、自动备份mysql数据库脚本</a></li>
-        <li><a href=""><i class="icon-angle-right"></i> 5、subversion的编译安装</a></li>
-        <li><a href=""><i class="icon-angle-right"></i> 1、subversion的编译安装</a></li>
-        <li><a href=""><i class="icon-angle-right"></i> 2、自动备份mysql数据库脚本</a></li>
-        <li><a href=""><i class="icon-angle-right"></i> 3、subversion的编译安装</a></li>
-        <li><a href=""><i class="icon-angle-right"></i> 4、自动备份mysql数据库脚本</a></li>
-        <li><a href=""><i class="icon-angle-right"></i> 5、subversion的编译安装</a></li>
+        <?php if(isset($list) and is_array($list)): ?>
+        <?php $i = 1; ?>
+        <?php foreach($list as $key => $value): ?>
+            <li><?php echo $i; ?>、<a href="<?php echo route('blog.index.detail', ['id' => $value['id']]); ?>"><i class="icon-angle-right"></i> <?php echo $value['title']; ?></a></li>
+            <?php $i++ ?>
+        <?php endforeach; ?>
+        <?php endif; ?>
     </ul>
 </div>
 </div>

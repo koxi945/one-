@@ -46,7 +46,7 @@ class ArticleView
      */
     private function setArticleTotalViews($articleId)
     {
-        Redis::zincrby(RedisKey::ARTICLE_TOTAL_VIEW, 1, "id:".$articleId);
+        Redis::zincrby(RedisKey::ARTICLE_TOTAL_VIEW, 1, $articleId);
     }
 
     /**
@@ -55,7 +55,7 @@ class ArticleView
     private function setEveryDayViews($articleId)
     {
         $today = date('Ymd');
-        Redis::zincrby(RedisKey::ARTICLE_EVERY_DAY_VIEW.$today, 1, "id:".$articleId);
+        Redis::zincrby(RedisKey::ARTICLE_EVERY_DAY_VIEW.$today, 1, $articleId);
     }
 
 }
