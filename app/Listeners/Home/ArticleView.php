@@ -30,6 +30,7 @@ class ArticleView
     {
         $this->setArticleViews($event->articleId);
         $this->setArticleTotalViews($event->articleId);
+        $this->setEveryDayViews($event->articleId);
     }
 
     /**
@@ -47,4 +48,14 @@ class ArticleView
     {
         Redis::zincrby(RedisKey::ARTICLE_TOTAL_VIEW, 1, "id:".$articleId);
     }
+
+    /**
+     * 记录每天每片文章的浏览量，暂时用于七天阅读榜的数量来源
+     */
+    private function setEveryDayViews($articleId)
+    {
+        $today = date('Ymd');
+        Redis::zincrby(RedisKey::ARTICLE_EVERY_DAY_VIEW.$today, 1, "id:".$articleId);
+    }
+
 }

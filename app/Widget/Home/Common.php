@@ -65,6 +65,17 @@ class Common
      */
     public function servenDayHot()
     {
+        $list = [];
+        try
+        {
+            //try for redis server crash
+            $contentProcess = new \App\Services\Home\Content\Process();
+            $list = $contentProcess->articleLastSevenHot();
+        }
+        catch(\Exception $e)
+        {
+            //do some log
+        }
         return view('home.widget.servendayhot');
     }
 
@@ -73,8 +84,17 @@ class Common
      */
     public function totalHot()
     {
-        $contentProcess = new \App\Services\Home\Content\Process();
-        $list = $contentProcess->articleTotalHot();
+        $list = [];
+        try
+        {
+            //try for redis server crash
+            $contentProcess = new \App\Services\Home\Content\Process();
+            $list = $contentProcess->articleTotalHot();
+        }
+        catch(\Exception $e)
+        {
+            //do some log
+        }
         return view('home.widget.totalhot', compact('list'));
     }
 

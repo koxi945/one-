@@ -39,4 +39,33 @@ class Process extends BaseProcess
         return $result;
     }
 
+    /**
+     * 最近七天的阅读榜
+     */
+    public function articleLastSevenHot()
+    {
+        $days = $this->getSevenDays();
+        $keys = array_map(function($date){
+            return RedisKey::ARTICLE_EVERY_DAY_VIEW . $date;
+        }, $days);
+        $weight = [1, 1, 1, 1, 1, 1, 1];
+        $sevenScore = Redis::zunionstore('article_seven_day_view', $keys, [ 'WEIGHTS' => $weight ]);
+        $list = Redis::zrevrange('article_seven_day_view', 0, 9, 'withscores');
+        
+    }
+
+    /**
+     * 取得最近七天的日期
+     */
+    private function getSevenDays()
+    {
+        $today = date('Ymd');
+        $days = [];
+        for($i = 0; $i < 7; $i++ )
+        {
+            $days[] = $today - $i;
+        }
+        return $days;
+    }
+
 }
