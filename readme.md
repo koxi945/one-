@@ -2,22 +2,19 @@
 
 一、目录已有功能：
 
-- 1、文章发布
-- 2、文章评论
-- 3、文章分类
-- 4、文章tag
-- 5、文章搜索
+- 1、文章发布及管理
+- 2、文章评论及管理
+- 3、文章分类及管理
+- 4、文章tag及管理
+- 5、文章搜索（基于sphinx）
+- 6、推荐位管理
 
-二、计划中的
+二、近期计划的
 
-- 1、tag管理以及对应的widget
-- 2、推荐位以及对应的widget
-- 3、分类的widget
-- 4、博客文章列表和内容页静态化
-- 5、评论增加对markdown语法的支持
-- 6、后台评论管理
-- 7、用户注册
-- 8、提供rss
-- 9、对注册用户提供api接口
+- 1、用户注册
+- 2、提供rss
 
-and so on....
+三、一点预览
+
+![enter image description here](http://static.oschina.net/uploads/space/2015/0913/220520_9hIP_1777357.png)
+![enter image description here](http://static.oschina.net/uploads/space/2015/0913/220521_WUuX_1777357.png)
