@@ -124,4 +124,13 @@ class Process extends BaseProcess
         return $feed->render();
     }
 
+    /**
+     * 文章总数
+     */
+    public function articleTotalNums()
+    {
+        $contentModel = new ContentModel();
+        return $contentModel->articleNums();
+    }
+
 }

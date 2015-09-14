@@ -155,4 +155,16 @@ class Content extends Model
         return $info;
     }
 
+    /**
+     * 取得文章的总数
+     *
+     * @todo 解决innodb count慢的问题
+     * @return int 总数
+     */
+    public function articleNums()
+    {
+        $nums = $this->where('article_main.is_delete', self::IS_DELETE_NO)->where('article_main.status', self::STATUS_YES)->count();
+        return $nums;
+    }
+
 }

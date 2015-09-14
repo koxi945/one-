@@ -85,7 +85,9 @@ class Common
      */
     public function tongJi()
     {
-        return view('home.widget.tongji');
+        $contentProcess = new \App\Services\Home\Content\Process();
+        $articleNums = $contentProcess->articleTotalNums();
+        return view('home.widget.tongji', compact('articleNums'));
     }
 
     /**

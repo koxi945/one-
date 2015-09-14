@@ -3,7 +3,7 @@
 <div class="widget-body">
     <ul class="icons list-unstyled">
         <li>当前在线：100</li>
-        <li>总文章数：1000</li>
+        <li>总文章数：<?php echo $articleNums; ?></li>
         <li>博客pv：1000</li>
     </ul>
 </div>
