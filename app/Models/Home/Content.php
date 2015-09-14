@@ -147,6 +147,7 @@ class Content extends Model
                         ->leftJoin('article_tag_relation', 'article_tag_relation.article_id', '=', 'article_main.id')
                         ->leftJoin('article_tags', 'article_tag_relation.tag_id', '=', 'article_tags.id')
                         ->where('article_main.is_delete', self::IS_DELETE_NO)->where('article_main.status', self::STATUS_YES)
+                        ->groupBy('article_main.id')
                         ->orderBy('article_main.id', 'desc')
                         ->limit(20)
                         ->get()
