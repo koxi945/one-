@@ -19,7 +19,7 @@ class Process extends BaseProcess
     public function articleTotalHot()
     {
         $articleIds = [];
-        try { $articleIds = Redis::zrevrange(RedisKey::ARTICLE_TOTAL_VIEW, 0, 9); } catch (Exception $e) {}
+        try { $articleIds = Redis::zrevrange(RedisKey::ARTICLE_TOTAL_VIEW, 0, 9); } catch (\Exception $e) {}
 
         if(empty($articleIds)) return [];
         $articleList = with(new ContentModel())->getContentInIds($articleIds);
@@ -49,7 +49,7 @@ class Process extends BaseProcess
         try {
             $sevenScore = Redis::zunionstore(RedisKey::ARTICLE_SEVEN_DAY_HOT, $keys, [ 'WEIGHTS' => $weight ]);
             $articleIds = Redis::zrevrange(RedisKey::ARTICLE_SEVEN_DAY_HOT, 0, 9);
-        } catch (Exception $e) {}
+        } catch (\Exception $e) {}
 
         if(empty($articleIds)) return [];
         $articleList = with(new ContentModel())->getContentInIds($articleIds);

@@ -28,9 +28,13 @@ class ArticleView
      */
     public function handle(EventsArticleView $event)
     {
-        $this->setArticleViews($event->articleId);
-        $this->setArticleTotalViews($event->articleId);
-        $this->setEveryDayViews($event->articleId);
+        try {
+            $this->setArticleViews($event->articleId);
+            $this->setArticleTotalViews($event->articleId);
+            $this->setEveryDayViews($event->articleId);
+        } catch (\Exception $e) {
+            
+        }
     }
 
     /**
