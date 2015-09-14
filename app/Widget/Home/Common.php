@@ -25,7 +25,9 @@ class Common
      */
     public function header($headerObject = false)
     {
-        return view('home.widget.header', compact('headerObject'));
+        $domain = config('sys.sys_blog_domain');
+        $jsCookieDomain = str_replace("www", "", $domain);
+        return view('home.widget.header', compact('headerObject', 'jsCookieDomain'));
     }
 
     /**

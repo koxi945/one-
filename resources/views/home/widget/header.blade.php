@@ -23,6 +23,9 @@
             margin:10px 0;
         }
     </style>
+    <script type="text/javascript">
+        var DOT_DOMAIN = '<?php echo $jsCookieDomain; ?>';
+    </script>
     <script src="<?php echo loadStatic('/home/lib.js'); ?>" type="text/javascript"></script>
     <!-- 弹出窗口 -->
     <link rel="stylesheet" href="<?php echo loadStatic('/lib/artdialog/css/ui-dialog.css'); ?>">

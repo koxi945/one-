@@ -5,7 +5,10 @@
 var org = {};
 org.Common = {};
 
-//处理表单提单按钮，显示loading，禁用，启用。
+/**
+ * 处理表单提单按钮，显示loading，禁用，启用。
+ * @return {[type]} [description]
+ */
 org.Common.setformSubmitButton = function() {
     //模拟submit
     $(document).on('click', '.sys-btn-submit', function () {
@@ -53,7 +56,7 @@ org.Common.setformSubmitButton = function() {
  * @param  function callback 回调函数
  * @return void
  */
-org.Common.confirmNotic = function(content, callback) {
+org.Common.confirm = function(content, callback) {
     var d = dialog({
         title: '提示',
         content: content,
@@ -88,6 +91,22 @@ org.Common.alert = function(content) {
     d.showModal();
 }
 
-$(document).ready(function(){
+/*!
+ * set uuid cookie
+ */
+org.Common.SetUuidCookie = function() {
+    var uuid = Math.uuid();
+    var uuidCookieName = 'uuid';
+    var uuidCookie = $.cookie(uuidCookieName);
+    if(typeof uuidCookie == 'undefined') {
+        $.cookie(uuidCookieName, uuid, { path: '/', domain: DOT_DOMAIN });
+    }
+}
+
+/*!
+ * document ready
+ */
+$(document).ready(function() {
     org.Common.setformSubmitButton();
+    org.Common.SetUuidCookie();
 });
