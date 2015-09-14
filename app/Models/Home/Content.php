@@ -133,4 +133,25 @@ class Content extends Model
         return $list;
     }
 
+    /**
+     * get RSS articles
+     * 
+     * @return array
+     */
+    public function getRss()
+    {
+        $info = $this->select(['article_main.id', 'article_main.title', 'article_main.summary', 'article_main.write_time', 'article_detail.content'])
+                        ->leftJoin('article_detail', 'article_main.id', '=', 'article_detail.article_id')
+                        ->leftJoin('article_classify_relation', 'article_classify_relation.article_id', '=', 'article_main.id')
+                        ->leftJoin('article_classify', 'article_classify_relation.classify_id', '=', 'article_classify.id')
+                        ->leftJoin('article_tag_relation', 'article_tag_relation.article_id', '=', 'article_main.id')
+                        ->leftJoin('article_tags', 'article_tag_relation.tag_id', '=', 'article_tags.id')
+                        ->where('article_main.is_delete', self::IS_DELETE_NO)->where('article_main.status', self::STATUS_YES)
+                        ->orderBy('article_main.id', 'desc')
+                        ->limit(20)
+                        ->get()
+                        ->toArray();
+        return $info;
+    }
+
 }

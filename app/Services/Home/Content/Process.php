@@ -5,6 +5,9 @@ use App\Models\Home\Content as ContentModel;
 use App\Libraries\Js;
 use App\Services\Home\BaseProcess;
 use App\Services\Home\Consts\RedisKey;
+use Suin\RSSWriter\Channel;
+use Suin\RSSWriter\Feed;
+use Suin\RSSWriter\Item;
 
 /**
  * 文章相关处理
@@ -76,6 +79,49 @@ class Process extends BaseProcess
             $days[] = $today - $i;
         }
         return $days;
+    }
+
+    /**
+     * Rss
+     */
+    public function Rss()
+    {
+        $contentModel = new ContentModel();
+        $articleList = $contentModel->getRss();
+        return $this->prepareRss($articleList);
+    }
+
+    /**
+     * prepare feed
+     */
+    private function prepareRss($articleList)
+    {
+        $feed = new Feed();
+        $channel = new Channel();
+        $time = strtotime(date('Y-m-d'));
+        $copyrightYear = date('Y');
+
+        $channel->title("Blog Rss")
+            ->description("Blog Rss")
+            ->url(config('sys.sys_blog_domain'))
+            ->language('zh-CN')
+            ->copyright('Copyright '.$copyrightYear.', Jiang')
+            ->pubDate($time)
+            ->lastBuildDate($time)
+            ->ttl(3600 * 24)
+            ->appendTo($feed);
+
+        foreach($articleList as $key => $value)
+        {
+            $item = new Item();
+            $item->title($value['title'])
+            ->description($value['content'])
+            ->url(route('blog.index.detail', ['id' => $value['id']]))
+            ->pubDate($value['write_time'])
+            ->guid(route('blog.index.detail', ['id' => $value['id']]), true)
+            ->appendTo($channel);
+        }
+        return $feed->render();
     }
 
 }

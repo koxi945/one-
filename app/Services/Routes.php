@@ -161,7 +161,7 @@ class Routes
      */
     private function callWwwRoute()
     {
-        $callArray = ['wwwCategory', 'wwwTag'];
+        $callArray = ['wwwCategory', 'wwwTag', 'wwwRss'];
         foreach ($callArray as $key => $value)
         {
             if(method_exists($this, $value))
@@ -189,6 +189,16 @@ class Routes
     private function wwwTag()
     {
         Route::get('/tag/list/{tagid}.html', ['as' => 'blog.tag.list', 'uses' => 'Home\IndexController@index'])->where('tagid', '[0-9]+');
+    }
+
+    /**
+     * Rss
+     *
+     * @access private
+     */
+    private function wwwRss()
+    {
+        Route::get('/rss.xml', ['as' => 'blog.rss.index', 'uses' => 'Home\RssController@index']);
     }
 
     /**

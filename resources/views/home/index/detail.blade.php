@@ -5,12 +5,12 @@
         <?php echo widget('Home.Common')->top(); ?>
         
         <div class="main-content">
-          <div>
-            <h2><?php echo $info['title']; ?></h2>
-          </div>
+          
           <div class="row blog-post">
             <div class="col-sm-9 main-content">
-
+                <div>
+                    <h2><?php echo $info['title']; ?></h2>
+                </div>
                 <div id="blog-posts">
                     <p class="pull-right small">
                         <a href="#detail-comment"><i class="icon-comments"></i>查看评论</a>
