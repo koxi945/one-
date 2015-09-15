@@ -4,6 +4,7 @@
  */
 var org = {};
 org.Common = {};
+org.Online = {};
 
 /**
  * 处理表单提单按钮，显示loading，禁用，启用。
@@ -103,10 +104,54 @@ org.Common.SetUuidCookie = function() {
     }
 }
 
+/**
+ * websocket 对象
+ * @type {Object}
+ */
+org.Online.Ws = {};
+
+/**
+ * 处理当前在线人数
+ */
+org.Online.InitSocket = function() {
+    if (window.WebSocket || window.MozWebSocket) {
+        org.Online.Ws = new WebSocket('ws://192.168.199.128:9502');
+    } else {
+        WEB_SOCKET_SWF_LOCATION = "/lib/flash-websocket/WebSocketMain.swf";
+        $.getScript("/lib/flash-websocket/swfobject.js", function () {
+            $.getScript("/lib/flash-websocket/web_socket.js", function () {
+                org.Online.Ws = new WebSocket('ws://192.168.199.128:9502');
+            });
+        });
+    }
+    org.Online.SocketListen();
+}
+
+/**
+ * 侦听socket服务器的回应
+ */
+org.Online.SocketListen = function() {
+    // when open
+    org.Online.Ws.onopen = function() {
+        msg = new Object();
+        msg.controller = 'online';
+        msg.action = 'count';
+        msg.params = 'test1';
+        org.Online.Ws.send($.toJSON(msg));
+    }
+
+    // when get message
+    org.Online.Ws.onmessage = function(e) {
+        var message = $.evalJSON(e.data);
+        alert(message);
+    }
+}
+
 /*!
  * document ready
  */
 $(document).ready(function() {
     org.Common.setformSubmitButton();
     org.Common.SetUuidCookie();
+    org.Online.InitSocket();
 });

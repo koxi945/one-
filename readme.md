@@ -1,5 +1,11 @@
 # laravel 个人博客系统
 
+**注意：**
+
+1、安装方法请见master分支说明，此外需要安装Redis服务，并配置config/database.php下的redis。
+
+2、需要安装swoole扩展。
+
 一、目录已有功能：
 
 - 1、文章发布及管理

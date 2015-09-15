@@ -34,4 +34,5 @@ $(function(){
 		});
 	});
 </script>
+<script src="<?php echo loadStatic('/lib/jquery.json.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo loadStatic('/home/common.js'); ?>" type="text/javascript"></script>
