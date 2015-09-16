@@ -10,4 +10,10 @@ class RedisKey {
 
     CONST ARTICLE_SEVEN_DAY_HOT = "article_seven_day_hot";
 
+    CONST BLOG_ONLINE_MEMBER = 'blog_online_member';
+
+    CONST BLOG_ONLINE_UUID = 'blog_online_uuid';
+
+    CONST BLOG_ONLINE_FD_UNION = 'blog_online_fd_union';
+
 }

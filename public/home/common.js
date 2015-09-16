@@ -93,14 +93,19 @@ org.Common.alert = function(content) {
 }
 
 /*!
+ * uuid key
+ * @type {String}
+ */
+org.Online.UuidKey = 'uuid';
+
+/*!
  * set uuid cookie
  */
-org.Common.SetUuidCookie = function() {
+org.Online.SetUuidCookie = function() {
     var uuid = Math.uuid();
-    var uuidCookieName = 'uuid';
-    var uuidCookie = $.cookie(uuidCookieName);
+    var uuidCookie = $.cookie(org.Online.UuidKey);
     if(typeof uuidCookie == 'undefined') {
-        $.cookie(uuidCookieName, uuid, { path: '/', domain: DOT_DOMAIN });
+        $.cookie(org.Online.UuidKey, uuid, { path: '/', domain: DOT_DOMAIN });
     }
 }
 
@@ -133,17 +138,20 @@ org.Online.InitSocket = function() {
 org.Online.SocketListen = function() {
     // when open
     org.Online.Ws.onopen = function() {
+        var uuid = $.cookie(org.Online.UuidKey);
         msg = new Object();
         msg.controller = 'online';
         msg.action = 'count';
-        msg.params = 'test1';
+        msg.params = {'uuid': uuid};
         org.Online.Ws.send($.toJSON(msg));
     }
 
     // when get message
     org.Online.Ws.onmessage = function(e) {
         var message = $.evalJSON(e.data);
-        alert(message);
+        if(message.result == 'success') {
+            $('.blog-right-tongji-online').html(message.message);
+        }
     }
 }
 
@@ -152,6 +160,6 @@ org.Online.SocketListen = function() {
  */
 $(document).ready(function() {
     org.Common.setformSubmitButton();
-    org.Common.SetUuidCookie();
+    org.Online.SetUuidCookie();
     org.Online.InitSocket();
 });
