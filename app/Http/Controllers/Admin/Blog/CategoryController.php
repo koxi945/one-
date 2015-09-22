@@ -59,14 +59,24 @@ class CategoryController extends Controller
      */
     public function edit()
     {
-    	if(Request::method() == 'POST') return $this->updateDatasToDatabase();
+    	if(Request::method() == 'POST')
+            return $this->updateDatasToDatabase();
+
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
+
         $id = Request::input('id');
-        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
+        if( ! $id or ! is_numeric($id))
+            return Js::error(Lang::get('common.illegal_operation'));
+
         $info = (new CategoryModel())->getOneById($id);
-        if(empty($info)) return Js::error(Lang::get('category.not_found'));
+
+        if(empty($info))
+            return Js::error(Lang::get('category.not_found'));
+
         $formUrl = R('common', 'blog.category.edit');
-        return view('admin.content.classifyadd', compact('info', 'formUrl', 'id'));
+        return view('admin.content.classifyadd',
+            compact('info', 'formUrl', 'id')
+        );
     }
 
     /**
@@ -78,16 +88,21 @@ class CategoryController extends Controller
     {
         $httpReferer = Session::getOldInput('http_referer');
         $data = Request::input('data');
-        if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
+
+        if( ! $data or ! is_array($data))
+            return Js::error(Lang::get('common.illegal_operation'));
+
         $param = new \App\Services\Admin\Category\Param\CategorySave();
         $param->setAttributes($data);
         $manager = new CategoryActionProcess();
+
         if($manager->editCategory($param)) 
         {
             $this->setActionLog(['param' => $param]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.category.index');
             return Js::locate($backUrl, 'parent');
         }
+
         return Js::error($manager->getErrorMessage());
     }
 
@@ -98,14 +113,21 @@ class CategoryController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
-        if( ! is_array($id)) $id = array($id);
+        if( ! $id = Request::input('id'))
+            return responseJson(Lang::get('common.action_error'));
+
+        if( ! is_array($id)) {
+            $id = array($id);
+        }
+
         $manager = new CategoryActionProcess();
+
         if($manager->detele($id))
         {
             $this->setActionLog(['id' => $id]);
             return responseJson(Lang::get('common.action_success'), true);
         }
+        
         return responseJson($manager->getErrorMessage());
     }
 

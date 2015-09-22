@@ -43,10 +43,14 @@ class AclController extends Controller
      */
     public function add()
     {
-        if(Request::method() == 'POST') return $this->savePermissionToDatabase();
-        $formUrl = R('common', 'foundation.acl.add');
+        if(Request::method() == 'POST')
+            return $this->savePermissionToDatabase();
+
         $list = (new PermissionModel())->getAllAccessPermission();
         $select = Tree::dropDownSelect(Tree::genTree($list));
+
+        $formUrl = R('common', 'foundation.acl.add');
+
         return view('admin.acl.add', compact('select', 'formUrl'));
     }
 
@@ -59,10 +63,14 @@ class AclController extends Controller
     {
         $data = (array) Request::input('data');
         $data['add_time'] = time();
+
         $params = new \App\Services\Admin\Acl\Param\AclSave();
         $params->setAttributes($data);
+
         $manager = new AclActionProcess();
-        if($manager->addAcl($params) !== false) return Js::locate(R('common', 'foundation.acl.index'), 'parent');
+        if($manager->addAcl($params) !== false)
+            return Js::locate(R('common', 'foundation.acl.index'), 'parent');
+
         return Js::error($manager->getErrorMessage());
     }
     
@@ -70,19 +78,23 @@ class AclController extends Controller
      * 删除权限功能
      *
      * @access public
-     * @todo 只能删除自己所拥有的权限？有没有必要做？
      */
     public function delete()
     {
         $id = Request::input('id');
         if( ! is_array($id))
         {
-            if( ! $id = url_param_decode($id)) return responseJson(Lang::get('common.action_error'));
+            if( ! $id = url_param_decode($id))
+                return responseJson(Lang::get('common.action_error'));
             $id = array($id);
         }
+
         $id = array_map('intval', $id);
+
         $manager = new AclActionProcess();
-        if($manager->detele($id) !== false) return responseJson(Lang::get('common.action_success'), true);;
+        if($manager->detele($id) !== false)
+            return responseJson(Lang::get('common.action_success'), true);
+
         return responseJson($manager->getErrorMessage());
     }
     
@@ -93,18 +105,30 @@ class AclController extends Controller
      */
     public function edit()
     {
-        if(Request::method() == 'POST') return $this->updatePermissionToDatabase();
+        if(Request::method() == 'POST')
+            return $this->updatePermissionToDatabase();
+
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
+
         $id = Request::input('id');
         $permissionId = url_param_decode($id);
-        if( ! $permissionId or ! is_numeric($permissionId)) return Js::error(Lang::get('common.illegal_operation'), true);
+
+        if( ! $permissionId or ! is_numeric($permissionId))
+            return Js::error(Lang::get('common.illegal_operation'), true);
+
         $permissionModel = new PermissionModel();
         $list = (array) Tree::genTree($permissionModel->getAllAccessPermission());
         $permissionInfo = $permissionModel->getOnePermissionById(intval($permissionId));
-        if(empty($permissionInfo)) return Js::error(Lang::get('common.acl_not_found'), true);
+
+        if(empty($permissionInfo))
+            return Js::error(Lang::get('common.acl_not_found'), true);
+
         $select = Tree::dropDownSelect($list, $permissionInfo['pid']);
         $formUrl = R('common', 'foundation.acl.edit');
-        return view('admin.acl.add', compact('select', 'permissionInfo', 'formUrl', 'id'));
+
+        return view('admin.acl.add',
+            compact('select', 'permissionInfo', 'formUrl', 'id')
+        );
     }
     
     /**
@@ -116,15 +140,20 @@ class AclController extends Controller
     {
         $httpReferer = Session::getOldInput('http_referer');
         $data = Request::input('data');
-        if( ! $data) return Js::error(Lang::get('common.info_incomplete'));
+
+        if( ! $data)
+            return Js::error(Lang::get('common.info_incomplete'));
+
         $params = new \App\Services\Admin\Acl\Param\AclSave();
         $params->setAttributes($data);
         $manager = new AclActionProcess();
+
         if($manager->editAcl($params) !== false)
         {
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'foundation.acl.index'); 
             return Js::locate($backUrl, 'parent');
         }
+
         return Js::error($manager->getErrorMessage());
     }
     
@@ -136,13 +165,23 @@ class AclController extends Controller
     public function sort()
     {
         $sort = Request::input('sort');
-        if( ! $sort or ! is_array($sort)) return Js::error(Lang::get('common.choose_checked'));
+
+        if( ! $sort or ! is_array($sort))
+            return Js::error(Lang::get('common.choose_checked'));
+
         foreach($sort as $key => $value)
         {
-            if((new PermissionModel())->sortPermission($key, $value) === false) $err = true;
+            $update = (new PermissionModel())->sortPermission($key, $value);
+            if($update === false) $err = true;
         }
-        if(isset($err)) return Js::error(Lang::get('common.action_error'));
-        return Js::locate(R('common', 'foundation.acl.index'), 'parent');
+
+        if(isset($err))
+            return Js::error(Lang::get('common.action_error'));
+
+        return Js::locate(
+            R('common', 'foundation.acl.index'),
+            'parent'
+        );
     }
 
     /**
@@ -152,12 +191,19 @@ class AclController extends Controller
      */
     public function user()
     {
-        if(Request::method() == 'POST') return $this->saveUserPermissionToDatabase();
+        if(Request::method() == 'POST')
+            return $this->saveUserPermissionToDatabase();
+
         $id = url_param_decode(Request::input('id'));
-        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'), true);
+        if( ! $id or ! is_numeric($id))
+            return Js::error(Lang::get('common.illegal_operation'), true);
+
         $info = (new UserModel())->getOneUserById(intval($id));
-        if(empty($info)) return Js::error(Lang::get('common.illegal_operation'), true);
-        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER)) return Js::error(Lang::get('common.account_level_deny'), true);
+        if(empty($info))
+            return Js::error(Lang::get('common.illegal_operation'), true);
+
+        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_USER))
+            return Js::error(Lang::get('common.account_level_deny'), true);
 
         //取回用户所拥有的权限列表
         $list = SC::getUserPermissionSession();
@@ -197,17 +243,20 @@ class AclController extends Controller
         $permissions = (array) Request::input('permission');
         $id = Request::input('id');
         $all = Request::input('all');
-        if( ! $id or ! is_numeric($id) or ! $all) return responseJson(Lang::get('common.illegal_operation'));
+
+        if( ! $id or ! is_numeric($id) or ! $all)
+            return responseJson(Lang::get('common.illegal_operation'));
+
         $params = new \App\Services\Admin\Acl\Param\AclSet();
         $params->setPermission($permissions)->setAll($all)->setId($id);
         $manager = new AclActionProcess();
         $result = $manager->setUserAcl($params);
-        if($result)
-        {
-            $this->setActionLog();
-            return responseJson(Lang::get('common.action_success'));
-        }
-        return responseJson($manager->getErrorMessage());
+        if( ! $result)
+            return responseJson($manager->getErrorMessage());
+
+        $this->setActionLog();
+        return responseJson(Lang::get('common.action_success'));
+        
     }
     
     /**
@@ -217,12 +266,19 @@ class AclController extends Controller
      */
     public function group()
     {
-        if(Request::method() == 'POST') return $this->saveGroupPermissionToDatabase();
+        if(Request::method() == 'POST')
+            return $this->saveGroupPermissionToDatabase();
+
         $id = url_param_decode(Request::input('id'));
-        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'), true);
+        if( ! $id or ! is_numeric($id))
+            return Js::error(Lang::get('common.illegal_operation'), true);
+
         $info = (new GroupModel())->getOneGroupById(intval($id));
-        if(empty($info)) return Js::error(Lang::get('common.illegal_operation'), true);
-        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return Js::error(Lang::get('common.account_level_deny'), true);
+        if(empty($info))
+            return Js::error(Lang::get('common.illegal_operation'), true);
+
+        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP))
+            return Js::error(Lang::get('common.account_level_deny'), true);
         
         //取回用户组所拥有的权限列表
         $list = (array) SC::getUserPermissionSession();
@@ -262,18 +318,22 @@ class AclController extends Controller
         $permissions = (array) Request::input('permission');
         $id = Request::input('id');
         $all = Request::input('all');
-        if( ! $id or ! is_numeric($id) or ! $all) return responseJson(Lang::get('common.illegal_operation'));
-        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP)) return responseJson(Lang::get('common.account_level_deny'));
+
+        if( ! $id or ! is_numeric($id) or ! $all)
+            return responseJson(Lang::get('common.illegal_operation'));
+
+        if( ! (new Acl())->checkGroupLevelPermission($id, Acl::GROUP_LEVEL_TYPE_GROUP))
+            return responseJson(Lang::get('common.account_level_deny'));
+
         $params = new \App\Services\Admin\Acl\Param\AclSet();
         $params->setPermission($permissions)->setAll($all)->setId($id);
         $manager = new AclActionProcess();
         $result = $manager->setGroupAcl($params);
-        if($result)
-        {
-            $this->setActionLog();
-            return responseJson(Lang::get('common.action_success'));
-        }
-        return responseJson($manager->getErrorMessage());
+        if( ! $result)
+            return responseJson($manager->getErrorMessage());
+
+        $this->setActionLog();
+        return responseJson(Lang::get('common.action_success'));
     }
 
 }

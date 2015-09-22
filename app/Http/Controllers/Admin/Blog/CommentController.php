@@ -30,16 +30,21 @@ class CommentController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
+        if( ! $id = Request::input('id'))
+            return responseJson(Lang::get('common.action_error'));
+
         if( ! is_array($id)) $id = array($id);
         $id = array_map('intval', $id);
+
         $manager = new Process();
         $comment = with(new CommentModel())->getCommentInIds($id);
+
         if($manager->delete($id))
         {
             $this->setActionLog(['comment' => $comment]);
             return responseJson(Lang::get('common.action_success'), true);
         }
+        
         return responseJson($manager->getErrorMessage());
     }
 

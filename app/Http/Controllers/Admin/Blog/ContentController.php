@@ -38,6 +38,7 @@ class ContentController extends Controller
         $classifyInfo = (new CategoryModel())->activeCategory();
         $positionInfo = (new PositionModel())->activePosition();
         $tagInfo = (new TagsModel())->activeTags();
+
         return view('admin.content.index',
             compact('list', 'page', 'users', 'classifyInfo', 'positionInfo', 'tagInfo', 'search')
         );
@@ -65,14 +66,18 @@ class ContentController extends Controller
     {
         $data = (array) Request::input('data');
         $data['tags'] = explode(';', $data['tags']);
+
         $param = new \App\Services\Admin\Content\Param\ContentSave();
         $param->setAttributes($data);
+
         $manager = new ContentActionProcess();
+
         if($manager->addContent($param) !== false)
         {
             $this->setActionLog(['param' => $param]);
             return Js::locate(R('common', 'blog.content.index'), 'parent');
         }
+
         return Js::error($manager->getErrorMessage());
     }
 
@@ -83,15 +88,20 @@ class ContentController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
+        if( ! $id = Request::input('id'))
+            return responseJson(Lang::get('common.action_error'));
+
         if( ! is_array($id)) $id = array($id);
+
         $manager = new ContentActionProcess();
+
         if($manager->detele($id))
         {
             $info = (new ContentModel())->getArticleInIds($id);
             $this->setActionLog(['info' => $info]);
             return responseJson(Lang::get('common.action_success'), true);
         }
+
         return responseJson($manager->getErrorMessage());
     }
 
@@ -102,17 +112,30 @@ class ContentController extends Controller
      */
     public function edit()
     {
-        if(Request::method() == 'POST') return $this->updateDatasToDatabase();
+        if(Request::method() == 'POST')
+            return $this->updateDatasToDatabase();
+
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
+
         $id = Request::input('id');
-        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
+
+        if( ! $id or ! is_numeric($id))
+            return Js::error(Lang::get('common.illegal_operation'));
+
         $info = (new ContentModel())->getContentDetailByArticleId($id);
-        if(empty($info)) return Js::error(Lang::get('content.not_found'));
+
+        if(empty($info))
+            return Js::error(Lang::get('content.not_found'));
+
         $classifyInfo = (new CategoryModel())->activeCategory();
         $info = $this->joinArticleClassify($info);
         $info = $this->joinArticleTags($info);
+
         $formUrl = R('common', 'blog.content.edit');
-        return view('admin.content.add', compact('info', 'formUrl', 'id', 'classifyInfo'));
+
+        return view('admin.content.add',
+            compact('info', 'formUrl', 'id', 'classifyInfo')
+        );
     }
 
     /**
@@ -159,18 +182,23 @@ class ContentController extends Controller
     private function updateDatasToDatabase()
     {
         $httpReferer = Session::getOldInput('http_referer');
+
         $data = (array) Request::input('data');
         $id = intval(Request::input('id'));
         $data['tags'] = explode(';', $data['tags']);
+
         $param = new \App\Services\Admin\Content\Param\ContentSave();
         $param->setAttributes($data);
+
         $manager = new ContentActionProcess();
+
         if($manager->editContent($param, $id) !== false)
         {
             $this->setActionLog(['param' => $param]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.content.index');
             return Js::locate($backUrl, 'parent');
         }
+
         return Js::error($manager->getErrorMessage());
     }
 
@@ -181,7 +209,9 @@ class ContentController extends Controller
     {
         $ids = array_map('intval', (array) Request::input('ids'));
         $pids = array_map('intval', (array) Request::input('pids'));
+
         $manager = new ContentActionProcess();
+
         if($manager->articlePositionRelation($ids, $pids) !== false)
         {
             $info = (new ContentModel())->getArticleInIds($ids);
@@ -189,6 +219,7 @@ class ContentController extends Controller
             $this->setActionLog(['info' => $info, 'position' => $position]);
             return responseJson(Lang::get('common.action_success'), true);
         }
+        
         return responseJson(Lang::get('common.action_error'));
     }
 

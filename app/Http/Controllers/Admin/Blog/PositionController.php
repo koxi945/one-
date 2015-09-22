@@ -60,14 +60,25 @@ class PositionController extends Controller
      */
     public function edit()
     {
-    	if(Request::method() == 'POST') return $this->updateDatasToDatabase();
+    	if(Request::method() == 'POST')
+            return $this->updateDatasToDatabase();
+
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
+
         $id = Request::input('id');
-        if( ! $id or ! is_numeric($id)) return Js::error(Lang::get('common.illegal_operation'));
+
+        if( ! $id or ! is_numeric($id))
+            return Js::error(Lang::get('common.illegal_operation'));
+
         $info = (new PositionModel())->getOneById($id);
-        if(empty($info)) return Js::error(Lang::get('position.not_found'));
+
+        if(empty($info))
+            return Js::error(Lang::get('position.not_found'));
+
         $formUrl = R('common', 'blog.position.edit');
-        return view('admin.content.positionadd', compact('info', 'formUrl', 'id'));
+        return view('admin.content.positionadd',
+            compact('info', 'formUrl', 'id')
+        );
     }
 
     /**
@@ -78,17 +89,24 @@ class PositionController extends Controller
     private function updateDatasToDatabase()
     {
         $httpReferer = Session::getOldInput('http_referer');
+
         $data = Request::input('data');
-        if( ! $data or ! is_array($data)) return Js::error(Lang::get('common.illegal_operation'));
+
+        if( ! $data or ! is_array($data))
+            return Js::error(Lang::get('common.illegal_operation'));
+
         $param = new \App\Services\Admin\Position\Param\PositionSave();
         $param->setAttributes($data);
+
         $manager = new PositionActionProcess();
+
         if($manager->editPosition($param))
         {
             $this->setActionLog(['param' => $param]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.position.index');
             return Js::locate($backUrl, 'parent');
         }
+
         return Js::error($manager->getErrorMessage());
     }
 
@@ -99,14 +117,19 @@ class PositionController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
+        if( ! $id = Request::input('id'))
+            return responseJson(Lang::get('common.action_error'));
+
         if( ! is_array($id)) $id = array($id);
+
         $manager = new PositionActionProcess();
+
         if($manager->detele($id))
         {
             $this->setActionLog(['id' => $id]);
             return responseJson(Lang::get('common.action_success'), true);
         }
+
         return responseJson($manager->getErrorMessage());
     }
 
@@ -129,15 +152,20 @@ class PositionController extends Controller
      */
     public function delrelation()
     {
-        if( ! $prid = Request::input('prid')) return responseJson(Lang::get('common.action_error'));
+        if( ! $prid = Request::input('prid'))
+            return responseJson(Lang::get('common.action_error'));
+
         if( ! is_array($prid)) $prid = array($prid);
+
         $manager = new PositionActionProcess();
         $posArticle = (new PositionRelationModel())->getPositionArticleInIds($prid);
+
         if($manager->delRelation($prid))
         {
             $this->setActionLog(['posArticle' => $posArticle]);
             return responseJson(Lang::get('common.action_success'), true);
         }
+
         return responseJson($manager->getErrorMessage());
     }
 
@@ -148,14 +176,23 @@ class PositionController extends Controller
     {
         $data = (array) Request::input('data');
         $prid = '';
+
         foreach($data as $key => $value)
         {
             $prid = $value['prid'];
-            if(with(new PositionActionProcess())->sortRelation($value['prid'], $value['sort']) === false) $err = true;
+            $update = with(new PositionActionProcess())->sortRelation($value['prid'], $value['sort']);
+            if($update === false) $err = true;
         }
-        if(isset($err)) return responseJson(Lang::get('common.action_error'));
+
+        if(isset($err))
+            return responseJson(Lang::get('common.action_error'));
+
         $this->setActionLog(['prid' => $prid]);
-        return responseJson(Lang::get('common.action_success'), true);
+
+        return responseJson(
+            Lang::get('common.action_success'),
+            true
+        );
     }
 
 }
