@@ -67,7 +67,7 @@ class Process extends BaseProcess
         $info = $this->permissionModel->getOnePermissionById(intval($data->pid));
         $data = $data->toArray();
         $data['level'] = $info['level'] + 1;
-        if($this->permissionModel->addPermission($data) !== false)
+        if($this->permissionModel->addPermission($data) === false)
         {
             return $this->setErrorMsg(Lang::get('common.action_error'));
         }

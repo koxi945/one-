@@ -8,6 +8,7 @@ use Request, Lang, Session;
 use App\Services\Admin\Group\Process as GroupActionProcess;
 use App\Libraries\Js;
 use App\Services\Admin\Acl\Acl;
+use App\Services\Admin\Group\Param\GroupSave;
 
 /**
  * 用户组管理
@@ -17,6 +18,37 @@ use App\Services\Admin\Acl\Acl;
 class GroupController extends Controller
 {
     /**
+     * group model
+     * 
+     * @var object
+     */
+    private $groupModel;
+
+    /**
+     * group process
+     * 
+     * @var object
+     */
+    private $groupProcess;
+
+    /**
+     * group save
+     * 
+     * @var object
+     */
+    private $groupSave;
+
+    /**
+     * 初始化一些常用的类
+     */
+    public function __construct()
+    {
+        $this->groupModel = new GroupModel();
+        $this->groupProcess = new GroupActionProcess();
+        $this->groupSave = new GroupSave();
+    }
+
+    /**
      * 显示用户组列表首页
      *
      * @access public
@@ -24,8 +56,7 @@ class GroupController extends Controller
     public function index()
     {
         Session::flashInput(['http_referer' => Request::fullUrl()]);
-        $groupModel = new GroupModel();
-        $grouplist = $groupModel->getAllGroupByPage();
+        $grouplist = $this->groupModel->getAllGroupByPage();
         $page = $grouplist->setPath('')->appends(Request::all())->render();
         return view('admin.group.index', compact('grouplist', 'page'));
     }
@@ -52,15 +83,13 @@ class GroupController extends Controller
     private function saveDatasToDatabase()
     {
         $data = (array) Request::input('data');
-        $params = new \App\Services\Admin\Group\Param\GroupSave();
-        $params->setAttributes($data);
-        $manager = new GroupActionProcess();
-        if($manager->addGroup($params) !== false)
+        $this->groupSave->setAttributes($data);
+        if($this->groupProcess->addGroup($this->groupSave) !== false)
         {
             $this->setActionLog();
             return Js::locate(R('common', 'foundation.group.index'), 'parent');
         }
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->groupProcess->getErrorMessage());
     }
 
     /**
@@ -70,27 +99,25 @@ class GroupController extends Controller
      */
     public function delete()
     {
-        $id = Request::input('id');
+        $id = (array) Request::input('id');
 
-        if( ! is_array($id))
+        foreach($id as $key => $value)
         {
-            if( ! $id = url_param_decode($id))
+            if( ! ($id[$key] = url_param_decode($value)) )
                 return responseJson(Lang::get('common.action_error'));
-            $id = array($id);
         }
 
         $id = array_map('intval', $id);
 
-        $groupInfos = (new GroupModel())->getGroupInIds($id);
-        $manager = new GroupActionProcess();
+        $groupInfos = $this->groupModel->getGroupInIds($id);
 
-        if($manager->detele($id))
+        if($this->groupProcess->detele($id))
         {
             $this->setActionLog(['groupInfos' => $groupInfos]);
             return responseJson(Lang::get('common.action_success'), true);
         }
 
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->groupProcess->getErrorMessage());
     }
     
     /**
@@ -110,7 +137,7 @@ class GroupController extends Controller
         if( ! $groupId or ! is_numeric($groupId))
             return Js::error(Lang::get('common.illegal_operation'));
 
-        $groupInfo = (new GroupModel())->getOneGroupById($groupId);
+        $groupInfo = $this->groupModel->getOneGroupById($groupId);
         if(empty($groupInfo))
             return Js::error(Lang::get('group.group_not_found'));
 
@@ -137,18 +164,16 @@ class GroupController extends Controller
         if( ! $data or ! is_array($data))
             return Js::error(Lang::get('common.illegal_operation'));
 
-        $params = new \App\Services\Admin\Group\Param\GroupSave();
-        $params->setAttributes($data);
-        $manager = new GroupActionProcess();
+        $this->groupSave->setAttributes($data);
 
-        if($manager->editGroup($params))
+        if($this->groupProcess->editGroup($this->groupSave))
         {
             $this->setActionLog();
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'foundation.group.index');
             return Js::locate($backUrl, 'parent');
         }
         
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->groupProcess->getErrorMessage());
     }
 
 }

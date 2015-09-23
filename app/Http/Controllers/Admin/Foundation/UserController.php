@@ -8,6 +8,9 @@ use App\Services\Admin\User\Process as UserActionProcess;
 use App\Libraries\Js;
 use App\Services\Admin\Acl\Acl;
 use App\Http\Controllers\Admin\Controller;
+use App\Services\Admin\User\Param\UserSave;
+use App\Services\Admin\User\Param\UserModifyPassword;
+use App\Services\Admin\Login\Process as LoginProcess;
 
 /**
  * 用户相关
@@ -17,6 +20,45 @@ use App\Http\Controllers\Admin\Controller;
 class UserController extends Controller
 {
     /**
+     * group model
+     * 
+     * @var object
+     */
+    private $groupModel;
+
+    /**
+     * user model
+     * 
+     * @var object
+     */
+    private $userModel;
+
+    /**
+     * user process
+     * 
+     * @var object
+     */
+    private $userProcess;
+
+    /**
+     * user save
+     * 
+     * @var object
+     */
+    private $userSave;
+
+    /**
+     * 初始化一些常用的类
+     */
+    public function __construct()
+    {
+        $this->userModel = new User();
+        $this->groupModel = new Group();
+        $this->userProcess = new UserActionProcess();
+        $this->userSave = new UserSave();
+    }
+
+    /**
      * 用户管理列表
      *
      * @access public
@@ -24,11 +66,10 @@ class UserController extends Controller
     public function index()
     {
         Session::flashInput(['http_referer' => Request::fullUrl()]);
-        $userModel = new User(); $groupModel = new Group();
         $groupId = Request::input('gid');
-        $userList = $userModel->getAllUser(['group_id' => $groupId]);
+        $userList = $this->userModel->getAllUser(['group_id' => $groupId]);
         $page = $userList->setPath('')->appends(Request::all())->render();
-        $groupList = $groupModel->getAllGroup();
+        $groupList = $this->groupModel->getAllGroup();
         return view('admin.user.index',
             compact('userList', 'groupList', 'page')
         );
@@ -44,14 +85,13 @@ class UserController extends Controller
         if(Request::method() == 'POST')
             return $this->saveUserInfoToDatabase();
 
-        $groupModel = new Group();
         $groupId = SC::getLoginSession()->group_id;
-        $groupInfo = $groupModel->getOneGroupById($groupId);
+        $groupInfo = $this->groupModel->getOneGroupById($groupId);
 
         $isSuperSystemManager = (new Acl())->isSuperSystemManager();
         if($isSuperSystemManager) $groupInfo['level'] = 0;
 
-        $groupList = $groupModel->getGroupLevelLessThenCurrentUser($groupInfo['level']);
+        $groupList = $this->groupModel->getGroupLevelLessThenCurrentUser($groupInfo['level']);
         $formUrl = R('common', 'foundation.user.add');
 
         return view('admin.user.add',
@@ -68,15 +108,13 @@ class UserController extends Controller
     {
         $data = (array) Request::input('data');
         $data['add_time'] = time();
-        $param = new \App\Services\Admin\User\Param\UserSave();
-        $param->setAttributes($data);
-        $manager = new UserActionProcess();
-        if($manager->addUser($param))
+        $this->userSave->setAttributes($data);
+        if($this->userProcess->addUser($this->userSave))
         {
             $this->setActionLog();
             return Js::locate(R('common', 'foundation.user.index'), 'parent');
         }
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->userProcess->getErrorMessage());
     }
     
     /**
@@ -86,27 +124,25 @@ class UserController extends Controller
      */
     public function delete()
     {
-        $id = Request::input('id');
+        $id = (array) Request::input('id');
 
-        if( ! is_array($id))
+        foreach($id as $key => $value)
         {
-            if( ! $id = url_param_decode($id))
+            if( ! ($id[$key] = url_param_decode($value)) )
                 return responseJson(Lang::get('common.action_error'));
-            $id = array($id);
         }
 
         $id = array_map('intval', $id);
-        $userModel = new User();
-        $userInfos = $userModel->getUserInIds($id);
-        $manager = new UserActionProcess();
 
-        if($manager->detele($id))
+        $userInfos = $this->userModel->getUserInIds($id);
+
+        if($this->userProcess->detele($id))
         {
             $this->setActionLog(['userInfos' => $userInfos]);
             return responseJson(Lang::get('common.action_success'), true);
         }
 
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->userProcess->getErrorMessage());
     }
     
     /**
@@ -127,8 +163,7 @@ class UserController extends Controller
         if( ! $userId or ! is_numeric($userId))
             return Js::error(Lang::get('common.illegal_operation'), true);
 
-        $userModel = new User(); $groupModel = new Group();
-        $userInfo = $userModel->getOneUserById($userId);
+        $userInfo = $this->userModel->getOneUserById($userId);
         if(empty($userInfo))
             return Js::error(Lang::get('user.user_not_found'), true);
 
@@ -136,12 +171,12 @@ class UserController extends Controller
             return Js::error(Lang::get('common.account_level_deny'), true);
 
         //根据当前用户的权限获取用户组列表
-        $groupInfo = $groupModel->getOneGroupById(SC::getLoginSession()->group_id);
+        $groupInfo = $this->groupModel->getOneGroupById(SC::getLoginSession()->group_id);
         $isSuperSystemManager = (new Acl())->isSuperSystemManager();
 
         if($isSuperSystemManager) $groupInfo['level'] = 0;
 
-        $groupList = $groupModel->getGroupLevelLessThenCurrentUser($groupInfo['level']);
+        $groupList = $this->groupModel->getGroupLevelLessThenCurrentUser($groupInfo['level']);
         $formUrl = R('common', 'foundation.user.edit');
 
         return view('admin.user.add',
@@ -162,18 +197,16 @@ class UserController extends Controller
         if( ! $data or ! is_array($data))
             return Js::error(Lang::get('common.info_incomplete'));
 
-        $param = new \App\Services\Admin\User\Param\UserSave();
-        $param->setAttributes($data);
-        $manager = new UserActionProcess();
+        $this->userSave->setAttributes($data);
 
-        if($manager->editUser($param))
+        if($this->userProcess->editUser($this->userSave))
         {
             $this->setActionLog();
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'foundation.user.index'); 
             return Js::locate($backUrl, 'parent');
         }
         
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->userProcess->getErrorMessage());
     }
 
     /**
@@ -181,19 +214,18 @@ class UserController extends Controller
      */
     public function mpassword()
     {
-        $params = new \App\Services\Admin\User\Param\UserModifyPassword();
+        $params = new UserModifyPassword();
 
         $params->setOldPassword(Request::input('old_password'))
                ->setNewPassword(Request::input('new_password'))
                ->setNewPasswordRepeat(Request::input('new_password_repeat'));
                
-        $manager = new UserActionProcess();
-        if($manager->modifyPassword($params))
+        if($this->userProcess->modifyPassword($params))
         {
-            (new \App\Services\Admin\Login\Process())->getProcess()->logout();
+            (new LoginProcess())->getProcess()->logout();
             return responseJson(Lang::get('common.action_success'), true);
         }
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->userProcess->getErrorMessage());
     }
     
 }

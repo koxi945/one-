@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Controller;
 use App\Services\Admin\Workflow\Process;
+use App\Services\Admin\Workflow\Param\WorkflowSave;
 use App\Libraries\Js;
 use Request, Lang;
 
@@ -13,12 +14,34 @@ use Request, Lang;
 class IndexController extends Controller
 {
     /**
+     * workflow process
+     * 
+     * @var object
+     */
+    private $workflowProcess;
+
+    /**
+     * workflow param
+     * 
+     * @var object
+     */
+    private $workflowSaveParam;
+
+    /**
+     * 初始化一些常用的类
+     */
+    public function __construct()
+    {
+        $this->workflowProcess = new Process();
+        $this->workflowSaveParam = new WorkflowSave();
+    }
+
+    /**
      * 工作流管理
      */
     public function index()
     {
-    	$manger = new Process();
-    	$list = $manger->workflowInfos();
+    	$list = $this->workflowProcess->workflowInfos();
     	$page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.workflow.index', compact('list', 'page'));
     }
@@ -41,16 +64,15 @@ class IndexController extends Controller
     private function saveDatasToDatabase()
     {
         $data = (array) Request::input('data');
-        $params = new \App\Services\Admin\Workflow\Param\WorkflowSave();
         $data['addtime'] = time();
-        $params->setAttributes($data);
-        $manager = new Process();
-        if($manager->addWorkflow($params) !== false)
+
+        $this->workflowSaveParam->setAttributes($data);
+        if($this->workflowProcess->addWorkflow($this->workflowSaveParam) !== false)
         {
             $this->setActionLog();
             return Js::locate(R('common', 'workflow.index.index'), 'parent');
         }
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->workflowProcess->getErrorMessage());
     }
 
     /**
@@ -68,8 +90,7 @@ class IndexController extends Controller
         if( ! $id or ! is_numeric($id))
             return Js::error(Lang::get('common.illegal_operation'), true);
 
-        $manger = new Process();
-        $info = $manger->workflowInfo(['id' => $id]);
+        $info = $this->workflowProcess->workflowInfo(['id' => $id]);
 
         if(empty($info))
             return Js::error(Lang::get('workflow.workflow_not_found'));
@@ -93,17 +114,15 @@ class IndexController extends Controller
         if( ! $data or ! is_array($data))
             return Js::error(Lang::get('common.illegal_operation'));
 
-        $params = new \App\Services\Admin\Workflow\Param\WorkflowSave();
-        $params->setAttributes($data);
-        $manager = new Process();
+        $this->workflowSaveParam->setAttributes($data);
 
-        if($manager->editWorkflow($params))
+        if($this->workflowProcess->editWorkflow($this->workflowSaveParam))
         {
             $this->setActionLog();
             return Js::locate(R('common', 'workflow.index.index'), 'parent');
         }
 
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->workflowProcess->getErrorMessage());
     }
 
     /**
@@ -114,24 +133,19 @@ class IndexController extends Controller
     public function delete()
     {
         $id = Request::input('id');
+        if( ! $id ) return responseJson(Lang::get('common.action_error'));
 
-        if( ! is_array($id))
-        {
-            if( ! $id ) return responseJson(Lang::get('common.action_error'));
-            $id = array($id);
-        }
+        $id = array_map('intval', (array) $id);
 
-        $id = array_map('intval', $id);
-        $manager = new Process();
-        $info = $manager->workflowInfos(['ids' => $id]);
+        $info = $this->workflowProcess->workflowInfos(['ids' => $id]);
 
-        if($manager->deleteWorkflow(['ids' => $id]))
+        if($this->workflowProcess->deleteWorkflow(['ids' => $id]))
         {
             $this->setActionLog(['workflowInfo' => $info]);
             return responseJson(Lang::get('common.action_success'), true);
         }
         
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->workflowProcess->getErrorMessage());
     }
 
 

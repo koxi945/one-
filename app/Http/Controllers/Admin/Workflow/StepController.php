@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Controller;
 use App\Services\Admin\Workflow\Process;
+use App\Services\Admin\Workflow\Param\WorkflowStepSave;
 use App\Libraries\Js;
 use Request, Lang;
 
@@ -13,6 +14,29 @@ use Request, Lang;
 class StepController extends Controller
 {
     /**
+     * workflow process
+     * 
+     * @var object
+     */
+    private $workflowProcess;
+
+    /**
+     * workflow param
+     * 
+     * @var object
+     */
+    private $wstepSave;
+
+    /**
+     * 初始化一些常用的类
+     */
+    public function __construct()
+    {
+        $this->workflowProcess = new Process();
+        $this->wstepSave = new WorkflowStepSave();
+    }
+
+    /**
      * 工作流步骤管理
      */
     public function index()
@@ -22,13 +46,12 @@ class StepController extends Controller
         if( ! $workflowId or ! is_numeric($workflowId))
             return Js::error(Lang::get('common.illegal_operation'), true);
 
-    	$manger = new Process();
-    	$workflowInfo = $manger->workflowInfo(['id' => $workflowId]);
+    	$workflowInfo = $this->workflowProcess->workflowInfo(['id' => $workflowId]);
 
         if(empty($workflowInfo))
             return Js::error(Lang::get('common.illegal_operation'), true);
 
-        $list = $manger->workflowStepInfos(['workflow_id' => $workflowId, 'join_user' => true ]);
+        $list = $this->workflowProcess->workflowStepInfos(['workflow_id' => $workflowId, 'join_user' => true ]);
     	$page = $list->setPath('')->appends(Request::all())->render();
 
         return view('admin.workflow_step.detail',
@@ -49,12 +72,11 @@ class StepController extends Controller
         if( ! $workflowId or ! is_numeric($workflowId))
             return Js::error(Lang::get('common.illegal_operation'), true);
 
-        $manger = new Process();
-        $workflowInfo = $manger->workflowInfo(['id' => $workflowId]);
+        $workflowInfo = $this->workflowProcess->workflowInfo(['id' => $workflowId]);
         if(empty($workflowInfo))
             return Js::error(Lang::get('common.illegal_operation'), true);
 
-        $stepList = $manger->workflowStepLevelList();
+        $stepList = $this->workflowProcess->workflowStepLevelList();
         $formUrl = R('common', 'workflow.step.add');
 
         return view('admin.workflow_step.add',
@@ -70,23 +92,21 @@ class StepController extends Controller
     private function saveDatasToDatabase()
     {
         $this->checkFormHash();
+
         $data = (array) Request::input('data');
         $workflowId = (int) Request::input('workflow_id');
-
         $data['workflow_id'] = $workflowId;
         $data['addtime'] = time();
 
-        $params = new \App\Services\Admin\Workflow\Param\WorkflowStepSave();
-        $params->setAttributes($data);
-        $manager = new Process();
+        $this->wstepSave->setAttributes($data);
 
-        if($manager->addWorkflowStep($params) !== false)
+        if($this->workflowProcess->addWorkflowStep($this->wstepSave) !== false)
         {
             $this->setActionLog();
             return Js::locate(R('common', 'workflow.step.index', ['id' => $workflowId]), 'parent');
         }
 
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->workflowProcess->getErrorMessage());
     }
 
     /**
@@ -105,13 +125,12 @@ class StepController extends Controller
         if( ! $stepId or ! is_numeric($stepId))
             return Js::error(Lang::get('common.illegal_operation'), true);
 
-        $manger = new Process();
-        $workflowInfo = $manger->workflowInfo(['id' => $workflow_Id]);
+        $workflowInfo = $this->workflowProcess->workflowInfo(['id' => $workflow_Id]);
         if(empty($workflowInfo))
             return Js::error(Lang::get('common.illegal_operation'), true);
 
-        $stepList = $manger->workflowStepLevelList();
-        $info = $manger->workflowStepInfo(['id' => $stepId]);
+        $stepList = $this->workflowProcess->workflowStepLevelList();
+        $info = $this->workflowProcess->workflowStepInfo(['id' => $stepId]);
         if(empty($info))
             return Js::error(Lang::get('workflow.step_not_found'), true);
 
@@ -140,17 +159,15 @@ class StepController extends Controller
 
         $data['id'] = $stepId;
         $data['workflow_id'] = $workflowId;
-        $params = new \App\Services\Admin\Workflow\Param\WorkflowStepSave();
-        $params->setAttributes($data);
-        $manager = new Process();
+        $this->wstepSave->setAttributes($data);
 
-        if($manager->editWorkflowStep($params))
+        if($this->workflowProcess->editWorkflowStep($this->wstepSave))
         {
             $this->setActionLog();
             return Js::locate(R('common', 'workflow.step.index', ['id' => $workflowId]), 'parent');
         }
 
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->workflowProcess->getErrorMessage());
     }
 
     /**
@@ -161,20 +178,17 @@ class StepController extends Controller
     public function delete()
     {
         $id = Request::input('id');
-        if( ! is_array($id))
-        {
-            if( ! $id ) return responseJson(Lang::get('common.action_error'));
-            $id = array($id);
-        }
-        $id = array_map('intval', $id);
-        $manager = new Process();
-        $info = $manager->workflowStepInfos(['ids' => $id]);
-        if($manager->deleteWorkflowStep(['ids' => $id]))
+        if( ! $id ) return responseJson(Lang::get('common.action_error'));
+
+        $id = array_map('intval', (array) $id);
+
+        $info = $this->workflowProcess->workflowStepInfos(['ids' => $id]);
+        if($this->workflowProcess->deleteWorkflowStep(['ids' => $id]))
         {
             $this->setActionLog(['workflowStepInfo' => $info]);
             return responseJson(Lang::get('common.action_success'), true);
         }
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->workflowProcess->getErrorMessage());
     }
 
     /**
@@ -193,15 +207,14 @@ class StepController extends Controller
         if( ! $stepId or ! $workflowId)
             return Js::error(Lang::get('common.illegal_operation'), true);
 
-        $manager = new Process();
-        $info = $manager->workflowStepInfo(['id' => $stepId]);
+        $info = $this->workflowProcess->workflowStepInfo(['id' => $stepId]);
 
         if(empty($info) or $info['workflow_id'] != $workflowId)
             return Js::error(Lang::get('common.illegal_operation'), true);
 
         $userList = (new \App\Services\Admin\User\Process())->getWorkflowUser(['nums' => 30]);
         $page = $userList->setPath('')->appends(Request::all())->render();
-        $hasRelationUser = $manager->hasRelationUser($stepId);
+        $hasRelationUser = $this->workflowProcess->hasRelationUser($stepId);
 
         foreach($userList as $key => $val)
         {
@@ -234,19 +247,18 @@ class StepController extends Controller
             return Js::error(Lang::get('common.illegal_operation'));
 
         $userIds = array_map('intval', $userIds);
-        $manager = new Process();
-        $stepInfo = $manager->workflowStepInfo(['id' => $stepId]);
+        $stepInfo = $this->workflowProcess->workflowStepInfo(['id' => $stepId]);
 
         if(empty($stepInfo))
             return Js::error(Lang::get('common.illegal_operation'));
 
-        if($manager->setRelation($workflowId, $stepId, $userIds))
+        if($this->workflowProcess->setRelation($workflowId, $stepId, $userIds))
         {
             $this->setActionLog(['userIds' => $userIds, 'stepInfo' => $stepInfo]);
             return Js::alert(Lang::get('common.action_success'));
         }
         
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->workflowProcess->getErrorMessage());
     }
 
 

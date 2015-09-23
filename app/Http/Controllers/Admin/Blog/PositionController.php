@@ -69,8 +69,8 @@ class PositionController extends Controller
     public function index()
     {
         Session::flashInput(['http_referer' => Request::fullUrl()]);
-    	$list = $this->positionModel->unDeletePosition();
-    	$page = $list->setPath('')->appends(Request::all())->render();
+        $list = $this->positionModel->unDeletePosition();
+        $page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.content.position', compact('list', 'page'));
     }
 
@@ -79,7 +79,7 @@ class PositionController extends Controller
      */
     public function add()
     {
-    	if(Request::method() == 'POST') return $this->saveDatasToDatabase();
+        if(Request::method() == 'POST') return $this->saveDatasToDatabase();
         $formUrl = R('common', 'blog.position.add');
         return view('admin.content.positionadd', compact('formUrl'));
     }
@@ -105,7 +105,7 @@ class PositionController extends Controller
      */
     public function edit()
     {
-    	if(Request::method() == 'POST')
+        if(Request::method() == 'POST')
             return $this->updateDatasToDatabase();
 
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
