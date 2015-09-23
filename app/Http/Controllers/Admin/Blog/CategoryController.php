@@ -2,7 +2,8 @@
 
 use Request, Lang, Session;
 use App\Models\Admin\Category as CategoryModel;
-use App\Services\Admin\Category\Process as CategoryActionProcess;
+use App\Services\Admin\Category\Process as CategoryProcess;
+use App\Services\Admin\Category\Param\CategorySave;
 use App\Libraries\Js;
 use App\Http\Controllers\Admin\Controller;
 
@@ -14,14 +15,44 @@ use App\Http\Controllers\Admin\Controller;
 class CategoryController extends Controller
 {
     /**
+     * 分类的表操作对象
+     * 
+     * @var object
+     */
+    private $categoryModel;
+
+    /**
+     * category process
+     * 
+     * @var object
+     */
+    private $categoryProcess;
+
+    /**
+     * category category param
+     * 
+     * @var object
+     */
+    private $categorySaveParam;
+
+    /**
+     * 初始化一些常用的类
+     */
+    public function __construct()
+    {
+        $this->categoryModel = new CategoryModel();
+        $this->categoryProcess = new CategoryProcess();
+        $this->categorySaveParam = new CategorySave();
+    }
+
+    /**
      * 显示分类列表
      */
     public function index()
     {
         Session::flashInput(['http_referer' => Request::fullUrl()]);
-        $manager = new CategoryActionProcess();
-    	$list = $manager->unDeleteCategory();
-    	$page = $list->setPath('')->appends(Request::all())->render();
+        $list = $this->categoryProcess->unDeleteCategory();
+        $page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.content.classify', compact('list', 'page'));
     }
 
@@ -30,7 +61,7 @@ class CategoryController extends Controller
      */
     public function add()
     {
-    	if(Request::method() == 'POST') return $this->saveDatasToDatabase();
+        if(Request::method() == 'POST') return $this->saveDatasToDatabase();
         $formUrl = R('common', 'blog.category.add');
         return view('admin.content.classifyadd', compact('formUrl'));
     }
@@ -42,16 +73,15 @@ class CategoryController extends Controller
      */
     private function saveDatasToDatabase()
     {
-        $data = (array) Request::input('data');
-        $param = new \App\Services\Admin\Category\Param\CategorySave();
-        $param->setAttributes($data);
-        $manager = new CategoryActionProcess();
-        if($manager->addCategory($param) !== false)
+        $this->categorySaveParam->setAttributes(Request::input('data'));
+
+        if($this->categoryProcess->addCategory($this->categorySaveParam) !== false)
         {
-            $this->setActionLog(['param' => $param]);
+            $this->setActionLog(['param' => $this->categorySaveParam]);
             return Js::locate(R('common', 'blog.category.index'), 'parent');
         }
-        return Js::error($manager->getErrorMessage());
+
+        return Js::error($this->categoryProcess->getErrorMessage());
     }
 
     /**
@@ -59,7 +89,7 @@ class CategoryController extends Controller
      */
     public function edit()
     {
-    	if(Request::method() == 'POST')
+        if(Request::method() == 'POST')
             return $this->updateDatasToDatabase();
 
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
@@ -68,7 +98,7 @@ class CategoryController extends Controller
         if( ! $id or ! is_numeric($id))
             return Js::error(Lang::get('common.illegal_operation'));
 
-        $info = (new CategoryModel())->getOneById($id);
+        $info = $this->categoryModel->getOneById($id);
 
         if(empty($info))
             return Js::error(Lang::get('category.not_found'));
@@ -92,18 +122,16 @@ class CategoryController extends Controller
         if( ! $data or ! is_array($data))
             return Js::error(Lang::get('common.illegal_operation'));
 
-        $param = new \App\Services\Admin\Category\Param\CategorySave();
-        $param->setAttributes($data);
-        $manager = new CategoryActionProcess();
+        $this->categorySaveParam->setAttributes($data);
 
-        if($manager->editCategory($param)) 
+        if($this->categoryProcess->editCategory($this->categorySaveParam)) 
         {
-            $this->setActionLog(['param' => $param]);
+            $this->setActionLog(['param' => $this->categorySaveParam]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.category.index');
             return Js::locate($backUrl, 'parent');
         }
 
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->categoryProcess->getErrorMessage());
     }
 
     /**
@@ -116,19 +144,15 @@ class CategoryController extends Controller
         if( ! $id = Request::input('id'))
             return responseJson(Lang::get('common.action_error'));
 
-        if( ! is_array($id)) {
-            $id = array($id);
-        }
+        if( ! is_array($id)) $id = array($id);
 
-        $manager = new CategoryActionProcess();
-
-        if($manager->detele($id))
+        if($this->categoryProcess->detele($id))
         {
             $this->setActionLog(['id' => $id]);
             return responseJson(Lang::get('common.action_success'), true);
         }
         
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->categoryProcess->getErrorMessage());
     }
 
 }

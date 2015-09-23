@@ -6,9 +6,10 @@ use App\Models\Admin\Category as CategoryModel;
 use App\Models\Admin\User as UserModel;
 use App\Models\Admin\Position as PositionModel;
 use App\Models\Admin\Tags as TagsModel;
-use App\Services\Admin\Content\Process as ContentActionProcess;
+use App\Services\Admin\Content\Process as ContentProcess;
 use App\Libraries\Js;
 use App\Http\Controllers\Admin\Controller;
+use App\Services\Admin\Content\Param\ContentSave;
 
 /**
  * 登录相关
@@ -17,6 +18,69 @@ use App\Http\Controllers\Admin\Controller;
  */
 class ContentController extends Controller
 {
+    /**
+     * category model
+     * 
+     * @var object
+     */
+    private $categoryModel;
+
+    /**
+     * category model
+     * 
+     * @var object
+     */
+    private $contentModel;
+
+    /**
+     * user model
+     * 
+     * @var object
+     */
+    private $userModel;
+
+    /**
+     * position model
+     * 
+     * @var object
+     */
+    private $positionModel;
+
+    /**
+     * tag model
+     * 
+     * @var object
+     */
+    private $tagsModel;
+
+    /**
+     * content process
+     * 
+     * @var object
+     */
+    private $contentProcess;
+
+    /**
+     * content save
+     * 
+     * @var object
+     */
+    private $contentSave;
+
+    /**
+     * 初始化一些常用的类
+     */
+    public function __construct()
+    {
+        $this->categoryModel = new CategoryModel();
+        $this->contentModel = new ContentModel();
+        $this->userModel = new UserModel();
+        $this->positionModel = new PositionModel();
+        $this->tagsModel = new TagsModel();
+        $this->contentProcess = new ContentProcess();
+        $this->contentSave = new ContentSave();
+    }
+
     /**
      * 显示首页
      */
@@ -32,12 +96,12 @@ class ContentController extends Controller
         $search['timeFrom'] = strip_tags(Request::input('time_from'));
         $search['timeTo'] = strip_tags(Request::input('time_to'));
 
-        $list = (new ContentModel())->AllContents($search);
+        $list = $this->contentModel->AllContents($search);
         $page = $list->setPath('')->appends(Request::all())->render();
-        $users = (new UserModel())->userNameList();
-        $classifyInfo = (new CategoryModel())->activeCategory();
-        $positionInfo = (new PositionModel())->activePosition();
-        $tagInfo = (new TagsModel())->activeTags();
+        $users = $this->userModel->userNameList();
+        $classifyInfo = $this->categoryModel->activeCategory();
+        $positionInfo = $this->positionModel->activePosition();
+        $tagInfo = $this->tagsModel->activeTags();
 
         return view('admin.content.index',
             compact('list', 'page', 'users', 'classifyInfo', 'positionInfo', 'tagInfo', 'search')
@@ -51,10 +115,15 @@ class ContentController extends Controller
      */
     public function add()
     {
-        if(Request::method() == 'POST') return $this->saveDatasToDatabase();
-        $classifyInfo = (new CategoryModel())->activeCategory();
+        if(Request::method() == 'POST')
+            return $this->saveDatasToDatabase();
+
+        $classifyInfo = $this->categoryModel->activeCategory();
         $formUrl = R('common', 'blog.content.add');
-        return view('admin.content.add', compact('formUrl', 'classifyInfo'));
+
+        return view('admin.content.add',
+            compact('formUrl', 'classifyInfo')
+        );
     }
     
     /**
@@ -67,18 +136,15 @@ class ContentController extends Controller
         $data = (array) Request::input('data');
         $data['tags'] = explode(';', $data['tags']);
 
-        $param = new \App\Services\Admin\Content\Param\ContentSave();
-        $param->setAttributes($data);
+        $this->contentSave->setAttributes($data);
 
-        $manager = new ContentActionProcess();
-
-        if($manager->addContent($param) !== false)
+        if($this->contentProcess->addContent($this->contentSave) !== false)
         {
-            $this->setActionLog(['param' => $param]);
+            $this->setActionLog(['param' => $this->contentSave]);
             return Js::locate(R('common', 'blog.content.index'), 'parent');
         }
 
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->contentProcess->getErrorMessage());
     }
 
     /**
@@ -91,18 +157,16 @@ class ContentController extends Controller
         if( ! $id = Request::input('id'))
             return responseJson(Lang::get('common.action_error'));
 
-        if( ! is_array($id)) $id = array($id);
+        $id = array_map('intval', (array) $id);
 
-        $manager = new ContentActionProcess();
-
-        if($manager->detele($id))
+        if($this->contentProcess->detele($id))
         {
-            $info = (new ContentModel())->getArticleInIds($id);
+            $info = $this->contentModel->getArticleInIds($id);
             $this->setActionLog(['info' => $info]);
             return responseJson(Lang::get('common.action_success'), true);
         }
 
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->contentProcess->getErrorMessage());
     }
 
     /**
@@ -122,12 +186,12 @@ class ContentController extends Controller
         if( ! $id or ! is_numeric($id))
             return Js::error(Lang::get('common.illegal_operation'));
 
-        $info = (new ContentModel())->getContentDetailByArticleId($id);
+        $info = $this->contentModel->getContentDetailByArticleId($id);
 
         if(empty($info))
             return Js::error(Lang::get('content.not_found'));
 
-        $classifyInfo = (new CategoryModel())->activeCategory();
+        $classifyInfo = $this->categoryModel->activeCategory();
         $info = $this->joinArticleClassify($info);
         $info = $this->joinArticleTags($info);
 
@@ -146,7 +210,7 @@ class ContentController extends Controller
      */
     private function joinArticleClassify($articleInfo)
     {
-        $classifyInfo = (new ContentModel())->getArticleClassify($articleInfo['id']);
+        $classifyInfo = $this->contentModel->getArticleClassify($articleInfo['id']);
         $classifyIds = [];
         foreach ($classifyInfo as $key => $value)
         {
@@ -164,7 +228,7 @@ class ContentController extends Controller
      */
     private function joinArticleTags($articleInfo)
     {
-        $tagsInfo = (new ContentModel())->getArticleTag($articleInfo['id']);
+        $tagsInfo = $this->contentModel->getArticleTag($articleInfo['id']);
         $tagsIds = [];
         foreach ($tagsInfo as $key => $value)
         {
@@ -184,22 +248,19 @@ class ContentController extends Controller
         $httpReferer = Session::getOldInput('http_referer');
 
         $data = (array) Request::input('data');
-        $id = intval(Request::input('id'));
         $data['tags'] = explode(';', $data['tags']);
 
-        $param = new \App\Services\Admin\Content\Param\ContentSave();
-        $param->setAttributes($data);
+        $this->contentSave->setAttributes($data);
 
-        $manager = new ContentActionProcess();
-
-        if($manager->editContent($param, $id) !== false)
+        $id = intval(Request::input('id'));
+        if($this->contentProcess->editContent($this->contentSave, $id) !== false)
         {
-            $this->setActionLog(['param' => $param]);
+            $this->setActionLog(['param' => $this->contentSave]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.content.index');
             return Js::locate($backUrl, 'parent');
         }
 
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->contentProcess->getErrorMessage());
     }
 
     /**
@@ -210,12 +271,10 @@ class ContentController extends Controller
         $ids = array_map('intval', (array) Request::input('ids'));
         $pids = array_map('intval', (array) Request::input('pids'));
 
-        $manager = new ContentActionProcess();
-
-        if($manager->articlePositionRelation($ids, $pids) !== false)
+        if($this->contentProcess->articlePositionRelation($ids, $pids) !== false)
         {
-            $info = (new ContentModel())->getArticleInIds($ids);
-            $position = (new PositionModel())->getPositionInIds($pids);
+            $info = $this->contentModel->getArticleInIds($ids);
+            $position = $this->positionModel->getPositionInIds($pids);
             $this->setActionLog(['info' => $info, 'position' => $position]);
             return responseJson(Lang::get('common.action_success'), true);
         }

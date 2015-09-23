@@ -4,9 +4,10 @@ use Request, Lang, Session;
 use App\Models\Admin\Position as PositionModel;
 use App\Models\Admin\PositionRelation as PositionRelationModel;
 use App\Models\Admin\Content as ContentModel;
-use App\Services\Admin\Position\Process as PositionActionProcess;
+use App\Services\Admin\Position\Process as PositionProcess;
 use App\Libraries\Js;
 use App\Http\Controllers\Admin\Controller;
+use App\Services\Admin\Position\Param\PositionSave;
 
 /**
  * 文章推荐位相关
@@ -16,12 +17,59 @@ use App\Http\Controllers\Admin\Controller;
 class PositionController extends Controller
 {
     /**
+     * position model
+     * 
+     * @var object
+     */
+    private $positionModel;
+
+    /**
+     * pr model
+     * 
+     * @var object
+     */
+    private $prModel;
+
+    /**
+     * content model
+     * 
+     * @var object
+     */
+    private $contentModel;
+
+    /**
+     * p process
+     * 
+     * @var object
+     */
+    private $pProcess;
+
+    /**
+     * p save
+     * 
+     * @var object
+     */
+    private $pSave;
+
+    /**
+     * 初始化一些常用的类
+     */
+    public function __construct()
+    {
+        $this->positionModel = new PositionModel();
+        $this->prModel = new PositionRelationModel();
+        $this->contentModel = new ContentModel();
+        $this->pProcess = new PositionProcess();
+        $this->pSave = new PositionSave();
+    }
+
+    /**
      * 显示推荐位列表
      */
     public function index()
     {
         Session::flashInput(['http_referer' => Request::fullUrl()]);
-    	$list = (new PositionModel())->unDeletePosition();
+    	$list = $this->positionModel->unDeletePosition();
     	$page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.content.position', compact('list', 'page'));
     }
@@ -43,16 +91,13 @@ class PositionController extends Controller
      */
     private function saveDatasToDatabase()
     {
-        $data = (array) Request::input('data');
-        $param = new \App\Services\Admin\Position\Param\PositionSave();
-        $param->setAttributes($data);
-        $manager = new PositionActionProcess();
-        if($manager->addPosition($param) !== false)
+        $this->pSave->setAttributes((array) Request::input('data'));
+        if($this->pProcess->addPosition($this->pSave) !== false)
         {
-            $this->setActionLog(['param' => $param]);
+            $this->setActionLog(['param' => $this->pSave]);
             return Js::locate(R('common', 'blog.position.index'), 'parent');
         }
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->pProcess->getErrorMessage());
     }
 
     /**
@@ -70,7 +115,7 @@ class PositionController extends Controller
         if( ! $id or ! is_numeric($id))
             return Js::error(Lang::get('common.illegal_operation'));
 
-        $info = (new PositionModel())->getOneById($id);
+        $info = $this->positionModel->getOneById($id);
 
         if(empty($info))
             return Js::error(Lang::get('position.not_found'));
@@ -95,19 +140,16 @@ class PositionController extends Controller
         if( ! $data or ! is_array($data))
             return Js::error(Lang::get('common.illegal_operation'));
 
-        $param = new \App\Services\Admin\Position\Param\PositionSave();
-        $param->setAttributes($data);
+        $this->pSave->setAttributes($data);
 
-        $manager = new PositionActionProcess();
-
-        if($manager->editPosition($param))
+        if($this->pProcess->editPosition($this->pSave))
         {
-            $this->setActionLog(['param' => $param]);
+            $this->setActionLog(['param' => $this->pSave]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.position.index');
             return Js::locate($backUrl, 'parent');
         }
 
-        return Js::error($manager->getErrorMessage());
+        return Js::error($this->pProcess->getErrorMessage());
     }
 
     /**
@@ -120,17 +162,15 @@ class PositionController extends Controller
         if( ! $id = Request::input('id'))
             return responseJson(Lang::get('common.action_error'));
 
-        if( ! is_array($id)) $id = array($id);
+        $id = array_map('intval', (array) $id);
 
-        $manager = new PositionActionProcess();
-
-        if($manager->detele($id))
+        if($this->pProcess->detele($id))
         {
             $this->setActionLog(['id' => $id]);
             return responseJson(Lang::get('common.action_success'), true);
         }
 
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->pProcess->getErrorMessage());
     }
 
     /**
@@ -139,9 +179,9 @@ class PositionController extends Controller
     public function relation()
     {
         $positionId = (int) Request::input('position');
-        $list = (new ContentModel())->positionArticle($positionId);
+        $list = $this->contentModel->positionArticle($positionId);
         $page = $list->setPath('')->appends(Request::all())->render();
-        $positionInfo = (new PositionModel())->activePosition();
+        $positionInfo = $this->positionModel->activePosition();
         return view('admin.content.positionarticle',
             compact('list', 'page', 'positionInfo', 'positionId')
         );
@@ -157,16 +197,15 @@ class PositionController extends Controller
 
         if( ! is_array($prid)) $prid = array($prid);
 
-        $manager = new PositionActionProcess();
-        $posArticle = (new PositionRelationModel())->getPositionArticleInIds($prid);
+        $posArticle = $this->prModel->getPositionArticleInIds($prid);
 
-        if($manager->delRelation($prid))
+        if($this->pProcess->delRelation($prid))
         {
             $this->setActionLog(['posArticle' => $posArticle]);
             return responseJson(Lang::get('common.action_success'), true);
         }
 
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->pProcess->getErrorMessage());
     }
 
     /**
@@ -180,7 +219,7 @@ class PositionController extends Controller
         foreach($data as $key => $value)
         {
             $prid = $value['prid'];
-            $update = with(new PositionActionProcess())->sortRelation($value['prid'], $value['sort']);
+            $update = $this->pProcess->sortRelation($value['prid'], $value['sort']);
             if($update === false) $err = true;
         }
 

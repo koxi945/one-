@@ -14,11 +14,34 @@ use App\Http\Controllers\Admin\Controller;
 class CommentController extends Controller
 {
     /**
+     * 分类的表操作对象
+     * 
+     * @var object
+     */
+    private $commentModel;
+
+    /**
+     * comment process
+     * 
+     * @var object
+     */
+    private $commentProcess;
+
+    /**
+     * 初始化一些常用的类
+     */
+    public function __construct()
+    {
+        $this->commentModel = new CommentModel();
+        $this->commentProcess = new Process();
+    }
+
+    /**
      * 显示评论列表
      */
     public function index()
     {
-        $list = with(new CommentModel())->allComment();
+        $list = $this->commentModel->allComment();
         $page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.comment.index', compact('list', 'page'));
     }
@@ -33,19 +56,17 @@ class CommentController extends Controller
         if( ! $id = Request::input('id'))
             return responseJson(Lang::get('common.action_error'));
 
-        if( ! is_array($id)) $id = array($id);
-        $id = array_map('intval', $id);
+        $id = array_map('intval', (array) $id);
 
-        $manager = new Process();
-        $comment = with(new CommentModel())->getCommentInIds($id);
+        $comment = $this->commentModel->getCommentInIds($id);
 
-        if($manager->delete($id))
+        if($this->commentProcess->delete($id))
         {
             $this->setActionLog(['comment' => $comment]);
             return responseJson(Lang::get('common.action_success'), true);
         }
         
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->commentProcess->getErrorMessage());
     }
 
     /**
@@ -57,8 +78,7 @@ class CommentController extends Controller
     {
         if(Request::method() == 'POST') return $this->commentReply();
         $commentId = (int) Request::input('commentid');
-        $manager = new Process();
-        $view = $manager->getReplyInfo($commentId);
+        $view = $this->commentProcess->getReplyInfo($commentId);
         return response($view);
     }
 
@@ -72,14 +92,17 @@ class CommentController extends Controller
         $data['nickname'] = strip_tags(Request::input('nickname'));
         $data['content'] = strip_tags(Request::input('comment'));
         $data['replyid'] = (int) Request::input('replyid');
-        $manager = new Process();
-        $insertId = $manager->addComment($data);
+
+        $insertId = $this->commentProcess->addComment($data);
+        
         if($insertId !== false)
         {
             $this->setActionLog(['replyid' => $data['replyid'], 'object_id' => $data['object_id'], 'content' => $data['content']]);
             return Js::execute('window.parent.loadComment('.$insertId.');');
         }
-        return Js::error($manager->getErrorMessage()).Js::execute('window.parent.reloadDialogTitle();');
+
+        return Js::error($this->commentProcess->getErrorMessage())
+            .Js::execute('window.parent.reloadDialogTitle();');
     }
 
 }

@@ -14,12 +14,26 @@ use App\Http\Controllers\Admin\Controller;
 class TagsController extends Controller
 {
     /**
+     * tag process
+     * 
+     * @var object
+     */
+    private $tagProcess;
+
+    /**
+     * 初妈化一些信息
+     */
+    public function __construct()
+    {
+        $this->tagProcess = new Process();
+    }
+
+    /**
      * 显示标签列表
      */
     public function index()
     {
-        $manager = new Process();
-        $list = $manager->undeleteTagsList();
+        $list = $this->tagProcess->undeleteTagsList();
         $page = $list->setPath('')->appends(Request::all())->render();
         return view('admin.content.tags', compact('list', 'page'));
     }
@@ -31,16 +45,18 @@ class TagsController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id')) return responseJson(Lang::get('common.action_error'));
+        if( ! $id = Request::input('id'))
+            return responseJson(Lang::get('common.action_error'));
+
         if( ! is_array($id)) $id = array($id);
         $id = array_map('intval', $id);
-        $manager = new Process();
-        if($manager->delete($id))
+        
+        if($this->tagProcess->delete($id))
         {
             $this->setActionLog(['id' => $id]);
             return responseJson(Lang::get('common.action_success'), true);
         }
-        return responseJson($manager->getErrorMessage());
+        return responseJson($this->tagProcess->getErrorMessage());
     }
 
 }
