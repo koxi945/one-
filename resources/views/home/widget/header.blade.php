@@ -25,6 +25,7 @@
     </style>
     <script type="text/javascript">
         var DOT_DOMAIN = '<?php echo $jsCookieDomain; ?>';
+        var swoole_online_config = <?php echo json_encode($swooleConfig); ?>;
     </script>
     <script src="<?php echo loadStatic('/home/lib.js'); ?>" type="text/javascript"></script>
     <!-- 弹出窗口 -->

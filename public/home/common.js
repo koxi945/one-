@@ -120,12 +120,12 @@ org.Online.Ws = {};
  */
 org.Online.InitSocket = function() {
     if (window.WebSocket || window.MozWebSocket) {
-        org.Online.Ws = new WebSocket('ws://192.168.199.128:9502');
+        org.Online.Ws = new WebSocket('ws://'+swoole_online_config.onlineLitenIp+':'+swoole_online_config.onlineLitenPort);
     } else {
         WEB_SOCKET_SWF_LOCATION = "/lib/flash-websocket/WebSocketMain.swf";
         $.getScript("/lib/flash-websocket/swfobject.js", function () {
             $.getScript("/lib/flash-websocket/web_socket.js", function () {
-                org.Online.Ws = new WebSocket('ws://192.168.199.128:9502');
+                org.Online.Ws = new WebSocket('ws://'+swoole_online_config.onlineLitenIp+':'+swoole_online_config.onlineLitenPort);
             });
         });
     }

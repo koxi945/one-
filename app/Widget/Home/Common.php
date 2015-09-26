@@ -27,7 +27,12 @@ class Common
     {
         $domain = config('sys.sys_blog_domain');
         $jsCookieDomain = str_replace("www", "", $domain);
-        return view('home.widget.header', compact('headerObject', 'jsCookieDomain'));
+        $onlineLitenIp = config('swoole.online_listen_ip');
+        $onlineLitenPort = config('swoole.online_listen_port');
+        $swooleConfig = compact('onlineLitenIp', 'onlineLitenPort');
+        return view('home.widget.header',
+            compact('headerObject', 'jsCookieDomain', 'swooleConfig')
+        );
     }
 
     /**
