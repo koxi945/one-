@@ -45,14 +45,14 @@ class TagsController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id'))
+        if( ! $id = Request::input('id')) {
             return responseJson(Lang::get('common.action_error'));
+        }
 
         if( ! is_array($id)) $id = array($id);
         $id = array_map('intval', $id);
         
-        if($this->tagProcess->delete($id))
-        {
+        if($this->tagProcess->delete($id)) {
             $this->setActionLog(['id' => $id]);
             return responseJson(Lang::get('common.action_success'), true);
         }

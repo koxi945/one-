@@ -75,8 +75,7 @@ class CategoryController extends Controller
     {
         $this->categorySaveParam->setAttributes(Request::input('data'));
 
-        if($this->categoryProcess->addCategory($this->categorySaveParam) !== false)
-        {
+        if($this->categoryProcess->addCategory($this->categorySaveParam) !== false) {
             $this->setActionLog(['param' => $this->categorySaveParam]);
             return Js::locate(R('common', 'blog.category.index'), 'parent');
         }
@@ -89,19 +88,22 @@ class CategoryController extends Controller
      */
     public function edit()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->updateDatasToDatabase();
+        }
 
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
 
         $id = Request::input('id');
-        if( ! $id or ! is_numeric($id))
+        if( ! $id or ! is_numeric($id)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $info = $this->categoryModel->getOneById($id);
 
-        if(empty($info))
+        if(empty($info)) {
             return Js::error(Lang::get('category.not_found'));
+        }
 
         $formUrl = R('common', 'blog.category.edit');
         return view('admin.content.classifyadd',
@@ -119,13 +121,13 @@ class CategoryController extends Controller
         $httpReferer = Session::getOldInput('http_referer');
         $data = Request::input('data');
 
-        if( ! $data or ! is_array($data))
+        if( ! $data or ! is_array($data)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $this->categorySaveParam->setAttributes($data);
 
-        if($this->categoryProcess->editCategory($this->categorySaveParam)) 
-        {
+        if($this->categoryProcess->editCategory($this->categorySaveParam)) {
             $this->setActionLog(['param' => $this->categorySaveParam]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.category.index');
             return Js::locate($backUrl, 'parent');
@@ -141,13 +143,13 @@ class CategoryController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id'))
+        if( ! $id = Request::input('id')) {
             return responseJson(Lang::get('common.action_error'));
+        }
 
         if( ! is_array($id)) $id = array($id);
 
-        if($this->categoryProcess->detele($id))
-        {
+        if($this->categoryProcess->detele($id)) {
             $this->setActionLog(['id' => $id]);
             return responseJson(Lang::get('common.action_success'), true);
         }

@@ -173,13 +173,6 @@ class Process extends BaseProcess
     }
 
     /**
-     * current user or group permission id
-     * 
-     * @var array
-     */
-    private $hasPermissions;
-
-    /**
      * 取得当前用户的所拥有的权限id
      *
      * @param int $userId 用户的id
@@ -187,13 +180,12 @@ class Process extends BaseProcess
      */
     public function getUserAccessPermissionIds($userId)
     {
-        if( ! $this->hasPermissions) {
-            $userAcl = (new AccessModel())->getUserAccessPermission(intval($userId));
-            foreach($userAcl as $key => $value) {
-                $this->hasPermissions[] = $value['permission_id'];
-            }
+        $hasPermissions = [];
+        $userAcl = (new AccessModel())->getUserAccessPermission(intval($userId));
+        foreach($userAcl as $key => $value) {
+            $hasPermissions[] = $value['permission_id'];
         }
-        return $this->hasPermissions;
+        return $hasPermissions;
     }
 
     /**
@@ -239,13 +231,12 @@ class Process extends BaseProcess
      */
     public function getGroupAccessPermissionIds($groupId)
     {
-        if( ! $this->hasPermissions) {
-            $groupAcl = (new AccessModel())->getGroupAccessPermission(intval($groupId));
-            foreach($groupAcl as $key => $value) {
-                $this->hasPermissions[] = $value['permission_id'];
-            }
+        $hasPermissions = [];
+        $groupAcl = (new AccessModel())->getGroupAccessPermission(intval($groupId));
+        foreach($groupAcl as $key => $value) {
+            $hasPermissions[] = $value['permission_id'];
         }
-        return $this->hasPermissions;
+        return $hasPermissions;
     }
 
 }

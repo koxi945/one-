@@ -37,13 +37,11 @@ class LoginController extends Controller
         $username = Request::input('username');
         $password = Request::input('password');
         $callback = Request::input('callback');
-        if($error = $loginProcess->getProcess()->validate($username, $password))
-        {
+        if($error = $loginProcess->getProcess()->validate($username, $password)) {
             return response()->json(['msg' => $error, 'result' => false])->setCallback($callback);
         }
         //开始登录验证
-        if($userInfo = $loginProcess->getProcess()->check($username, $password))
-        {
+        if($userInfo = $loginProcess->getProcess()->check($username, $password)) {
             //设置用户的权限
             SC::setUserPermissionSession($aclObj->getUserAccessPermission($userInfo));
         }

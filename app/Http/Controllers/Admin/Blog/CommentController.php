@@ -53,15 +53,15 @@ class CommentController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id'))
+        if( ! $id = Request::input('id')) {
             return responseJson(Lang::get('common.action_error'));
+        }
 
         $id = array_map('intval', (array) $id);
 
         $comment = $this->commentModel->getCommentInIds($id);
 
-        if($this->commentProcess->delete($id))
-        {
+        if($this->commentProcess->delete($id)) {
             $this->setActionLog(['comment' => $comment]);
             return responseJson(Lang::get('common.action_success'), true);
         }
@@ -95,8 +95,7 @@ class CommentController extends Controller
 
         $insertId = $this->commentProcess->addComment($data);
         
-        if($insertId !== false)
-        {
+        if($insertId !== false) {
             $this->setActionLog(['replyid' => $data['replyid'], 'object_id' => $data['object_id'], 'content' => $data['content']]);
             return Js::execute('window.parent.loadComment('.$insertId.');');
         }

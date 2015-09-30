@@ -67,8 +67,7 @@ class IndexController extends Controller
         $data['addtime'] = time();
 
         $this->workflowSaveParam->setAttributes($data);
-        if($this->workflowProcess->addWorkflow($this->workflowSaveParam) !== false)
-        {
+        if($this->workflowProcess->addWorkflow($this->workflowSaveParam) !== false) {
             $this->setActionLog();
             return Js::locate(R('common', 'workflow.index.index'), 'parent');
         }
@@ -82,18 +81,21 @@ class IndexController extends Controller
      */
     public function edit()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->updateDatasToDatabase();
+        }
 
         $id = Request::input('id');
 
-        if( ! $id or ! is_numeric($id))
+        if( ! $id or ! is_numeric($id)) {
             return Js::error(Lang::get('common.illegal_operation'), true);
+        }
 
         $info = $this->workflowProcess->workflowInfo(['id' => $id]);
 
-        if(empty($info))
+        if(empty($info)) {
             return Js::error(Lang::get('workflow.workflow_not_found'));
+        }
 
         $formUrl = R('common', 'workflow.index.edit');
 
@@ -111,13 +113,13 @@ class IndexController extends Controller
     {
         $data = Request::input('data');
 
-        if( ! $data or ! is_array($data))
+        if( ! $data or ! is_array($data)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $this->workflowSaveParam->setAttributes($data);
 
-        if($this->workflowProcess->editWorkflow($this->workflowSaveParam))
-        {
+        if($this->workflowProcess->editWorkflow($this->workflowSaveParam)) {
             $this->setActionLog();
             return Js::locate(R('common', 'workflow.index.index'), 'parent');
         }
@@ -139,8 +141,7 @@ class IndexController extends Controller
 
         $info = $this->workflowProcess->workflowInfos(['ids' => $id]);
 
-        if($this->workflowProcess->deleteWorkflow(['ids' => $id]))
-        {
+        if($this->workflowProcess->deleteWorkflow(['ids' => $id])) {
             $this->setActionLog(['workflowInfo' => $info]);
             return responseJson(Lang::get('common.action_success'), true);
         }

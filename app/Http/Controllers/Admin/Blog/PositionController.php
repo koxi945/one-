@@ -92,8 +92,7 @@ class PositionController extends Controller
     private function saveDatasToDatabase()
     {
         $this->pSave->setAttributes((array) Request::input('data'));
-        if($this->pProcess->addPosition($this->pSave) !== false)
-        {
+        if($this->pProcess->addPosition($this->pSave) !== false) {
             $this->setActionLog(['param' => $this->pSave]);
             return Js::locate(R('common', 'blog.position.index'), 'parent');
         }
@@ -105,20 +104,23 @@ class PositionController extends Controller
      */
     public function edit()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->updateDatasToDatabase();
+        }
 
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
 
         $id = Request::input('id');
 
-        if( ! $id or ! is_numeric($id))
+        if( ! $id or ! is_numeric($id)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $info = $this->positionModel->getOneById($id);
 
-        if(empty($info))
+        if(empty($info)) {
             return Js::error(Lang::get('position.not_found'));
+        }
 
         $formUrl = R('common', 'blog.position.edit');
         return view('admin.content.positionadd',
@@ -137,13 +139,13 @@ class PositionController extends Controller
 
         $data = Request::input('data');
 
-        if( ! $data or ! is_array($data))
+        if( ! $data or ! is_array($data)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $this->pSave->setAttributes($data);
 
-        if($this->pProcess->editPosition($this->pSave))
-        {
+        if($this->pProcess->editPosition($this->pSave)) {
             $this->setActionLog(['param' => $this->pSave]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.position.index');
             return Js::locate($backUrl, 'parent');
@@ -159,13 +161,13 @@ class PositionController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id'))
+        if( ! $id = Request::input('id')) {
             return responseJson(Lang::get('common.action_error'));
+        }
 
         $id = array_map('intval', (array) $id);
 
-        if($this->pProcess->detele($id))
-        {
+        if($this->pProcess->detele($id)) {
             $this->setActionLog(['id' => $id]);
             return responseJson(Lang::get('common.action_success'), true);
         }
@@ -192,15 +194,15 @@ class PositionController extends Controller
      */
     public function delrelation()
     {
-        if( ! $prid = Request::input('prid'))
+        if( ! $prid = Request::input('prid')) {
             return responseJson(Lang::get('common.action_error'));
+        }
 
         if( ! is_array($prid)) $prid = array($prid);
 
         $posArticle = $this->prModel->getPositionArticleInIds($prid);
 
-        if($this->pProcess->delRelation($prid))
-        {
+        if($this->pProcess->delRelation($prid)) {
             $this->setActionLog(['posArticle' => $posArticle]);
             return responseJson(Lang::get('common.action_success'), true);
         }
@@ -216,15 +218,15 @@ class PositionController extends Controller
         $data = (array) Request::input('data');
         $prid = '';
 
-        foreach($data as $key => $value)
-        {
+        foreach($data as $key => $value) {
             $prid = $value['prid'];
             $update = $this->pProcess->sortRelation($value['prid'], $value['sort']);
             if($update === false) $err = true;
         }
 
-        if(isset($err))
+        if(isset($err)) {
             return responseJson(Lang::get('common.action_error'));
+        }
 
         $this->setActionLog(['prid' => $prid]);
 

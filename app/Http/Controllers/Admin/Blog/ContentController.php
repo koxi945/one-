@@ -115,8 +115,9 @@ class ContentController extends Controller
      */
     public function add()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->saveDatasToDatabase();
+        }
 
         $classifyInfo = $this->categoryModel->activeCategory();
         $formUrl = R('common', 'blog.content.add');
@@ -138,8 +139,7 @@ class ContentController extends Controller
 
         $this->contentSave->setAttributes($data);
 
-        if($this->contentProcess->addContent($this->contentSave) !== false)
-        {
+        if($this->contentProcess->addContent($this->contentSave) !== false) {
             $this->setActionLog(['param' => $this->contentSave]);
             return Js::locate(R('common', 'blog.content.index'), 'parent');
         }
@@ -154,8 +154,9 @@ class ContentController extends Controller
      */
     public function delete()
     {
-        if( ! $id = Request::input('id'))
+        if( ! $id = Request::input('id')) {
             return responseJson(Lang::get('common.action_error'));
+        }
 
         $id = array_map('intval', (array) $id);
 
@@ -176,20 +177,23 @@ class ContentController extends Controller
      */
     public function edit()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->updateDatasToDatabase();
+        }
 
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
 
         $id = Request::input('id');
 
-        if( ! $id or ! is_numeric($id))
+        if( ! $id or ! is_numeric($id)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $info = $this->contentModel->getContentDetailByArticleId($id);
 
-        if(empty($info))
+        if(empty($info)) {
             return Js::error(Lang::get('content.not_found'));
+        }
 
         $classifyInfo = $this->categoryModel->activeCategory();
         $info = $this->joinArticleClassify($info);
@@ -253,8 +257,7 @@ class ContentController extends Controller
         $this->contentSave->setAttributes($data);
 
         $id = intval(Request::input('id'));
-        if($this->contentProcess->editContent($this->contentSave, $id) !== false)
-        {
+        if($this->contentProcess->editContent($this->contentSave, $id) !== false) {
             $this->setActionLog(['param' => $this->contentSave]);
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'blog.content.index');
             return Js::locate($backUrl, 'parent');
@@ -271,8 +274,7 @@ class ContentController extends Controller
         $ids = array_map('intval', (array) Request::input('ids'));
         $pids = array_map('intval', (array) Request::input('pids'));
 
-        if($this->contentProcess->articlePositionRelation($ids, $pids) !== false)
-        {
+        if($this->contentProcess->articlePositionRelation($ids, $pids) !== false) {
             $info = $this->contentModel->getArticleInIds($ids);
             $position = $this->positionModel->getPositionInIds($pids);
             $this->setActionLog(['info' => $info, 'position' => $position]);

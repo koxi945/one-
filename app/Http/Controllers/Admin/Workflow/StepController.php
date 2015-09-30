@@ -43,13 +43,15 @@ class StepController extends Controller
     {
         $workflowId = Request::input('id');
 
-        if( ! $workflowId or ! is_numeric($workflowId))
+        if( ! $workflowId or ! is_numeric($workflowId)) {
             return Js::error(Lang::get('common.illegal_operation'), true);
+        }
 
     	$workflowInfo = $this->workflowProcess->workflowInfo(['id' => $workflowId]);
 
-        if(empty($workflowInfo))
+        if(empty($workflowInfo)) {
             return Js::error(Lang::get('common.illegal_operation'), true);
+        }
 
         $list = $this->workflowProcess->workflowStepInfos(['workflow_id' => $workflowId, 'join_user' => true ]);
     	$page = $list->setPath('')->appends(Request::all())->render();
@@ -64,17 +66,20 @@ class StepController extends Controller
      */
     public function add()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->saveDatasToDatabase();
+        }
 
         $workflowId = Request::input('id');
 
-        if( ! $workflowId or ! is_numeric($workflowId))
+        if( ! $workflowId or ! is_numeric($workflowId)) {
             return Js::error(Lang::get('common.illegal_operation'), true);
+        }
 
         $workflowInfo = $this->workflowProcess->workflowInfo(['id' => $workflowId]);
-        if(empty($workflowInfo))
+        if(empty($workflowInfo)) {
             return Js::error(Lang::get('common.illegal_operation'), true);
+        }
 
         $stepList = $this->workflowProcess->workflowStepLevelList();
         $formUrl = R('common', 'workflow.step.add');
@@ -100,8 +105,7 @@ class StepController extends Controller
 
         $this->wstepSave->setAttributes($data);
 
-        if($this->workflowProcess->addWorkflowStep($this->wstepSave) !== false)
-        {
+        if($this->workflowProcess->addWorkflowStep($this->wstepSave) !== false) {
             $this->setActionLog();
             return Js::locate(R('common', 'workflow.step.index', ['id' => $workflowId]), 'parent');
         }
@@ -116,23 +120,27 @@ class StepController extends Controller
      */
     public function edit()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->updateDatasToDatabase();
+        }
 
         $stepId = (int) Request::input('stepid');
         $workflow_Id = (int) Request::input('workflow_id');
 
-        if( ! $stepId or ! is_numeric($stepId))
+        if( ! $stepId or ! is_numeric($stepId)) {
             return Js::error(Lang::get('common.illegal_operation'), true);
+        }
 
         $workflowInfo = $this->workflowProcess->workflowInfo(['id' => $workflow_Id]);
-        if(empty($workflowInfo))
+        if(empty($workflowInfo)) {
             return Js::error(Lang::get('common.illegal_operation'), true);
+        }
 
         $stepList = $this->workflowProcess->workflowStepLevelList();
         $info = $this->workflowProcess->workflowStepInfo(['id' => $stepId]);
-        if(empty($info))
+        if(empty($info)) {
             return Js::error(Lang::get('workflow.step_not_found'), true);
+        }
 
         $formUrl = R('common', 'workflow.step.edit');
 
@@ -154,15 +162,15 @@ class StepController extends Controller
         $workflowId = (int) Request::input('workflow_id');
         $data = Request::input('data');
 
-        if( ! $data or ! is_array($data))
+        if( ! $data or ! is_array($data)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $data['id'] = $stepId;
         $data['workflow_id'] = $workflowId;
         $this->wstepSave->setAttributes($data);
 
-        if($this->workflowProcess->editWorkflowStep($this->wstepSave))
-        {
+        if($this->workflowProcess->editWorkflowStep($this->wstepSave)) {
             $this->setActionLog();
             return Js::locate(R('common', 'workflow.step.index', ['id' => $workflowId]), 'parent');
         }
@@ -183,8 +191,7 @@ class StepController extends Controller
         $id = array_map('intval', (array) $id);
 
         $info = $this->workflowProcess->workflowStepInfos(['ids' => $id]);
-        if($this->workflowProcess->deleteWorkflowStep(['ids' => $id]))
-        {
+        if($this->workflowProcess->deleteWorkflowStep(['ids' => $id])) {
             $this->setActionLog(['workflowStepInfo' => $info]);
             return responseJson(Lang::get('common.action_success'), true);
         }
@@ -198,26 +205,28 @@ class StepController extends Controller
      */
     public function relation()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->setRelation();
+        }
 
         $stepId = (int) Request::input('stepid');
         $workflowId = (int) Request::input('workflow_id');
 
-        if( ! $stepId or ! $workflowId)
+        if( ! $stepId or ! $workflowId) {
             return Js::error(Lang::get('common.illegal_operation'), true);
+        }
 
         $info = $this->workflowProcess->workflowStepInfo(['id' => $stepId]);
 
-        if(empty($info) or $info['workflow_id'] != $workflowId)
+        if(empty($info) or $info['workflow_id'] != $workflowId) {
             return Js::error(Lang::get('common.illegal_operation'), true);
+        }
 
         $userList = (new \App\Services\Admin\User\Process())->getWorkflowUser(['nums' => 30]);
         $page = $userList->setPath('')->appends(Request::all())->render();
         $hasRelationUser = $this->workflowProcess->hasRelationUser($stepId);
 
-        foreach($userList as $key => $val)
-        {
+        foreach($userList as $key => $val) {
             if(in_array($val['id'], $hasRelationUser)) $userList[$key]['selected'] = true;
             else $userList[$key]['selected'] = false;
         }
@@ -240,20 +249,22 @@ class StepController extends Controller
         $workflowId = (int) Request::input('workflowId');
         $userIds = Request::input('ids');
 
-        if( ! $userIds)
+        if( ! $userIds) {
             return Js::error(Lang::get('workflow.relation_user_empty'));
+        }
 
-        if( ! $stepId or ! $workflowId or ! is_array($userIds))
+        if( ! $stepId or ! $workflowId or ! is_array($userIds)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $userIds = array_map('intval', $userIds);
         $stepInfo = $this->workflowProcess->workflowStepInfo(['id' => $stepId]);
 
-        if(empty($stepInfo))
+        if(empty($stepInfo)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
-        if($this->workflowProcess->setRelation($workflowId, $stepId, $userIds))
-        {
+        if($this->workflowProcess->setRelation($workflowId, $stepId, $userIds)) {
             $this->setActionLog(['userIds' => $userIds, 'stepInfo' => $stepInfo]);
             return Js::alert(Lang::get('common.action_success'));
         }

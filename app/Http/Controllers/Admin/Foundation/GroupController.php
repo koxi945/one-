@@ -68,8 +68,9 @@ class GroupController extends Controller
      */
     public function add()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->saveDatasToDatabase();
+        }
 
         $formUrl = R('common', 'foundation.group.add');
         return view('admin.group.add', compact('formUrl'));
@@ -82,10 +83,8 @@ class GroupController extends Controller
      */
     private function saveDatasToDatabase()
     {
-        $data = (array) Request::input('data');
-        $this->groupSave->setAttributes($data);
-        if($this->groupProcess->addGroup($this->groupSave) !== false)
-        {
+        $this->groupSave->setAttributes(Request::input('data'));
+        if($this->groupProcess->addGroup($this->groupSave) !== false) {
             $this->setActionLog();
             return Js::locate(R('common', 'foundation.group.index'), 'parent');
         }
@@ -101,23 +100,24 @@ class GroupController extends Controller
     {
         $id = (array) Request::input('id');
 
-        foreach($id as $key => $value)
-        {
-            if( ! ($id[$key] = url_param_decode($value)) )
+        foreach($id as $key => $value) {
+            if( ! ($id[$key] = url_param_decode($value)) ) {
                 return responseJson(Lang::get('common.action_error'));
+            }
         }
 
         $id = array_map('intval', $id);
 
         $groupInfos = $this->groupModel->getGroupInIds($id);
 
-        if($this->groupProcess->detele($id))
-        {
+        if($this->groupProcess->detele($id)) {
             $this->setActionLog(['groupInfos' => $groupInfos]);
             return responseJson(Lang::get('common.action_success'), true);
         }
 
-        return responseJson($this->groupProcess->getErrorMessage());
+        return responseJson(
+            $this->groupProcess->getErrorMessage()
+        );
     }
     
     /**
@@ -127,22 +127,26 @@ class GroupController extends Controller
      */
     public function edit()
     {
-        if(Request::method() == 'POST')
+        if(Request::method() == 'POST') {
             return $this->updateDatasToDatabase();
+        }
 
         Session::flashInput(['http_referer' => Session::getOldInput('http_referer')]);
 
         $id = Request::input('id');
         $groupId = url_param_decode($id);
-        if( ! $groupId or ! is_numeric($groupId))
+        if( ! $groupId or ! is_numeric($groupId)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $groupInfo = $this->groupModel->getOneGroupById($groupId);
-        if(empty($groupInfo))
+        if(empty($groupInfo)) {
             return Js::error(Lang::get('group.group_not_found'));
+        }
 
-        if( ! (new Acl())->checkGroupLevelPermission($groupId, Acl::GROUP_LEVEL_TYPE_GROUP))
+        if( ! (new Acl())->checkGroupLevelPermission($groupId, Acl::GROUP_LEVEL_TYPE_GROUP)) {
             return Js::error(Lang::get('common.account_level_deny'), true);
+        }
         
         $formUrl = R('common', 'foundation.group.edit');
 
@@ -161,13 +165,13 @@ class GroupController extends Controller
         $httpReferer = Session::getOldInput('http_referer');
         $data = Request::input('data');
 
-        if( ! $data or ! is_array($data))
+        if( ! $data or ! is_array($data)) {
             return Js::error(Lang::get('common.illegal_operation'));
+        }
 
         $this->groupSave->setAttributes($data);
 
-        if($this->groupProcess->editGroup($this->groupSave))
-        {
+        if($this->groupProcess->editGroup($this->groupSave)) {
             $this->setActionLog();
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'foundation.group.index');
             return Js::locate($backUrl, 'parent');
