@@ -6,6 +6,7 @@ use App\Services\Admin\Acl\Acl as AclManager;
 use App\Models\Admin\Permission as PermissionModel;
 use App\Models\Admin\Access as AccessModel;
 use App\Services\Admin\BaseProcess;
+use App\Services\Admin\SC;
 
 /**
  * 权限菜单处理
@@ -56,19 +57,19 @@ class Process extends BaseProcess
      */
     public function addAcl(\App\Services\Admin\Acl\Param\AclSave $data)
     {
-        if( ! $this->aclValidate->add($data))
-        {
+        if( ! $this->aclValidate->add($data)) {
             return $this->setErrorMsg($this->aclValidate->getErrorMessage());
         }
-        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action))
-        {
+
+        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action)) {
             return $this->setErrorMsg(Lang::get('acl.acl_exists'));
         }
+
         $info = $this->permissionModel->getOnePermissionById(intval($data->pid));
         $data = $data->toArray();
         $data['level'] = $info['level'] + 1;
-        if($this->permissionModel->addPermission($data) === false)
-        {
+
+        if($this->permissionModel->addPermission($data) === false) {
             return $this->setErrorMsg(Lang::get('common.action_error'));
         }
         return true;
@@ -77,15 +78,27 @@ class Process extends BaseProcess
     /**
      * 删除权限菜单
      * 
-     * @param array $ids
+     * @param array $permissionId
      * @access public
      * @return boolean true|false
      */
-    public function detele($ids)
+    public function detele($permissionId)
     {
-        if( ! is_array($ids)) return false;
-        if($this->permissionModel->getSon($ids)) return $this->setErrorMsg(Lang::get('acl.acl_has_son'));
-        if($this->permissionModel->deletePermission($ids) !== false) return true;
+        if( ! is_array($permissionId)) return false;
+
+        foreach ($permissionId as $key => $value) {
+            if( ! ($permissionId[$key] = url_param_decode($value)) ) {
+                return $this->setErrorMsg(Lang::get('common.action_error'));
+            }
+        }
+
+        $permissionId = array_map('intval', $permissionId);
+
+        if($this->permissionModel->getSon($permissionId)) {
+            return $this->setErrorMsg(Lang::get('acl.acl_has_son'));
+        }
+
+        if($this->permissionModel->deletePermission($permissionId) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
@@ -99,20 +112,22 @@ class Process extends BaseProcess
     public function editAcl(\App\Services\Admin\Acl\Param\AclSave $data)
     {
         $id = intval(url_param_decode($data->id)); unset($data->id);
+
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
-        if( ! $this->aclValidate->edit($data))
-        {
+
+        if( ! $this->aclValidate->edit($data)) {
             return $this->setErrorMsg($this->aclValidate->getErrorMessage());
         }
-        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action, false, $id))
-        {
+
+        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action, false, $id)) {
             return $this->setErrorMsg(Lang::get('acl.acl_exists'));
         }
+
         $info = $this->permissionModel->getOnePermissionById(intval($data->pid));
         $data = $data->toArray();
         $data['level'] = $info['level'] + 1;
-        if($this->permissionModel->editPermission($data, intval($id)) === false)
-        {
+
+        if($this->permissionModel->editPermission($data, intval($id)) === false) {
             return $this->setErrorMsg(Lang::get('common.action_error'));
         }
         return true;
@@ -127,17 +142,14 @@ class Process extends BaseProcess
      */
     private function setAcl(\App\Services\Admin\Acl\Param\AclSet $data, $type)
     {
-        if( ! (new Acl())->checkGroupLevelPermission($data->id, Acl::GROUP_LEVEL_TYPE_USER))
-        {
+        if( ! (new Acl())->checkGroupLevelPermission($data->id, Acl::GROUP_LEVEL_TYPE_USER)) {
             return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         }
-        //当前列表中的所有权限信息
         $allArr = array_map('intval', explode(',', $data->all));
-        //需要作更改的权限信息
         $permission = array_unique($data->permission);
         $ret = (new AccessModel())->setPermission($permission, intval($data->id), $allArr, $type);
-        if($ret) return true;
-        return $this->setErrorMsg(Lang::get('common.action_error'));
+        if( ! $ret) return $this->setErrorMsg(Lang::get('common.action_error'));
+        return true;
     }
 
     /**
@@ -158,6 +170,82 @@ class Process extends BaseProcess
     public function setGroupAcl(\App\Services\Admin\Acl\Param\AclSet $data)
     {
         return $this->setAcl($data, AccessModel::AP_GROUP);
+    }
+
+    /**
+     * current user or group permission id
+     * 
+     * @var array
+     */
+    private $hasPermissions;
+
+    /**
+     * 取得当前用户的所拥有的权限id
+     *
+     * @param int $userId 用户的id
+     * @return array
+     */
+    public function getUserAccessPermissionIds($userId)
+    {
+        if( ! $this->hasPermissions) {
+            $userAcl = (new AccessModel())->getUserAccessPermission(intval($userId));
+            foreach($userAcl as $key => $value) {
+                $this->hasPermissions[] = $value['permission_id'];
+            }
+        }
+        return $this->hasPermissions;
+    }
+
+    /**
+     * 为权限赋予页面准备ztree插件需要的数据
+     *
+     * @param array $permissionIds 所拥有的权限ID
+     * @return array
+     */
+    public function prepareDataForZtree($permissionIds)
+    {
+        $list = SC::getUserPermissionSession();
+        $zTree = [];
+        foreach($list as $key => $value) {
+            $arr = ['id' => $value['id'], 'pId' => $value['pid'], 'name' => $value['name'], 'open' => true];
+            if(in_array($value['id'], $permissionIds)) {
+                $arr['checked'] = true;
+            }
+            $zTree[] = $arr;
+        }
+        return $zTree;
+    }
+
+    /**
+     * 为权限赋予页面准备ztree插件需要的数据
+     * 
+     * @return array
+     */
+    public function prepareUserPermissionIds()
+    {
+        $list = SC::getUserPermissionSession();
+        $all = [];
+        foreach($list as $key => $value) {
+            $all[] = $value['id'];
+        }
+        return $all;
+    }
+
+    /**
+     * 取得当前用户组的所拥有的权限id
+     *
+     * @param int $groupId 用户的id
+     * @return array
+     */
+    public function getGroupAccessPermissionIds($groupId)
+    {
+        if( ! $this->hasPermissions) {
+            $groupAcl = (new AccessModel())->getGroupAccessPermission(intval($groupId));
+            foreach($groupAcl as $key => $value) {
+                $this->hasPermissions[] = $value['permission_id'];
+            }
+        }
+        return $this->hasPermissions;
     }
 
 }
