@@ -18,7 +18,7 @@
 
       <ul class="dropdown-menu">
         <li><a tabindex="-1" href="javascript:;" data-dialog-id="modify-password" class="modify-password">修改密码</a></li>
-        <li><a tabindex="-1" href="javascript:;" data-dialog-id="menu-map" class="menu-map">功能地图</a></li>
+        <li><a tabindex="-1" href="javascript:;" data-dialog-id="menu-map" class="menu-map">功能地图（ctrl + q）</a></li>
         <li class="divider"></li>
         <li><a tabindex="-1" href="<?php echo route('foundation.login.out'); ?>">退出</a></li>
       </ul>

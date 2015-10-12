@@ -18,7 +18,8 @@
                     <p class="text-sm p_h_info">
                         <span class="span_h_info">分类：</span><?php echo $info['classify']; ?> &nbsp&nbsp&nbsp
                         <span class="span_h_info">标签：</span><?php echo $info['tags']; ?> &nbsp&nbsp&nbsp
-                        <span class="span_h_info">发布时间：</span><?php echo showWriteTime($info['write_time']); ?>
+                        <span class="span_h_info">发布时间：</span><?php echo showWriteTime($info['write_time']); ?> &nbsp&nbsp&nbsp
+                        <span class="span_h_info">阅读数：</span><?php echo $views; ?>
                     </p>
                     <div class="h-detail-summary"><?php echo $info['summary']; ?></div>
                     <div class="main-article-detail">

@@ -133,4 +133,26 @@ class Process extends BaseProcess
         return $contentModel->articleNums();
     }
 
+    /**
+     * 每隔一段的时间更新一次文章浏览量到数据库
+     *
+     * @param int $currentViewNums 所要更新的阅读量
+     */
+    public function storeArticleViews($articleId, $currentViewNums)
+    {
+        if(empty($currentViewNums)) return false;
+        with(new ContentModel())->updateViewNums($articleId, $currentViewNums);
+    }
+
+    /**
+     * 文章的阅读数
+     * 
+     * @param  int $articleId 文章的id
+     */
+    public function articleViews($articleId)
+    {
+        $currentViewNums = Redis::get(RedisKey::ARTICLE_DETAIL_VIEW_ID.$articleId);
+        return empty($currentViewNums) ? 0 : $currentViewNums;
+    }
+
 }

@@ -6,6 +6,7 @@ use App\Events\Home\ArticleView as EventsArticleView;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Services\Home\Consts\RedisKey;
+use App\Services\Home\Content\Process as ContentProcess;
 use Request, Redis;
 
 class ArticleView
@@ -43,6 +44,11 @@ class ArticleView
     private function setArticleViews($articleId)
     {
         Redis::incr(RedisKey::ARTICLE_DETAIL_VIEW_ID.$articleId);
+        $currentViewNums = Redis::get(RedisKey::ARTICLE_DETAIL_VIEW_ID.$articleId);
+        $check = $currentViewNums % 10;
+        if($check == 0) {
+            with(new ContentProcess())->storeArticleViews($articleId, $currentViewNums);
+        }
     }
 
     /**

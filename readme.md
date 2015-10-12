@@ -13,6 +13,10 @@
 * php socket_server.php
 * php socket_server_for_flash.php
 
+5、当前用户在线人数，基于swoole扩展以及websocket，人数会进行广播更新，默认三分钟没有操作就当作下线，可以在config/swoole.php中修改这个时间
+
+6、文章浏览数，每10个更新一次到数据库。
+
 一、目录已有功能：
 
 - 1、文章发布及管理
@@ -24,14 +28,16 @@
 - 7、RSS
 - 8、七天热榜
 - 9、总榜
-- 8、当前用户在线人数，基于swoole扩展以及websocket，人数会进行广播更新，默认三分钟没有操作就当作下线，可以在config/swoole.php中修改这个时间
+- 10、当前用户在线人数
+- 11、文章浏览数
 
 二、近期计划的
 
 - 1、用户注册
-- 2、文章浏览数
 
 三、一点预览
+
+老图了，更多功能请见最新版本。
 
 ![enter image description here](http://static.oschina.net/uploads/space/2015/0913/220520_9hIP_1777357.png)
 ![enter image description here](http://static.oschina.net/uploads/space/2015/0913/220521_WUuX_1777357.png)

@@ -4,7 +4,6 @@
     <ul class="icons list-unstyled">
         <li>当前在线：<span class="blog-right-tongji-online">统计中...</span></li>
         <li>总文章数：<?php echo $articleNums; ?></li>
-        <li>博客pv：1000</li>
     </ul>
 </div>
 </div>

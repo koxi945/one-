@@ -1,7 +1,8 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Models\Home\Content as ContentModel;
-use Request;
+use App\Services\Home\Content\Process as ContentProcess;
+use Request, Redis;
 
 /**
  * 博客首页
@@ -33,7 +34,8 @@ class IndexController extends Controller
         $contentModel = new ContentModel();
         $info = $contentModel->getContentDetailByArticleId($articleId);
         event(new \App\Events\Home\ArticleView($articleId));
-        return header_cache(view('home.index.detail', compact('info')));
+        $views = with(new ContentProcess())->articleViews($articleId);
+        return header_cache(view('home.index.detail', compact('info', 'views')));
     }
 
 }

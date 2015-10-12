@@ -29,6 +29,20 @@ class Content extends Model
     protected $table = 'article_main';
 
     /**
+     * 关闭自动维护updated_at、created_at字段
+     * 
+     * @var boolean
+     */
+    public $timestamps = false;
+
+    /**
+     * 可以被集体附值的表的字段
+     *
+     * @var string
+     */
+    protected $fillable = array('id', 'count_view');
+
+    /**
      * 表前缀
      * 
      * @var string
@@ -165,6 +179,18 @@ class Content extends Model
     {
         $nums = $this->where('article_main.is_delete', self::IS_DELETE_NO)->where('article_main.status', self::STATUS_YES)->count();
         return $nums;
+    }
+
+    /**
+     * 更新文章的阅读量
+     *
+     * @param int $articleId 文章的id
+     * @param int $views 当前的文章阅读量
+     */
+    public function updateViewNums($articleId, $views)
+    {
+        $data = ['count_view' => $views];
+        return $this->where('id', '=', intval($articleId))->update($data);
     }
 
 }
