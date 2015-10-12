@@ -2,7 +2,7 @@
 
 return [
 
-	'online_listen_ip' => '192.168.121.129',
+	'online_listen_ip' => '192.168.93.209',
 
 	'online_listen_port' => 9502,
 

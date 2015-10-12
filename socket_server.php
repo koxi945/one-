@@ -80,7 +80,7 @@ class WebSocketServer {
      * @return string json data
      */
     private function handle($fd, $data, $onType = '') {
-        if( ! isset($data['controller'], $data['action'], $data['params'])) return $this->jsonResponse('params not set');
+        if( ! isset($data['controller'], $data['action'], $data['params'])) return false;
         $controller = ucfirst(strtolower($data['controller']));
         $action = strtolower($data['action']);
         $params = $data['params'];
@@ -89,7 +89,7 @@ class WebSocketServer {
             $classObject = new $touchClass($this->config);
             if(method_exists($classObject, $action)) return $classObject->$action($fd, $params, $onType);
         }
-        return $this->jsonResponse('not touch action');
+        return false;
     }
 
     /**
@@ -107,6 +107,7 @@ class WebSocketServer {
      */
     private function onMessage() {
         $this->serv->on('Message', function($server, $frame) {
+            echo "on message from {$frame->fd}, data {$frame->data}";
             $data = $this->receiveData = json_decode($frame->data, TRUE);
             $result = $this->handle($frame->fd, $data, 'onMessage');
             if( ! isset($result['fdList']) or ! is_array($result['fdList'])) return false;

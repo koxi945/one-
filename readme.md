@@ -6,7 +6,9 @@
 
 2、需要安装swoole扩展。
 
-3、为了支持当前用户在线功能，在根目录下启动swoole socket 服务器：
+3、配置下config/swoole.php侦听的端口。
+
+4、为了支持当前用户在线功能，在根目录下启动swoole socket 服务器：
 
 * php socket_server.php
 * php socket_server_for_flash.php
