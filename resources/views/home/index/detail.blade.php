@@ -2,6 +2,7 @@
 <?php $headerObject->description = $info['summary']; ?>
 <?php echo widget('Home.Common')->header($headerObject); ?>
     <div class="content col-md-9">
+        <?php echo widget('Home.Common')->topNav(); ?>
         <?php echo widget('Home.Common')->top(); ?>
         
         <div class="main-content">

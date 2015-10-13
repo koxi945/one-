@@ -46,6 +46,14 @@ class Common
     }
 
     /**
+     * top nav
+     */
+    public function topNav()
+    {
+        return view('home.widget.topNav');
+    }
+
+    /**
      * right
      */
     public function right()

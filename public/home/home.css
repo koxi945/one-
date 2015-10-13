@@ -1,6 +1,6 @@
 body {background: #21598A no-repeat; background-position:top; background-attachment:fixed;}
 div.header {height:70px;}
-div.content {float: none; margin:0 auto; border-left:none;}
+div.content {float: none; margin:0 auto; border-left:none; }
 #blog-posts div.row {padding-top: 10px; padding-bottom: 10px; border-bottom: 1px dashed #ccc;}
 #blog-posts h3.h_h3 a {color:#555;}
 p.p_h_summary {color:#999;}
@@ -42,3 +42,5 @@ div#detail-comment {margin-bottom: 20px;}
 /** 评论end*/
 
 .label { font-weight: normal;}
+
+div.common-top-nav {height: 35px; border-bottom: 1px solid #EEEEEE; margin-bottom: 25px; padding-bottom: 5px;}

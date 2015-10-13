@@ -15,12 +15,32 @@ use Route;
  */
 class Routes
 {
+    /**
+     * 后台域名
+     * 
+     * @var string
+     */
     private $adminDomain;
 
+    /**
+     * 博客域名
+     * 
+     * @var string
+     */
     private $wwwDomain;
 
+    /**
+     * 后台域名，没有前缀
+     * 
+     * @var string
+     */
     private $noPreDomain;
 
+    /**
+     * 搜索域名
+     * 
+     * @var string
+     */
     private $soDomain;
 
     /**
@@ -125,80 +145,11 @@ class Routes
         {
             Route::group(['domain' => $value, 'middleware' => ['csrf']], function() use ($key)
             {
-                $this->wwwHome();
-                $this->wwwArticleDetail();
-                $this->callWwwRoute();
+                require __DIR__ . '/RoutesHome.php';
                 $this->wwwCommon($key);
             });
         }
         return $this;
-    }
-
-    /**
-     * 博客首页
-     * 
-     * @access private
-     */
-    private function wwwHome()
-    {
-        Route::get('/', ['as' => 'blog.index.index', 'uses' => 'Home\IndexController@index']);
-    }
-
-    /**
-     * 文章详情页
-     * 
-     * @access private
-     */
-    private function wwwArticleDetail()
-    {
-        Route::get('/index/detail/{id}.html', ['as' => 'blog.index.detail', 'uses' => 'Home\IndexController@detail'])->where('id', '[0-9]+');
-    }
-
-    /**
-     * 统一一个地方来处理吧
-     *
-     * @access private
-     */
-    private function callWwwRoute()
-    {
-        $callArray = ['wwwCategory', 'wwwTag', 'wwwRss'];
-        foreach ($callArray as $key => $value)
-        {
-            if(method_exists($this, $value))
-            {
-                call_user_func(array($this, $value));
-            }
-        }
-    }
-
-    /**
-     * 分类显示
-     *
-     * @access private
-     */
-    private function wwwCategory()
-    {
-        Route::get('/category/list/{categoryid}.html', ['as' => 'blog.category.list', 'uses' => 'Home\IndexController@index'])->where('categoryid', '[0-9]+');
-    }
-
-    /**
-     * 分标签显示
-     *
-     * @access private
-     */
-    private function wwwTag()
-    {
-        Route::get('/tag/list/{tagid}.html', ['as' => 'blog.tag.list', 'uses' => 'Home\IndexController@index'])->where('tagid', '[0-9]+');
-    }
-
-    /**
-     * Rss
-     *
-     * @access private
-     */
-    private function wwwRss()
-    {
-        Route::get('/rss.xml', ['as' => 'blog.rss.index', 'uses' => 'Home\RssController@index']);
     }
 
     /**
