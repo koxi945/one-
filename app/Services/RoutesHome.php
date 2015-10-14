@@ -15,3 +15,7 @@ Route::get('/category/list/{categoryid}.html', ['as' => 'blog.category.list', 'u
 Route::get('/tag/list/{tagid}.html', ['as' => 'blog.tag.list', 'uses' => 'Home\IndexController@index'])->where('tagid', '[0-9]+');
 
 Route::get('/rss.xml', ['as' => 'blog.rss.index', 'uses' => 'Home\RssController@index']);
+
+//oauth login
+Route::get('/login.html', ['as' => 'blog.login', 'uses' => 'Home\MembersController@login']);
+Route::get('/login_back.html', ['as' => 'blog.login.back', 'uses' => 'Home\MembersController@loginback']);
