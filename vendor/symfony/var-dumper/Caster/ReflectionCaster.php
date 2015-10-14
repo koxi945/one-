@@ -36,7 +36,7 @@ class ReflectionCaster
      */
     public static function castReflector(\Reflector $c, array $a, Stub $stub, $isNested)
     {
-        trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.7 and will be removed in 3.0.', E_USER_DEPRECATED);
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.7 and will be removed in 3.0.', E_USER_DEPRECATED);
         $a[Caster::PREFIX_VIRTUAL.'reflection'] = $c->__toString();
 
         return $a;
@@ -109,6 +109,7 @@ class ReflectionCaster
 
         self::addMap($a, $c, array(
             'returnsReference' => 'returnsReference',
+            'returnType' => 'getReturnType',
             'class' => 'getClosureScopeClass',
             'this' => 'getClosureThis',
         ));
@@ -130,7 +131,7 @@ class ReflectionCaster
 
         if ($v = $c->getStaticVariables()) {
             foreach ($v as $k => &$v) {
-                $a[$prefix.'use']['$'.$k] =& $v;
+                $a[$prefix.'use']['$'.$k] = &$v;
             }
             unset($v);
         }
@@ -219,7 +220,7 @@ class ReflectionCaster
 
     private static function addExtra(&$a, \Reflector $c)
     {
-        $a =& $a[Caster::PREFIX_VIRTUAL.'extra'];
+        $a = &$a[Caster::PREFIX_VIRTUAL.'extra'];
 
         if (method_exists($c, 'getFileName') && $m = $c->getFileName()) {
             $a['file'] = $m;
