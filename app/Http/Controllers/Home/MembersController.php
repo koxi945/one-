@@ -80,6 +80,11 @@ class MembersController extends Controller
 
         $userInfo = $resourceOwner->toArray();
 
+        if(empty($userInfo) or ! isset($userInfo['id'])) {
+            $error = 'Invalid';
+            return view('home.login.denied', compact('error'));
+        }
+
         SC::setLoginSession($userInfo);
 
         return redirect(route('blog.index.index'));
