@@ -19,3 +19,4 @@ Route::get('/rss.xml', ['as' => 'blog.rss.index', 'uses' => 'Home\RssController@
 //oauth login
 Route::get('/login.html', ['as' => 'blog.login', 'uses' => 'Home\MembersController@login']);
 Route::get('/login_back.html', ['as' => 'blog.login.back', 'uses' => 'Home\MembersController@loginback']);
+Route::get('/login_out.html', ['as' => 'blog.login.out', 'uses' => 'Home\MembersController@logout']);

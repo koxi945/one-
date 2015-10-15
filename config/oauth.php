@@ -1,9 +1,9 @@
 <?php
 
 return [
-	'urlAuthorize' => 'http://login.opcache.net/oauth/authorize',
-	'urlAccessToken' => 'http://login.opcache.net/oauth/access_token',
-	'urlResourceOwnerDetails' => 'http://login.opcache.net/oauth/detail',
+	'urlAuthorize' => 'http://login.oauth.net/oauth/authorize',
+	'urlAccessToken' => 'http://login.oauth.net/oauth/access_token',
+	'urlResourceOwnerDetails' => 'http://login.oauth.net/oauth/detail',
 
 	'clientId' => 's6BhdRkqt3',
 	'clientSecret' => 'addfsdf123',

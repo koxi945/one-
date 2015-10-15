@@ -22,7 +22,7 @@ class IndexController extends Controller
     	$contentModel = new ContentModel();
     	$articleList = $contentModel->activeArticleInfo($object);
     	$page = $articleList->setPath('')->appends(Request::all())->render();
-        return header_cache(view('home.index.index', compact('articleList', 'page', 'object')));
+        return view('home.index.index', compact('articleList', 'page', 'object'));
     }
 
     /**
@@ -35,7 +35,7 @@ class IndexController extends Controller
         $info = $contentModel->getContentDetailByArticleId($articleId);
         event(new \App\Events\Home\ArticleView($articleId));
         $views = with(new ContentProcess())->articleViews($articleId);
-        return header_cache(view('home.index.detail', compact('info', 'views')));
+        return view('home.index.detail', compact('info', 'views'));
     }
 
 }

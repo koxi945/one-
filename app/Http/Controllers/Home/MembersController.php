@@ -44,6 +44,16 @@ class MembersController extends Controller
     }
 
     /**
+     * 登录退出
+     */
+    public function logout()
+    {
+        $manager = new \App\Services\Oauth\Process();
+        $manager->logout();
+        return redirect(route('blog.index.index'));
+    }
+
+    /**
      * 登陆的回调地址
      */
     public function loginback()
@@ -66,14 +76,18 @@ class MembersController extends Controller
             'code' => $code
         ]);
 
-        echo $accessToken->getToken() . "<br/>";
-        echo $accessToken->getRefreshToken() . "<br/>";
-        echo $accessToken->getExpires() . "<br/>";
-        echo ($accessToken->hasExpired() ? 'expired' : 'not expired') . "<br/>";
-
         $resourceOwner = $this->provider->getResourceOwner($accessToken);
-        var_export($resourceOwner->toArray());
 
+        $userInfo = $resourceOwner->toArray();
+
+        SC::setLoginSession($userInfo);
+
+        return redirect(route('blog.index.index'));
+
+        //echo $accessToken->getToken() . "<br/>";
+        //echo $accessToken->getRefreshToken() . "<br/>";
+        //echo $accessToken->getExpires() . "<br/>";
+        //echo ($accessToken->hasExpired() ? 'expired' : 'not expired') . "<br/>";
         /*$request = $this->provider->getAuthenticatedRequest(
             'GET',
             'http://brentertainment.com/oauth2/lockdin/resource',

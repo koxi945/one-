@@ -50,7 +50,9 @@ class Common
      */
     public function topNav()
     {
-        return view('home.widget.topNav');
+        $oauthProcess = new \App\Services\Oauth\Process();
+        $userInfo = $oauthProcess->checkLogin();
+        return view('home.widget.topNav', compact('userInfo'));
     }
 
     /**
