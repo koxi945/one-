@@ -39,7 +39,6 @@ class MembersController extends Controller
     public function login()
     {
         $authUrl = $this->provider->getAuthorizationUrl();
-        //dd($authUrl);
         SC::setOauthStat($this->provider->getState());
         return redirect($authUrl);
     }
