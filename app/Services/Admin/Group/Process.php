@@ -51,15 +51,13 @@ class Process extends BaseProcess
      * 增加新的用户组
      *
      * @param object $data
-     * @access public
      * @return boolean true|false
+     * @access public
      */
     public function addGroup(\App\Services\Admin\Group\Param\GroupSave $data)
     {
         if( ! $this->groupValidate->add($data)) return $this->setErrorMsg($this->groupValidate->getErrorMessage());
-        //检查当前用户的权限是否能增加这个用户组
-        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL))
-        {
+        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL)) {
             return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         }
         if($this->groupModel->addGroup($data->toArray()) !== false) return true;
@@ -70,19 +68,20 @@ class Process extends BaseProcess
      * 删除用户组
      * 
      * @param array $ids 用户组的id
-     * @access public
      * @return boolean true|false
+     * @access public
      */
     public function detele($ids)
     {
         if( ! is_array($ids)) return false;
-        foreach($ids as $key => $value)
-        {
-            if( ! $this->acl->checkGroupLevelPermission($value, Acl::GROUP_LEVEL_TYPE_GROUP))
+
+        foreach($ids as $key => $value) {
+            if( ! $this->acl->checkGroupLevelPermission($value, Acl::GROUP_LEVEL_TYPE_GROUP)) {
                 return $this->setErrorMsg(Lang::get('common.account_level_deny'));
+            }
         }
-        if($this->groupModel->deleteGroup($ids) !== false)
-        {
+
+        if($this->groupModel->deleteGroup($ids) !== false) {
             $accessModel = new AccessModel();
             $result = $accessModel->deleteInfo(['type' => AccessModel::AP_GROUP, 'role_id' => $ids]);
             return true;
@@ -94,22 +93,31 @@ class Process extends BaseProcess
      * 编辑用户组
      *
      * @param object $data
-     * @access public
      * @return boolean true|false
+     * @access public
      */
     public function editGroup(\App\Services\Admin\Group\Param\GroupSave $data)
     {
-        if( ! isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
+        if( ! isset($data->id)) {
+            return $this->setErrorMsg(Lang::get('common.action_error'));
+        }
+
         $id = intval(url_param_decode($data->id)); unset($data->id);
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
-        if( ! $this->groupValidate->edit($data)) return $this->setErrorMsg($this->groupValidate->getErrorMessage());
-        //检查当前用户的权限是否能增加这个用户
-        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL))
-        {
+
+        if( ! $this->groupValidate->edit($data)) {
+            return $this->setErrorMsg($this->groupValidate->getErrorMessage());
+        }
+
+        if( ! $this->acl->checkGroupLevelPermission($data->level, Acl::GROUP_LEVEL_TYPE_LEVEL)) {
             return $this->setErrorMsg(Lang::get('common.account_level_deny'));
         }
-        if($this->groupModel->editGroup($data->toArray(), $id) !== false) return true;
-        return $this->setErrorMsg(Lang::get('common.action_error'));
+
+        if($this->groupModel->editGroup($data->toArray(), $id) === false) {
+            return $this->setErrorMsg(Lang::get('common.action_error'));
+        }
+
+        return true;
     }
 
 }
