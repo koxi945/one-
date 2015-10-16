@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers\Home;
 
 use App\Services\OAuth\SC;
-use Request;
+use Request, Exception;
 
 /**
  * 用户相关的，包括注册，登陆。
@@ -72,34 +72,24 @@ class MembersController extends Controller
             return view('home.login.denied', compact('error'));
         }
 
-        $accessToken = $this->provider->getAccessToken('authorization_code', [
-            'code' => $code
-        ]);
+        try {
+            $accessToken = $this->provider->getAccessToken('authorization_code', [ 'code' => $code ]);
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
 
         $resourceOwner = $this->provider->getResourceOwner($accessToken);
 
         $userInfo = $resourceOwner->toArray();
 
         if(empty($userInfo) or ! isset($userInfo['id'])) {
-            $error = 'Invalid';
+            $error = 'unexpected error';
             return view('home.login.denied', compact('error'));
         }
 
         SC::setLoginSession($userInfo);
 
         return redirect(route('blog.index.index'));
-
-        //echo $accessToken->getToken() . "<br/>";
-        //echo $accessToken->getRefreshToken() . "<br/>";
-        //echo $accessToken->getExpires() . "<br/>";
-        //echo ($accessToken->hasExpired() ? 'expired' : 'not expired') . "<br/>";
-        /*$request = $this->provider->getAuthenticatedRequest(
-            'GET',
-            'http://brentertainment.com/oauth2/lockdin/resource',
-            $accessToken
-        );*/
-
-
     }
 
 }

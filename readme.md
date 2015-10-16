@@ -17,7 +17,7 @@
 
 6、文章浏览数，每10个更新一次到数据库。
 
-7、用户登陆使用的是http://git.oschina.net/ctk/laravel5_login，请先安装并配置config/oauth.php。
+7、用户登陆使用的是 `http://git.oschina.net/ctk/laravel5_login`，请先安装并配置 `config/oauth.php`。
 
 一、目录已有功能：
 
