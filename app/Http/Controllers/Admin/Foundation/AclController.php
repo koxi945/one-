@@ -90,6 +90,24 @@ class AclController extends Controller
 
         return responseJson($manager->getErrorMessage());
     }
+
+    /**
+     * 排序权限功能
+     *
+     * @access public
+     */
+    public function sort()
+    {
+        $sort = (array) Request::input('sort');
+
+        foreach($sort as $key => $value) {
+            if(with(new PermissionModel())->sortPermission($key, $value) === false) $err = true;
+        }
+
+        if(isset($err)) return Js::error(Lang::get('common.action_error'));
+
+        return Js::locate(R('common', 'foundation.acl.index'), 'parent');
+    }
     
     /**
      * 编辑权限功能
@@ -147,24 +165,6 @@ class AclController extends Controller
         return Js::error($manager->getErrorMessage());
     }
     
-    /**
-     * 排序权限功能
-     *
-     * @access public
-     */
-    public function sort()
-    {
-        $sort = (array) Request::input('sort');
-
-        foreach($sort as $key => $value) {
-            if(with(new PermissionModel())->sortPermission($key, $value) === false) $err = true;
-        }
-
-        if(isset($err)) return Js::error(Lang::get('common.action_error'));
-
-        return Js::locate(R('common', 'foundation.acl.index'), 'parent');
-    }
-
     /**
      * 对用户进行权限设置
      * 
