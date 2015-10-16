@@ -4,6 +4,7 @@ use App\Models\Admin\User as UserModel;
 use App\Models\Admin\Permission as PermissionModel;
 use App\Services\Admin\SC;
 use App\Services\Admin\Login\AbstractProcess;
+use App\Events\Admin\ActionLog;
 use Validator, Lang;
 use Request, Session;
 
@@ -40,61 +41,61 @@ class ProcessDefault extends AbstractProcess
     }
 
     /**
-     * 登录验证
+     * 登录验证，验证成功后会设置一些待用的session
      *
      * @param string $username 用户名
      * @param string $password 密码
+     * @return boolean false | 用户的信息
      * @access public
-     * @return boolean false|用户的信息
      */
     public function check($username, $password)
     {
         $userInfo = $this->userModel->InfoByName($username);
-        $sign = md5($userInfo['password'].$this->getPublicKey());
-        $this->delPublicKey();
+
+        $sign = md5($userInfo['password'] . $this->getPublicKey());
         if($sign != strtolower($password)) return false;
 
-        //更新最后登陆状态
         $data['last_login_time'] = time();
         $data['last_login_ip'] = Request::ip();
         $this->userModel->updateLastLoginInfo($userInfo->id, $data);
 
-        //设置一些session待用
         SC::setLoginSession($userInfo);
         SC::setUserCurrentTime();
         SC::setAllPermissionSession($this->permissionModel->getAllAccessPermission());
 
-        //记录日志
-        $log = new \App\Events\Admin\ActionLog(Lang::get('login.login_sys'), ['userInfo' => $userInfo]);
+        $log = new ActionLog(Lang::get('login.login_sys'), ['userInfo' => $userInfo]);
         event($log);
 
         return $userInfo;
     }
 
     /**
-     * 检测post过来的数据
+     * 检测post过来的数据是否满足需求
      * 
      * @param string $username 用户名
      * @param string $password 密码
-     * @access public
      * @return false|string
+     * @access public
      */
     public function validate($username, $password)
     {
         $this->checkCsrfToken();
+
         $data = array( 'username' => $username, 'password' => $password );
         $rules = array( 'username' => 'required|min:1', 'password' => 'required|min:1' );
+
         $messages = array(
             'username.required' => Lang::get('login.please_input_username'),
             'username.min' => Lang::get('login.please_input_username'),
             'password.required' => Lang::get('login.please_input_password'),
             'password.min' => Lang::get('login.please_input_password')
         );
+
         $validator = Validator::make($data, $rules, $messages);
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return $validator->messages()->first();
         }
+
         return false;
     }
 
@@ -102,11 +103,11 @@ class ProcessDefault extends AbstractProcess
      * 判断是否已经登录
      *
      * @return boolean true|false
+     * @access public
      */
     public function hasLogin()
     {
         $hasLogin = SC::getLoginSession();
-        
         return $hasLogin && $this->checkLeftTime();
     }
 
@@ -114,13 +115,12 @@ class ProcessDefault extends AbstractProcess
      * 判断用户多久没有操作了，是否需要退出
      * 
      * @return boolean
+     * @access private
      */
     private function checkLeftTime()
     {
         $userTime = SC::getUserCurrentTime();
-        $now = time();
-        if($now - $userTime > config('sys.sys_session_lefttime'))
-        {
+        if(time() - $userTime > config('sys.sys_session_lefttime')) {
             return false;
         }
         return true;
@@ -128,6 +128,8 @@ class ProcessDefault extends AbstractProcess
 
     /**
      * 手动的验证csrftoken
+     *
+     * @access private
      */
     private function checkCsrfToken()
     {
@@ -139,6 +141,7 @@ class ProcessDefault extends AbstractProcess
      * 设置并返回加密密钥
      *
      * @return string 密钥
+     * @access public
      */
     public function setPublicKey()
     {
@@ -149,16 +152,20 @@ class ProcessDefault extends AbstractProcess
      * 取得刚才设置的加密密钥
      * 
      * @return string 密钥
+     * @access public
      */
     public function getPublicKey()
     {
-        return SC::getPublicKey();
+        $key = SC::getPublicKey();
+        $this->delPublicKey();
+        return $key;
     }
 
     /**
      * 删除密钥
      * 
      * @return void
+     * @access public
      */
     public function delPublicKey()
     {
@@ -169,6 +176,7 @@ class ProcessDefault extends AbstractProcess
      * 登录退出
      *
      * @return void
+     * @access public
      */
     public function logout()
     {

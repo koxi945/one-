@@ -88,13 +88,13 @@ class Permission extends Base
     /**
      * 对指定ID的功能进行排序
      * 
-     * @param array $aclId 权限功能的ID
-     * @param array $sort 排序值
+     * @param int $aclId 权限功能的ID
+     * @param int $sort 排序值
      * @return boolean
      */
     public function sortPermission($aclId, $sort)
     {
-        return $this->where('id', '=', intval($aclId))->update(array('sort' => $sort));
+        return $this->where('id', '=', intval($aclId))->update(array('sort' => intval($sort)));
     }
     
     /**
