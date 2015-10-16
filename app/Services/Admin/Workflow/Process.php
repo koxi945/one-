@@ -82,17 +82,26 @@ class Process extends BaseProcess
      * 增加新的工作流
      *
      * @param object $data
-     * @access public
      * @return boolean true|false
+     * @access public
      */
     public function addWorkflow(\App\Services\Admin\Workflow\Param\WorkflowSave $data)
     {
-        if( ! $this->workflowValidate->add($data)) return $this->setErrorMsg($this->workflowValidate->getErrorMessage());
+        if( ! $this->workflowValidate->add($data)) {
+            return $this->setErrorMsg($this->workflowValidate->getErrorMessage());
+        }
+
         $checkCode = $this->workflowModel->getWorkflowInfo(['code' => $data->code]);
-        if( ! empty($checkCode)) return $this->setErrorMsg(Lang::get('workflow.code_exists'));
-        if( ! in_array($data->type, [WorkflowModel::W_TYPE_TIER, WorkflowModel::W_TYPE_ASSIST]))
+        if( ! empty($checkCode)) {
+            return $this->setErrorMsg(Lang::get('workflow.code_exists'));
+        }
+
+        if( ! in_array($data->type, [WorkflowModel::W_TYPE_TIER, WorkflowModel::W_TYPE_ASSIST])) {
             return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+        }
+
         if($this->workflowModel->addWorkflow($data->toArray()) !== false) return true;
+
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
@@ -100,20 +109,29 @@ class Process extends BaseProcess
      * 编辑工作流
      *
      * @param object $data
-     * @access public
      * @return boolean true|false
+     * @access public
      */
     public function editWorkflow(\App\Services\Admin\Workflow\Param\WorkflowSave $data)
     {
-        if( ! isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
         $id = $data->id; unset($data->id);
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+
         $checkCode = $this->workflowModel->getWorkflowInfo(['code' => $data->code, 'self' => false, 'self_id' => $id]);
-        if( ! empty($checkCode)) return $this->setErrorMsg(Lang::get('workflow.code_exists'));
-        if( ! in_array($data->type, [WorkflowModel::W_TYPE_TIER, WorkflowModel::W_TYPE_ASSIST]))
+        if( ! empty($checkCode)) {
+            return $this->setErrorMsg(Lang::get('workflow.code_exists'));
+        }
+
+        if( ! in_array($data->type, [WorkflowModel::W_TYPE_TIER, WorkflowModel::W_TYPE_ASSIST])) {
             return $this->setErrorMsg(Lang::get('common.illegal_operation'));
-        if( ! $this->workflowValidate->edit($data)) return $this->setErrorMsg($this->workflowValidate->getErrorMessage());
+        }
+
+        if( ! $this->workflowValidate->edit($data)) {
+            return $this->setErrorMsg($this->workflowValidate->getErrorMessage());
+        }
+
         if($this->workflowModel->editWorkflow($data->toArray(), $id) !== false) return true;
+
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
@@ -126,21 +144,23 @@ class Process extends BaseProcess
      */
     public function deleteWorkflow($where)
     {
-        if(isset($where['ids'])) $ids = array_map('intval', $where['ids']);
+        if(isset($where['ids'])) {
+            $ids = array_map('intval', $where['ids']);
+        }
+
         if(isset($ids))
         {
             $result = $this->workflowModel->deleteWorkflow($ids);
-            if($result !== false)
-            {
+            if($result !== false) {
                 $modelStepUser = new \App\Models\Admin\WorkflowStepUser();
-                foreach($ids as $workflowId)
-                {
+                foreach($ids as $workflowId) {
                     $this->workflowStepModel->commonDelete(['workflow_id' => $workflowId]);
                     $modelStepUser->commonDelete(['workflow_id' => $workflowId]);
                 }
             }
             return true;
         }
+
         return false;
     }
 
@@ -152,22 +172,25 @@ class Process extends BaseProcess
      */
     public function workflowStepInfos($where = [])
     {
-        if(isset($where['ids'])) return $this->workflowStepModel->getWorkflowStepInIds($where['ids']);
+        if(isset($where['ids'])) {
+            return $this->workflowStepModel->getWorkflowStepInIds($where['ids']);
+        }
+
         $result = $this->workflowStepModel->getAllWorkflowStepByPage($where);
+
         if(isset($where['join_user']))
         {
             $modelStepUser = new \App\Models\Admin\WorkflowStepUser();
-            foreach($result as $key => $val)
-            {
+            foreach($result as $key => $val) {
                 $userInfo = $modelStepUser->getWorkflowStepUsersJoinUsersByStepId($val['id']);
                 $relationUsers = [];
-                foreach($userInfo as $user)
-                {
+                foreach($userInfo as $user) {
                     $relationUsers[] = $user['realname'];
                 }
                 $result[$key]['relatioin_users'] = implode(',', $relationUsers);
             }
         }
+
         return $result;
     }
 
@@ -200,21 +223,23 @@ class Process extends BaseProcess
      */
     public function addWorkflowStep(\App\Services\Admin\Workflow\Param\WorkflowStepSave $data)
     {
-        if( ! empty($data['step_level']))
-        {
-            if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') ))
+        if( ! empty($data['step_level'])) {
+            if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') )) {
                 return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+            }
         }
         
-        if( ! $this->workflowStepValidate->add($data)) return $this->setErrorMsg($this->workflowStepValidate->getErrorMessage());
+        if( ! $this->workflowStepValidate->add($data)) {
+            return $this->setErrorMsg($this->workflowStepValidate->getErrorMessage());
+        }
 
-        if( ! empty($data->code))
-        {
+        if( ! empty($data->code)) {
             $checkCode = $this->workflowStepModel->getWorkflowStepInfo(['code' => $data->code]);
             if( ! empty($checkCode)) return $this->setErrorMsg(Lang::get('workflow.code_exists'));
         }
 
         if($this->workflowStepModel->addWorkflowStep($data->toArray()) !== false) return true;
+
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
@@ -238,23 +263,26 @@ class Process extends BaseProcess
      */
     public function editWorkflowStep(\App\Services\Admin\Workflow\Param\WorkflowStepSave $data)
     {
-        if( ! isset($data->id)) return $this->setErrorMsg(Lang::get('common.action_error'));
-        if( ! empty($data['step_level']))
-        {
-            if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') ))
+        if( ! empty($data['step_level'])) {
+            if( ! in_array($data['step_level'], array_fetch($this->workflowStepLevelList(), 'step_level') )) {
                 return $this->setErrorMsg(Lang::get('common.illegal_operation'));
+            }
         }
+
         $id = $data->id; unset($data->id);
         if( ! $id) return $this->setErrorMsg(Lang::get('common.illegal_operation'));
-        if( ! $this->workflowStepValidate->edit($data)) return $this->setErrorMsg($this->workflowStepValidate->getErrorMessage());
 
-        if( ! empty($data->code))
-        {
+        if( ! $this->workflowStepValidate->edit($data)) {
+            return $this->setErrorMsg($this->workflowStepValidate->getErrorMessage());
+        }
+
+        if( ! empty($data->code)) {
             $checkCode = $this->workflowStepModel->getWorkflowStepInfo(['code' => $data->code, 'self' => false, 'self_id' => $id]);
             if( ! empty($checkCode)) return $this->setErrorMsg(Lang::get('workflow.code_exists'));
         }
 
         if($this->workflowStepModel->editWorkflowStep($data->toArray(), $id) !== false) return true;
+
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
@@ -295,8 +323,7 @@ class Process extends BaseProcess
         $model = new \App\Models\Admin\WorkflowStepUser();
         $list = $model->getWorkflowStepUsers(['step_id' => intval($stepId)]);
         $ids = [];
-        foreach($list as $key => $val)
-        {
+        foreach($list as $key => $val) {
             $ids[] = $val['user_id'];
         }
         return $ids;
@@ -315,8 +342,7 @@ class Process extends BaseProcess
         {
             if( ! is_array($userIds)) return false;
             $insertData = [];
-            foreach($userIds as $key => $val)
-            {
+            foreach($userIds as $key => $val) {
                 $insertData[] = ['workflow_step_id' => $stepId, 'user_id' => $val, 'workflow_id' => $workflowId];
             }
             return $model->addWorkflowStepUser($insertData);
