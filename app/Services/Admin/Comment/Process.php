@@ -2,7 +2,7 @@
 
 use Lang;
 use App\Models\Admin\Comment as CommentModel;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 use App\Services\Admin\Comment\Validate\Comment as CommentValidate;
 
 /**

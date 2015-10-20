@@ -3,7 +3,7 @@
 use Lang;
 use App\Services\Home\Search\Sphinx;
 use App\Libraries\Spliter;
-use App\Services\Home\BaseProcess;
+use App\Services\BaseProcess;
 
 /**
  * 搜索处理

@@ -34,7 +34,6 @@ class MembersController extends Controller
 
     /**
      * 用户的页面
-     * @return [type] [description]
      */
     public function login()
     {
@@ -90,6 +89,15 @@ class MembersController extends Controller
         SC::setLoginSession($userInfo);
 
         return redirect(route('blog.index.index'));
+    }
+
+    /**
+     * 注册
+     */
+    public function reg()
+    {
+        $redirectUri = config('oauth.regUrl').'?redirectUri='.urlencode(route('blog.index.index'));
+        return redirect($redirectUri);
     }
 
 }

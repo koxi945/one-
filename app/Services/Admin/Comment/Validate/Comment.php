@@ -1,7 +1,7 @@
 <?php namespace App\Services\Admin\Comment\Validate;
 
 use Validator, Lang;
-use App\Services\Admin\BaseValidate;
+use App\Services\BaseValidate;
 
 /**
  * 功能表单验证

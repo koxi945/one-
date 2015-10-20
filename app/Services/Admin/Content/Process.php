@@ -12,7 +12,7 @@ use App\Models\Admin\Category as CategoryModel;
 use App\Services\Admin\Content\Validate\Content as ContentValidate;
 use App\Services\Admin\SC;
 use App\Libraries\Spliter;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 use App\Services\Admin\Content\Param\ContentSave;
 
 /**

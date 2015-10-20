@@ -6,9 +6,9 @@
  * @author jiang
  */
 
-namespace App\Services\Home;
+namespace App\Services;
 
-use App\Services\Home\AbstractService;
+use App\Services\AbstractService;
 
 class BaseProcess extends AbstractService
 {

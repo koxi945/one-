@@ -3,7 +3,7 @@
 use Lang, Redis;
 use App\Models\Home\Content as ContentModel;
 use App\Libraries\Js;
-use App\Services\Home\BaseProcess;
+use App\Services\BaseProcess;
 use App\Services\Home\Consts\RedisKey;
 use Suin\RSSWriter\Channel;
 use Suin\RSSWriter\Feed;

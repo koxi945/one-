@@ -4,7 +4,7 @@ use Lang;
 use App\Models\Admin\Position as PositionModel;
 use App\Models\Admin\PositionRelation as PositionRelationModel;
 use App\Services\Admin\Position\Validate\Position as PositionValidate;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 
 /**
  * 推荐位处理

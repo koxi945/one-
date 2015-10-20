@@ -1,6 +1,6 @@
 <?php namespace App\Services\Admin\Upload;
 
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 
 /**
  * 上传处理

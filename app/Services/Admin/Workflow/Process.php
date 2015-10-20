@@ -5,7 +5,7 @@ use App\Models\Admin\Workflow as WorkflowModel;
 use App\Models\Admin\WorkflowStep as workflowStepModel;
 use App\Services\Admin\Workflow\Validate\Workflow as WorkflowValidate;
 use App\Services\Admin\Workflow\Validate\WorkflowStep as WorkflowStepValidate;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 
 /**
  * 工作流

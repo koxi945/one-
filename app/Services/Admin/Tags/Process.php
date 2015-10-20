@@ -3,7 +3,7 @@
 use Lang;
 use App\Models\Admin\Tags as TagsModel;
 use App\Models\Admin\TagsRelation as TagsRelationModel;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 
 /**
  * 文章标签处理

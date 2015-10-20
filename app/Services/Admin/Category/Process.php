@@ -4,7 +4,7 @@ use Lang;
 use App\Models\Admin\Category as CategoryModel;
 use App\Models\Admin\ClassifyRelation as ClassifyRelationModel;
 use App\Services\Admin\Category\Validate\Category as CategoryValidate;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 
 /**
  * 文章分类处理

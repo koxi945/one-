@@ -1,6 +1,6 @@
 <?php namespace App\Services\Admin\Acl\Param;
 
-use App\Services\Admin\AbstractParam;
+use App\Services\AbstractParam;
 
 /**
  * 权限操作有关的参数容器，固定参数，方便分离处理。

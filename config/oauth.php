@@ -8,4 +8,6 @@ return [
 	'clientId' => 's6BhdRkqt3',
 	'clientSecret' => 'addfsdf123',
 	'redirectUri' => 'http://www.opcache.net/login_back.html',
+
+	'regUrl' => 'http://login.oauth.net/oauth/reg',
 ];

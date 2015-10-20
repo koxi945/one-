@@ -3,7 +3,7 @@
 use Lang;
 use App\Models\Home\Comment as CommentModel;
 use App\Libraries\Js;
-use App\Services\Home\BaseProcess;
+use App\Services\BaseProcess;
 
 /**
  * 评论相关处理

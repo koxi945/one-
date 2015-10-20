@@ -1,7 +1,7 @@
 <?php namespace App\Services\Admin\Workflow;
 
 use App\Models\Admin\Workflow as WorkflowModel;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 use App\Services\Admin\SC;
 
 /**

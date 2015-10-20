@@ -1,7 +1,7 @@
 <?php namespace App\Services\Admin\Position\Validate;
 
 use Validator, Lang;
-use App\Services\Admin\BaseValidate;
+use App\Services\BaseValidate;
 
 /**
  * 增加文章推荐位表单验证
