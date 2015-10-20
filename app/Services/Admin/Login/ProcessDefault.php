@@ -133,7 +133,7 @@ class ProcessDefault extends AbstractProcess
      */
     private function checkCsrfToken()
     {
-        $csrf = new \App\Services\Admin\CsrfValidate();
+        $csrf = new \App\Services\CsrfValidate();
         $csrf->tokensMatch();
     }
 

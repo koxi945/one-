@@ -1,7 +1,7 @@
 <?php namespace App\Services\Admin\Workflow\Validate;
 
 use Validator, Lang;
-use App\Services\Admin\BaseValidate;
+use App\Services\BaseValidate;
 
 /**
  * 增加和编辑工作流表单验证

@@ -1,4 +1,4 @@
-<?php namespace App\Services\Admin;
+<?php namespace App\Services;
 
 /**
  * 服务基类

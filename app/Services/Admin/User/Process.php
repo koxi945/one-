@@ -5,7 +5,7 @@ use App\Models\Admin\User as UserModel;
 use App\Models\Admin\Access as AccessModel;
 use App\Services\Admin\User\Validate\User as UserValidate;
 use App\Services\Admin\Acl\Acl;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 
 /**
  * 用户处理

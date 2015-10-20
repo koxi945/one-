@@ -5,7 +5,7 @@ use App\Services\Admin\Acl\Validate\Acl as AclValidate;
 use App\Services\Admin\Acl\Acl as AclManager;
 use App\Models\Admin\Permission as PermissionModel;
 use App\Models\Admin\Access as AccessModel;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 use App\Services\Admin\SC;
 
 /**

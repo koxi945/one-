@@ -1,4 +1,4 @@
-<?php namespace App\Services\Admin;
+<?php namespace App\Services;
 
 use Crypt, Session, Request;
 use Illuminate\Session\TokenMismatchException;

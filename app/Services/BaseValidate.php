@@ -6,9 +6,9 @@
  * @author jiang
  */
 
-namespace App\Services\Admin;
+namespace App\Services;
 
-use App\Services\Admin\AbstractService;
+use App\Services\AbstractService;
 
 class BaseValidate extends AbstractService
 {

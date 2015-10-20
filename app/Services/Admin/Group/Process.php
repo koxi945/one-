@@ -5,7 +5,7 @@ use App\Models\Admin\Group as GroupModel;
 use App\Models\Admin\Access as AccessModel;
 use App\Services\Admin\Group\Validate\Group as GroupValidate;
 use App\Services\Admin\Acl\Acl;
-use App\Services\Admin\BaseProcess;
+use App\Services\BaseProcess;
 
 /**
  * 登录处理

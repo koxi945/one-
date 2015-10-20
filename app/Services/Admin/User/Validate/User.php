@@ -1,7 +1,7 @@
 <?php namespace App\Services\Admin\User\Validate;
 
 use Validator, Lang;
-use App\Services\Admin\BaseValidate;
+use App\Services\BaseValidate;
 
 /**
  * 用户表单验证
