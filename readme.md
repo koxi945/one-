@@ -2,7 +2,7 @@
 
 这是一个基于laravel 5.1框架的后台基础系统，不定期更新，如果你有好的idea，欢迎email我：mylampblog@163.com 或提交issues
 
-如果你喜欢本系统附带的blog功能，但是功能需要更强大的，请关注分支中的[laravel_blog](/laravel5_backend/tree/laravel_blog/)
+如果你喜欢本系统附带的blog功能，但是功能需要更强大的，请关注分支中的[laravel_blog](http://git.oschina.net/ctk/laravel5_backend/tree/laravel_blog/)
 
 ***请大家在tag中下载最新稳定版本，不要拉master的代码，因为公司家中都有在码代码，master用来做代码的同步了，所以不一定是完善的。***
 
