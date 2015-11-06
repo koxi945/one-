@@ -1,6 +1,6 @@
 <?php namespace App\Services\Oauth;
 
-use App\Services\OAuth\SC;
+use App\Services\Oauth\SC;
 
 class Process
 {
