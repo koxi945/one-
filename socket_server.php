@@ -50,7 +50,7 @@ class WebSocketServer
     public function initConfig($config)
     {
         $this->config = $config;
-        $this->listenIp = $config['online_listen_ip'];
+        $this->listenIp = '0.0.0.0'; //$config['online_listen_ip'];
         $this->listenPort = $config['online_listen_port'];
     }
 
