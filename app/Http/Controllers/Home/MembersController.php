@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers\Home;
 
-use App\Services\OAuth\SC;
+use App\Services\Oauth\SC;
 use Request, Exception;
 
 /**
