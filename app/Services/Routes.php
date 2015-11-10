@@ -71,48 +71,10 @@ class Routes
      */
     public function admin()
     {
-        Route::group(['domain' => $this->adminDomain], function()
-        {
-            $this->adminSigin();
-            $this->adminCommon();
+        Route::group(['domain' => $this->adminDomain], function() {
+            require __DIR__ . '/RoutesAdmin.php';
         });
         return $this;
-    }
-
-    /**
-     * 后台登陆相关
-     * 
-     * @access private
-     */
-    private function adminSigin()
-    {
-        Route::group(['middleware' => ['csrf']], function()
-        {
-            Route::get('/', 'Admin\Foundation\LoginController@index');
-            Route::controller('login', 'Admin\Foundation\LoginController', ['getOut' => 'foundation.login.out']);
-        });
-    }
-
-    /**
-     * 后台通用路由
-     * 
-     * @access private
-     */
-    private function adminCommon()
-    {
-        Route::group(['middleware' => ['auth', 'acl', 'alog']], function()
-        {
-            Route::any('{module}-{class}-{action}.html', ['as' => 'common', function($module, $class, $action)
-            {
-                $touchClass = 'App\\Http\\Controllers\\Admin\\'.ucfirst(strtolower($module)).'\\'.ucfirst(strtolower($class)).'Controller';
-                if(class_exists($touchClass))
-                {
-                    $classObject = new $touchClass();
-                    if(method_exists($classObject, $action)) return call_user_func(array($classObject, $action));
-                }
-                return abort(404);
-            }])->where(['module' => '[0-9a-z]+', 'class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
-        });
     }
 
     /**
@@ -122,9 +84,8 @@ class Routes
      */
     public function search()
     {
-        Route::group(['domain' => $this->soDomain], function()
-        {
-            Route::get('/search.html', ['as' => 'blog.search.index', 'uses' => 'Home\SearchController@index']);
+        Route::group(['domain' => $this->soDomain], function() {
+            require __DIR__ . '/RoutesSearch.php';
         });
         return $this;
     }
@@ -140,48 +101,27 @@ class Routes
      */
     public function www()
     {
-        $homeDoaminArray = ['home_empty_prefix' => $this->noPreDomain, 'home' => $this->wwwDomain];
-        foreach($homeDoaminArray as $key => $value)
-        {
-            Route::group(['domain' => $value, 'middleware' => ['csrf']], function() use ($key)
-            {
-                require __DIR__ . '/RoutesHome.php';
-                $this->wwwCommon($key);
-            });
-        }
+        Route::group(['domain' => $this->wwwDomain, 'middleware' => ['csrf']], function() {
+            require __DIR__ . '/RoutesHome.php';
+        });
         return $this;
     }
 
     /**
      * 博客通用路由
      * 
-     * @access private
-     */
-    private function wwwCommon($key)
-    {
-        Route::any('{class}/{action}.html', ['as' => $key, function($class, $action)
-        {
-            return $this->wwwTouch($class, $action);
-        }])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);
-    }
-
-    /**
-     * 检测路由是不是正常的
+     * 这里必须要返回一个Illuminate\Http\Response 实例而非一个视图
      * 
-     * @access private
+     * 原因是因为csrf中需要响应的必须为一个response
+     *
+     * @access public
      */
-    private function wwwTouch($class, $action)
+    public function ewww()
     {
-        $touchClass = 'App\\Http\\Controllers\\Home\\'.ucfirst(strtolower($class)).'Controller';
-        if( ! class_exists($touchClass)) {
-            return abort(404);
-        }
-        $classObject = new $touchClass();
-        if( ! method_exists($classObject, $action)) {
-            return abort(404);
-        }
-        $result = header_cache(call_user_func(array($classObject, $action)), false);
-        return $result;
+        Route::group(['domain' => $this->noPreDomain, 'middleware' => ['csrf']], function() {
+            Route::get('/', ['as' => 'blog.index.index', 'uses' => 'Home\IndexController@index']);
+        });
+        return $this;
     }
 
 }

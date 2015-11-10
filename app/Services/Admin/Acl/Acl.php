@@ -9,10 +9,6 @@
 namespace App\Services\Admin\Acl;
 
 use Config;
-use App\Models\Admin\Permission;
-use App\Models\Admin\Access;
-use App\Models\Admin\Group;
-use App\Models\Admin\User;
 use App\Services\Admin\SC;
 
 class Acl
@@ -86,24 +82,22 @@ class Acl
      */
     public function getUserAccessPermission($userObj, $userOrGroup = false)
     {
-        $permission = new Permission(); $access = new Access();
-
         //如果是超级管理员或者创始人登陆，那么返回所有的权限
         if($userObj->group_id == self::ADMIN_ROLE_ID or $userObj->id == self::ADMIN_ID)
         {
-            return $permission->getAllAccessPermission();
+            return app('model.admin.permission')->getAllAccessPermission();
         }
         
         //如果需要对比用户和用户组的权限或者返回用户的权限
         if($userOrGroup == self::AP_USER or ! $userOrGroup)
         {
-            $userAccessPermissionInfo = $access->getUserAccessPermission($userObj->id);
+            $userAccessPermissionInfo = app('model.admin.access')->getUserAccessPermission($userObj->id);
         }
         
         //如果用户的权限数据为空或者指定了需要查询的权限的类型为用户组，或者需要对比用户和用户组的权限
         if($userOrGroup == self::AP_GROUP or ! $userAccessPermissionInfo or ! $userOrGroup)
         {
-            $groupAccessPermissionInfo = $access->getGroupAccessPermission($userObj->group_id);
+            $groupAccessPermissionInfo = app('model.admin.access')->getGroupAccessPermission($userObj->group_id);
         }
         
         //根据条件返回权限信息，注意的是用户的权限会覆盖用户组的权限
@@ -132,10 +126,8 @@ class Acl
         //当前登陆用户的信息
         $userObj = SC::getLoginSession();
 
-        $groupModel = new Group(); $userModel = new User();
-
         //当前登陆用户的用户组信息
-        $currentGroupInfo = $groupModel->getOneGroupById($userObj->group_id);
+        $currentGroupInfo = app('model.admin.group')->getOneGroupById($userObj->group_id);
         if(empty($currentGroupInfo)) return false;
 
         //通过用户组的level来做判断
@@ -147,15 +139,15 @@ class Acl
         //通过用户来做判断
         if($type === self::GROUP_LEVEL_TYPE_USER)
         {
-            $userInfo = $userModel->getOneUserById($id);
+            $userInfo = app('model.admin.user')->getOneUserById($id);
             if($userInfo['name'] == self::ADMIN_NAME) return false;
-            $toGroupInfo = $groupModel->getOneGroupById($userInfo['group_id']);
+            $toGroupInfo = app('model.admin.group')->getOneGroupById($userInfo['group_id']);
         }
 
         //通过用户组来做判断
         if($type === self::GROUP_LEVEL_TYPE_GROUP)
         {
-            $toGroupInfo = $groupModel->getOneGroupById($id);
+            $toGroupInfo = app('model.admin.group')->getOneGroupById($id);
         }
 
         //开始判断他们的level情况

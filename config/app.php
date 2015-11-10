@@ -144,6 +144,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Providers\AppContainerServiceProvider::class,
+
         /**
          * debug
          */

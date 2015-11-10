@@ -6,4 +6,4 @@ use App\Services\Routes as RoutesManager;
 //.....
 
 $routesManager = new RoutesManager();
-$routesManager->admin()->www()->search();
+$routesManager->admin()->ewww()->www()->search();

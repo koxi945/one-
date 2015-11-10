@@ -2,8 +2,6 @@
 
 use Lang;
 use App\Services\Admin\Acl\Validate\Acl as AclValidate;
-use App\Services\Admin\Acl\Acl as AclManager;
-use App\Models\Admin\Permission as PermissionModel;
 use App\Models\Admin\Access as AccessModel;
 use App\Services\BaseProcess;
 use App\Services\Admin\SC;
@@ -16,25 +14,11 @@ use App\Services\Admin\SC;
 class Process extends BaseProcess
 {
     /**
-     * 权限菜单模型
-     * 
-     * @var object
-     */
-    private $permissionModel;
-
-    /**
      * 权限菜单表单验证对象
      * 
      * @var object
      */
     private $aclValidate;
-
-    /**
-     * 权限处理对象
-     *
-     * @var object
-     */
-    private $acl;
 
     /**
      * 初始化
@@ -43,9 +27,7 @@ class Process extends BaseProcess
      */
     public function __construct()
     {
-        if( ! $this->permissionModel) $this->permissionModel = new PermissionModel();
         if( ! $this->aclValidate) $this->aclValidate = new AclValidate();
-        if( ! $this->acl) $this->acl = new AclManager();
     }
 
     /**
@@ -61,15 +43,15 @@ class Process extends BaseProcess
             return $this->setErrorMsg($this->aclValidate->getErrorMessage());
         }
 
-        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action)) {
+        if(app('model.admin.permission')->checkIfIsExists($data->module, $data->class, $data->action)) {
             return $this->setErrorMsg(Lang::get('acl.acl_exists'));
         }
 
-        $info = $this->permissionModel->getOnePermissionById(intval($data->pid));
+        $info = app('model.admin.permission')->getOnePermissionById(intval($data->pid));
         $data = $data->toArray();
         $data['level'] = $info['level'] + 1;
 
-        if($this->permissionModel->addPermission($data) === false) {
+        if(app('model.admin.permission')->addPermission($data) === false) {
             return $this->setErrorMsg(Lang::get('common.action_error'));
         }
         return true;
@@ -94,11 +76,11 @@ class Process extends BaseProcess
 
         $permissionId = array_map('intval', $permissionId);
 
-        if($this->permissionModel->getSon($permissionId)) {
+        if(app('model.admin.permission')->getSon($permissionId)) {
             return $this->setErrorMsg(Lang::get('acl.acl_has_son'));
         }
 
-        if($this->permissionModel->deletePermission($permissionId) !== false) return true;
+        if(app('model.admin.permission')->deletePermission($permissionId) !== false) return true;
         return $this->setErrorMsg(Lang::get('common.action_error'));
     }
 
@@ -119,15 +101,15 @@ class Process extends BaseProcess
             return $this->setErrorMsg($this->aclValidate->getErrorMessage());
         }
 
-        if($this->permissionModel->checkIfIsExists($data->module, $data->class, $data->action, false, $id)) {
+        if(app('model.admin.permission')->checkIfIsExists($data->module, $data->class, $data->action, false, $id)) {
             return $this->setErrorMsg(Lang::get('acl.acl_exists'));
         }
 
-        $info = $this->permissionModel->getOnePermissionById(intval($data->pid));
+        $info = app('model.admin.permission')->getOnePermissionById(intval($data->pid));
         $data = $data->toArray();
         $data['level'] = $info['level'] + 1;
 
-        if($this->permissionModel->editPermission($data, intval($id)) === false) {
+        if(app('model.admin.permission')->editPermission($data, intval($id)) === false) {
             return $this->setErrorMsg(Lang::get('common.action_error'));
         }
         return true;

@@ -1,4 +1,6 @@
-<?php namespace App\Http\Controllers\Admin\Foundation;
+<?php
+
+namespace App\Http\Controllers\Admin\Foundation;
 
 use App\Http\Controllers\Admin\Controller;
 use App\Services\Admin\Login\Process as LoginProcess;
@@ -21,7 +23,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        $isLogin = (new LoginProcess())->getProcess()->hasLogin();
+        $isLogin = with(new LoginProcess())->getProcess()->hasLogin();
         if($isLogin) return redirect(R('common', 'foundation.index.index'));
         return response(view('admin.login.index'));
     }
@@ -37,17 +39,18 @@ class LoginController extends Controller
         $username = Request::input('username');
         $password = Request::input('password');
         $callback = Request::input('callback');
+
         if($error = $loginProcess->getProcess()->validate($username, $password)) {
             return response()->json(['msg' => $error, 'result' => false])->setCallback($callback);
         }
-        //开始登录验证
+        
         if($userInfo = $loginProcess->getProcess()->check($username, $password)) {
-            //设置用户的权限
             SC::setUserPermissionSession($aclObj->getUserAccessPermission($userInfo));
         }
 
-        $result = $userInfo ? ['msg' => '登录成功', 'result' => true, 'jumpUrl' => R('common', 'foundation.index.index')]
-                                : ['msg' => '登录失败', 'result' => false];
+        $success = ['msg' => '登录成功', 'result' => true, 'jumpUrl' => R('common', 'foundation.index.index')];
+        $fails = ['msg' => '登录失败', 'result' => false];
+        $result = $userInfo ? $success : $fails;
         
         return response()->json($result)->setCallback($callback);
     }
@@ -61,7 +64,9 @@ class LoginController extends Controller
     public function getPrelogin(LoginProcess $loginProcess)
     {
         $publicKey = $loginProcess->getProcess()->setPublicKey();
-        return response()->json(['pKey' => $publicKey, 'a' => csrf_token()])->setCallback(Request::input('callback'));
+        $callback = Request::input('callback');
+        $result = ['pKey' => $publicKey, 'a' => csrf_token()];
+        return response()->json($result)->setCallback($callback);
     }
 
     /**

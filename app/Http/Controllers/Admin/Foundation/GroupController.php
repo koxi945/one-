@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Admin\Foundation;
 
 use App\Http\Controllers\Admin\Controller;
-use App\Models\Admin\Group as GroupModel;
 use Request, Lang, Session;
-use App\Services\Admin\Group\Process as GroupActionProcess;
 use App\Libraries\Js;
 use App\Services\Admin\Acl\Acl;
-use App\Services\Admin\Group\Param\GroupSave;
+use App\Services\Admin\Group\Validate\Group as GroupValidate;
 
 /**
  * 用户组管理
@@ -18,45 +16,14 @@ use App\Services\Admin\Group\Param\GroupSave;
 class GroupController extends Controller
 {
     /**
-     * group model
-     * 
-     * @var object
-     */
-    private $groupModel;
-
-    /**
-     * group process
-     * 
-     * @var object
-     */
-    private $groupProcess;
-
-    /**
-     * group save
-     * 
-     * @var object
-     */
-    private $groupSave;
-
-    /**
-     * 初始化一些常用的类
-     */
-    public function __construct()
-    {
-        $this->groupModel = new GroupModel();
-        $this->groupProcess = new GroupActionProcess();
-        $this->groupSave = new GroupSave();
-    }
-
-    /**
-     * 显示用户组列表首页
+     * 显示用户组列表
      *
      * @access public
      */
     public function index()
     {
         Session::flashInput(['http_referer' => Request::fullUrl()]);
-        $grouplist = $this->groupModel->getAllGroupByPage();
+        $grouplist = app('model.admin.group')->getAllGroupByPage();
         $page = $grouplist->setPath('')->appends(Request::all())->render();
         return view('admin.group.index', compact('grouplist', 'page'));
     }
@@ -69,9 +36,8 @@ class GroupController extends Controller
     public function add()
     {
         if(Request::method() == 'POST') {
-            return $this->saveDatasToDatabase();
+            return $this->addDatasToDatabase();
         }
-
         $formUrl = R('common', 'foundation.group.add');
         return view('admin.group.add', compact('formUrl'));
     }
@@ -81,14 +47,14 @@ class GroupController extends Controller
      *
      * @access private
      */
-    private function saveDatasToDatabase()
+    private function addDatasToDatabase()
     {
-        $this->groupSave->setAttributes(Request::input('data'));
-        if($this->groupProcess->addGroup($this->groupSave) !== false) {
+        app('param.admin.groupsave')->setAttributes(Request::input('data'));
+        if(app('process.admin.group')->addGroup(app('param.admin.groupsave')) !== false) {
             $this->setActionLog();
             return Js::locate(R('common', 'foundation.group.index'), 'parent');
         }
-        return Js::error($this->groupProcess->getErrorMessage());
+        return Js::error(app('process.admin.group')->getErrorMessage());
     }
 
     /**
@@ -98,25 +64,20 @@ class GroupController extends Controller
      */
     public function delete()
     {
-        $id = (array) Request::input('id');
-
-        foreach($id as $key => $value) {
-            if( ! ($id[$key] = url_param_decode($value)) ) {
-                return responseJson(Lang::get('common.action_error'));
-            }
+        $id = with(new GroupValidate())->deleteIds( (array) Request::input('id'));
+        if( ! $id or ! is_array($id)) {
+            return responseJson(Lang::get('common.action_error'));
         }
 
-        $id = array_map('intval', $id);
+        $groupInfos = app('model.admin.group')->getGroupInIds($id);
 
-        $groupInfos = $this->groupModel->getGroupInIds($id);
-
-        if($this->groupProcess->detele($id)) {
+        if(app('process.admin.group')->detele($id)) {
             $this->setActionLog(['groupInfos' => $groupInfos]);
             return responseJson(Lang::get('common.action_success'), true);
         }
 
         return responseJson(
-            $this->groupProcess->getErrorMessage()
+            app('process.admin.group')->getErrorMessage()
         );
     }
     
@@ -135,16 +96,17 @@ class GroupController extends Controller
 
         $id = Request::input('id');
         $groupId = url_param_decode($id);
+
         if( ! $groupId or ! is_numeric($groupId)) {
             return Js::error(Lang::get('common.illegal_operation'));
         }
 
-        $groupInfo = $this->groupModel->getOneGroupById($groupId);
+        $groupInfo = app('model.admin.group')->getOneGroupById($groupId);
         if(empty($groupInfo)) {
             return Js::error(Lang::get('group.group_not_found'));
         }
 
-        if( ! (new Acl())->checkGroupLevelPermission($groupId, Acl::GROUP_LEVEL_TYPE_GROUP)) {
+        if( ! app('admin.acl')->checkGroupLevelPermission($groupId, Acl::GROUP_LEVEL_TYPE_GROUP)) {
             return Js::error(Lang::get('common.account_level_deny'), true);
         }
         
@@ -163,21 +125,17 @@ class GroupController extends Controller
     private function updateDatasToDatabase()
     {
         $httpReferer = Session::getOldInput('http_referer');
-        $data = Request::input('data');
+        $data = (array) Request::input('data');
+        
+        app('param.admin.groupsave')->setAttributes($data);
 
-        if( ! $data or ! is_array($data)) {
-            return Js::error(Lang::get('common.illegal_operation'));
-        }
-
-        $this->groupSave->setAttributes($data);
-
-        if($this->groupProcess->editGroup($this->groupSave)) {
+        if(app('process.admin.group')->editGroup(app('param.admin.groupsave'))) {
             $this->setActionLog();
             $backUrl = ( ! empty($httpReferer)) ? $httpReferer : R('common', 'foundation.group.index');
             return Js::locate($backUrl, 'parent');
         }
         
-        return Js::error($this->groupProcess->getErrorMessage());
+        return Js::error(app('process.admin.group')->getErrorMessage());
     }
 
 }

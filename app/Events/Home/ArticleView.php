@@ -3,13 +3,10 @@
 namespace App\Events\Home;
 
 use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ArticleView extends Event
 {
-    use SerializesModels;
-
     public $articleId;
 
     /**

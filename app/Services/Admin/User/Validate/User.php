@@ -2,6 +2,7 @@
 
 use Validator, Lang;
 use App\Services\BaseValidate;
+use App\Services\Admin\Acl\Acl;
 
 /**
  * 用户表单验证
@@ -17,7 +18,6 @@ class User extends BaseValidate
      */
     public function add(\App\Services\Admin\User\Param\UserSave $data)
     {
-        // 创建验证规则
         $rules = array(
             'name'      => 'required',
             'realname'  => 'required',
@@ -26,7 +26,6 @@ class User extends BaseValidate
             'mobile'    => 'required'
         );
         
-        // 自定义验证消息
         $messages = array(
             'name.required'      => Lang::get('user.account_name_empty'),
             'password.required'  => Lang::get('user.password_empty'),
@@ -36,7 +35,7 @@ class User extends BaseValidate
             'group_id.min'       => Lang::get('user.group_empty'),
             'mobile.required'    => Lang::get('user.mobile_empty')
         );
-        //开始验证
+
         $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
@@ -53,7 +52,6 @@ class User extends BaseValidate
      */
     public function edit(\App\Services\Admin\User\Param\UserSave $data)
     {
-        //创建验证规则
         $rules = array(
             'name'      => 'required',
             'realname'  => 'required',
@@ -61,7 +59,6 @@ class User extends BaseValidate
             'mobile'    => 'required'
         );
         
-        //自定义验证消息
         $messages = array(
             'name.required'      => Lang::get('user.account_name_empty'),
             'realname.required'  => Lang::get('user.realname_empty'),
@@ -71,14 +68,12 @@ class User extends BaseValidate
             'mobile.required'    => Lang::get('user.mobile_empty')
         );
         
-        //如果传入的密码，那么检测它
         if( ! empty($data->password))
         {
             $rules['password'] = 'required';
             $messages['password.required'] = Lang::get('user.password_empty');
         }
         
-        //开始验证
         $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
@@ -95,21 +90,18 @@ class User extends BaseValidate
      */
     public function password(\App\Services\Admin\User\Param\UserModifyPassword $data)
     {
-        // 创建验证规则
         $rules = array(
             'oldPassword'  => 'required',
             'newPassword' => 'required',
             'newPasswordRepeat' => 'required',
         );
         
-        // 自定义验证消息
         $messages = array(
             'oldPassword.required'  => Lang::get('user.password_empty'),
             'newPassword.required'  => Lang::get('user.new_password_empty'),
             'newPasswordRepeat.required' => Lang::get('user.newPasswordRepeat')
         );
 
-        //开始验证
         $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
@@ -117,7 +109,6 @@ class User extends BaseValidate
             return false;
         }
 
-        //新密码输入要一致
         if($data->newPassword != $data->newPasswordRepeat)
         {
             $this->errorMsg = Lang::get('user.password_comfirm');
@@ -125,6 +116,23 @@ class User extends BaseValidate
         }
 
         return true;
+    }
+
+    /**
+     * 验证ID
+     *
+     * @param array $ids
+     * @return array IDS
+     */
+    public function deleteIds(array $ids)
+    {
+        foreach($ids as $key => $value) {
+            if( ! ($ids[$key] = url_param_decode($value)) ) {
+                return false;
+            }
+        }
+
+        return array_map('intval', $ids);
     }
     
 }

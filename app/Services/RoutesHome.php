@@ -21,3 +21,13 @@ Route::get('/login.html', ['as' => 'blog.login', 'uses' => 'Home\MembersControll
 Route::get('/reg.html', ['as' => 'blog.reg', 'uses' => 'Home\MembersController@reg']);
 Route::get('/login_back.html', ['as' => 'blog.login.back', 'uses' => 'Home\MembersController@loginback']);
 Route::get('/login_out.html', ['as' => 'blog.login.out', 'uses' => 'Home\MembersController@logout']);
+
+// common routes
+Route::any('{class}/{action}.html', ['as' => 'home', function($class, $action) {
+    $touchClass = 'App\\Http\\Controllers\\Home\\'.ucfirst(strtolower($class)).'Controller';
+    $classObject = new $touchClass();
+    if( ! class_exists($touchClass) or ! method_exists($classObject, $action) ) {
+        return abort(404);
+    }
+    return header_cache(call_user_func(array($classObject, $action)), false);
+}])->where(['class' => '[0-9a-z]+', 'action' => '[0-9a-z]+']);

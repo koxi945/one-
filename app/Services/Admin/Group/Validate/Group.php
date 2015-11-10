@@ -17,20 +17,17 @@ class Group extends BaseValidate
      */
     public function add(\App\Services\Admin\Group\Param\GroupSave $data)
     {
-        // 创建验证规则
         $rules = array(
             'group_name' => 'required',
             'level' => 'required|numeric',
         );
         
-        // 自定义验证消息
         $messages = array(
             'group_name.required' => Lang::get('group.group_name_empty'),
             'level.required' => Lang::get('group.group_level_empty'),
             'level.numeric' => Lang::get('group.group_level_empty'),
         );
         
-        //开始验证
         $validator = Validator::make($data->toArray(), $rules, $messages);
         if($validator->fails())
         {
@@ -48,6 +45,23 @@ class Group extends BaseValidate
     public function edit(\App\Services\Admin\Group\Param\GroupSave $data)
     {
         return $this->add($data);
+    }
+
+    /**
+     * 验证ID
+     *
+     * @param array $ids
+     * @return array IDS
+     */
+    public function deleteIds(array $ids)
+    {
+        foreach($ids as $key => $value) {
+            if( ! ($ids[$key] = url_param_decode($value)) ) {
+                return false;
+            }
+        }
+
+        return array_map('intval', $ids);
     }
     
 }
