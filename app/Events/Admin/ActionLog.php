@@ -3,14 +3,11 @@
 namespace App\Events\Admin;
 
 use App\Events\Event;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Services\Admin\SC;
 
 class ActionLog extends Event
 {
-    use SerializesModels;
-
     /**
      * 所要记录的操作日志信息
      * 
